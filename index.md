@@ -17,7 +17,7 @@ Arrays and collections
     Checking equality of slices
     Converting of an slice
     Dynamic slices
-    Flitering of elements
+    Filtering of elements
     Finding of array element
     Getting min and Max values
     Getting part of an slice
@@ -59,11 +59,11 @@ Arrays and collections
     Sets Initialisation
     Sets operations
     sorting of elements
-    treeset
+    tree-set
   Stack<T> (LIFO)
 Asynchronous Operations
-  Start a Goroutine
-  Start a Goroutine and Waiting
+  Start a Go-routine
+  Start a Go-routine and Waiting
 Control flow
   Conditional Statements
     if/else statements
@@ -85,15 +85,15 @@ Control flow
     "while" loop
     endless loop
   Pipeline
-    Chennels
+    Channels
     Fixed size channels
-    Goroutines Cancellation
+    Go-routines Cancellation
 Exceptions Handling
   Catch all exceptions
   Catch the specific exceptions
   Define an exception type
   Function throwing an exception
-  gauranteed code execution
+  guaranteed code execution
   re-throw exception
   throw an exception
   Throw panic()
@@ -124,24 +124,24 @@ Initialising of types
   structures
     Without any constructor
 interfaces
-  Conformance checking(is,as)
-  Declaration and initialization
+  Conformance checking(is, as)
+  Declaration and initialisation
   Interfaces collections
   Interface inheritance
   Methods Requirements
 Lambda Expressions
-  Cature of variables
+  Capture of variables
   Currying
-  Fucntion as a parameter
+  Function as a parameter
   Function as a return value
   Memoization
   Memoization (Recursive)
   Modified captured variables
   recursion
-  void fuction as a parameter
+  void function as a parameter
   with multiple operators
-  with multiple paramters
-  with one paramter
+  with multiple parameters
+  with one parameter
   without return value
 Patterns
   Behavioural patterns
@@ -172,10 +172,10 @@ Patterns
 Reflection
   Call of methods and properties
   get type members
-  instance Initialization
+  instance Initialisation
   Type information
 Regular expressions
-  Check metch string
+  Check match string
   check match whole string
   named groups
   regular expression options
@@ -196,27 +196,27 @@ Simple Types
     getting from a sting
     special characters
   Date and time
-    Comparision of dates
+    Comparison of dates
     conversion from a string
     converting to a string
     date changing
-    date initialization
+    date initialisation
     getting of the current date
-    getiing of year,month, day
+    getting of year, month, day
     The interval between the dates
   Numbers
     double and float
       Arithmetic operations
-      bigdecimal
+      big decimal
       conversion from a string
       converting to a string
       converting to integer
       getting random values
-      number comparision
+      number comparison
       rounding and truncating
     integer
       Arithmetic operations
-      biginteger
+      big integer
       bitwise operations
       Check overflow
       conversion from a string
@@ -228,30 +228,30 @@ Simple Types
       Decimal logarithm
       Exponentiation
       Logarithm
-      Sine,cosine and tangent
+      Sine, cosine and tangent
       square root
       min and max values
   Pointers
     Char Pointers
-    declaration and initialization
+    declaration and initialisation
     memory allocation
     struct pointers
   Strings
     Change the case of characters
-    Caracter replacement
+    Character replacement
     Characters count
     Converting to a number
     Empty Strings
-    Escaping charaters
+    Escaping characters
     Getting substring
     Iterating over a string
     Multiline string literal
     Removing spaces
-    Replace miltiple characters
+    Replace multiple characters
     Split into an array
     String multiplication
     String padding
-    strings comparision
+    strings comparison
     strings concatenating
     strings interpolation
     Strings list concatenating
@@ -272,7 +272,7 @@ Structures
     with parameters
     without any parameters
   Create a copy of the object
-  Definition and initialization
+  Definition and initialisation
   Events
   Fields
   Inheritance
@@ -299,7 +299,7 @@ Structures
 Structures records
   Constants
   Constructors
-  Definition and initialization
+  Definition and initialisation
   Field and properties
   Inheritance
   Methods
@@ -323,15 +323,15 @@ work with database(DB)
   SQL
     Retrieving Data
       Retrieving Individual Columns
-      Retriveing Multiple Columns
-      Retrieving All Colmns
+      Retrieving Multiple Columns
+      Retrieving All Columns
       Retrieving Distinct Rows
       Limiting Results
         MySQL,PostgreSQL, SQLite
         Ms SQL, Access
         DB2
         Oracle
-        Iterbase,FireBird
+        Interbase,FireBird
       Using Comments
       Select clause Ordering
     Sorting Data
@@ -341,7 +341,7 @@ work with database(DB)
       Specifying Sort Direction
     Filtering Data
       Checking for Matches
-      Checking for Nonmatches
+      Checking for Non matches
       Checking for a Range of Values
       Checking for No Value
       Using the AND operator
@@ -362,7 +362,7 @@ work with database(DB)
         MySQL
       Remove Unwanted Spaces
       Using Aliases
-      Mathematical Calculaions
+      Mathematical Calculations
       CASE WHEN Clause
       Case Changes
     Data Manipulation Functions
@@ -389,7 +389,7 @@ work with database(DB)
         Aggregates on Distinct Values
         Combining Aggregate Function
     Grouping Data
-      Grouping byy One Column
+      Grouping by One Column
       Grouping by Multiple Columns
       Grouping by Column Number
       Filtering Groups
@@ -400,7 +400,7 @@ work with database(DB)
       Filtering by Subquery
       Subqueries as Calculated fields
       Fully Qualified Column Names
-    Joinin Tables
+    Joining Tables
       Simple Equijoins
       Inner Joins
       Joining Multiple Tables
@@ -428,7 +428,7 @@ work with database(DB)
     Updating and Deleting data
       Updating a single Column
       Updating Multiple Columns
-      Dadeting Column Value
+      Updating Column Value
       Using Subqueries in UDATE
       Updating All Rows
       Deleting Specific Rows
@@ -436,45 +436,45 @@ work with database(DB)
       Using Subqueries in DELETE
     Field Data types
       MySQL
-        Integr Types
-        Floar Types
+        Integer Types
+        Float Types
         Bit-Value Type - BIT
         Date and Time Types
         String Types
         Boolean Types
       Oracle
-        Integr Types
-        Floar Types
+        Integer Types
+        Float Types
         Date and Time Types
         String Types
         Boolean Types
       MS SQL Server
-        Integr Types
-        Floar Types
+        Integer Types
+        Float Types
         Date and Time Types
         String Types
         Boolean Types
       PostgreSQL
-        Integr Types
-        Floar Types
+        Integer Types
+        Float Types
         Date and Time Types
         String Types
         Boolean Types
       SQLite
-        Integr Types
-        Floar Types
+        Integer Types
+        Float Types
         Date and Time Types
         String Types
         Boolean Types
       FireBird, Interbase
-        Integr Types
-        Floar Types
+        Integer Types
+        Float Types
         Date and Time Types
         String Types
         Boolean Types
       Access
-        Integr Types
-        Floar Types
+        Integer Types
+        Float Types
         Date and Time Types
         String Types
         Boolean Types
@@ -510,7 +510,7 @@ work with database(DB)
       Create with Foreign Key
     Updating Tables
       Adding a column
-      Deleteing Column
+      Deleting Column
       Deleting Tables
       Renaming Tables
         Mysql
@@ -521,12 +521,12 @@ work with database(DB)
         FireBird, Interbase
       Adding Primary Key
       Adding Foreign Key
-      Deleteing Foreign Key
+      Deleting Foreign Key
         Mysql
-        Ms SQL Server, Oracle, Accesss, PostgreSQL
+        Ms SQL Server, Oracle, Access, PostgreSQL
     Using Views
       Creating Views
-      Deleteing Views
+      Deleting Views
       Calculated Fields in the View
       Filter Data in the View
       Reformat Retrieved Data
