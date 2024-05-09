@@ -144,7 +144,7 @@ Lambda Expressions
   with one paramter
   without return value
 Patterns
-  Behavioral patters
+  Behavioural patterns
     Command
     interpreter
     iterator
@@ -152,7 +152,7 @@ Patterns
     memento
     observer
     state
-    stratgy
+    strategy
     visitor
   creational patterns
     Abstract factory
@@ -214,7 +214,7 @@ Simple Types
       getting random values
       number comparision
       rounding and truncating
-    interger
+    integer
       Arithmetic operations
       biginteger
       bitwise operations
@@ -311,7 +311,7 @@ work with color
   RGB to Color
   RGB to HTML color
 work with database(DB)
-  Connec to the DB
+  Connect to the DB
     Connect to FireBird
     Connect to MySql
     Connect to Oracle
