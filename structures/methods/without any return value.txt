@@ -1,0 +1,1 @@
+\\ Structures — Methods — without any return value

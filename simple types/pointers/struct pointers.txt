@@ -1,0 +1,1 @@
+\\ Simple types.— Pointers — struct pointers

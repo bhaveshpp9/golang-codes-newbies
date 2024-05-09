@@ -1,0 +1,1 @@
+\\ work with database(DB) — SQL — Calculated Fields — Using Aliases

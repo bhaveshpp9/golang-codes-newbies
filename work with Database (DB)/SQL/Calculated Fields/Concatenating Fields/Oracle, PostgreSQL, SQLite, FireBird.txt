@@ -1,0 +1,1 @@
+\\ work with database(DB) — SQL — Calculated Fields — Concatenating Fields — Oracle, PostgreSQL, SQLite, FireBird

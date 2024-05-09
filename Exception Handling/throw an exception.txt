@@ -1,0 +1,1 @@
+\\ Exceptions Handling — throw an exception

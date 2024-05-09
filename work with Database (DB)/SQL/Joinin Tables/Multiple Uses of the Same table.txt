@@ -1,0 +1,1 @@
+\\ work with database(DB) — SQL — Joining Table — Multiple Uses of the Same table

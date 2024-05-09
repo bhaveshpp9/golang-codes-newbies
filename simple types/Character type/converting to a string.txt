@@ -1,0 +1,1 @@
+\\ Simple types.— Character type — converting to a string

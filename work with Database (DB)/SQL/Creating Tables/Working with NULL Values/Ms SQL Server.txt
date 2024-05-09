@@ -1,0 +1,1 @@
+\\ work with database(DB) — SQL — Creating table — Working with NULL Values — Ms SQL Server

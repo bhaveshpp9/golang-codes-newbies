@@ -1,0 +1,1 @@
+\\ Simple types.— Numbers — integer — getting random values

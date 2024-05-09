@@ -1,0 +1,1 @@
+\\ Simple types.— Strings — Change the case of characters

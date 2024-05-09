@@ -1,0 +1,1 @@
+\\ Initialising of types —   structures — Without any constructor

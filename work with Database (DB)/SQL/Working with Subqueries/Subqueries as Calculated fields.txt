@@ -1,0 +1,1 @@
+\\ work with database(DB) — SQL — Working with Subqueries — Subqueries as Calculated fields

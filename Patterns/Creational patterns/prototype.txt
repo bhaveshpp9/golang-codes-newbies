@@ -1,0 +1,1 @@
+\\ Patterns — creational patterns — prototype

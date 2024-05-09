@@ -1,0 +1,1 @@
+\\ Simple types.— Numbers — double and float — getting random values

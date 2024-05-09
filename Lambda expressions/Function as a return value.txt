@@ -1,0 +1,1 @@
+\\ Lambda Expressions —  Function as a return value

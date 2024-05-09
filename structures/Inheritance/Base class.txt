@@ -1,0 +1,1 @@
+\\ Structures — Inheritance — Base class

@@ -1,0 +1,1 @@
+\\ Structures — Constructors — Call of the parent constructor

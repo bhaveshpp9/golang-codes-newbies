@@ -1,0 +1,1 @@
+\\ work with files — Binary files — Write dictionary to a file

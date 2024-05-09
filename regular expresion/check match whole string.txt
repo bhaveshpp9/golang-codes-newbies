@@ -1,0 +1,1 @@
+\\ Regular expressions — check match whole string

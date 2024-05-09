@@ -1,0 +1,1 @@
+\\ work with database(DB) — SQL — Field data types — MS SQL Server — String Types

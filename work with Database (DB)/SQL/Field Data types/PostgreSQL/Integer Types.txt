@@ -1,0 +1,1 @@
+\\ work with database(DB) — SQL — Field data types — PostgreSQL —  Integer Types
