@@ -28,18 +28,18 @@ Arrays and collections
     slice copying
     slice length
     slice with a default value
-    slices initialization
+    slices initialisation
     slices merging
     sorting of elements
     sum of elements
-    every() and some() fuctions
+    every() and some() functions
   Dictionaries
     Adding and removing of elements
     Amount of elements
     Checking of presence of a key
     Converting of a dictionary
     Default value
-    Dictionaries initialization
+    Dictionaries initialisation
     Dictionary merge
     filtering of elements
     get value by key
@@ -56,7 +56,7 @@ Arrays and collections
     Iterating over a set
     Search for a element
     Sets comparison
-    Sets Initialization
+    Sets Initialisation
     Sets operations
     sorting of elements
     treeset
@@ -103,19 +103,19 @@ Functions
   in/out parameters
   Multiple return values
   optional parameter values
-  out paramaters
+  out parameters
   recursion
   Variable parameters
   with return value
   without any parameter
-  witout any return value
+  without any return value
 Generic Types
   Generic classes
   Generic collections
   Generic Methods
   Interface conformity
   Substitution principle
-Initializing of types
+Initialising of types
   Collections
     Directories
     Slices
