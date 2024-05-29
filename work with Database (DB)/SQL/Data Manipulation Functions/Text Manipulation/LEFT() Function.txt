@@ -1,1 +1,129 @@
 \\ work with database(DB) — SQL — Data Manipulation Functions — Text Manipulation — LEFT() Function
+
+
+The `LEFT()` function in SQL is used to extract a specified number of characters from the left side of a text string. This function is supported in many SQL databases, including MySQL, SQL Server, and SQLite. However, the exact implementation can vary slightly between different SQL dialects. Here’s a detailed guide on how to use the `LEFT()` function across various SQL databases.
+
+### Usage of `LEFT()` Function
+
+The basic syntax of the `LEFT()` function is:
+
+```sql
+LEFT(text, number_of_characters)
+```
+
+- `text`: The text string from which to extract the characters.
+- `number_of_characters`: The number of characters to extract from the left side of the text string.
+
+### Examples in Different SQL Databases
+
+#### MySQL
+
+In MySQL, the `LEFT()` function is straightforward to use:
+
+```sql
+SELECT LEFT('Hello World', 5) AS LeftPart;  -- Returns 'Hello'
+```
+
+#### SQL Server
+
+In SQL Server, the `LEFT()` function works similarly to MySQL:
+
+```sql
+SELECT LEFT('Hello World', 5) AS LeftPart;  -- Returns 'Hello'
+```
+
+#### SQLite
+
+In SQLite, the `LEFT()` function is also available, but SQLite uses the `SUBSTR()` function to achieve the same result:
+
+```sql
+SELECT SUBSTR('Hello World', 1, 5) AS LeftPart;  -- Returns 'Hello'
+```
+
+#### PostgreSQL
+
+In PostgreSQL, there is no direct `LEFT()` function, but you can achieve the same result using the `SUBSTRING()` function or the `LEFT()` function which is a synonym for `SUBSTRING()`:
+
+```sql
+SELECT LEFT('Hello World', 5) AS LeftPart;  -- Returns 'Hello'
+-- or using SUBSTRING()
+SELECT SUBSTRING('Hello World' FROM 1 FOR 5) AS LeftPart;  -- Returns 'Hello'
+```
+
+### Additional Examples and Use Cases
+
+#### Extracting First N Characters from a Column
+
+Consider a table `Employees` with a column `FullName`. To extract the first 3 characters from the `FullName` column:
+
+##### MySQL
+
+```sql
+SELECT LEFT(FullName, 3) AS Initials
+FROM Employees;
+```
+
+##### SQL Server
+
+```sql
+SELECT LEFT(FullName, 3) AS Initials
+FROM Employees;
+```
+
+##### SQLite
+
+```sql
+SELECT SUBSTR(FullName, 1, 3) AS Initials
+FROM Employees;
+```
+
+##### PostgreSQL
+
+```sql
+SELECT LEFT(FullName, 3) AS Initials
+FROM Employees;
+-- or using SUBSTRING()
+SELECT SUBSTRING(FullName FROM 1 FOR 3) AS Initials
+FROM Employees;
+```
+
+#### Combining with Other Functions
+
+You can combine the `LEFT()` function with other string functions to perform more complex text manipulations. For example, to extract the first 3 characters and convert them to uppercase:
+
+##### MySQL
+
+```sql
+SELECT UPPER(LEFT(FullName, 3)) AS Initials
+FROM Employees;
+```
+
+##### SQL Server
+
+```sql
+SELECT UPPER(LEFT(FullName, 3)) AS Initials
+FROM Employees;
+```
+
+##### SQLite
+
+```sql
+SELECT UPPER(SUBSTR(FullName, 1, 3)) AS Initials
+FROM Employees;
+```
+
+##### PostgreSQL
+
+```sql
+SELECT UPPER(LEFT(FullName, 3)) AS Initials
+FROM Employees;
+-- or using SUBSTRING()
+SELECT UPPER(SUBSTRING(FullName FROM 1 FOR 3)) AS Initials
+FROM Employees;
+```
+
+### Summary
+
+The `LEFT()` function is used to extract a specified number of characters from the left side of a string in SQL. While MySQL, SQL Server, and PostgreSQL provide the `LEFT()` function directly, SQLite uses the `SUBSTR()` function to achieve the same result. This function is useful for various text manipulation tasks, such as extracting initials, truncating strings, and more.
+
+These examples demonstrate how to use the `LEFT()` function across different SQL databases, ensuring you can perform text manipulation tasks regardless of the SQL dialect you are working with. If you have more specific queries or need further examples, feel free to ask! ✔️
