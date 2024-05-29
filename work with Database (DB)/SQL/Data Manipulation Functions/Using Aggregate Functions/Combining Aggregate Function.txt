@@ -1,13 +1,149 @@
 \\ work with database(DB) — SQL — Data Manipulation Functions — Using Aggregate Functions — Combining Aggregate Function
 
+Combining aggregate functions in SQL allows you to perform multiple calculations in a single query, providing a comprehensive analysis of your data. Aggregate functions such as `COUNT()`, `SUM()`, `AVG()`, `MIN()`, and `MAX()` can be used together to produce a variety of statistical summaries. Here’s how to combine these functions across various SQL databases.
 
-SELECT
-    COUNT(*) AS CountriesCount,
-    MIN(Population) AS MinPopulation,
-    MAX(Population) AS MaxPopulation,
-    AVG(Population) AS AvgPopulation,
-    SUM(Population) AS SumPopulation
-FROM country
+### Usage Examples in Different SQL Databases
 
-CountriesCount	MinPopulation	MaxPopulation	AvgPopulation	SumPopulation
-239	0	1,277,558,000	25,434,098.11	6,078,749,450
+#### MySQL
+
+In MySQL, you can combine aggregate functions within the same `SELECT` statement to analyze your data more comprehensively.
+
+##### Example: Employee Salary Analysis
+
+```sql
+SELECT 
+    Department,
+    COUNT(*) AS TotalEmployees,
+    SUM(Salary) AS TotalSalary,
+    AVG(Salary) AS AverageSalary,
+    MIN(Salary) AS MinimumSalary,
+    MAX(Salary) AS MaximumSalary
+FROM Employees
+GROUP BY Department;
+```
+
+#### SQL Server
+
+In SQL Server, the syntax is similar to MySQL for combining aggregate functions.
+
+##### Example: Employee Salary Analysis
+
+```sql
+SELECT 
+    Department,
+    COUNT(*) AS TotalEmployees,
+    SUM(Salary) AS TotalSalary,
+    AVG(Salary) AS AverageSalary,
+    MIN(Salary) AS MinimumSalary,
+    MAX(Salary) AS MaximumSalary
+FROM Employees
+GROUP BY Department;
+```
+
+#### PostgreSQL
+
+PostgreSQL also uses the same syntax for combining aggregate functions.
+
+##### Example: Employee Salary Analysis
+
+```sql
+SELECT 
+    Department,
+    COUNT(*) AS TotalEmployees,
+    SUM(Salary) AS TotalSalary,
+    AVG(Salary) AS AverageSalary,
+    MIN(Salary) AS MinimumSalary,
+    MAX(Salary) AS MaximumSalary
+FROM Employees
+GROUP BY Department;
+```
+
+#### SQLite
+
+In SQLite, you can use the same approach to combine aggregate functions.
+
+##### Example: Employee Salary Analysis
+
+```sql
+SELECT 
+    Department,
+    COUNT(*) AS TotalEmployees,
+    SUM(Salary) AS TotalSalary,
+    AVG(Salary) AS AverageSalary,
+    MIN(Salary) AS MinimumSalary,
+    MAX(Salary) AS MaximumSalary
+FROM Employees
+GROUP BY Department;
+```
+
+### Practical Examples and Use Cases
+
+#### Combining Aggregate Functions with Conditions
+
+You can combine aggregate functions with `WHERE` and `HAVING` clauses to filter your data before or after aggregation.
+
+##### Example: Filtering by Date and Analyzing Sales Data
+
+##### MySQL, SQL Server, PostgreSQL, SQLite
+
+```sql
+SELECT 
+    ProductID,
+    COUNT(*) AS NumberOfSales,
+    SUM(SaleAmount) AS TotalSales,
+    AVG(SaleAmount) AS AverageSaleAmount,
+    MIN(SaleAmount) AS MinimumSaleAmount,
+    MAX(SaleAmount) AS MaximumSaleAmount
+FROM Sales
+WHERE SaleDate >= '2023-01-01'
+GROUP BY ProductID
+HAVING SUM(SaleAmount) > 1000;
+```
+
+#### Combining Aggregate Functions for Multiple Tables
+
+You can join multiple tables and apply aggregate functions to the combined result set.
+
+##### Example: Customer Order Analysis
+
+##### MySQL, SQL Server, PostgreSQL, SQLite
+
+```sql
+SELECT 
+    Customers.CustomerID,
+    Customers.CustomerName,
+    COUNT(Orders.OrderID) AS NumberOfOrders,
+    SUM(Orders.OrderAmount) AS TotalOrderAmount,
+    AVG(Orders.OrderAmount) AS AverageOrderAmount,
+    MIN(Orders.OrderAmount) AS MinimumOrderAmount,
+    MAX(Orders.OrderAmount) AS MaximumOrderAmount
+FROM Customers
+JOIN Orders ON Customers.CustomerID = Orders.CustomerID
+GROUP BY Customers.CustomerID, Customers.CustomerName;
+```
+
+### Handling NULL Values in Combined Aggregates
+
+When using aggregate functions, it's important to handle `NULL` values appropriately. By default, most aggregate functions ignore `NULL` values. However, you can use functions like `COALESCE` to substitute `NULL` values if necessary.
+
+##### Example: Handling NULL Values in Salary Analysis
+
+##### MySQL, SQL Server, PostgreSQL, SQLite
+
+```sql
+SELECT 
+    Department,
+    COUNT(*) AS TotalEmployees,
+    SUM(COALESCE(Salary, 0)) AS TotalSalary,
+    AVG(COALESCE(Salary, 0)) AS AverageSalary,
+    MIN(COALESCE(Salary, 0)) AS MinimumSalary,
+    MAX(COALESCE(Salary, 0)) AS MaximumSalary
+FROM Employees
+GROUP BY Department;
+```
+
+### Summary
+
+Combining aggregate functions in SQL enables comprehensive data analysis by performing multiple calculations in a single query. This approach is useful for summarizing data, identifying trends, and generating reports. The syntax for combining aggregate functions is consistent across different SQL databases, making it easy to apply these techniques regardless of the SQL dialect you are using.
+
+These examples demonstrate how to combine aggregate functions to gain deeper insights into your data. If you have more specific queries or need further examples, feel free to ask! ✔️
