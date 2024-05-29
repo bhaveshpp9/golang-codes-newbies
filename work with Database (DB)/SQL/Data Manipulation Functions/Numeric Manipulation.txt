@@ -1,18 +1,106 @@
 \\ work with database(DB) — SQL — Data Manipulation Functions — Numeric Manipulation
 
+In SQL, numeric manipulation functions are essential for performing mathematical operations on data stored in your database. Below is a comprehensive guide on how to use these functions in various database systems such as MySQL, PostgreSQL, SQLite, and SQL Server.
 
-SELECT
-    Population,
-    SQRT(Population)
-FROM country
+### Common Numeric Manipulation Functions
 
-Commonly Used Functions:
+1. **ABS (Absolute Value)**: Returns the absolute value of a number.
+2. **CEIL/CEILING**: Rounds a number up to the nearest integer.
+3. **FLOOR**: Rounds a number down to the nearest integer.
+4. **ROUND**: Rounds a number to a specified number of decimal places.
+5. **POWER**: Raises a number to the power of another number.
+6. **SQRT**: Returns the square root of a number.
+7. **MOD**: Returns the remainder of a division operation.
+8. **TRUNCATE/TRUNC**: Truncates a number to a specified number of decimal places.
 
-Function	Description
-ABS()	Return a number's absolute value
-COS()	Returns the trigonometric cosine of specified angle
-EXP()	Returns the exponential value of a specific number
-PI()	Returns the value of PI
-SIN()	Returns the trigonometric sine of a specified angle
-SQRT()	Returns the square root of a specified number
-TAN()	Returns the trigonometric tangent of a specified angle
+### Examples in Different Databases
+
+#### MySQL
+
+```sql
+SELECT ABS(-15) AS AbsValue;                   -- 15
+SELECT CEIL(4.2) AS CeilValue;                 -- 5
+SELECT FLOOR(4.8) AS FloorValue;               -- 4
+SELECT ROUND(3.14159, 2) AS RoundedValue;      -- 3.14
+SELECT POWER(2, 3) AS PowerValue;              -- 8
+SELECT SQRT(16) AS SqrtValue;                  -- 4
+SELECT MOD(10, 3) AS ModValue;                 -- 1
+SELECT TRUNCATE(3.14159, 2) AS TruncateValue;  -- 3.14
+```
+
+#### PostgreSQL
+
+```sql
+SELECT ABS(-15) AS AbsValue;                   -- 15
+SELECT CEIL(4.2) AS CeilValue;                 -- 5
+SELECT FLOOR(4.8) AS FloorValue;               -- 4
+SELECT ROUND(3.14159, 2) AS RoundedValue;      -- 3.14
+SELECT POWER(2, 3) AS PowerValue;              -- 8
+SELECT SQRT(16) AS SqrtValue;                  -- 4
+SELECT 10 % 3 AS ModValue;                     -- 1 (PostgreSQL uses % operator for modulo)
+SELECT TRUNC(3.14159, 2) AS TruncateValue;     -- 3.14
+```
+
+#### SQLite
+
+```sql
+SELECT ABS(-15) AS AbsValue;                   -- 15
+SELECT CEIL(4.2) AS CeilValue;                 -- 5
+SELECT FLOOR(4.8) AS FloorValue;               -- 4
+SELECT ROUND(3.14159, 2) AS RoundedValue;      -- 3.14
+SELECT POWER(2, 3) AS PowerValue;              -- 8
+SELECT SQRT(16) AS SqrtValue;                  -- 4
+SELECT 10 % 3 AS ModValue;                     -- 1 (SQLite uses % operator for modulo)
+SELECT ROUND(3.14159, 2) AS TruncateValue;     -- 3.14 (SQLite's ROUND can also serve as TRUNCATE)
+```
+
+#### SQL Server
+
+```sql
+SELECT ABS(-15) AS AbsValue;                   -- 15
+SELECT CEILING(4.2) AS CeilValue;              -- 5
+SELECT FLOOR(4.8) AS FloorValue;               -- 4
+SELECT ROUND(3.14159, 2) AS RoundedValue;      -- 3.14
+SELECT POWER(2, 3) AS PowerValue;              -- 8
+SELECT SQRT(16) AS SqrtValue;                  -- 4
+SELECT 10 % 3 AS ModValue;                     -- 1 (SQL Server uses % operator for modulo)
+SELECT ROUND(3.14159, 2) AS TruncateValue;     -- 3.14 (SQL Server's ROUND can also serve as TRUNCATE)
+```
+
+### Detailed Explanation of Each Function
+
+1. **ABS (Absolute Value)**
+   - **Usage**: `ABS(number)`
+   - **Example**: `SELECT ABS(-15);` returns `15`.
+
+2. **CEIL/CEILING (Ceiling)**
+   - **Usage**: `CEIL(number)` or `CEILING(number)`
+   - **Example**: `SELECT CEIL(4.2);` returns `5`.
+
+3. **FLOOR**
+   - **Usage**: `FLOOR(number)`
+   - **Example**: `SELECT FLOOR(4.8);` returns `4`.
+
+4. **ROUND**
+   - **Usage**: `ROUND(number, decimal_places)`
+   - **Example**: `SELECT ROUND(3.14159, 2);` returns `3.14`.
+
+5. **POWER**
+   - **Usage**: `POWER(base, exponent)`
+   - **Example**: `SELECT POWER(2, 3);` returns `8`.
+
+6. **SQRT (Square Root)**
+   - **Usage**: `SQRT(number)`
+   - **Example**: `SELECT SQRT(16);` returns `4`.
+
+7. **MOD (Modulo)**
+   - **Usage**: `MOD(dividend, divisor)`
+   - **Example**: `SELECT MOD(10, 3);` returns `1`.
+
+8. **TRUNCATE/TRUNC (Truncate)**
+   - **Usage**: `TRUNCATE(number, decimal_places)` or `TRUNC(number, decimal_places)`
+   - **Example**: `SELECT TRUNCATE(3.14159, 2);` returns `3.14`.
+
+### Summary
+
+Numeric manipulation functions in SQL are powerful tools for performing mathematical operations and transforming data. They are consistent across various SQL databases with minor syntax differences. This guide provides a foundation for using these functions effectively in MySQL, PostgreSQL, SQLite, and SQL Server. If you have any more specific questions or need further examples, feel free to ask! ✔️
