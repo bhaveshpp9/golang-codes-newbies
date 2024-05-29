@@ -1,1 +1,101 @@
 \\ work with database(DB) — SQL — Creating table — Working with NULL Values — FireBird, Interbase
+
+
+Firebird and InterBase SQL syntax is quite similar to other SQL dialects, but there are some specific considerations. Here’s how you can work with databases in Firebird and InterBase, focusing on creating tables and handling NULL values.
+
+### Creating a Table
+
+To create a table in Firebird or InterBase, you use the `CREATE TABLE` statement. Here is an example of creating an `Employees` table with columns that can hold NULL values:
+
+```sql
+CREATE TABLE Employees (
+    EmployeeID INTEGER PRIMARY KEY,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    Email VARCHAR(100),
+    PhoneNumber VARCHAR(15),
+    HireDate DATE NOT NULL,
+    Salary DECIMAL(10, 2)
+);
+```
+
+In this table:
+- `EmployeeID`, `FirstName`, `LastName`, and `HireDate` are required fields (`NOT NULL`).
+- `Email`, `PhoneNumber`, and `Salary` can accept NULL values (default behavior, as `NULL` is implicit).
+
+### Inserting Data with NULL Values
+
+When inserting data into the `Employees` table, you can omit columns that allow NULL values:
+
+```sql
+INSERT INTO Employees (EmployeeID, FirstName, LastName, HireDate)
+VALUES (1, 'John', 'Doe', '2022-01-01');
+
+INSERT INTO Employees (EmployeeID, FirstName, LastName, Email, PhoneNumber, HireDate, Salary)
+VALUES (2, 'Jane', 'Smith', 'jane.smith@example.com', '555-1234', '2022-02-15', 60000.00);
+```
+
+In the first insert statement, `Email`, `PhoneNumber`, and `Salary` are omitted and will default to NULL.
+
+### Selecting Data and Handling NULL Values
+
+To select data from the table and handle NULL values, you can use `IS NULL` and `IS NOT NULL` predicates. For example, to find all employees without an email address:
+
+```sql
+SELECT * FROM Employees
+WHERE Email IS NULL;
+```
+
+To find all employees who have a salary specified:
+
+```sql
+SELECT * FROM Employees
+WHERE Salary IS NOT NULL;
+```
+
+### Using `COALESCE` to Handle NULL Values
+
+The `COALESCE` function can be used to provide a default value for NULL columns:
+
+```sql
+SELECT EmployeeID, FirstName, LastName, COALESCE(Email, 'No Email') AS Email, COALESCE(PhoneNumber, 'No Phone') AS PhoneNumber, HireDate, COALESCE(Salary, 0.00) AS Salary
+FROM Employees;
+```
+
+This query will replace NULL `Email` values with 'No Email', NULL `PhoneNumber` values with 'No Phone', and NULL `Salary` values with 0.00.
+
+### Updating NULL Values
+
+To update NULL values in existing records, use the `UPDATE` statement:
+
+```sql
+UPDATE Employees
+SET Email = 'unknown@example.com'
+WHERE Email IS NULL;
+```
+
+This updates all records with a NULL `Email` to 'unknown@example.com'.
+
+### Deleting Rows with NULL Values
+
+To delete rows where certain columns are NULL, use the `DELETE` statement:
+
+```sql
+DELETE FROM Employees
+WHERE Email IS NULL;
+```
+
+This deletes all rows where the `Email` is NULL.
+
+### Summary
+
+Handling NULL values in Firebird and InterBase involves defining columns that can accept NULLs, inserting NULL values, and managing those values using SQL functions and statements. Here’s a quick recap of the main points:
+
+1. **Creating Tables**: Define columns with `NOT NULL` where necessary; other columns implicitly allow NULLs.
+2. **Inserting Data**: Omit columns in the `INSERT` statement to insert NULL values.
+3. **Selecting Data**: Use `IS NULL` and `IS NOT NULL` predicates to handle NULL values in `SELECT` queries.
+4. **Using `COALESCE`**: Provide default values for NULLs in query results.
+5. **Updating Data**: Use `UPDATE` statements to change NULL values.
+6. **Deleting Data**: Use `DELETE` statements to remove rows with NULL values.
+
+These operations allow for flexible data management while ensuring data integrity in Firebird and InterBase databases. If you need more specific examples or further assistance, feel free to ask! 💡
