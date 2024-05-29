@@ -1,1 +1,203 @@
 \\ Simple types.— Strings — Substring removing
+
+
+In Go, removing a substring from a string involves finding the substring and then constructing a new string without it. You can do this using functions from the `strings` package, such as `strings.Replace`, or by manually slicing the string around the substring.
+
+### Example: Removing a Substring Using `strings.Replace`
+
+The `strings.Replace` function can be used to remove all occurrences of a substring by replacing it with an empty string.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "strings"
+)
+
+func main() {
+    // Define the original string
+    original := "Hello, World! World!"
+
+    // Define the substring to remove
+    substr := "World"
+
+    // Remove the substring by replacing it with an empty string
+    result := strings.Replace(original, substr, "", -1)
+
+    // Print the original and resulting strings
+    fmt.Printf("Original string: '%s'\n", original)
+    fmt.Printf("Substring to remove: '%s'\n", substr)
+    fmt.Printf("Resulting string: '%s'\n", result)
+}
+```
+
+### Explanation
+
+1. **Import the `strings` Package**:
+   - The `strings` package provides the `Replace` function for replacing substrings.
+
+2. **Define the Original String and Substring**:
+   - We define an original string `original` with the value "Hello, World! World!".
+   - We define a substring `substr` with the value "World".
+
+3. **Remove the Substring**:
+   - We use `strings.Replace(original, substr, "", -1)` to replace all occurrences of `substr` with an empty string. The `-1` argument specifies that all occurrences should be replaced.
+
+4. **Print the Original and Resulting Strings**:
+   - We print the original string, the substring to remove, and the resulting string using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Original string: 'Hello, World! World!'
+Substring to remove: 'World'
+Resulting string: 'Hello, ! !'
+```
+
+### Example: Removing the First Occurrence of a Substring
+
+If you need to remove only the first occurrence of a substring, you can use the `strings.Index` function to find the position of the substring and then manually construct the new string.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "strings"
+)
+
+func removeFirstOccurrence(original string, substr string) string {
+    index := strings.Index(original, substr)
+    if index == -1 {
+        return original // Substring not found
+    }
+    return original[:index] + original[index+len(substr):]
+}
+
+func main() {
+    // Define the original string and the substring to remove
+    original := "Hello, World! World!"
+    substr := "World"
+
+    // Remove the first occurrence of the substring
+    result := removeFirstOccurrence(original, substr)
+
+    // Print the original and resulting strings
+    fmt.Printf("Original string: '%s'\n", original)
+    fmt.Printf("Substring to remove: '%s'\n", substr)
+    fmt.Printf("Resulting string: '%s'\n", result)
+}
+```
+
+### Explanation
+
+1. **Define the `removeFirstOccurrence` Function**:
+   - The function `removeFirstOccurrence` takes two parameters: the original string and the substring to remove.
+   - It uses `strings.Index(original, substr)` to find the index of the first occurrence of `substr` in `original`.
+   - If the substring is not found (`index == -1`), it returns the original string.
+   - It constructs the new string by concatenating the parts of the original string before and after the substring.
+
+2. **Define the Original String and Substring**:
+   - We define an original string `original` with the value "Hello, World! World!".
+   - We define a substring `substr` with the value "World".
+
+3. **Remove the First Occurrence of the Substring**:
+   - We call `removeFirstOccurrence(original, substr)` to remove the first occurrence of the substring.
+
+4. **Print the Original and Resulting Strings**:
+   - We print the original string, the substring to remove, and the resulting string using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Original string: 'Hello, World! World!'
+Substring to remove: 'World'
+Resulting string: 'Hello, ! World!'
+```
+
+### Example: Removing All Occurrences of a Substring Using `strings.Builder`
+
+For more efficient removal of all occurrences of a substring, you can use `strings.Builder`.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "strings"
+)
+
+func removeAllOccurrences(original string, substr string) string {
+    var builder strings.Builder
+    start := 0
+    for {
+        index := strings.Index(original[start:], substr)
+        if index == -1 {
+            break
+        }
+        builder.WriteString(original[start : start+index])
+        start += index + len(substr)
+    }
+    builder.WriteString(original[start:])
+    return builder.String()
+}
+
+func main() {
+    // Define the original string and the substring to remove
+    original := "Hello, World! World!"
+    substr := "World"
+
+    // Remove all occurrences of the substring
+    result := removeAllOccurrences(original, substr)
+
+    // Print the original and resulting strings
+    fmt.Printf("Original string: '%s'\n", original)
+    fmt.Printf("Substring to remove: '%s'\n", substr)
+    fmt.Printf("Resulting string: '%s'\n", result)
+}
+```
+
+### Explanation
+
+1. **Define the `removeAllOccurrences` Function**:
+   - The function `removeAllOccurrences` takes two parameters: the original string and the substring to remove.
+   - It initializes a `strings.Builder` to build the new string.
+   - It uses a loop to find and remove all occurrences of the substring. For each occurrence, it appends the part of the original string before the substring to the builder and updates the starting position for the next search.
+   - After the loop, it appends the remaining part of the original string to the builder and returns the resulting string.
+
+2. **Define the Original String and Substring**:
+   - We define an original string `original` with the value "Hello, World! World!".
+   - We define a substring `substr` with the value "World".
+
+3. **Remove All Occurrences of the Substring**:
+   - We call `removeAllOccurrences(original, substr)` to remove all occurrences of the substring.
+
+4. **Print the Original and Resulting Strings**:
+   - We print the original string, the substring to remove, and the resulting string using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Original string: 'Hello, World! World!'
+Substring to remove: 'World'
+Resulting string: 'Hello, ! !'
+```
+
+### Summary
+
+In Go, you can remove substrings from a string using various methods:
+- **`strings.Replace`**: Simplifies removing all occurrences of a substring.
+- **Manual slicing**: Allows removing the first or specific occurrences of a substring by manually constructing the new string.
+- **`strings.Builder`**: Provides efficient removal of all occurrences of a substring, especially for large strings or multiple replacements.
+
+These methods offer flexibility and efficiency for substring removal in your Go programs.

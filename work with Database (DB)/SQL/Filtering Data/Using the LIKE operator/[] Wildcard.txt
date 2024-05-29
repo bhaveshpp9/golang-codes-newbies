@@ -1,1 +1,13 @@
 \\ work with database(DB) — SQL — Filtering Data — Using the LIKE operator — [] Wildcard
+
+
+--Ms SQL, Access
+SELECT Code, Name
+FROM country
+WHERE Code LIKE 'B[GH]R'
+
+Code	Name
+BGR	Bulgaria
+BHR	Bahrain
+
+The brackets ([]) wildcard is used to specify a set of characters, any one of which must match a character in the specified position (the location of the wildcard).

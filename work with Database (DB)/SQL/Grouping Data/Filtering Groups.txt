@@ -1,1 +1,18 @@
 \\ work with database(DB) — SQL — Grouping data —Filtering Groups
+
+
+SELECT
+    Continent,
+    COUNT(*) AS CountriesCount
+FROM country
+GROUP BY Continent
+HAVING COUNT(*) > 20
+
+Continent	CountriesCount
+North America	37
+Asia	51
+Africa	58
+Europe	46
+Oceania	28
+
+HAVING is very similar to WHERE. In fact, all types of WHERE clauses you learned about thus far can also be used with HAVING. The only difference is that WHERE filters rows and HAVING filters groups.

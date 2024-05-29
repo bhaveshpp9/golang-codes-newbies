@@ -1,1 +1,11 @@
 \\ work with database(DB) — SQL — Creating table — Working with NULL Values — Access
+
+
+CREATE TABLE Documents
+(
+    doc_id INTEGER NOT NULL,
+    doc_name TEXT NOT NULL,
+    doc_cost CURRENCY
+);
+
+Every table column is either a NULL column or a NOT NULL column, and that state is specified in the table definition at creation time. A column that does not allow NULL values does not accept rows with no value—in other words, that column will always be required when rows are inserted or updated.

@@ -1,1 +1,120 @@
 \\ Simple types.— Strings — Getting substring
+
+
+In Go, you can extract substrings using slicing operations on strings. Slicing allows you to obtain a part of a string by specifying the start and end indices. Here’s how you can get substrings in Go.
+
+### Slicing Strings to Get Substrings
+
+#### Example: Basic String Slicing
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Define a string
+    str := "Hello, World!"
+
+    // Get a substring from index 0 to 5 (excluding 5)
+    substr1 := str[0:5]
+    fmt.Println("Substring 1:", substr1) // Output: Hello
+
+    // Get a substring from index 7 to the end
+    substr2 := str[7:]
+    fmt.Println("Substring 2:", substr2) // Output: World!
+
+    // Get a substring from the start to index 5 (excluding 5)
+    substr3 := str[:5]
+    fmt.Println("Substring 3:", substr3) // Output: Hello
+
+    // Get the whole string
+    substr4 := str[:]
+    fmt.Println("Substring 4:", substr4) // Output: Hello, World!
+}
+```
+
+### Explanation
+
+1. **Define a String**:
+   - We define a string `str` with the value "Hello, World!".
+
+2. **Get Substring from Index 0 to 5**:
+   - We use `str[0:5]` to get the substring from index 0 to 5 (excluding 5). The result is "Hello".
+
+3. **Get Substring from Index 7 to the End**:
+   - We use `str[7:]` to get the substring from index 7 to the end of the string. The result is "World!".
+
+4. **Get Substring from the Start to Index 5**:
+   - We use `str[:5]` to get the substring from the start of the string to index 5 (excluding 5). The result is "Hello".
+
+5. **Get the Whole String**:
+   - We use `str[:]` to get the whole string. The result is "Hello, World!".
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Substring 1: Hello
+Substring 2: World!
+Substring 3: Hello
+Substring 4: Hello, World!
+```
+
+### Example: Getting Substrings with Unicode Characters
+
+For strings with Unicode characters, it's important to handle them as runes to avoid slicing in the middle of multi-byte characters.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Define a string with Unicode characters
+    str := "こんにちは世界" // "Hello, World!" in Japanese
+
+    // Convert the string to a slice of runes
+    runes := []rune(str)
+
+    // Get a substring from index 0 to 3 (excluding 3)
+    substr1 := string(runes[0:3])
+    fmt.Println("Substring 1:", substr1) // Output: こんにちは
+
+    // Get a substring from index 3 to the end
+    substr2 := string(runes[3:])
+    fmt.Println("Substring 2:", substr2) // Output: 世界
+}
+```
+
+### Explanation
+
+1. **Define a String with Unicode Characters**:
+   - We define a string `str` with the value "こんにちは世界" ("Hello, World!" in Japanese).
+
+2. **Convert the String to a Slice of Runes**:
+   - We convert the string to a slice of runes using `[]rune(str)` to handle Unicode characters properly.
+
+3. **Get Substring from Index 0 to 3**:
+   - We use `runes[0:3]` to get the substring from index 0 to 3 (excluding 3). The result is "こん".
+
+4. **Get Substring from Index 3 to the End**:
+   - We use `runes[3:]` to get the substring from index 3 to the end of the string. The result is "にちは世界".
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Substring 1: こん
+Substring 2: にちは世界
+```
+
+### Summary
+
+In Go, you can extract substrings using slicing. For ASCII strings, you can use the standard slicing syntax `str[start:end]`. For Unicode strings, convert the string to a slice of runes to handle multi-byte characters correctly. This allows you to extract substrings accurately and efficiently in your Go programs.

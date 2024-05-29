@@ -1,1 +1,8 @@
 \\ work with database(DB) — SQL — Updating and deleting data — Updating All Rows
+
+
+UPDATE newCustomer
+SET last_update = NULL
+
+If the WHERE clause is not specified, the query updates all rows in the table.
+Some DBMSs allow database administrators to impose restrictions that prevent the execution of UPDATE without a WHERE clause.

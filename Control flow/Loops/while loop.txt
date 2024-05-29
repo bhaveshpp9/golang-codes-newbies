@@ -1,1 +1,46 @@
 \\ Control flow — Loops — "while" loop
+
+
+In Go, unlike many other programming languages, there isn't a direct `while` loop construct. Instead, Go uses the `for` loop to cover scenarios that would typically use a `while` loop in other languages. This simplification keeps the language concise and versatile. Here’s how you can implement a `while`-like behavior using a `for` loop in Go.
+
+### Scenario
+Let's set up a simple example where we repeatedly prompt a user for input until a specific word, "stop", is entered. This is a classic case where a `while` loop would be used in other languages.
+
+### Go Code Example
+```go
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strings"
+)
+
+func main() {
+    scanner := bufio.NewScanner(os.Stdin)
+    fmt.Println("Enter 'stop' to exit.")
+
+    // Using a for loop to simulate a while loop
+    for {
+        fmt.Print("Enter input: ")
+        scanner.Scan()
+        input := scanner.Text()
+
+        if strings.ToLower(input) == "stop" {
+            fmt.Println("Stopping...")
+            break
+        }
+
+        fmt.Println("You entered:", input)
+    }
+}
+```
+
+### Explanation
+1. **Setup**: We use `bufio.Scanner` to read input from the standard input (`os.Stdin`). This allows us to handle user input line by line.
+2. **For Loop**: We set up an infinite `for` loop (`for {}`) that will keep running until it's explicitly exited. This simulates the behavior of a `while` loop.
+3. **Input and Condition**: Inside the loop, we prompt the user for input and read it. If the input is "stop", we print a stopping message and `break` out of the loop.
+4. **Loop Continuation**: If the entered text is not "stop", the loop continues, and it prints the entered text.
+
+This example effectively demonstrates how you can use a `for` loop to handle scenarios where other languages might use a `while` loop, providing the functionality to repeat actions based on dynamic conditions. If you have any more questions or need further examples, feel free to ask! 🔨🤖🔧

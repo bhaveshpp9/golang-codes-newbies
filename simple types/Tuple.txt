@@ -1,1 +1,126 @@
 \\ Simple types.— Tuple
+
+Go does not have a built-in tuple type like some other languages (such as Python). However, you can effectively create tuples using struct types or by returning multiple values from a function. This approach allows you to bundle multiple values together without the need for a dedicated tuple type.
+
+### Using Structs as Tuples
+
+Structs can be used to group multiple values together, effectively acting as tuples.
+
+#### Example: Using Structs as Tuples
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define a struct that acts like a tuple
+type Pair struct {
+    First  string
+    Second int
+}
+
+func main() {
+    // Create an instance of the struct
+    p := Pair{First: "hello", Second: 42}
+
+    // Access and print the values
+    fmt.Println("First:", p.First)
+    fmt.Println("Second:", p.Second)
+}
+```
+
+### Returning Multiple Values from a Function
+
+Go allows functions to return multiple values, which can be used similarly to tuples.
+
+#### Example: Returning Multiple Values
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Function that returns multiple values
+func getCoordinates() (int, int) {
+    x := 10
+    y := 20
+    return x, y
+}
+
+func main() {
+    // Call the function and receive multiple return values
+    x, y := getCoordinates()
+
+    // Print the values
+    fmt.Println("X:", x)
+    fmt.Println("Y:", y)
+}
+```
+
+### Using Named Return Values
+
+Go also allows you to name the return values, making the code more readable and similar to a tuple-like structure.
+
+#### Example: Named Return Values
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Function with named return values
+func getPersonInfo() (name string, age int) {
+    name = "Alice"
+    age = 30
+    return
+}
+
+func main() {
+    // Call the function and receive named return values
+    name, age := getPersonInfo()
+
+    // Print the values
+    fmt.Println("Name:", name)
+    fmt.Println("Age:", age)
+}
+```
+
+### Combining Multiple Values Using Interfaces
+
+For more generic use cases, you can use an interface to create a more flexible tuple-like structure.
+
+#### Example: Generic Tuple Using Interfaces
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define a generic tuple struct
+type Tuple struct {
+    First  interface{}
+    Second interface{}
+}
+
+func main() {
+    // Create instances of the tuple with different types
+    t1 := Tuple{First: "hello", Second: 42}
+    t2 := Tuple{First: 3.14, Second: true}
+
+    // Access and print the values
+    fmt.Printf("Tuple 1: (%v, %v)\n", t1.First, t1.Second)
+    fmt.Printf("Tuple 2: (%v, %v)\n", t2.First, t2.Second)
+}
+```
+
+### Summary
+
+While Go does not have a built-in tuple type, you can use structs or multiple return values to achieve similar functionality. This allows you to group multiple values together and pass them around in your code, effectively using tuples in a Go idiomatic way.

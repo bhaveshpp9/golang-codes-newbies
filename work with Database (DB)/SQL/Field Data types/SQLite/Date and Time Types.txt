@@ -1,1 +1,9 @@
 \\ work with database(DB) — SQL — Field data types — SQLite — Date and Time Types
+
+
+Type list
+
+Type	Format	Min Value	Max Value
+TEXT	"YYYY-MM-DD HH:MM:SS.SSS"	with no restrictions	with no restrictions
+REAL	the number of days since min value	November 24, 4714 B.C	November 24, 4714 B.C + 1E+308 days
+INTEGER	the number of seconds since min value	1970-01-01 00:00:00 UTC	1970-01-01 00:00:00 UTC + 2^63-1 seconds

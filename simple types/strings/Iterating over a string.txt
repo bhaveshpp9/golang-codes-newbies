@@ -1,1 +1,190 @@
 \\ Simple types.— Strings — Iterating over a string
+
+
+In Go, iterating over a string can be done in two main ways: iterating over bytes and iterating over runes. Iterating over bytes allows you to access each byte in the string, which is useful for ASCII strings. Iterating over runes allows you to handle Unicode characters properly, as each rune represents a Unicode code point.
+
+### Iterating Over Bytes
+
+When you iterate over a string using a traditional `for` loop, you iterate over the bytes of the string.
+
+#### Example: Iterating Over Bytes
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Define a string
+    str := "Hello, World!"
+
+    // Iterate over bytes
+    fmt.Println("Iterating over bytes:")
+    for i := 0; i < len(str); i++ {
+        fmt.Printf("Byte %d: %c\n", i, str[i])
+    }
+}
+```
+
+### Explanation
+
+1. **Define a String**:
+   - We define a string `str` with the value "Hello, World!".
+
+2. **Iterate Over Bytes**:
+   - We use a traditional `for` loop to iterate over the bytes of the string. The loop runs from `0` to `len(str)`.
+   - We print each byte using `str[i]`, which gives the byte at index `i`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Iterating over bytes:
+Byte 0: H
+Byte 1: e
+Byte 2: l
+Byte 3: l
+Byte 4: o
+Byte 5: ,
+Byte 6:  
+Byte 7: W
+Byte 8: o
+Byte 9: r
+Byte 10: l
+Byte 11: d
+Byte 12: !
+```
+
+### Iterating Over Runes
+
+When you need to handle Unicode characters properly, you should iterate over the string as a sequence of runes.
+
+#### Example: Iterating Over Runes
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Define a string with Unicode characters
+    str := "こんにちは世界" // "Hello, World!" in Japanese
+
+    // Iterate over runes
+    fmt.Println("Iterating over runes:")
+    for index, runeValue := range str {
+        fmt.Printf("Rune at index %d: %c\n", index, runeValue)
+    }
+}
+```
+
+### Explanation
+
+1. **Define a String with Unicode Characters**:
+   - We define a string `str` with the value "こんにちは世界" ("Hello, World!" in Japanese).
+
+2. **Iterate Over Runes**:
+   - We use a `for` loop with the `range` keyword to iterate over the runes in the string.
+   - The loop variable `index` holds the byte index of the start of the rune in the string.
+   - The loop variable `runeValue` holds the rune value at the current index.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Iterating over runes:
+Rune at index 0: こ
+Rune at index 3: ん
+Rune at index 6: に
+Rune at index 9: ち
+Rune at index 12: は
+Rune at index 15: 世
+Rune at index 18: 界
+```
+
+### Comparing Byte Iteration and Rune Iteration
+
+To highlight the difference between iterating over bytes and runes, consider the following example:
+
+#### Example: Comparing Byte and Rune Iteration
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Define a string with Unicode characters
+    str := "Hello, 世界"
+
+    // Iterate over bytes
+    fmt.Println("Iterating over bytes:")
+    for i := 0; i < len(str); i++ {
+        fmt.Printf("Byte %d: %x %c\n", i, str[i], str[i])
+    }
+
+    // Iterate over runes
+    fmt.Println("Iterating over runes:")
+    for index, runeValue := range str {
+        fmt.Printf("Rune at index %d: %x %c\n", index, runeValue, runeValue)
+    }
+}
+```
+
+### Explanation
+
+1. **Define a String with Unicode Characters**:
+   - We define a string `str` with the value "Hello, 世界".
+
+2. **Iterate Over Bytes**:
+   - We use a traditional `for` loop to iterate over the bytes of the string.
+   - We print each byte's index, hexadecimal value, and character representation.
+
+3. **Iterate Over Runes**:
+   - We use a `for` loop with the `range` keyword to iterate over the runes in the string.
+   - We print each rune's index, hexadecimal value, and character representation.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Iterating over bytes:
+Byte 0: 48 H
+Byte 1: 65 e
+Byte 2: 6c l
+Byte 3: 6c l
+Byte 4: 6f o
+Byte 5: 2c ,
+Byte 6: 20  
+Byte 7: e4 ä
+Byte 8: b8 ¸
+Byte 9: 96 –
+Byte 10: e7 ç
+Byte 11: 95 •
+Byte 12: 8c 
+
+Iterating over runes:
+Rune at index 0: 48 H
+Rune at index 1: 65 e
+Rune at index 2: 6c l
+Rune at index 3: 6c l
+Rune at index 4: 6f o
+Rune at index 5: 2c ,
+Rune at index 6: 20  
+Rune at index 7: 4e16 世
+Rune at index 10: 754c 界
+```
+
+### Summary
+
+In Go, you can iterate over a string using two main methods:
+- **Byte iteration**: Suitable for ASCII strings, where you can use a traditional `for` loop and the `len` function.
+- **Rune iteration**: Necessary for Unicode strings, where you can use a `for` loop with the `range` keyword to handle multi-byte characters correctly.
+
+Understanding these methods allows you to handle string iteration effectively in your Go programs, ensuring proper processing of both ASCII and Unicode strings.

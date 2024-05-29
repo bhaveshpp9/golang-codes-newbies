@@ -1,1 +1,143 @@
 \\ Lambda Expressions —  Modified captured variables
+
+In Go, anonymous functions (which can be seen as a form of lambda expressions) can capture variables from their surrounding scope. When these captured variables are modified within the anonymous function, the changes are reflected in the outer scope as well. This behavior is known as closure, where the anonymous function "closes over" the variables from its surrounding context.
+
+### Example: Capturing and Modifying Variables
+
+Here’s an example demonstrating how an anonymous function captures and modifies a variable from its surrounding scope:
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    count := 0
+
+    // Define an anonymous function that increments the count
+    increment := func() {
+        count++
+    }
+
+    // Call the anonymous function multiple times
+    increment()
+    increment()
+    increment()
+
+    // Print the modified value of count
+    fmt.Println("Count:", count) // Output: Count: 3
+}
+```
+
+### Explanation
+
+1. **Variable Capture:** The `count` variable is defined in the outer scope of the anonymous function.
+2. **Anonymous Function:** The anonymous function `increment` captures the `count` variable and increments it each time the function is called.
+3. **Modification:** Each call to `increment` modifies the `count` variable, and the changes are reflected when `count` is printed in the outer scope.
+
+### Practical Example: Accumulator
+
+Let's create a practical example where an anonymous function is used to create an accumulator. The accumulator function captures a variable and modifies it each time it is called.
+
+```go
+package main
+
+import "fmt"
+
+// Function that returns an accumulator function
+func createAccumulator() func(int) int {
+    sum := 0
+
+    return func(x int) int {
+        sum += x
+        return sum
+    }
+}
+
+func main() {
+    // Create an accumulator
+    accumulator := createAccumulator()
+
+    // Use the accumulator
+    fmt.Println(accumulator(10)) // Output: 10
+    fmt.Println(accumulator(5))  // Output: 15
+    fmt.Println(accumulator(3))  // Output: 18
+}
+```
+
+### Explanation
+
+1. **Accumulator Creation:** The `createAccumulator` function returns an anonymous function that captures and modifies the `sum` variable.
+2. **Variable Capture:** The `sum` variable is initialized to 0 and is captured by the anonymous function.
+3. **Function Call:** Each call to the returned anonymous function modifies the `sum` variable, adding the input value to it and returning the new sum.
+
+### Example: Capturing Variables in a Loop
+
+When capturing variables in a loop, be mindful of how closures capture variables. Here’s an example demonstrating potential pitfalls and the correct way to capture variables in a loop:
+
+#### Incorrect Capture in Loop
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    funcs := []func(){}
+
+    for i := 0; i < 3; i++ {
+        funcs = append(funcs, func() {
+            fmt.Println(i)
+        })
+    }
+
+    // Call the functions
+    for _, f := range funcs {
+        f()
+    }
+    // Output: 3 3 3 (Incorrect)
+}
+```
+
+### Explanation
+
+- **Incorrect Behavior:** The anonymous functions capture the variable `i` by reference. By the time the functions are called, the loop has completed, and `i` has the value `3`.
+
+#### Correct Capture in Loop
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    funcs := []func(){}
+
+    for i := 0; i < 3; i++ {
+        // Correctly capture the current value of i
+        value := i
+        funcs = append(funcs, func() {
+            fmt.Println(value)
+        })
+    }
+
+    // Call the functions
+    for _, f := range funcs {
+        f()
+    }
+    // Output: 0 1 2 (Correct)
+}
+```
+
+### Explanation
+
+- **Correct Behavior:** The variable `value` is initialized to `i` in each iteration of the loop. Each anonymous function captures a different instance of `value`, preserving the intended behavior.
+
+### Summary
+
+- **Variable Capture:** Anonymous functions in Go can capture and modify variables from their surrounding scope, reflecting changes in the outer scope.
+- **Closures:** These captured variables are closed over by the anonymous function, allowing for powerful and flexible programming patterns.
+- **Practical Uses:** Use closures for creating accumulators, managing state, and other scenarios where maintaining and modifying state is needed.
+- **Loop Capture:** Be cautious when capturing loop variables; ensure that each iteration captures a unique instance of the variable to avoid unintended behavior.
+
+By understanding how closures work and how variables are captured and modified, you can effectively use anonymous functions to manage state and create flexible, reusable code patterns in Go.

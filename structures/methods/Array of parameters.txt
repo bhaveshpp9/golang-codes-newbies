@@ -1,1 +1,211 @@
 \\ Structures — Methods —  Array of parameters
+
+
+In Go, you can define methods on struct types that accept arrays or slices as parameters. This allows you to operate on multiple values in a single method call. Arrays and slices in Go are collections of elements of the same type. While arrays have a fixed size, slices are more flexible and can grow dynamically.
+
+### Example: Method with Slice Parameter
+
+Let's create an example where a method operates on a slice of integers.
+
+#### Step 1: Define the Struct
+
+First, define a `Math` struct.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define the Math struct
+type Math struct{}
+```
+
+#### Step 2: Define the Method with a Slice Parameter
+
+Create a method for the `Math` struct that takes a slice of integers as a parameter and returns the sum of the elements.
+
+```go
+// Method to calculate the sum of an array of integers
+func (m Math) Sum(numbers []int) int {
+    total := 0
+    for _, number := range numbers {
+        total += number
+    }
+    return total
+}
+```
+
+#### Step 3: Use the Method
+
+Finally, use the method in the `main` function.
+
+```go
+func main() {
+    // Create an instance of Math
+    math := Math{}
+
+    // Define a slice of integers
+    numbers := []int{1, 2, 3, 4, 5}
+
+    // Call the Sum method
+    sum := math.Sum(numbers)
+    fmt.Printf("Sum: %d\n", sum)
+}
+```
+
+### Explanation
+
+1. **Define the `Math` Struct**:
+   - The `Math` struct is defined as an empty struct.
+
+2. **Define the `Sum` Method**:
+   - The `Sum` method is defined on the `Math` struct. It takes a slice of integers (`numbers []int`) as a parameter.
+   - The method calculates the sum of the elements in the slice and returns the total.
+
+3. **Use the Method**:
+   - In `main`, an instance of the `Math` struct is created.
+   - A slice of integers is defined and passed to the `Sum` method.
+   - The result is printed.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Sum: 15
+```
+
+### Example: Method with Array Parameter
+
+You can also create a method that takes an array as a parameter. However, keep in mind that arrays in Go have a fixed size, which must be specified when the array is declared.
+
+#### Step 1: Define the Struct
+
+First, define a `Math` struct.
+
+```go
+// Define the Math struct
+type Math struct{}
+```
+
+#### Step 2: Define the Method with an Array Parameter
+
+Create a method for the `Math` struct that takes an array of integers as a parameter and returns the sum of the elements.
+
+```go
+// Method to calculate the sum of an array of integers
+func (m Math) SumArray(numbers [5]int) int {
+    total := 0
+    for _, number := range numbers {
+        total += number
+    }
+    return total
+}
+```
+
+#### Step 3: Use the Method
+
+Finally, use the method in the `main` function.
+
+```go
+func main() {
+    // Create an instance of Math
+    math := Math{}
+
+    // Define an array of integers
+    numbers := [5]int{1, 2, 3, 4, 5}
+
+    // Call the SumArray method
+    sum := math.SumArray(numbers)
+    fmt.Printf("Sum: %d\n", sum)
+}
+```
+
+### Explanation
+
+1. **Define the `Math` Struct**:
+   - The `Math` struct is defined as an empty struct.
+
+2. **Define the `SumArray` Method**:
+   - The `SumArray` method is defined on the `Math` struct. It takes an array of integers (`numbers [5]int`) as a parameter.
+   - The method calculates the sum of the elements in the array and returns the total.
+
+3. **Use the Method**:
+   - In `main`, an instance of the `Math` struct is created.
+   - An array of integers is defined and passed to the `SumArray` method.
+   - The result is printed.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Sum: 15
+```
+
+### Example: Method with Variadic Parameters
+
+You can also create a method that accepts a variadic number of parameters, which is similar to accepting an array or slice but provides more flexibility.
+
+#### Step 1: Define the Struct
+
+First, define a `Math` struct.
+
+```go
+// Define the Math struct
+type Math struct{}
+```
+
+#### Step 2: Define the Method with Variadic Parameters
+
+Create a method for the `Math` struct that takes a variadic number of integers and returns the sum of the elements.
+
+```go
+// Method to calculate the sum of a variadic number of integers
+func (m Math) SumVariadic(numbers ...int) int {
+    total := 0
+    for _, number := range numbers {
+        total += number
+    }
+    return total
+}
+```
+
+#### Step 3: Use the Method
+
+Finally, use the method in the `main` function.
+
+```go
+func main() {
+    // Create an instance of Math
+    math := Math{}
+
+    // Call the SumVariadic method with a variadic number of arguments
+    sum := math.SumVariadic(1, 2, 3, 4, 5)
+    fmt.Printf("Sum: %d\n", sum)
+}
+```
+
+### Explanation
+
+1. **Define the `Math` Struct**:
+   - The `Math` struct is defined as an empty struct.
+
+2. **Define the `SumVariadic` Method**:
+   - The `SumVariadic` method is defined on the `Math` struct. It takes a variadic number of integers (`numbers ...int`) as parameters.
+   - The method calculates the sum of the elements and returns the total.
+
+3. **Use the Method**:
+   - In `main`, an instance of the `Math` struct is created.
+   - The `SumVariadic` method is called with a variadic number of arguments, and the result is printed.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Sum: 15
+```
+
+### Summary
+
+In Go, you can define methods on structs that accept arrays, slices, or variadic parameters. These methods allow you to operate on multiple values in a single method call. By using slices or variadic parameters, you can provide more flexibility and accommodate a variable number of arguments. This approach is useful for various scenarios where you need to process collections of data within your methods.

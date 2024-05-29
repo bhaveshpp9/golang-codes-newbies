@@ -1,1 +1,50 @@
 \\ Algorithms — Sorting — Bubble sort
+
+
+Bubble sort is a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements, and swaps them if they are in the wrong order. The pass through the list is repeated until no swaps are needed, which means the list is sorted. Although it is not a practically efficient sorting method for large data sets, it is straightforward to understand and implement.
+
+Here's an implementation of bubble sort in Go:
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+// bubbleSort sorts an array using the bubble sort algorithm.
+func bubbleSort(data []int) {
+	n := len(data)
+	for i := 0; i < n-1; i++ {
+		swapped := false
+		// Perform a pass through the array
+		for j := 0; j < n-i-1; j++ {
+			if data[j] > data[j+1] {
+				// Swap the elements
+				data[j], data[j+1] = data[j+1], data[j]
+				swapped = true
+			}
+		}
+		// If no elements were swapped, stop the algorithm
+		if !swapped {
+			break
+		}
+	}
+}
+
+func main() {
+	data := []int{64, 34, 25, 12, 22, 11, 90}
+	fmt.Println("Original array:", data)
+	bubbleSort(data)
+	fmt.Println("Sorted array:", data)
+}
+```
+
+### Explanation:
+- **Outer Loop**: This loop controls the number of passes through the data. Each pass ensures that the largest element among the unsorted part bubbles up to its correct position.
+- **Inner Loop**: Goes through the array from the start to the `n-i-1` index. The `i` variable indicates how many elements at the end of the array are already sorted.
+- **Swapping**: Within the inner loop, adjacent elements are compared and swapped if they are in the incorrect order.
+- **Optimization Check**: The `swapped` variable is a flag that tracks whether any elements were swapped during the pass. If no elements were swapped during a particular pass, it means the array is already sorted, and there's no need for further passes.
+- **Print Statements**: Before and after sorting the array, the array's state is printed to visualize the effect of the bubble sort.
+
+Bubble sort has a worst-case and average complexity of \(O(n^2)\), where \(n\) is the number of items being sorted. Despite its inefficiency, its simplicity makes it a popular choice for educational purposes and in situations where simplicity is more valued than efficiency.

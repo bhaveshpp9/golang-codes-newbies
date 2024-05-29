@@ -1,0 +1,119 @@
+\\ Control flow — Conditional Statements — switch/case statements -- with "fallthrough" operator
+
+
+In Go, the `fallthrough` keyword is used within a `switch` statement to allow the program to continue executing the subsequent case's code, regardless of whether its condition is met. This is different from many other languages where cases fall through by default; in Go, you must explicitly specify it.
+
+### Example of `switch` with `fallthrough`
+
+Here's a simple example demonstrating how to use the `fallthrough` keyword:
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	dayOfWeek := "Monday"
+
+	switch dayOfWeek {
+	case "Monday":
+		fmt.Println("It's Monday")
+		fallthrough
+	case "Tuesday":
+		fmt.Println("It's Tuesday, or we fell through from Monday")
+	case "Wednesday":
+		fmt.Println("It's Wednesday")
+	default:
+		fmt.Println("It's some other day")
+	}
+}
+```
+
+### Explanation
+
+1. **Switch with an Expression:**
+   ```go
+   switch dayOfWeek {
+   ```
+   This `switch` statement evaluates the value of `dayOfWeek`.
+
+2. **Case with `fallthrough`:**
+   ```go
+   case "Monday":
+       fmt.Println("It's Monday")
+       fallthrough
+   ```
+   If `dayOfWeek` is "Monday", it prints "It's Monday" and then uses `fallthrough` to continue execution to the next case, regardless of its condition.
+
+3. **Subsequent Case:**
+   ```go
+   case "Tuesday":
+       fmt.Println("It's Tuesday, or we fell through from Monday")
+   ```
+   Because of the `fallthrough` in the previous case, this line will be executed even if `dayOfWeek` is "Monday".
+
+### Use Cases for `fallthrough`
+
+The `fallthrough` keyword can be useful when you want to execute the code in subsequent cases conditionally, based on a certain logic. Here’s a more practical example:
+
+### Example with Grading System
+
+Let's look at an example where `fallthrough` might be useful, such as in a grading system:
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	score := 85
+
+	switch {
+	case score >= 90:
+		fmt.Println("Grade: A")
+		fallthrough
+	case score >= 80:
+		fmt.Println("Grade: B")
+		fallthrough
+	case score >= 70:
+		fmt.Println("Grade: C")
+		fallthrough
+	case score >= 60:
+		fmt.Println("Grade: D")
+		fallthrough
+	default:
+		fmt.Println("Grade: F")
+	}
+}
+```
+
+### Explanation
+
+1. **Switch without an Expression:**
+   ```go
+   switch {
+   ```
+   This `switch` evaluates boolean conditions.
+
+2. **Case with `fallthrough`:**
+   ```go
+   case score >= 90:
+       fmt.Println("Grade: A")
+       fallthrough
+   ```
+   If `score` is 90 or above, it prints "Grade: A" and falls through to the next case.
+
+3. **Subsequent Cases:**
+   The `fallthrough` keyword makes the program continue to the next case, allowing all lower-grade messages to be printed if the conditions for higher grades are met. This may not be desirable in all grading systems but serves to illustrate the concept of fallthrough.
+
+### Caution
+
+While `fallthrough` can be useful, it should be used with caution. Overusing `fallthrough` or using it inappropriately can lead to confusing and hard-to-maintain code. It is generally recommended to use `fallthrough` sparingly and only when the logic clearly benefits from it.
+
+### Conclusion
+
+The `fallthrough` keyword in Go’s `switch` statements allows you to explicitly continue execution to the next case. This feature, while powerful, should be used judiciously to maintain code clarity and readability.

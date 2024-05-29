@@ -1,1 +1,17 @@
 \\ work with database(DB) — SQL — Inserting data — Inserting Complete Rows 1
+
+
+INSERT INTO customer 
+VALUES (
+    602,
+    1,
+    'IVAN',
+    'SIDOROV',
+    'ivan.sidiriv@gmail.com',
+    591,
+    1,
+    '2018-11-07',
+    NULL
+)
+
+The above example inserts a new customer into the Customers table. The data to be stored in each table column is specified in the VALUES clause, and a value must be provided for every column. The columns must be populated in the order in which they appear in the table definition.

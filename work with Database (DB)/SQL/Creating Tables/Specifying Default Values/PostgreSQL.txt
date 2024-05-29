@@ -1,1 +1,152 @@
 \\ work with database(DB) — SQL — Creating table — Specific default  Values — PostgreSQL
+
+
+Creating tables with specific default values in a PostgreSQL database using Go can be done using the `database/sql` package along with the PostgreSQL driver `github.com/lib/pq`.
+
+### Step-by-Step Guide
+
+1. **Install the PostgreSQL driver for Go**:
+   ```bash
+   go get -u github.com/lib/pq
+   ```
+
+2. **Write the Go code to create a table with specific default values in PostgreSQL**:
+
+Here's a complete example demonstrating how to create a table with specific default values using Go:
+
+```go
+package main
+
+import (
+    "database/sql"
+    "fmt"
+    "log"
+
+    _ "github.com/lib/pq"
+)
+
+func main() {
+    // Define the PostgreSQL data source name (DSN)
+    // Format: user=username password=password dbname=dbname sslmode=disable
+    dsn := "user=username password=password dbname=mydb sslmode=disable"
+
+    // Open a connection to the database
+    db, err := sql.Open("postgres", dsn)
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer db.Close()
+
+    // Ensure the connection is available
+    err = db.Ping()
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    // SQL statement to create a table with specific default values
+    createTableSQL := `
+    CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        username VARCHAR(50) NOT NULL DEFAULT 'guest',
+        email VARCHAR(100),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )`
+
+    // Execute the SQL statement
+    _, err = db.Exec(createTableSQL)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    fmt.Println("Table created successfully")
+}
+```
+
+### Explanation:
+
+1. **Import Packages**: Import the necessary packages. The `database/sql` package provides a generic interface for SQL databases, and `github.com/lib/pq` is the PostgreSQL driver.
+2. **Define DSN**: The Data Source Name (DSN) includes the username, password, database name, and SSL mode. Adjust `dsn` with your PostgreSQL credentials and database details.
+3. **Open Database Connection**: Use `sql.Open` to establish a connection to the PostgreSQL database.
+4. **Ping Database**: Use `db.Ping()` to verify the connection to the database. This ensures that the database is accessible and catches any configuration issues early.
+5. **Create Table SQL Statement**: Define a SQL statement to create a table named `users` with specific default values:
+   - `id`: An auto-incrementing integer that serves as the primary key, defined with the `SERIAL` type.
+   - `username`: A `VARCHAR(50)` field with a default value of 'guest' and a `NOT NULL` constraint.
+  
+
+```go
+   - `email`: A `VARCHAR(100)` field with no default value.
+   - `created_at`: A `TIMESTAMP` field that defaults to the current timestamp using `DEFAULT CURRENT_TIMESTAMP`.
+6. **Execute Statement**: Use `db.Exec` to execute the SQL statement. This creates the table in the database.
+7. **Close Resources**: Ensure the database connection is closed using `defer` to avoid resource leaks.
+8. **Output Success Message**: Print a message indicating that the table was created successfully.
+
+### Running the Code
+
+Save the code to a file, for example, `main.go`, and then run it using the Go command:
+
+```bash
+go run main.go
+```
+
+Ensure that the PostgreSQL server is running and accessible with the provided credentials. Adjust the `dsn` variable to match your PostgreSQL server configuration. This example assumes the PostgreSQL server is running locally on the default port 5432 and you have a database named `mydb`. Adjust accordingly if your setup is different.
+
+### Full Code Example
+
+Here's the complete code for reference:
+
+```go
+package main
+
+import (
+    "database/sql"
+    "fmt"
+    "log"
+
+    _ "github.com/lib/pq"
+)
+
+func main() {
+    // Define the PostgreSQL data source name (DSN)
+    dsn := "user=username password=password dbname=mydb sslmode=disable"
+
+    // Open a connection to the database
+    db, err := sql.Open("postgres", dsn)
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer db.Close()
+
+    // Ensure the connection is available
+    err = db.Ping()
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    // SQL statement to create a table with specific default values
+    createTableSQL := `
+    CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        username VARCHAR(50) NOT NULL DEFAULT 'guest',
+        email VARCHAR(100),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )`
+
+    // Execute the SQL statement
+    _, err = db.Exec(createTableSQL)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    fmt.Println("Table created successfully")
+}
+```
+
+### Explanation Recap
+
+- **Importing Packages**: `database/sql` and `github.com/lib/pq` for PostgreSQL.
+- **DSN Setup**: Configuring the Data Source Name with appropriate credentials.
+- **Opening Connection**: Establishing a connection to the PostgreSQL database.
+- **Creating the Table**: SQL command to create the `users` table with specific default values.
+- **Execution and Cleanup**: Executing the SQL statement and ensuring resources are properly closed with `defer`.
+
+This example covers the complete process of creating a table with specific default values in a PostgreSQL database using Go.

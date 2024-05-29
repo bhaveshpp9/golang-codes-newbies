@@ -1,1 +1,8 @@
 \\ work with database(DB) — SQL — Field data types — SQLite — Float Types
+
+
+DOUBLE, DOUBLE PRECISION, FLOAT are synonymous with REAL.
+Type list:
+
+Type	Bytes	Min Value	Max Value
+REAL	8	1E-307	1E+308

@@ -1,1 +1,63 @@
 \\ Algorithms — Sorting — Merge sort
+
+
+Merge sort is a highly efficient, comparison-based sorting algorithm that follows the divide-and-conquer approach. It divides the list into halves, recursively sorts each half, and then merges the sorted halves back together. Merge sort is particularly useful for sorting large datasets because it has a predictable performance of \(O(n \log n)\) in the worst, average, and best cases.
+
+Here’s an implementation of merge sort in Go:
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+// merge combines two halves into a sorted array
+func merge(left, right []int) []int {
+	sorted := make([]int, 0, len(left)+len(right))
+	i, j := 0, 0
+
+	// Traverse both slices and append the smaller element to the sorted slice
+	for i < len(left) && j < len(right) {
+		if left[i] <= right[j] {
+			sorted = append(sorted, left[i])
+			i++
+		} else {
+			sorted = append(sorted, right[j])
+			j++
+		}
+	}
+
+	// Append the remaining elements of left, if any
+	sorted = append(sorted, left[i:]...)
+
+	// Append the remaining elements of right, if any
+	sorted = append(sorted, right[j:]...)
+
+	return sorted
+}
+
+// mergeSort recursively sorts an array using merge sort algorithm
+func mergeSort(data []int) []int {
+	if len(data) < 2 {
+		return data
+	}
+	mid := len(data) / 2
+	return merge(mergeSort(data[:mid]), mergeSort(data[mid:]))
+}
+
+func main() {
+	data := []int{38, 27, 43, 3, 9, 82, 10}
+	fmt.Println("Original array:", data)
+	sortedData := mergeSort(data)
+	fmt.Println("Sorted array:", sortedData)
+}
+```
+
+### Explanation:
+- **Recursion**: The `mergeSort` function checks if the array length is less than 2 (either 1 or 0). If so, it returns the array as it is already sorted. If not, it splits the array into two halves and recursively calls itself for each half.
+- **Merge Function**: Once the base case is reached (arrays of length 1), the `merge` function takes over. It compares elements of two sorted arrays (`left` and `right`) and combines them into a single sorted array. It continues this process until the entire array is sorted.
+- **Combining Elements**: The `merge` function uses two pointers (`i` and `j`) to traverse the `left` and `right` slices, respectively. At each step, it appends the smaller of the two elements pointed to by the pointers to the `sorted` slice and moves the pointer forward in that slice.
+- **Remaining Elements**: After one of the slices is exhausted, any remaining elements in the other slice are appended directly to `sorted`.
+
+Merge sort is not an in-place sorting algorithm because it requires additional space proportional to the array being sorted. However, its stability and consistent \(O(n \log n)\) performance make it a preferred choice for many applications, especially those involving linked lists and large datasets where random access is more costly or limited.

@@ -1,1 +1,132 @@
 \\ Simple types.— Strings — Escaping characters
+
+
+In Go, escaping characters in strings is essential for including special characters such as newlines, tabs, quotes, and backslashes. You use escape sequences to represent these characters within a string literal.
+
+### Common Escape Sequences
+
+- `\n`: Newline
+- `\t`: Tab
+- `\"`: Double quote
+- `\'`: Single quote
+- `\\`: Backslash
+
+### Example: Using Escape Sequences in Strings
+
+Here’s an example demonstrating how to use escape sequences in strings.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Newline escape sequence
+    str1 := "Hello, World!\nWelcome to Go."
+
+    // Tab escape sequence
+    str2 := "Hello,\tWorld!"
+
+    // Double quote escape sequence
+    str3 := "She said, \"Hello, World!\""
+
+    // Single quote escape sequence
+    str4 := 'A'
+
+    // Backslash escape sequence
+    str5 := "C:\\Program Files\\Go"
+
+    // Print the strings
+    fmt.Println(str1)
+    fmt.Println(str2)
+    fmt.Println(str3)
+    fmt.Printf("Character: %c\n", str4)
+    fmt.Println(str5)
+}
+```
+
+### Explanation
+
+1. **Newline Escape Sequence**:
+   - `\n` inserts a newline character.
+   - The string `str1` contains "Hello, World!" followed by a newline and "Welcome to Go."
+
+2. **Tab Escape Sequence**:
+   - `\t` inserts a tab character.
+   - The string `str2` contains "Hello," followed by a tab and "World!"
+
+3. **Double Quote Escape Sequence**:
+   - `\"` allows you to include double quotes within a string.
+   - The string `str3` contains `She said, "Hello, World!"`
+
+4. **Single Quote Escape Sequence**:
+   - Single quotes are used for rune literals, not for string literals. Here, `str4` is a rune with the value 'A'.
+
+5. **Backslash Escape Sequence**:
+   - `\\` allows you to include a backslash within a string.
+   - The string `str5` represents a Windows file path `C:\Program Files\Go`.
+
+6. **Print the Strings**:
+   - We print the strings using `fmt.Println` and `fmt.Printf` for the rune.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Hello, World!
+Welcome to Go.
+Hello,    World!
+She said, "Hello, World!"
+Character: A
+C:\Program Files\Go
+```
+
+### Multi-line Strings
+
+For multi-line strings, you can use raw string literals enclosed in backticks `` ` ``. Raw string literals do not process escape sequences but preserve the string content exactly as written, including newlines and backslashes.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Multi-line string using raw string literal
+    str := `Hello, World!
+Welcome to Go.
+This is a multi-line string.`
+
+    // Print the multi-line string
+    fmt.Println(str)
+}
+```
+
+### Explanation
+
+1. **Multi-line String Using Raw String Literal**:
+   - Backticks `` ` `` enclose raw string literals.
+   - The string `str` contains multiple lines exactly as written.
+
+2. **Print the Multi-line String**:
+   - We print the multi-line string using `fmt.Println`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Hello, World!
+Welcome to Go.
+This is a multi-line string.
+```
+
+### Summary
+
+In Go, you can use escape sequences to include special characters in strings, such as newlines (`\n`), tabs (`\t`), quotes (`\"` and `\'`), and backslashes (`\\`). For multi-line strings or when you want to avoid escape sequences, you can use raw string literals enclosed in backticks. Understanding these methods allows you to handle strings effectively in your Go programs.

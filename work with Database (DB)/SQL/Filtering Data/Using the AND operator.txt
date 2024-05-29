@@ -1,1 +1,16 @@
 \\ work with database(DB) — SQL — Filtering Data — Using the AND operator
+
+
+SELECT Name, Population
+FROM country
+WHERE
+    Population > 100000000 AND
+    Continent <> 'Asia'
+
+Name	Population
+Brazil	170,115,000
+Nigeria	111,506,000
+Russian Federation	146,934,000
+United States	278,357,000
+
+AND keyword used in a WHERE clause to specify that only rows matching all the specified conditions should be retrieved.

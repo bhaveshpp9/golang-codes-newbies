@@ -1,1 +1,10 @@
 \\ work with database(DB) — SQL — Field data types — Access — Integer Types
+
+
+Type list
+
+Type	Bytes	Min Value	Max Value
+Byte	1	0	255
+Integer	2	-32,768	32,767
+Long	4	-2,147,483,648	2,147,483,647
+AutoNumber	4	1	4,294,967,295

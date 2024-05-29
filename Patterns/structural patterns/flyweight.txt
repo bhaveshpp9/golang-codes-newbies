@@ -1,1 +1,119 @@
 \\ Patterns — structural patterns — flyweight
+
+The Flyweight pattern is a structural design pattern that allows you to minimize memory usage or computational expenses by sharing as much data as possible with similar objects. It's particularly useful when dealing with a large number of similar objects that could otherwise consume a lot of memory.
+
+### Key Components
+
+1. **Flyweight**: The interface for flyweight objects, which declares methods that accept and act on extrinsic state.
+2. **Concrete Flyweight**: Implements the Flyweight interface and stores intrinsic state, which is shared.
+3. **Flyweight Factory**: Creates and manages flyweight objects, ensuring that shared objects are reused.
+4. **Client**: Maintains references to flyweights and computes or stores extrinsic state.
+
+### Example: Text Formatting
+
+Let's create an example where we have a text editor that formats characters with different styles. Using the Flyweight pattern, we will minimize the memory usage by sharing common styles among characters.
+
+#### Flyweight
+
+```go
+package main
+
+// Character is the Flyweight interface
+type Character interface {
+    Render(style string)
+}
+```
+
+#### Concrete Flyweight
+
+```go
+package main
+
+import "fmt"
+
+// ConcreteCharacter is a concrete implementation of the Character interface
+type ConcreteCharacter struct {
+    symbol string
+}
+
+func (c *ConcreteCharacter) Render(style string) {
+    fmt.Printf("Character: %s, Style: %s\n", c.symbol, style)
+}
+```
+
+#### Flyweight Factory
+
+```go
+package main
+
+// CharacterFactory creates and manages flyweight characters
+type CharacterFactory struct {
+    characters map[string]*ConcreteCharacter
+}
+
+func NewCharacterFactory() *CharacterFactory {
+    return &CharacterFactory{
+        characters: make(map[string]*ConcreteCharacter),
+    }
+}
+
+func (f *CharacterFactory) GetCharacter(symbol string) *ConcreteCharacter {
+    if character, exists := f.characters[symbol]; exists {
+        return character
+    }
+    character := &ConcreteCharacter{symbol: symbol}
+    f.characters[symbol] = character
+    return character
+}
+```
+
+#### Client
+
+```go
+package main
+
+func main() {
+    factory := NewCharacterFactory()
+
+    // Create and render characters with different styles
+    characterA := factory.GetCharacter("A")
+    characterA.Render("Bold")
+
+    characterB := factory.GetCharacter("B")
+    characterB.Render("Italic")
+
+    // Reuse the same character object with a different style
+    anotherCharacterA := factory.GetCharacter("A")
+    anotherCharacterA.Render("Underline")
+
+    // Verify that the reused character is indeed the same object
+    if characterA == anotherCharacterA {
+        fmt.Println("Character A instances are the same object")
+    }
+}
+```
+
+### Explanation
+
+1. **Flyweight**: The `Character` interface declares the `Render` method that accepts a style (extrinsic state).
+2. **Concrete Flyweight**:
+   - `ConcreteCharacter` implements the `Character` interface and stores the intrinsic state (`symbol`).
+   - The `Render` method uses both the intrinsic state (`symbol`) and the extrinsic state (`style`).
+3. **Flyweight Factory**:
+   - The `CharacterFactory` manages a pool of `ConcreteCharacter` objects.
+   - The `GetCharacter` method returns an existing `ConcreteCharacter` if it exists, or creates and returns a new one if it doesn't.
+4. **Client**:
+   - The client code requests characters from the `CharacterFactory` and renders them with different styles.
+   - It demonstrates reuse by requesting the same character multiple times and rendering it with different styles.
+
+### Advantages
+
+- **Reduced Memory Usage**: The Flyweight pattern reduces memory usage by sharing common parts of the object state among multiple objects.
+- **Increased Performance**: Reducing the number of objects can improve performance by minimizing memory allocation and garbage collection.
+
+### Disadvantages
+
+- **Complexity**: The pattern introduces complexity in managing shared and non-shared state.
+- **Trade-offs**: May not be suitable if the shared state is minimal or if the objects are not similar enough to benefit from sharing.
+
+By using the Flyweight pattern, you can significantly reduce memory usage and improve performance in scenarios where you need to manage a large number of similar objects. This pattern is particularly useful in graphical applications, text editors, or any system where many objects share common properties.

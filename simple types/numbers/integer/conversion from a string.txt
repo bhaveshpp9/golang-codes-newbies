@@ -1,1 +1,203 @@
 \\ Simple types.— Numbers — integer — conversion from a string
+
+In Go, you can convert a string to an integer using the `strconv` package, which provides functions like `strconv.Atoi` and `strconv.ParseInt`. These functions allow you to convert strings to various integer types (`int`, `int8`, `int16`, `int32`, `int64`, `uint8`, `uint16`, `uint32`, `uint64`).
+
+### Example: Converting a String to an Integer Using `strconv.Atoi`
+
+The `strconv.Atoi` function converts a string to an `int`. It is suitable for converting simple decimal strings to `int`.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "strconv"
+)
+
+func main() {
+    // Define a string representing an integer
+    str := "12345"
+
+    // Convert the string to an int
+    intValue, err := strconv.Atoi(str)
+    if err != nil {
+        fmt.Println("Error converting string to int:", err)
+        return
+    }
+
+    // Print the int value
+    fmt.Printf("Converted value: %d\n", intValue)
+}
+```
+
+### Explanation
+
+1. **Define a String**:
+   - We define a string `str` representing an integer, "12345".
+
+2. **Convert the String to `int`**:
+   - We use `strconv.Atoi(str)` to convert the string to an `int`. The function returns the converted integer and an error.
+
+3. **Error Handling**:
+   - If the conversion fails, `strconv.Atoi` returns an error, which we handle by printing an error message.
+
+4. **Print the `int` Value**:
+   - We print the converted `int` value using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Converted value: 12345
+```
+
+### Example: Converting a String to Various Integer Types Using `strconv.ParseInt`
+
+The `strconv.ParseInt` function converts a string to an integer of a specified bit size and base. It is suitable for converting strings to various integer types and for handling different bases (e.g., binary, octal, decimal, hexadecimal).
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "strconv"
+)
+
+func main() {
+    // Define a string representing an integer
+    str := "12345"
+
+    // Convert the string to int64
+    int64Value, err := strconv.ParseInt(str, 10, 64)
+    if err != nil {
+        fmt.Println("Error converting string to int64:", err)
+        return
+    }
+    fmt.Printf("Converted value to int64: %d\n", int64Value)
+
+    // Convert the string to int32
+    int32Value, err := strconv.ParseInt(str, 10, 32)
+    if err != nil {
+        fmt.Println("Error converting string to int32:", err)
+        return
+    }
+    fmt.Printf("Converted value to int32: %d\n", int32(int32Value))
+
+    // Convert the string to int8
+    int8Value, err := strconv.ParseInt(str, 10, 8)
+    if err != nil {
+        fmt.Println("Error converting string to int8:", err)
+        return
+    }
+    fmt.Printf("Converted value to int8: %d\n", int8(int8Value))
+}
+```
+
+### Explanation
+
+1. **Define a String**:
+   - We define a string `str` representing an integer, "12345".
+
+2. **Convert the String to `int64`**:
+   - We use `strconv.ParseInt(str, 10, 64)` to convert the string to an `int64`. The first parameter is the string to be converted, the second parameter is the base (10 for decimal), and the third parameter is the bit size (64 for `int64`).
+
+3. **Error Handling**:
+   - If the conversion fails, `strconv.ParseInt` returns an error, which we handle by printing an error message.
+
+4. **Convert the String to `int32`**:
+   - We use `strconv.ParseInt(str, 10, 32)` to convert the string to an `int32` and cast the result to `int32`.
+
+5. **Convert the String to `int8`**:
+   - We use `strconv.ParseInt(str, 10, 8)` to convert the string to an `int8` and cast the result to `int8`.
+
+6. **Print the Converted Values**:
+   - We print the converted values using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Converted value to int64: 12345
+Converted value to int32: 12345
+Converted value to int8: 57
+```
+
+### Example: Converting Strings with Different Bases
+
+You can also use `strconv.ParseInt` to convert strings representing numbers in different bases (binary, octal, hexadecimal).
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "strconv"
+)
+
+func main() {
+    // Define strings representing integers in different bases
+    binaryStr := "1101"
+    octalStr := "17"
+    hexStr := "1A"
+
+    // Convert binary string to int64
+    binaryValue, err := strconv.ParseInt(binaryStr, 2, 64)
+    if err != nil {
+        fmt.Println("Error converting binary string to int64:", err)
+        return
+    }
+    fmt.Printf("Binary string '%s' converted to int64: %d\n", binaryStr, binaryValue)
+
+    // Convert octal string to int64
+    octalValue, err := strconv.ParseInt(octalStr, 8, 64)
+    if err != nil {
+        fmt.Println("Error converting octal string to int64:", err)
+        return
+    }
+    fmt.Printf("Octal string '%s' converted to int64: %d\n", octalStr, octalValue)
+
+    // Convert hexadecimal string to int64
+    hexValue, err := strconv.ParseInt(hexStr, 16, 64)
+    if err != nil {
+        fmt.Println("Error converting hexadecimal string to int64:", err)
+        return
+    }
+    fmt.Printf("Hexadecimal string '%s' converted to int64: %d\n", hexStr, hexValue)
+}
+```
+
+### Explanation
+
+1. **Define Strings Representing Integers in Different Bases**:
+   - We define strings `binaryStr`, `octalStr`, and `hexStr` representing integers in binary, octal, and hexadecimal bases, respectively.
+
+2. **Convert Binary String to `int64`**:
+   - We use `strconv.ParseInt(binaryStr, 2, 64)` to convert the binary string to an `int64`.
+
+3. **Convert Octal String to `int64`**:
+   - We use `strconv.ParseInt(octalStr, 8, 64)` to convert the octal string to an `int64`.
+
+4. **Convert Hexadecimal String to `int64`**:
+   - We use `strconv.ParseInt(hexStr, 16, 64)` to convert the hexadecimal string to an `int64`.
+
+5. **Print the Converted Values**:
+   - We print the converted values using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Binary string '1101' converted to int64: 13
+Octal string '17' converted to int64: 15
+Hexadecimal string '1A' converted to int64: 26
+```
+
+### Summary
+
+In Go, you can convert strings to integers using the `strconv.Atoi` function for simple decimal strings and the `strconv.ParseInt` function for more flexible conversions, including different integer types and bases. By understanding and using these conversion functions, you can effectively handle string-to-integer conversions in your Go programs.

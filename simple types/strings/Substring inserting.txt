@@ -1,1 +1,151 @@
 \\ Simple types.— Strings — Substring inserting
+
+In Go, inserting a substring into an existing string involves creating a new string by combining the parts of the original string with the substring to be inserted. Since strings in Go are immutable (they cannot be changed after creation), you need to construct a new string for this purpose.
+
+Here’s how you can insert a substring into a string at a specific index:
+
+### Example: Inserting a Substring
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func insertSubstring(original string, substr string, index int) string {
+    // Ensure the index is within the valid range
+    if index < 0 || index > len(original) {
+        return original // Or handle the error as needed
+    }
+    // Construct the new string with the substring inserted
+    return original[:index] + substr + original[index:]
+}
+
+func main() {
+    // Define the original string and the substring to be inserted
+    original := "Hello, World!"
+    substr := " Go"
+    index := 7
+
+    // Insert the substring
+    result := insertSubstring(original, substr, index)
+
+    // Print the result
+    fmt.Printf("Original string: '%s'\n", original)
+    fmt.Printf("Substring to insert: '%s'\n", substr)
+    fmt.Printf("Index: %d\n", index)
+    fmt.Printf("Resulting string: '%s'\n", result)
+}
+```
+
+### Explanation
+
+1. **Define the `insertSubstring` Function**:
+   - The function `insertSubstring` takes three parameters: the original string, the substring to be inserted, and the index at which to insert the substring.
+   - It checks if the index is within the valid range (0 to the length of the original string). If the index is out of range, it returns the original string or handles the error as needed.
+   - It constructs the new string by concatenating the part of the original string before the index, the substring, and the part of the original string after the index.
+
+2. **Define the Original String and Substring**:
+   - We define an original string `original` with the value "Hello, World!".
+   - We define a substring `substr` with the value " Go".
+
+3. **Specify the Index for Insertion**:
+   - We specify the index `index` with the value `7`, where the substring will be inserted.
+
+4. **Insert the Substring**:
+   - We call `insertSubstring(original, substr, index)` to insert the substring at the specified index.
+
+5. **Print the Result**:
+   - We print the original string, the substring, the index, and the resulting string using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Original string: 'Hello, World!'
+Substring to insert: ' Go'
+Index: 7
+Resulting string: 'Hello, Go World!'
+```
+
+### Inserting Substring with Unicode Characters
+
+When dealing with strings containing Unicode characters, it is important to handle them as runes to avoid splitting multi-byte characters. Here’s an example demonstrating how to insert a substring into a string with Unicode characters:
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func insertSubstringUnicode(original string, substr string, index int) string {
+    // Convert the original string and substring to rune slices
+    originalRunes := []rune(original)
+    substrRunes := []rune(substr)
+
+    // Ensure the index is within the valid range
+    if index < 0 || index > len(originalRunes) {
+        return original // Or handle the error as needed
+    }
+
+    // Construct the new string with the substring inserted
+    return string(originalRunes[:index]) + string(substrRunes) + string(originalRunes[index:])
+}
+
+func main() {
+    // Define the original string and the substring to be inserted
+    original := "こんにちは世界"
+    substr := " Go"
+    index := 5
+
+    // Insert the substring
+    result := insertSubstringUnicode(original, substr, index)
+
+    // Print the result
+    fmt.Printf("Original string: '%s'\n", original)
+    fmt.Printf("Substring to insert: '%s'\n", substr)
+    fmt.Printf("Index: %d\n", index)
+    fmt.Printf("Resulting string: '%s'\n", result)
+}
+```
+
+### Explanation
+
+1. **Define the `insertSubstringUnicode` Function**:
+   - The function `insertSubstringUnicode` takes three parameters: the original string, the substring to be inserted, and the index at which to insert the substring.
+   - It converts the original string and the substring to rune slices to handle Unicode characters properly.
+   - It checks if the index is within the valid range (0 to the length of the rune slice of the original string). If the index is out of range, it returns the original string or handles the error as needed.
+   - It constructs the new string by concatenating the part of the original rune slice before the index, the substring as a rune slice, and the part of the original rune slice after the index.
+
+2. **Define the Original String and Substring**:
+   - We define an original string `original` with the value "こんにちは世界" ("Hello, World!" in Japanese).
+   - We define a substring `substr` with the value " Go".
+
+3. **Specify the Index for Insertion**:
+   - We specify the index `index` with the value `5`, where the substring will be inserted.
+
+4. **Insert the Substring**:
+   - We call `insertSubstringUnicode(original, substr, index)` to insert the substring at the specified index.
+
+5. **Print the Result**:
+   - We print the original string, the substring, the index, and the resulting string using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Original string: 'こんにちは世界'
+Substring to insert: ' Go'
+Index: 5
+Resulting string: 'こんにちは Go世界'
+```
+
+### Summary
+
+In Go, you can insert a substring into a string by creating a new string that combines the parts of the original string with the substring. When dealing with Unicode characters, it is important to handle them as runes to avoid splitting multi-byte characters. The examples provided demonstrate how to perform substring insertion for both ASCII and Unicode strings, ensuring correct and efficient handling of various string types in your Go programs.

@@ -1,1 +1,112 @@
 \\ Reflection — Call of methods and properties
+
+
+In Go, reflection is a powerful feature that allows a program to inspect and manipulate its own structure and behavior at runtime. The `reflect` package in Go provides the necessary tools to achieve this. With reflection, you can dynamically call methods and access properties of objects.
+
+### Key Concepts in Reflection
+
+1. **Type and Value**: The `reflect` package provides two main types: `Type` and `Value`. `Type` represents the type of a variable, and `Value` represents the value of a variable.
+2. **StructField and Method**: You can use reflection to inspect struct fields and methods.
+3. **Calling Methods**: You can call methods dynamically using reflection.
+4. **Accessing Properties**: You can access and modify struct fields dynamically using reflection.
+
+### Example: Reflection to Call Methods and Access Properties
+
+Let's create an example where we define a struct with some properties and methods. We'll use reflection to dynamically call the methods and access the properties.
+
+#### Defining the Struct
+
+```go
+package main
+
+import (
+    "fmt"
+    "reflect"
+)
+
+type Person struct {
+    Name string
+    Age  int
+}
+
+func (p Person) Greet() {
+    fmt.Printf("Hello, my name is %s.\n", p.Name)
+}
+
+func (p *Person) SetName(name string) {
+    p.Name = name
+}
+
+func (p Person) GetAge() int {
+    return p.Age
+}
+```
+
+#### Using Reflection
+
+```go
+package main
+
+func main() {
+    // Create an instance of Person
+    person := Person{Name: "Alice", Age: 30}
+
+    // Get the reflection object
+    personValue := reflect.ValueOf(person)
+    personType := reflect.TypeOf(person)
+
+    // Call the Greet method
+    greetMethod := personValue.MethodByName("Greet")
+    if greetMethod.IsValid() {
+        greetMethod.Call(nil) // Output: Hello, my name is Alice.
+    }
+
+    // Call the SetName method
+    setNameMethod := reflect.ValueOf(&person).MethodByName("SetName")
+    if setNameMethod.IsValid() {
+        setNameMethod.Call([]reflect.Value{reflect.ValueOf("Bob")})
+    }
+
+    // Access the Name property
+    nameField := personValue.FieldByName("Name")
+    if nameField.IsValid() && nameField.CanSet() {
+        fmt.Println("Name:", nameField.String()) // Output: Name: Bob
+    }
+
+    // Access the Age property
+    ageField := personValue.FieldByName("Age")
+    if ageField.IsValid() {
+        fmt.Println("Age:", ageField.Int()) // Output: Age: 30
+    }
+
+    // Call the GetAge method and get the return value
+    getAgeMethod := personValue.MethodByName("GetAge")
+    if getAgeMethod.IsValid() {
+        results := getAgeMethod.Call(nil)
+        if len(results) > 0 {
+            fmt.Println("Age from GetAge:", results[0].Int()) // Output: Age from GetAge: 30
+        }
+    }
+}
+```
+
+### Explanation
+
+1. **Creating an Instance**: We create an instance of `Person`.
+2. **Getting Reflection Objects**: We use `reflect.ValueOf` and `reflect.TypeOf` to get the reflection objects for the instance.
+3. **Calling Methods**:
+   - `MethodByName("Greet")` retrieves the `Greet` method. We call it using `Call(nil)`.
+   - `MethodByName("SetName")` retrieves the `SetName` method. We call it using `Call([]reflect.Value{reflect.ValueOf("Bob")})`.
+4. **Accessing Properties**:
+   - `FieldByName("Name")` retrieves the `Name` field. We access its value using `String()`.
+   - `FieldByName("Age")` retrieves the `Age` field. We access its value using `Int()`.
+5. **Calling Methods with Return Values**:
+   - `MethodByName("GetAge")` retrieves the `GetAge` method. We call it and get the return value.
+
+### Notes on Reflection
+
+- **CanSet**: To modify the value of a field, it must be addressable and settable, which is why we often need to pass a pointer to the struct when using reflection.
+- **MethodByName and FieldByName**: These methods retrieve the method or field by name. If the method or field does not exist, they return invalid values, so always check with `IsValid()` before calling or accessing.
+- **Performance**: Reflection is powerful but comes with a performance cost. Use it judiciously.
+
+By understanding and using reflection, you can dynamically interact with objects in Go, making your code more flexible and adaptable to various runtime conditions.

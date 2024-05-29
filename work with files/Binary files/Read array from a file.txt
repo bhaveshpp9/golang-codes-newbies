@@ -1,1 +1,128 @@
 \\ work with files — Binary files — Read array from a file
+
+
+To read an array from a binary file in Go, you can use the `os` and `encoding/binary` packages. The `os` package provides functions for file operations, and the `encoding/binary` package provides functions for reading and writing binary data.
+
+### Example: Reading an Array from a Binary File
+
+Let's create an example where we read an array of integers from a binary file.
+
+#### Step 1: Import Necessary Packages
+
+First, import the necessary packages.
+
+```go
+package main
+
+import (
+    "encoding/binary"
+    "fmt"
+    "os"
+)
+```
+
+#### Step 2: Define the Function to Read an Array from a Binary File
+
+Create a function that takes a file path as input and reads an array of integers from the binary file.
+
+```go
+// Function to read an array of integers from a binary file
+func readArrayFromBinaryFile(filePath string) ([]int32, error) {
+    // Open the file for reading
+    file, err := os.Open(filePath)
+    if err != nil {
+        return nil, err
+    }
+    defer file.Close()
+
+    // Get the file size
+    fileInfo, err := file.Stat()
+    if err != nil {
+        return nil, err
+    }
+    fileSize := fileInfo.Size()
+
+    // Create a buffer to hold the file data
+    buffer := make([]byte, fileSize)
+
+    // Read the file data into the buffer
+    _, err = file.Read(buffer)
+    if err != nil {
+        return nil, err
+    }
+
+    // Calculate the number of integers
+    numInts := fileSize / 4 // Assuming int32 (4 bytes each)
+
+    // Create a slice to hold the integers
+    intArray := make([]int32, numInts)
+
+    // Read the integers from the buffer
+    err = binary.Read(file, binary.LittleEndian, &intArray)
+    if err != nil {
+        return nil, err
+    }
+
+    return intArray, nil
+}
+```
+
+#### Step 3: Use the Function
+
+Finally, use the `readArrayFromBinaryFile` function in the `main` function to read an array from a binary file.
+
+```go
+func main() {
+    // File path to read from
+    filePath := "example.bin"
+
+    // Read the array from the binary file
+    intArray, err := readArrayFromBinaryFile(filePath)
+    if err != nil {
+        fmt.Printf("Failed to read array from binary file: %v\n", err)
+        return
+    }
+
+    // Print the array
+    fmt.Println("Array read from binary file:")
+    for _, num := range intArray {
+        fmt.Println(num)
+    }
+}
+```
+
+### Explanation
+
+1. **Import Necessary Packages**:
+   - The `os` package is used for file operations.
+   - The `encoding/binary` package is used for reading binary data.
+
+2. **Define the `readArrayFromBinaryFile` Function**:
+   - The function takes a file path as input.
+   - It opens the file for reading using `os.Open`.
+   - It retrieves the file size using `file.Stat`.
+   - It reads the file data into a buffer.
+   - It calculates the number of integers in the file (assuming `int32` integers, which are 4 bytes each).
+   - It creates a slice to hold the integers.
+   - It uses `binary.Read` to read the integers from the buffer into the slice.
+
+3. **Use the Function in `main`**:
+   - In `main`, the path for the binary file is defined.
+   - The `readArrayFromBinaryFile` function is called to read the array from the binary file, and the result is printed.
+
+### Detailed Output
+
+The program will read an array of integers from `example.bin` and print the results. For example:
+
+```
+Array read from binary file:
+1
+2
+3
+4
+5
+```
+
+### Summary
+
+In Go, you can read an array from a binary file using the `os` and `encoding/binary` packages. By defining a function to handle binary file reading and using the `binary.Read` function, you can efficiently read binary data into an array. This approach is useful for tasks such as reading serialized data, processing binary file formats, and handling low-level file I/O operations.

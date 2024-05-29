@@ -1,1 +1,20 @@
 \\ work with database(DB) — SQL — Filtering Data — Checking for Non matches
+
+
+SELECT Name, Population
+FROM country
+WHERE Continent <> 'Europe'
+
+Name	Population
+Aruba	103,000
+Afghanistan	22,720,000
+Angola	12,878,000
+Anguilla	8,000
+Netherlands Antilles	217,000
+United Arab Emirates	2,441,000
+Argentina	37,032,000
+Armenia	3,520,000
+American Samoa	68,000
+...
+
+All countries that are not in Europe are selected.

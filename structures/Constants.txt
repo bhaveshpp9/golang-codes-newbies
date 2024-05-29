@@ -1,1 +1,186 @@
 \\ Structures — Constants
+
+
+In Go, constants are immutable values that are known at compile time and do not change during the execution of a program. Constants can be defined for simple data types such as strings, integers, floats, and booleans. While structs themselves cannot be constants, you can define constant fields within a struct and use those fields to create constant-like behavior.
+
+### Defining Constants
+
+You can define constants using the `const` keyword.
+
+#### Example: Basic Constants
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+const (
+    Pi       = 3.14159
+    Language = "Go"
+)
+
+func main() {
+    fmt.Println("Pi:", Pi)
+    fmt.Println("Programming Language:", Language)
+}
+```
+
+### Explanation
+
+1. **Define Constants**:
+   - `Pi` and `Language` are defined using the `const` keyword.
+
+2. **Print Constants**:
+   - The constants are printed in the `main` function.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Pi: 3.14159
+Programming Language: Go
+```
+
+### Structs with Constant-like Behavior
+
+While you cannot define a struct as a constant, you can define a struct with fields that hold constant values. This is useful for creating predefined configurations or settings that do not change.
+
+#### Example: Struct with Constant-like Fields
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define the Person struct
+type Person struct {
+    FirstName string
+    LastName  string
+    Age       int
+}
+
+// Define constant values
+const (
+    DefaultFirstName = "John"
+    DefaultLastName  = "Doe"
+    DefaultAge       = 30
+)
+
+// Constructor function to create a Person with default values
+func NewPerson() Person {
+    return Person{
+        FirstName: DefaultFirstName,
+        LastName:  DefaultLastName,
+        Age:       DefaultAge,
+    }
+}
+
+func main() {
+    // Create a new Person instance with default values
+    defaultPerson := NewPerson()
+
+    // Print the Person instance
+    fmt.Printf("Default Person: %+v\n", defaultPerson)
+}
+```
+
+### Explanation
+
+1. **Define the `Person` Struct**:
+   - The `Person` struct has three fields: `FirstName`, `LastName`, and `Age`.
+
+2. **Define Constants for Default Values**:
+   - `DefaultFirstName`, `DefaultLastName`, and `DefaultAge` are defined using the `const` keyword.
+
+3. **Constructor Function**:
+   - `NewPerson` is a constructor function that returns a `Person` instance initialized with the default constant values.
+
+4. **Create a Default `Person` Instance**:
+   - We create a `Person` instance using the `NewPerson` function.
+
+5. **Print the Default `Person` Instance**:
+   - The default `Person` instance is printed in the `main` function.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Default Person: {FirstName:John LastName:Doe Age:30}
+```
+
+### Structs with Embedded Constants
+
+You can also embed constant values directly into a struct by using constant fields, though these constants are not enforced by the language as part of the struct definition. Instead, you can create a struct instance with constant values in a constructor.
+
+#### Example: Embedding Constants in a Struct
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define the Configuration struct
+type Configuration struct {
+    Server     string
+    Port       int
+    MaxRetries int
+}
+
+// Define constant values
+const (
+    DefaultServer     = "localhost"
+    DefaultPort       = 8080
+    DefaultMaxRetries = 3
+)
+
+// Constructor function to create a Configuration with default values
+func NewConfiguration() Configuration {
+    return Configuration{
+        Server:     DefaultServer,
+        Port:       DefaultPort,
+        MaxRetries: DefaultMaxRetries,
+    }
+}
+
+func main() {
+    // Create a new Configuration instance with default values
+    config := NewConfiguration()
+
+    // Print the Configuration instance
+    fmt.Printf("Configuration: %+v\n", config)
+}
+```
+
+### Explanation
+
+1. **Define the `Configuration` Struct**:
+   - The `Configuration` struct has three fields: `Server`, `Port`, and `MaxRetries`.
+
+2. **Define Constants for Default Values**:
+   - `DefaultServer`, `DefaultPort`, and `DefaultMaxRetries` are defined using the `const` keyword.
+
+3. **Constructor Function**:
+   - `NewConfiguration` is a constructor function that returns a `Configuration` instance initialized with the default constant values.
+
+4. **Create a Default `Configuration` Instance**:
+   - We create a `Configuration` instance using the `NewConfiguration` function.
+
+5. **Print the Default `Configuration` Instance**:
+   - The default `Configuration` instance is printed in the `main` function.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Configuration: {Server:localhost Port:8080 MaxRetries:3}
+```
+
+### Summary
+
+In Go, while you cannot define an entire struct as a constant, you can define constants for values that will be used in struct fields. By using constructor functions, you can create instances of structs that are initialized with these constant values. This approach allows you to maintain a clear and consistent set of default values throughout your code, promoting readability and maintainability.

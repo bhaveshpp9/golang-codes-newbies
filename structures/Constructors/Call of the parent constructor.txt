@@ -1,1 +1,99 @@
 \\ Structures — Constructors — Call of the parent constructor
+
+
+In Go, you don't have traditional inheritance with parent and child classes like in object-oriented languages such as Java or C++. Instead, Go uses composition to build complex types from simpler ones. However, you can simulate the idea of calling a "parent constructor" by using composition and ensuring that the common initialization logic is reused in your constructor functions.
+
+### Example: Simulating Parent Constructor Call with Composition
+
+Let's consider an example where we have a `Person` struct that serves as a base type and an `Employee` struct that embeds `Person` and adds additional fields.
+
+#### Step 1: Define the Base Struct
+
+First, define the `Person` struct with a constructor function.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define the Person struct
+type Person struct {
+    FirstName string
+    LastName  string
+    Age       int
+}
+
+// Constructor function for Person
+func NewPerson(firstName, lastName string, age int) Person {
+    return Person{
+        FirstName: firstName,
+        LastName:  lastName,
+        Age:       age,
+    }
+}
+```
+
+#### Step 2: Define the Composed Struct
+
+Next, define the `Employee` struct that embeds `Person` and adds additional fields. The constructor function for `Employee` will call the constructor function for `Person`.
+
+```go
+// Define the Employee struct with an embedded Person
+type Employee struct {
+    Person
+    EmployeeID int
+    Position   string
+}
+
+// Constructor function for Employee
+func NewEmployee(firstName, lastName string, age, employeeID int, position string) Employee {
+    return Employee{
+        Person:     NewPerson(firstName, lastName, age), // Call to the "parent constructor"
+        EmployeeID: employeeID,
+        Position:   position,
+    }
+}
+```
+
+#### Step 3: Use the Constructor Functions
+
+Finally, use the constructor functions in the `main` function.
+
+```go
+func main() {
+    // Create a Person using the Person constructor
+    person := NewPerson("John", "Doe", 30)
+    fmt.Printf("Person: %+v\n", person)
+
+    // Create an Employee using the Employee constructor
+    employee := NewEmployee("Alice", "Smith", 25, 1234, "Software Engineer")
+    fmt.Printf("Employee: %+v\n", employee)
+}
+```
+
+### Explanation
+
+1. **Define the `Person` Struct and Constructor**:
+   - The `Person` struct has three fields: `FirstName`, `LastName`, and `Age`.
+   - The `NewPerson` constructor function initializes and returns a new `Person` instance.
+
+2. **Define the `Employee` Struct and Constructor**:
+   - The `Employee` struct embeds the `Person` struct and adds `EmployeeID` and `Position` fields.
+   - The `NewEmployee` constructor function calls `NewPerson` to initialize the embedded `Person` fields and then initializes the `Employee` specific fields.
+
+3. **Use the Constructor Functions**:
+   - In `main`, a `Person` instance and an `Employee` instance are created using their respective constructor functions and printed.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Person: {FirstName:John LastName:Doe Age:30}
+Employee: {Person:{FirstName:Alice LastName:Smith Age:25} EmployeeID:1234 Position:Software Engineer}
+```
+
+### Summary
+
+In Go, while there is no concept of traditional inheritance, you can simulate a parent constructor call using composition and embedding. By defining constructor functions that initialize embedded structs, you can achieve a similar effect to calling a parent constructor. This approach promotes code reuse and helps you build complex types from simpler ones in a clear and maintainable way.

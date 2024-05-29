@@ -1,1 +1,13 @@
 \\ work with database(DB) — SQL — Retrieving Data — Limiting Results — DB2
+
+
+SELECT Name
+FROM country
+FETCH FIRST 5 ROWS ONLY
+
+Name
+Andorra
+Netherlands Antilles
+United Arab Emirates
+Argentina
+Armenia

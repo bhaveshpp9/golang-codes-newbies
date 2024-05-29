@@ -1,1 +1,203 @@
-\\ Patterns — creational patterns — bilder
+\\ Patterns — creational patterns — builder
+
+The Builder pattern is a creational design pattern that allows for the step-by-step construction of complex objects. It separates the construction of a complex object from its representation, enabling the same construction process to create various representations.
+
+### Key Components
+
+1. **Builder Interface**: Specifies an abstract interface for creating parts of a Product object.
+2. **Concrete Builder**: Provides implementation for the Builder interface and constructs and assembles parts of the product.
+3. **Product**: Represents the complex object under construction.
+4. **Director**: Constructs an object using the Builder interface.
+5. **Client**: Uses the Director and Builder to create an object.
+
+### Example: Building a House
+
+Let's create an example where we build different types of houses using the Builder pattern.
+
+#### Product
+
+```go
+package main
+
+import "fmt"
+
+// House represents the complex object under construction
+type House struct {
+    Foundation string
+    Walls      string
+    Roof       string
+    Doors      int
+    Windows    int
+    Garage     bool
+    SwimmingPool bool
+}
+
+func (h *House) Display() {
+    fmt.Printf("House with %s foundation, %s walls, %s roof, %d doors, %d windows, Garage: %t, Swimming Pool: %t\n",
+        h.Foundation, h.Walls, h.Roof, h.Doors, h.Windows, h.Garage, h.SwimmingPool)
+}
+```
+
+#### Builder Interface
+
+```go
+package main
+
+// HouseBuilder interface specifies methods for creating parts of the House object
+type HouseBuilder interface {
+    SetFoundation(foundation string) HouseBuilder
+    SetWalls(walls string) HouseBuilder
+    SetRoof(roof string) HouseBuilder
+    SetDoors(doors int) HouseBuilder
+    SetWindows(windows int) HouseBuilder
+    SetGarage(garage bool) HouseBuilder
+    SetSwimmingPool(swimmingPool bool) HouseBuilder
+    Build() House
+}
+```
+
+#### Concrete Builder
+
+```go
+package main
+
+// ConcreteHouseBuilder provides implementation for the HouseBuilder interface
+type ConcreteHouseBuilder struct {
+    foundation   string
+    walls        string
+    roof         string
+    doors        int
+    windows      int
+    garage       bool
+    swimmingPool bool
+}
+
+func NewConcreteHouseBuilder() *ConcreteHouseBuilder {
+    return &ConcreteHouseBuilder{}
+}
+
+func (b *ConcreteHouseBuilder) SetFoundation(foundation string) HouseBuilder {
+    b.foundation = foundation
+    return b
+}
+
+func (b *ConcreteHouseBuilder) SetWalls(walls string) HouseBuilder {
+    b.walls = walls
+    return b
+}
+
+func (b *ConcreteHouseBuilder) SetRoof(roof string) HouseBuilder {
+    b.roof = roof
+    return b
+}
+
+func (b *ConcreteHouseBuilder) SetDoors(doors int) HouseBuilder {
+    b.doors = doors
+    return b
+}
+
+func (b *ConcreteHouseBuilder) SetWindows(windows int) HouseBuilder {
+    b.windows = windows
+    return b
+}
+
+func (b *ConcreteHouseBuilder) SetGarage(garage bool) HouseBuilder {
+    b.garage = garage
+    return b
+}
+
+func (b *ConcreteHouseBuilder) SetSwimmingPool(swimmingPool bool) HouseBuilder {
+    b.swimmingPool = swimmingPool
+    return b
+}
+
+func (b *ConcreteHouseBuilder) Build() House {
+    return House{
+        Foundation:   b.foundation,
+        Walls:        b.walls,
+        Roof:         b.roof,
+        Doors:        b.doors,
+        Windows:      b.windows,
+        Garage:       b.garage,
+        SwimmingPool: b.swimmingPool,
+    }
+}
+```
+
+#### Director
+
+```go
+package main
+
+// Director constructs an object using the Builder interface
+type Director struct {
+    builder HouseBuilder
+}
+
+func NewDirector(builder HouseBuilder) *Director {
+    return &Director{builder: builder}
+}
+
+func (d *Director) ConstructLuxuryHouse() House {
+    return d.builder.SetFoundation("Concrete").
+        SetWalls("Brick").
+        SetRoof("Tile").
+        SetDoors(10).
+        SetWindows(20).
+        SetGarage(true).
+        SetSwimmingPool(true).
+        Build()
+}
+
+func (d *Director) ConstructSimpleHouse() House {
+    return d.builder.SetFoundation("Concrete").
+        SetWalls("Wood").
+        SetRoof("Shingle").
+        SetDoors(5).
+        SetWindows(10).
+        SetGarage(false).
+        SetSwimmingPool(false).
+        Build()
+}
+```
+
+#### Client
+
+```go
+package main
+
+func main() {
+    builder := NewConcreteHouseBuilder()
+    director := NewDirector(builder)
+
+    luxuryHouse := director.ConstructLuxuryHouse()
+    simpleHouse := director.ConstructSimpleHouse()
+
+    luxuryHouse.Display() // Output: House with Concrete foundation, Brick walls, Tile roof, 10 doors, 20 windows, Garage: true, Swimming Pool: true
+    simpleHouse.Display() // Output: House with Concrete foundation, Wood walls, Shingle roof, 5 doors, 10 windows, Garage: false, Swimming Pool: false
+}
+```
+
+### Explanation
+
+1. **Product**: The `House` struct represents the complex object being built.
+2. **Builder Interface**: The `HouseBuilder` interface defines methods for setting different parts of the `House` object.
+3. **Concrete Builder**: The `ConcreteHouseBuilder` struct implements the `HouseBuilder` interface and provides methods to configure the house.
+   - Methods like `SetFoundation`, `SetWalls`, `SetRoof`, `SetDoors`, `SetWindows`, `SetGarage`, and `SetSwimmingPool` configure the house's attributes and return the builder itself for method chaining.
+   - The `Build` method constructs the final `House` object.
+4. **Director**: The `Director` struct uses the `HouseBuilder` to construct different configurations of the `House`.
+   - Methods like `ConstructLuxuryHouse` and `ConstructSimpleHouse` define specific house configurations.
+5. **Client**: The client code creates a `ConcreteHouseBuilder` instance and a `Director` instance. It uses the `Director` to construct different types of houses and displays their attributes.
+
+### Advantages
+
+- **Step-by-Step Construction**: The Builder pattern allows constructing complex objects step by step.
+- **Customization**: Different configurations of an object can be created using the same construction process.
+- **Separation of Concerns**: The construction process is separated from the representation, promoting cleaner code.
+
+### Disadvantages
+
+- **Complexity**: The pattern introduces additional classes and interfaces, which can add complexity.
+- **Overhead**: The builder must maintain the state of the product during construction, which can introduce overhead.
+
+By using the Builder pattern, you can construct complex objects in a clear and systematic way, allowing for easy customization and maintenance. This pattern is especially useful when an object requires various configurations or construction steps.

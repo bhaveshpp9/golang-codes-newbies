@@ -1,1 +1,81 @@
 \\ Arrays and collections —  Dictionaries — getting a list of keys
+
+
+Extracting a list of keys from a dictionary (or map, as it's called in Go) involves iterating over the map and collecting the keys into a slice. This task is straightforward and a common operation when you need to work with or manipulate the keys independently of their values.
+
+Here’s a practical example that demonstrates how to get a list of keys from a map in Go:
+
+### Example: Extracting Keys from a Map
+
+This example will use a simple map where the keys are strings and the values are integers. The task is to collect all the keys into a slice.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Create a map with string keys and integer values
+    productPrices := map[string]int{
+        "milk":   3,
+        "bread":  2,
+        "butter": 5,
+    }
+
+    // Create a slice to hold the keys
+    var keys []string
+    for key := range productPrices {
+        keys = append(keys, key)
+    }
+
+    // Print the slice of keys
+    fmt.Println("Product keys:", keys)
+}
+```
+
+### Explanation:
+- **Map Definition**: A map named `productPrices` is created, with product names as keys and their prices as values.
+- **Key Collection**: The `range` expression is used to iterate over the map. Since only the keys are required in this instance, the value is ignored. Each key is appended to the `keys` slice.
+- **Output**: The `keys` slice, which now contains all the keys from the map, is printed.
+
+### Sorting the Keys
+
+If you need the keys in a sorted order, you can sort the slice after extraction. Here’s how you can modify the above code to sort the keys:
+
+```go
+package main
+
+import (
+    "fmt"
+    "sort"
+)
+
+func main() {
+    // Create a map with string keys and integer values
+    productPrices := map[string]int{
+        "milk":   3,
+        "bread":  2,
+        "butter": 5,
+    }
+
+    // Create a slice to hold the keys
+    var keys []string
+    for key := range productPrices {
+        keys = append(keys, key)
+    }
+
+    // Sort the slice of keys
+    sort.Strings(keys)
+
+    // Print the sorted slice of keys
+    fmt.Println("Sorted product keys:", keys)
+}
+```
+
+### Explanation:
+- **Sorting**: After collecting the keys in a slice, the `sort.Strings()` function is called to sort the slice in alphabetical order.
+- **Sorted Output**: The keys are displayed in sorted order, making it easier to analyze or present the data.
+
+These examples show how to work with keys extracted from a map in Go, providing flexibility for further manipulation such as sorting or filtering based on your application's needs. This functionality is essential for operations where you need to process or iterate over keys regardless of the associated values.

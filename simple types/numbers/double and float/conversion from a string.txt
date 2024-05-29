@@ -1,1 +1,112 @@
 \\ Simple types.— Numbers — double and float — conversion from a string
+
+In Go, you can convert a string to a floating-point number using the `strconv` package, which provides functions like `ParseFloat`. The `ParseFloat` function converts a string to a `float64` value, and you can specify the precision of the conversion.
+
+### Using `strconv.ParseFloat`
+
+Here’s an example demonstrating how to convert a string to a `float64` using `strconv.ParseFloat`.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "strconv"
+)
+
+func main() {
+    // Define a string representing a floating-point number
+    str := "12345.6789"
+
+    // Convert the string to a float64
+    floatValue, err := strconv.ParseFloat(str, 64)
+    if err != nil {
+        fmt.Println("Error converting string to float:", err)
+        return
+    }
+
+    // Print the float64 value
+    fmt.Printf("Converted value: %f\n", floatValue)
+}
+```
+
+### Explanation
+
+1. **Define a String**:
+   - We define a string `str` representing a floating-point number, "12345.6789".
+
+2. **Convert the String to `float64`**:
+   - We use `strconv.ParseFloat(str, 64)` to convert the string to a `float64` value. The second argument specifies the precision (64 for `float64`).
+
+3. **Error Handling**:
+   - If the conversion fails, `strconv.ParseFloat` returns an error, which we handle by printing an error message.
+
+4. **Print the `float64` Value**:
+   - We print the converted `float64` value using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Converted value: 12345.678900
+```
+
+### Using `math/big` for Arbitrary-Precision Conversion
+
+If you need to handle very large or very precise decimal numbers, you can use the `math/big` package, which provides the `big.Float` type. This allows for arbitrary-precision floating-point arithmetic.
+
+#### Example: Using `big.Float` for Arbitrary-Precision Conversion
+
+```go
+package main
+
+import (
+    "fmt"
+    "math/big"
+)
+
+func main() {
+    // Define a string representing a big floating-point number
+    str := "12345678901234567890.12345678901234567890"
+
+    // Convert the string to a big.Float
+    floatValue, _, err := big.ParseFloat(str, 10, 256, big.ToNearestEven)
+    if err != nil {
+        fmt.Println("Error converting string to big.Float:", err)
+        return
+    }
+
+    // Print the big.Float value
+    fmt.Printf("Converted value: %s\n", floatValue.Text('f', 20))
+}
+```
+
+### Explanation
+
+1. **Define a String**:
+   - We define a string `str` representing a very large floating-point number, "12345678901234567890.12345678901234567890".
+
+2. **Convert the String to `big.Float`**:
+   - We use `big.ParseFloat(str, 10, 256, big.ToNearestEven)` to convert the string to a `big.Float` value.
+   - The second argument specifies the base (10 for decimal).
+   - The third argument specifies the precision (256 bits).
+   - The fourth argument specifies the rounding mode (`big.ToNearestEven`).
+
+3. **Error Handling**:
+   - If the conversion fails, `big.ParseFloat` returns an error, which we handle by printing an error message.
+
+4. **Print the `big.Float` Value**:
+   - We print the converted `big.Float` value using `Text('f', 20)` to format the output with 20 decimal places.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Converted value: 12345678901234567890.12345678901234567890
+```
+
+### Summary
+
+In Go, you can convert a string to a floating-point number using the `strconv.ParseFloat` function for standard precision or the `math/big` package for arbitrary precision. The `strconv.ParseFloat` function is suitable for converting strings to `float64` values, while `math/big.ParseFloat` is used for high-precision floating-point arithmetic. By understanding and using these conversion functions, you can effectively handle floating-point numbers in your Go programs.

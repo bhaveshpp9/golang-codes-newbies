@@ -1,1 +1,211 @@
 \\ Simple types.— Strings — String padding
+
+
+In Go, you can pad strings to a specified length using functions from the `strings` package, or by writing custom padding functions. Padding can be done to the left, right, or both sides of a string.
+
+### Example: Right Padding
+
+To pad a string on the right, you can create a custom function that appends spaces or other characters until the string reaches the desired length.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "strings"
+)
+
+// RightPad pads the string with the specified pad character to the right
+func RightPad(s string, padStr string, length int) string {
+    for len(s) < length {
+        s += padStr
+    }
+    return s
+}
+
+func main() {
+    // Define a string
+    str := "Hello"
+
+    // Pad the string to length 10 with spaces
+    paddedStr := RightPad(str, " ", 10)
+    fmt.Printf("Right padded string: '%s'\n", paddedStr)
+}
+```
+
+### Explanation
+
+1. **Define the `RightPad` Function**:
+   - The `RightPad` function takes a string `s`, a pad character `padStr`, and the desired length `length`.
+   - It appends the `padStr` to `s` until `s` reaches the desired length.
+
+2. **Pad the String**:
+   - We call `RightPad` with the string `"Hello"`, the pad character `" "`, and the length `10`.
+
+3. **Print the Padded String**:
+   - We print the padded string using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Right padded string: 'Hello     '
+```
+
+### Example: Left Padding
+
+To pad a string on the left, you can create a custom function that prepends spaces or other characters until the string reaches the desired length.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "strings"
+)
+
+// LeftPad pads the string with the specified pad character to the left
+func LeftPad(s string, padStr string, length int) string {
+    for len(s) < length {
+        s = padStr + s
+    }
+    return s
+}
+
+func main() {
+    // Define a string
+    str := "Hello"
+
+    // Pad the string to length 10 with spaces
+    paddedStr := LeftPad(str, " ", 10)
+    fmt.Printf("Left padded string: '%s'\n", paddedStr)
+}
+```
+
+### Explanation
+
+1. **Define the `LeftPad` Function**:
+   - The `LeftPad` function takes a string `s`, a pad character `padStr`, and the desired length `length`.
+   - It prepends the `padStr` to `s` until `s` reaches the desired length.
+
+2. **Pad the String**:
+   - We call `LeftPad` with the string `"Hello"`, the pad character `" "`, and the length `10`.
+
+3. **Print the Padded String**:
+   - We print the padded string using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Left padded string: '     Hello'
+```
+
+### Example: Padding on Both Sides
+
+To pad a string on both sides, you can create a custom function that adds padding characters to both ends of the string until it reaches the desired length.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "strings"
+)
+
+// PadBoth pads the string with the specified pad character on both sides
+func PadBoth(s string, padStr string, length int) string {
+    totalPadding := length - len(s)
+    if totalPadding > 0 {
+        leftPadding := totalPadding / 2
+        rightPadding := totalPadding - leftPadding
+        s = strings.Repeat(padStr, leftPadding) + s + strings.Repeat(padStr, rightPadding)
+    }
+    return s
+}
+
+func main() {
+    // Define a string
+    str := "Hello"
+
+    // Pad the string to length 10 with spaces on both sides
+    paddedStr := PadBoth(str, " ", 10)
+    fmt.Printf("Both sides padded string: '%s'\n", paddedStr)
+}
+```
+
+### Explanation
+
+1. **Define the `PadBoth` Function**:
+   - The `PadBoth` function takes a string `s`, a pad character `padStr`, and the desired length `length`.
+   - It calculates the total padding needed and splits it between the left and right sides of the string.
+   - It adds the padding to both sides of the string.
+
+2. **Pad the String**:
+   - We call `PadBoth` with the string `"Hello"`, the pad character `" "`, and the length `10`.
+
+3. **Print the Padded String**:
+   - We print the padded string using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Both sides padded string: '  Hello   '
+```
+
+### Using `fmt.Sprintf` for Numeric Padding
+
+For numeric padding with leading zeros or spaces, you can use the `fmt.Sprintf` function.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Define a number
+    num := 42
+
+    // Pad the number with leading zeros to a width of 5
+    paddedNum := fmt.Sprintf("%05d", num)
+    fmt.Printf("Padded number with leading zeros: '%s'\n", paddedNum)
+
+    // Pad the number with leading spaces to a width of 5
+    paddedNumSpaces := fmt.Sprintf("%5d", num)
+    fmt.Printf("Padded number with leading spaces: '%s'\n", paddedNumSpaces)
+}
+```
+
+### Explanation
+
+1. **Pad the Number with Leading Zeros**:
+   - We use `fmt.Sprintf("%05d", num)` to pad the number `42` with leading zeros to a width of 5.
+
+2. **Pad the Number with Leading Spaces**:
+   - We use `fmt.Sprintf("%5d", num)` to pad the number `42` with leading spaces to a width of 5.
+
+3. **Print the Padded Numbers**:
+   - We print the padded numbers using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Padded number with leading zeros: '00042'
+Padded number with leading spaces: '   42'
+```
+
+### Summary
+
+In Go, you can pad strings using custom functions or the `fmt.Sprintf` function for numeric padding. Custom padding functions allow you to pad strings on the left, right, or both sides with any character. The `fmt.Sprintf` function is particularly useful for padding numbers with leading zeros or spaces. These methods provide flexible options for string padding in your Go programs.

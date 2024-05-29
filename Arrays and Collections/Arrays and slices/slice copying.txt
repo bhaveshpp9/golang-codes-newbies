@@ -1,1 +1,98 @@
 \\ Arrays and collections —  Arrays and Slices — slice copying
+
+
+Copying slices in Go can be performed using the `copy` built-in function. This function is designed to copy elements from one slice to another and is very useful for managing data efficiently, avoiding unintended modifications by ensuring that changes to the copied slice do not affect the original slice.
+
+Here's how you can use the `copy` function to copy slices in Go:
+
+### Example: Copying Slices
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Create a source slice with some elements
+    src := []int{1, 2, 3, 4, 5}
+
+    // Create a destination slice with a defined length
+    // Note: Make sure it has enough length to hold all copied elements
+    dst := make([]int, len(src))
+
+    // Copy elements from source to destination
+    copied := copy(dst, src)
+
+    // Print the results
+    fmt.Println("Copied elements:", copied)
+    fmt.Println("Destination slice:", dst)
+
+    // Demonstrating that changing the source does not affect the destination
+    src[0] = 100
+    fmt.Println("Updated source slice:", src)
+    fmt.Println("Destination slice after source update:", dst)
+}
+```
+
+### Explanation:
+- **Source Slice (`src`)**: This is the original slice containing the data you want to copy.
+- **Destination Slice (`dst`)**: This slice is where the data from the source slice will be copied. Its length needs to be sufficient to hold the elements being copied.
+- **Copy Function**: The `copy(dst, src)` function copies elements from `src` to `dst`. It returns the number of elements copied, which is useful for verification and handling in more complex scenarios.
+- **Modifying Source**: After copying, changes to the `src` slice do not affect the `dst` slice, demonstrating that the data has been effectively duplicated.
+
+### Copying Partial Data
+
+You can also copy only a part of a slice if you don't need to copy the entire slice:
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Source slice
+    src := []int{10, 20, 30, 40, 50}
+
+    // Destination slice with a smaller length
+    dst := make([]int, 3)
+
+    // Copy only the first three elements
+    copy(dst, src[:3])
+
+    // Display the destination slice
+    fmt.Println("Partial destination slice:", dst)
+}
+```
+
+### Explanation:
+- **Partial Copy**: In this example, `src[:3]` specifies that only the first three elements of the `src` slice should be copied to `dst`. The destination slice is initialized with a length of 3, matching the number of elements to copy.
+
+### Copying to Overlapping Slices
+
+It's also safe to use `copy` with overlapping slices, where the source and destination slices are the same but with different starting points:
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Source and destination within the same underlying array
+    data := []int{1, 2, 3, 4, 5}
+    copy(data[1:], data[2:4])
+
+    // Print the modified slice
+    fmt.Println("Data after copying to overlapping slice:", data)
+}
+```
+
+### Explanation:
+- **Overlapping Slices**: Here, elements are copied within the same slice, demonstrating `copy`'s capability to handle overlapping source and destination regions correctly.
+
+These examples cover a range of common scenarios for copying slices in Go, providing a robust foundation for efficient and safe data management in applications.

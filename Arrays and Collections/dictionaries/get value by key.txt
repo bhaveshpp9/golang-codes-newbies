@@ -1,1 +1,59 @@
 \\ Arrays and collections —  Dictionaries — get value by key
+
+
+In Go, accessing a value from a dictionary (a `map` in Go) using a key is a fundamental operation. It's straightforward and efficient due to the nature of hash maps, which provide fast lookups.
+
+Here’s a simple example to demonstrate how to retrieve a value by key from a map in Go:
+
+### Example: Getting a Value by Key from a Map
+
+This example uses a map where the keys are strings (representing names) and the values are integers (representing ages).
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Create a map with string keys and integer values
+    ages := map[string]int{
+        "Alice": 28,
+        "Bob":   34,
+        "Clara": 25,
+        "David": 31,
+    }
+
+    // Retrieve the value associated with the key "Alice"
+    aliceAge, ok := ages["Alice"]
+    if ok {
+        fmt.Println("Alice's age is", aliceAge)
+    } else {
+        fmt.Println("Alice is not in the map")
+    }
+
+    // Attempt to retrieve a value with a key that does not exist
+    johnAge, ok := ages["John"]
+    if ok {
+        fmt.Println("John's age is", johnAge)
+    } else {
+        fmt.Println("John is not in the map")
+    }
+}
+```
+
+### Explanation:
+- **Map Definition**: A map named `ages` is created, mapping strings to integers.
+- **Value Retrieval**: The value for a specific key ("Alice") is accessed using `ages["Alice"]`. This operation returns two values:
+  - The value associated with the key, if it exists.
+  - A boolean (`ok`) that indicates whether the key was present in the map.
+- **Check Presence**: The boolean `ok` is checked to determine if the key was actually present in the map. This is crucial to avoid working with invalid data.
+- **Handling Missing Keys**: When trying to access a value using a key that does not exist in the map ("John"), the boolean will be `false`, and the integer value will be the zero value for its type (`0` for integers).
+
+### Good Practices
+1. **Always Check Existence**: When retrieving a value from a map, it's good practice to check whether the key actually existed. This avoids errors from handling potentially incorrect zero values of types.
+2. **Use Descriptive Variable Names**: Instead of a generic `ok`, you can use a more descriptive variable name that indicates what you're checking, like `found` or `exists`.
+
+### Conclusion
+Retrieving values by key in a map is a core feature in Go that is utilized in nearly all programs that use maps. This pattern of checking for the existence of the key should be a staple in your Go coding practices to ensure robust, error-free code.

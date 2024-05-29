@@ -1,1 +1,113 @@
 \\ Simple types.— Date and time — getting of year, month, day
+
+In Go, you can get the current year, month, and day from a `time.Time` object using the `Year`, `Month`, and `Day` methods provided by the `time` package. These methods are straightforward and allow you to extract these components from a `time.Time` object easily.
+
+### Getting the Current Year, Month, and Day
+
+Here’s an example demonstrating how to get the current year, month, and day using `time.Now()` and the `Year`, `Month`, and `Day` methods.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func main() {
+    // Get the current date and time
+    currentTime := time.Now()
+
+    // Extract the year, month, and day
+    year := currentTime.Year()
+    month := currentTime.Month()
+    day := currentTime.Day()
+
+    // Print the current year, month, and day
+    fmt.Printf("Current year: %d\n", year)
+    fmt.Printf("Current month: %s\n", month)
+    fmt.Printf("Current day: %d\n", day)
+}
+```
+
+### Explanation
+
+1. **Get the Current Date and Time**:
+   - We use `time.Now()` to get the current local date and time.
+
+2. **Extract the Year**:
+   - We use `currentTime.Year()` to get the current year as an integer.
+
+3. **Extract the Month**:
+   - We use `currentTime.Month()` to get the current month as a `time.Month` type.
+
+4. **Extract the Day**:
+   - We use `currentTime.Day()` to get the current day as an integer.
+
+5. **Print the Year, Month, and Day**:
+   - We print the extracted year, month, and day using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will look something like this (the exact output will vary based on the current date):
+```
+Current year: 2023
+Current month: May
+Current day: 26
+```
+
+### Practical Example: Displaying the Current Date in Different Formats
+
+You can also combine these methods to display the current date in different formats.
+
+#### Example: Displaying the Current Date in Different Formats
+
+```go
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func main() {
+    // Get the current date and time
+    currentTime := time.Now()
+
+    // Extract the year, month, and day
+    year := currentTime.Year()
+    month := currentTime.Month()
+    day := currentTime.Day()
+
+    // Display the current date in different formats
+    fmt.Printf("Current date (YYYY-MM-DD): %d-%02d-%02d\n", year, month, day)
+    fmt.Printf("Current date (DD/MM/YYYY): %02d/%02d/%d\n", day, month, year)
+    fmt.Printf("Current date (Month Day, Year): %s %d, %d\n", month, day, year)
+}
+```
+
+### Explanation
+
+1. **Extract the Year, Month, and Day**:
+   - We use `currentTime.Year()`, `currentTime.Month()`, and `currentTime.Day()` to extract the current year, month, and day.
+
+2. **Display the Current Date in Different Formats**:
+   - We use `fmt.Printf` to display the current date in various formats:
+     - `YYYY-MM-DD`
+     - `DD/MM/YYYY`
+     - `Month Day, Year`
+
+### Detailed Output
+
+The output of the above code will look something like this (the exact output will vary based on the current date):
+```
+Current date (YYYY-MM-DD): 2023-05-26
+Current date (DD/MM/YYYY): 26/05/2023
+Current date (Month Day, Year): May 26, 2023
+```
+
+### Summary
+
+Extracting the current year, month, and day in Go is straightforward using the `Year`, `Month`, and `Day` methods of the `time.Time` type. These methods provide an easy way to get these components from a `time.Time` object, allowing you to display or manipulate the current date in various formats. By understanding and using these methods, you can effectively work with date values in your Go programs.

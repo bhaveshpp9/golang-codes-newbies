@@ -1,1 +1,163 @@
 \\ Functions — without any return value
+
+
+In Go, a function can be defined without any return value. Such functions perform operations or computations but do not return any result to the caller. These functions are useful for tasks like printing messages, modifying global variables, or performing actions where the outcome doesn't need to be reported back to the caller.
+
+### Example: Function Without Any Return Value
+
+Here is a simple example of a function that does not return any value. This function just prints a message.
+
+```go
+package main
+
+import "fmt"
+
+// printMessage prints a given message
+func printMessage(message string) {
+	fmt.Println(message)
+}
+
+func main() {
+	printMessage("Hello, Go!")
+	printMessage("This function does not return any value.")
+}
+```
+
+### Explanation
+
+1. **Defining the Function:**
+   ```go
+   func printMessage(message string) {
+       fmt.Println(message)
+   }
+   ```
+   The `printMessage` function takes a single argument `message` of type `string` and prints it. It does not return any value, as indicated by the absence of a return type in the function signature.
+
+2. **Calling the Function:**
+   ```go
+   func main() {
+       printMessage("Hello, Go!")
+       printMessage("This function does not return any value.")
+   }
+   ```
+   The `main` function calls `printMessage` with different arguments. The function prints the messages to the standard output.
+
+### Example: Function Modifying Global Variables
+
+Another common use case for functions without return values is modifying global variables or performing side effects.
+
+```go
+package main
+
+import "fmt"
+
+var count int
+
+// increment increases the global variable count by 1
+func increment() {
+	count++
+}
+
+func main() {
+	fmt.Println("Initial count:", count)
+	increment()
+	fmt.Println("Count after increment:", count)
+	increment()
+	fmt.Println("Count after second increment:", count)
+}
+```
+
+### Explanation
+
+1. **Global Variable:**
+   ```go
+   var count int
+   ```
+   The `count` variable is declared at the package level, making it a global variable accessible by all functions in the package.
+
+2. **Function Modifying Global Variable:**
+   ```go
+   func increment() {
+       count++
+   }
+   ```
+   The `increment` function modifies the global `count` variable by incrementing its value by 1. This function does not return any value.
+
+3. **Calling the Function:**
+   ```go
+   func main() {
+       fmt.Println("Initial count:", count)
+       increment()
+       fmt.Println("Count after increment:", count)
+       increment()
+       fmt.Println("Count after second increment:", count)
+   }
+   ```
+   The `main` function calls `increment` multiple times and prints the value of `count` before and after the calls to demonstrate the effect of the function.
+
+### Example: Function Performing a Side Effect
+
+Functions without return values are also used to perform actions that have side effects, such as logging or updating a database.
+
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+	"os"
+)
+
+// logMessage logs a message to a file
+func logMessage(message string) {
+	// Open the log file in append mode, create it if it does not exist
+	file, err := os.OpenFile("app.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	// Create a new logger that writes to the file
+	logger := log.New(file, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
+	logger.Println(message)
+}
+
+func main() {
+	logMessage("Application started")
+	logMessage("This function logs messages to a file without returning any value")
+	fmt.Println("Check the app.log file for log messages")
+}
+```
+
+### Explanation
+
+1. **Function for Logging:**
+   ```go
+   func logMessage(message string) {
+       // Open the log file in append mode, create it if it does not exist
+       file, err := os.OpenFile("app.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+       if err != nil {
+           log.Fatal(err)
+       }
+       defer file.Close()
+
+       // Create a new logger that writes to the file
+       logger := log.New(file, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
+       logger.Println(message)
+   }
+   ```
+   The `logMessage` function logs a given message to a file named `app.log`. It opens the file, creates a logger, and writes the message to the file. The function does not return any value.
+
+2. **Calling the Function:**
+   ```go
+   func main() {
+       logMessage("Application started")
+       logMessage("This function logs messages to a file without returning any value")
+       fmt.Println("Check the app.log file for log messages")
+   }
+   ```
+   The `main` function calls `logMessage` with different messages, demonstrating how to log messages to a file without returning any values.
+
+### Conclusion
+
+In Go, functions without return values are used for tasks that perform actions or produce side effects where no result needs to be returned to the caller. These functions can print messages, modify global variables, perform logging, or any other operation where the focus is on the action rather than the result.

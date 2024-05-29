@@ -1,1 +1,4 @@
 \\ work with database(DB) — SQL — Updating Tables — renaming tables — SQLite
+
+
+ALTER TABLE Orders RENAME TO OrderList

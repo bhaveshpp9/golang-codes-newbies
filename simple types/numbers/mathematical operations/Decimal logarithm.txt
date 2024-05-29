@@ -1,1 +1,102 @@
 \\ Simple types.— Numbers —mathematical operations — Decimal logarithm
+
+
+In Go, you can perform mathematical operations, including computing the decimal logarithm (logarithm base 10), using the `math` package. The `math` package provides a function called `Log10` for this purpose.
+
+### Example: Calculating the Decimal Logarithm
+
+Here’s an example demonstrating how to calculate the decimal logarithm of a number using `math.Log10`.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "math"
+)
+
+func main() {
+    // Define a number
+    num := 100.0
+
+    // Calculate the decimal logarithm (base 10)
+    log10Value := math.Log10(num)
+
+    // Print the result
+    fmt.Printf("The decimal logarithm (base 10) of %f is %f\n", num, log10Value)
+}
+```
+
+### Explanation
+
+1. **Import the `math` Package**:
+   - The `math` package provides mathematical functions, including logarithms.
+
+2. **Define a Number**:
+   - We define a floating-point number `num` with the value `100.0`.
+
+3. **Calculate the Decimal Logarithm (Base 10)**:
+   - We use `math.Log10(num)` to calculate the logarithm base 10 of `num`.
+
+4. **Print the Result**:
+   - We print the result using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+The decimal logarithm (base 10) of 100.000000 is 2.000000
+```
+
+### Handling Different Input Values
+
+You can calculate the decimal logarithm for various input values. Here’s an example demonstrating how to handle different input values, including very small and very large numbers.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "math"
+)
+
+func main() {
+    // Define a slice of numbers
+    numbers := []float64{1, 10, 100, 0.1, 0.001, 1e10}
+
+    // Calculate and print the decimal logarithm for each number
+    for _, num := range numbers {
+        log10Value := math.Log10(num)
+        fmt.Printf("The decimal logarithm (base 10) of %g is %f\n", num, log10Value)
+    }
+}
+```
+
+### Explanation
+
+1. **Define a Slice of Numbers**:
+   - We define a slice `numbers` containing various floating-point numbers.
+
+2. **Calculate and Print the Decimal Logarithm for Each Number**:
+   - We loop through the slice and use `math.Log10(num)` to calculate the logarithm base 10 for each number.
+   - We print the results using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+The decimal logarithm (base 10) of 1 is 0.000000
+The decimal logarithm (base 10) of 10 is 1.000000
+The decimal logarithm (base 10) of 100 is 2.000000
+The decimal logarithm (base 10) of 0.1 is -1.000000
+The decimal logarithm (base 10) of 0.001 is -3.000000
+The decimal logarithm (base 10) of 1e+10 is 10.000000
+```
+
+### Summary
+
+In Go, you can calculate the decimal logarithm (logarithm base 10) using the `math.Log10` function from the `math` package. This function allows you to compute the logarithm of various input values, including very small and very large numbers. By understanding and using this function, you can effectively perform logarithmic calculations in your Go programs.

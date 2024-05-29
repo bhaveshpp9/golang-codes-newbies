@@ -1,1 +1,109 @@
 \\ Reflection — Type information
+
+In Go, reflection allows you to inspect and manipulate types at runtime. The `reflect` package provides powerful tools to obtain detailed type information. This can be useful for various purposes, such as debugging, serialization, and dynamic type handling.
+
+### Key Concepts in Reflection
+
+1. **Type and Value**: The `reflect` package provides `Type` and `Value` types. `Type` represents the type of a variable, and `Value` represents the value of a variable.
+2. **Kind**: Represents the specific kind of type, such as `reflect.Struct`, `reflect.Int`, `reflect.Slice`, etc.
+3. **NumField, Field, and FieldByName**: Methods to inspect struct fields.
+4. **NumMethod, Method, and MethodByName**: Methods to inspect methods.
+
+### Example: Obtaining Type Information
+
+Let's create an example where we define a struct and use reflection to obtain and display detailed type information.
+
+#### Defining the Struct
+
+```go
+package main
+
+import (
+    "fmt"
+    "reflect"
+)
+
+type Person struct {
+    Name string
+    Age  int
+}
+
+func (p Person) Greet() {
+    fmt.Printf("Hello, my name is %s.\n", p.Name)
+}
+
+func (p Person) GetAge() int {
+    return p.Age
+}
+```
+
+#### Using Reflection to Obtain Type Information
+
+```go
+package main
+
+func printTypeInfo(i interface{}) {
+    t := reflect.TypeOf(i)
+    v := reflect.ValueOf(i)
+
+    fmt.Printf("Type: %s\n", t)
+    fmt.Printf("Kind: %s\n", t.Kind())
+
+    if t.Kind() == reflect.Struct {
+        fmt.Println("Fields:")
+        for i := 0; i < t.NumField(); i++ {
+            field := t.Field(i)
+            fieldValue := v.Field(i)
+            fmt.Printf("  %s (%s): %v\n", field.Name, field.Type, fieldValue.Interface())
+        }
+
+        fmt.Println("Methods:")
+        for i := 0; i < t.NumMethod(); i++ {
+            method := t.Method(i)
+            fmt.Printf("  %s (%s)\n", method.Name, method.Type)
+        }
+    }
+}
+
+func main() {
+    person := Person{Name: "Alice", Age: 30}
+    printTypeInfo(person)
+}
+```
+
+### Explanation
+
+1. **Defining the Struct**: We define a struct `Person` with fields `Name` and `Age`, and methods `Greet` and `GetAge`.
+2. **printTypeInfo Function**:
+   - We use `reflect.TypeOf(i)` to get the type of the input parameter.
+   - We use `reflect.ValueOf(i)` to get the value of the input parameter.
+   - We print the type and kind using `t.String()` and `t.Kind()`.
+   - If the kind is `reflect.Struct`, we:
+     - Print the fields using `t.NumField()` and `t.Field(i)`.
+     - Print the field values using `v.Field(i).Interface()`.
+     - Print the methods using `t.NumMethod()` and `t.Method(i)`.
+3. **Using the Function**:
+   - We create an instance of `Person` and pass it to `printTypeInfo` to display detailed type information.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Type: main.Person
+Kind: struct
+Fields:
+  Name (string): Alice
+  Age (int): 30
+Methods:
+  GetAge (func(main.Person) int)
+  Greet (func(main.Person))
+```
+
+### Notes on Reflection
+
+- **Kind**: The kind of a type (such as `reflect.Struct`, `reflect.Int`, `reflect.Slice`, etc.) can be obtained using `t.Kind()`.
+- **Fields**: For structs, `NumField()` returns the number of fields, and `Field(i)` returns the `i`-th field's information.
+- **Methods**: `NumMethod()` returns the number of methods, and `Method(i)` returns the `i`-th method's information.
+- **Interface**: The `Interface()` method on `reflect.Value` returns the value as an interface{}.
+
+By using reflection to obtain type information, you can dynamically inspect the structure and behavior of types at runtime. This is particularly useful for debugging, serialization, dynamic type handling, and building generic frameworks that can operate on arbitrary types.

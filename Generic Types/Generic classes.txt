@@ -1,1 +1,145 @@
 \\ Generic Types — Generic classes
+
+
+As of Go 1.18, Go supports generics, which allows you to write functions, types, and data structures that can operate on any type. This is accomplished using type parameters, which provide a way to parameterize types with other types.
+
+### Example: Generic Types in Go
+
+Here's an example of how you might define a generic type in Go, such as a simple `Pair` type that holds two values of potentially different types.
+
+```go
+package main
+
+import "fmt"
+
+// Pair is a generic type with two type parameters
+type Pair[T1, T2 any] struct {
+	First  T1
+	Second T2
+}
+
+func main() {
+	// Create a Pair of an int and a string
+	p1 := Pair[int, string]{First: 1, Second: "one"}
+	fmt.Printf("Pair 1: %v, %v\n", p1.First, p1.Second)
+
+	// Create a Pair of a float64 and a bool
+	p2 := Pair[float64, bool]{First: 3.14, Second: true}
+	fmt.Printf("Pair 2: %v, %v\n", p2.First, p2.Second)
+}
+```
+
+### Explanation
+
+1. **Defining the Generic Type:**
+   ```go
+   type Pair[T1, T2 any] struct {
+       First  T1
+       Second T2
+   }
+   ```
+   The `Pair` type is defined with two type parameters, `T1` and `T2`, both of which can be any type. The `any` keyword is a type constraint that allows any type.
+
+2. **Creating Instances of the Generic Type:**
+   ```go
+   func main() {
+       p1 := Pair[int, string]{First: 1, Second: "one"}
+       fmt.Printf("Pair 1: %v, %v\n", p1.First, p1.Second)
+
+       p2 := Pair[float64, bool]{First: 3.14, Second: true}
+       fmt.Printf("Pair 2: %v, %v\n", p2.First, p2.Second)
+   }
+   ```
+   The `main` function demonstrates creating instances of `Pair` with different types for the `First` and `Second` fields.
+
+### Example: Generic Functions
+
+You can also define generic functions that operate on any type.
+
+#### Example: Generic Function
+
+```go
+package main
+
+import "fmt"
+
+// PrintPair prints the values of a generic Pair
+func PrintPair[T1, T2 any](p Pair[T1, T2]) {
+	fmt.Printf("First: %v, Second: %v\n", p.First, p.Second)
+}
+
+func main() {
+	p1 := Pair[int, string]{First: 1, Second: "one"}
+	PrintPair(p1)
+
+	p2 := Pair[float64, bool]{First: 3.14, Second: true}
+	PrintPair(p2)
+}
+```
+
+### Explanation
+
+1. **Defining the Generic Function:**
+   ```go
+   func PrintPair[T1, T2 any](p Pair[T1, T2]) {
+       fmt.Printf("First: %v, Second: %v\n", p.First, p.Second)
+   }
+   ```
+   The `PrintPair` function is defined with two type parameters, `T1` and `T2`, and takes a `Pair[T1, T2]` as an argument. This function can print the values of any `Pair` instance.
+
+2. **Calling the Generic Function:**
+   ```go
+   func main() {
+       p1 := Pair[int, string]{First: 1, Second: "one"}
+       PrintPair(p1)
+
+       p2 := Pair[float64, bool]{First: 3.14, Second: true}
+       PrintPair(p2)
+   }
+   ```
+   The `main` function demonstrates calling `PrintPair` with different `Pair` instances.
+
+### Example: Generic Constraints
+
+You can impose constraints on type parameters to specify the types that are allowed.
+
+#### Example: Constrained Generic Function
+
+```go
+package main
+
+import "fmt"
+
+// Add adds two values of any numeric type
+func Add[T int | float64](a, b T) T {
+	return a + b
+}
+
+func main() {
+	fmt.Println(Add(3, 4))       // int
+	fmt.Println(Add(3.5, 4.5))   // float64
+}
+```
+
+### Explanation
+
+1. **Defining the Constrained Generic Function:**
+   ```go
+   func Add[T int | float64](a, b T) T {
+       return a + b
+   }
+   ```
+   The `Add` function is defined with a type parameter `T` that is constrained to either `int` or `float64`. This allows the function to add values of these types.
+
+2. **Calling the Constrained Generic Function:**
+   ```go
+   func main() {
+       fmt.Println(Add(3, 4))       // int
+       fmt.Println(Add(3.5, 4.5))   // float64
+   }
+   ```
+   The `main` function demonstrates calling `Add` with both `int` and `float64` arguments.
+
+### Conclusion
+
+Generics in Go allow you to write more flexible and reusable code. By defining generic types and functions, you can operate on a variety of types while maintaining type safety. Constraints provide a way to specify which types are allowed, ensuring that your generic code remains robust and correct.

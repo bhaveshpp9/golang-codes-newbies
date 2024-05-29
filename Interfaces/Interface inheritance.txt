@@ -1,1 +1,170 @@
 \\ interfaces —  Interface inheritance
+
+In Go, interfaces can be composed of other interfaces. This mechanism is often referred to as interface embedding or interface inheritance. When an interface embeds another interface, it inherits the methods of the embedded interface.
+
+### Declaring and Using Interface Inheritance
+
+Let's look at an example where we declare two interfaces, and one interface embeds the other.
+
+```go
+package main
+
+import "fmt"
+
+// Declare a basic interface
+type Animal interface {
+    Speak() string
+}
+
+// Declare another interface that embeds the Animal interface
+type Mammal interface {
+    Animal
+    Walk() string
+}
+
+// Define a type that implements both interfaces
+type Dog struct {
+    Name string
+}
+
+// Implement the Speak method for Dog (satisfies Animal)
+func (d Dog) Speak() string {
+    return "Woof!"
+}
+
+// Implement the Walk method for Dog (satisfies Mammal)
+func (d Dog) Walk() string {
+    return "Walks on four legs"
+}
+
+func main() {
+    var m Mammal = Dog{Name: "Buddy"}
+
+    // Use the methods of the Mammal interface
+    fmt.Println(m.Speak()) // Output: Woof!
+    fmt.Println(m.Walk())  // Output: Walks on four legs
+}
+```
+
+### Interface Embedding Multiple Interfaces
+
+You can also embed multiple interfaces within a single interface.
+
+```go
+package main
+
+import "fmt"
+
+// Declare basic interfaces
+type Animal interface {
+    Speak() string
+}
+
+type Walker interface {
+    Walk() string
+}
+
+// Declare an interface that embeds both Animal and Walker
+type Mammal interface {
+    Animal
+    Walker
+}
+
+// Define a type that implements both interfaces
+type Cat struct {
+    Name string
+}
+
+// Implement the Speak method for Cat (satisfies Animal)
+func (c Cat) Speak() string {
+    return "Meow!"
+}
+
+// Implement the Walk method for Cat (satisfies Walker)
+func (c Cat) Walk() string {
+    return "Walks on four legs"
+}
+
+func main() {
+    var m Mammal = Cat{Name: "Whiskers"}
+
+    // Use the methods of the Mammal interface
+    fmt.Println(m.Speak()) // Output: Meow!
+    fmt.Println(m.Walk())  // Output: Walks on four legs
+}
+```
+
+### Practical Example: Interface Inheritance
+
+Here’s a practical example combining interface embedding and concrete type implementation.
+
+```go
+package main
+
+import "fmt"
+
+// Declare basic interfaces
+type Animal interface {
+    Speak() string
+}
+
+type Walker interface {
+    Walk() string
+}
+
+// Declare an interface that embeds both Animal and Walker
+type Mammal interface {
+    Animal
+    Walker
+}
+
+// Define a Dog type that implements both interfaces
+type Dog struct {
+    Name string
+}
+
+// Implement the Speak method for Dog (satisfies Animal)
+func (d Dog) Speak() string {
+    return "Woof!"
+}
+
+// Implement the Walk method for Dog (satisfies Walker)
+func (d Dog) Walk() string {
+    return "Walks on four legs"
+}
+
+// Define a Human type that implements both interfaces
+type Human struct {
+    Name string
+}
+
+// Implement the Speak method for Human (satisfies Animal)
+func (h Human) Speak() string {
+    return "Hello!"
+}
+
+// Implement the Walk method for Human (satisfies Walker)
+func (h Human) Walk() string {
+    return "Walks on two legs"
+}
+
+func main() {
+    var mammal1 Mammal = Dog{Name: "Buddy"}
+    var mammal2 Mammal = Human{Name: "Alice"}
+
+    // Use the methods of the Mammal interface
+    fmt.Println(mammal1.Speak()) // Output: Woof!
+    fmt.Println(mammal1.Walk())  // Output: Walks on four legs
+
+    fmt.Println(mammal2.Speak()) // Output: Hello!
+    fmt.Println(mammal2.Walk())  // Output: Walks on two legs
+}
+```
+
+### Summary
+
+- **Interface Embedding:** Go interfaces can embed other interfaces, allowing one interface to inherit the methods of another.
+- **Multiple Embedding:** An interface can embed multiple other interfaces, combining their methods.
+- **Concrete Implementation:** Types that implement all the methods of the embedded interfaces satisfy the composite interface.
+
+Interface embedding in Go provides a powerful way to create flexible and reusable components by combining multiple behaviors into a single interface. This mechanism allows for more modular and maintainable code by promoting interface composition over inheritance.

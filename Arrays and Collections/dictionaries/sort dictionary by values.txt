@@ -1,1 +1,99 @@
 \\ Arrays and collections —  Dictionaries — sort dictionary by values
+
+
+In Go, dictionaries are represented as maps, and unlike some other languages, Go's maps do not maintain any order. If you need to sort a map by its values, you must explicitly extract the values into a slice, sort the slice, and then potentially re-construct a sorted structure from that sorted slice if needed.
+
+Here’s how you can sort a dictionary (map) by its values in Go:
+
+### Example: Sorting a Map by Values
+
+This example demonstrates sorting a map of string keys and integer values based on the values.
+
+```go
+package main
+
+import (
+    "fmt"
+    "sort"
+)
+
+// mapElement is used to hold a key-value pair for sorting.
+type mapElement struct {
+    Key   string
+    Value int
+}
+
+// ByValue implements sort.Interface for []mapElement based on the Value field.
+type ByValue []mapElement
+
+func (a ByValue) Len() int           { return len(a) }
+func (a ByValue) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a ByValue) Less(i, j int) bool { return a[i].Value < a[j].Value }
+
+func main() {
+    // Original map
+    scores := map[string]int{"Alice": 2, "Charlie": 3, "Bob": 1}
+
+    // Create a slice of mapElements to sort by map values
+    elements := make([]mapElement, 0, len(scores))
+    for k, v := range scores {
+        elements = append(elements, mapElement{Key: k, Value: v})
+    }
+
+    // Sort elements by value
+    sort.Sort(ByValue(elements))
+
+    // Display sorted elements
+    for _, e := range elements {
+        fmt.Printf("%s: %d\n", e.Key, e.Value)
+    }
+}
+```
+
+### Explanation:
+- **mapElement Struct**: This struct type is used to store key-value pairs from the map.
+- **ByValue Type**: This custom type implements the `sort.Interface`, which requires three methods: `Len()`, `Less(i, j int)`, and `Swap(i, j int)`. These methods are used by the `sort.Sort()` function.
+- **Sorting Process**: The map is converted into a slice of `mapElement` to facilitate sorting based on the values.
+- **Displaying Results**: After sorting, the sorted elements are printed out in order.
+
+### Simplified Version Using Sort Slices
+
+If using Go 1.8 or later, you can use `sort.Slice` for a more straightforward approach without defining an extra type:
+
+```go
+package main
+
+import (
+    "fmt"
+    "sort"
+)
+
+func main() {
+    // Original map
+    scores := map[string]int{"Alice": 2, "Charlie": 3, "Bob": 1}
+
+    // Create a slice of keys from the map
+    keys := make([]string, 0, len(scores))
+    for k := range scores {
+        keys = append(keys, k)
+    }
+
+    // Sort keys based on the corresponding values in the map
+    sort.Slice(keys, func(i, j int) bool {
+        return scores[keys[i]] < scores[keys[j]]
+    })
+
+    // Display sorted values by iterating over sorted keys
+    for _, k := range keys {
+        fmt.Printf("%s: %d\n", k, scores[k])
+    }
+}
+```
+
+### Explanation:
+- **Sort.Slice**: This function simplifies sorting by allowing you to directly specify how to compare elements in a slice using a less function provided as an argument.
+- **Keys Slice**: The keys of the map are extracted into a slice, which is then sorted based on their corresponding values in the map.
+
+Both methods achieve the same result of sorting a map by its values, with the second approach providing a simpler and more concise syntax where the sorting logic is embedded directly in the call to `sort.Slice`.
+
+

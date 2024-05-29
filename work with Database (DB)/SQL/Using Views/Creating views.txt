@@ -1,1 +1,28 @@
 \\ work with database(DB) — SQL — Updating Views — Creating views
+
+
+CREATE VIEW bigCities AS
+SELECT
+  country.Name,
+  city.Name AS cityName,
+  city.Population
+FROM country
+INNER JOIN city ON
+  country.Code = city.CountryCode AND
+  city.Population > 5000000;
+
+SELECT * FROM bigCities
+
+Name	cityName	Population
+Brazil	SГѓВЈo Paulo	9,968,485
+Brazil	Rio de Janeiro	5,598,953
+United Kingdom	London	7,285,000
+Egypt	Cairo	6,789,479
+Indonesia	Jakarta	9,604,900
+India	Mumbai (Bombay)	10,500,000
+India	Delhi	7,206,704
+Iran	Teheran	6,758,845
+Japan	Tokyo	7,980,230
+...
+
+This example creates a bigCities view based on a query that selects data from two tables: country and city. After that, the view can be used as a table.

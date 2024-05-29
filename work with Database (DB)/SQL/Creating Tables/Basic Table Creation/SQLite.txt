@@ -1,1 +1,82 @@
 \\ work with database(DB) — SQL — Creating table — Basic Table Creation — SQLite
+
+
+Creating a table in an SQLite database using Go is straightforward, thanks to the `database/sql` package and the SQLite driver `github.com/mattn/go-sqlite3`. Below is a step-by-step guide on how to achieve this.
+
+### Step-by-Step Guide
+
+1. **Install the SQLite driver for Go**:
+   ```bash
+   go get github.com/mattn/go-sqlite3
+   ```
+
+2. **Write the Go code to create a table in SQLite**:
+
+Here's a complete example that demonstrates how to create a table in an SQLite database using Go:
+
+```go
+package main
+
+import (
+    "database/sql"
+    "fmt"
+    "log"
+
+    _ "github.com/mattn/go-sqlite3"
+)
+
+func main() {
+    // Open a connection to the SQLite database (creates the file if it doesn't exist)
+    db, err := sql.Open("sqlite3", "./example.db")
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer db.Close()
+
+    // Ensure the connection is available
+    err = db.Ping()
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    // SQL statement to create a table
+    createTableSQL := `CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT NOT NULL,
+        email TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );`
+
+    // Execute the SQL statement
+    _, err = db.Exec(createTableSQL)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    fmt.Println("Table created successfully")
+}
+```
+
+### Explanation:
+
+1. **Import Packages**: Import the necessary packages. The `database/sql` package provides a generic interface around SQL databases, and `github.com/mattn/go-sqlite3` is the SQLite driver.
+2. **Open Database Connection**: Use `sql.Open` to connect to the SQLite database. If the specified database file (`example.db`) does not exist, it will be created.
+3. **Ping Database**: Use `db.Ping()` to verify the connection to the database. This ensures that the database is accessible and catches any configuration issues early.
+4. **Create Table SQL Statement**: Define a SQL statement to create a table named `users` if it does not already exist. The table has the following columns:
+   - `id`: An auto-incrementing integer that serves as the primary key.
+   - `username`: A text field for storing the username.
+   - `email`: A text field for storing the email.
+   - `created_at`: A timestamp field that defaults to the current timestamp.
+5. **Execute Statement**: Use `db.Exec` to execute the SQL statement. This creates the table in the database.
+6. **Close Resources**: Ensure that the database connection is closed using `defer` to avoid resource leaks.
+7. **Output Success Message**: Print a message indicating that the table was created successfully.
+
+### Running the Code
+
+Save the code to a file, for example, `main.go`, and then run it using the Go command:
+
+```bash
+go run main.go
+```
+
+This will create a SQLite database file named `example.db` with a `users` table if it does not already exist. The SQLite driver will handle the creation of the database file and the table within it, making it easy to get started with SQLite in Go.

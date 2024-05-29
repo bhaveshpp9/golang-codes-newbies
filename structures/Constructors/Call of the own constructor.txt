@@ -1,1 +1,103 @@
 \\ Structures — Constructors — Call of the own constructor
+
+
+In Go, structs do not have constructors in the way that object-oriented languages like Java or C++ do. Instead, you can create constructor-like functions to initialize structs. These functions typically return a new instance of the struct, optionally setting initial values for its fields.
+
+However, Go does not support calling one constructor function from another directly. Instead, you can achieve this by structuring your code to use common initialization logic in a helper function that can be called by multiple constructors.
+
+### Example: Multiple Constructor Functions with Common Initialization Logic
+
+Let's illustrate this with an example where we have two constructor functions for a `Person` struct, each setting different default values, but sharing common initialization logic.
+
+#### Step 1: Define the Struct
+
+First, define the `Person` struct.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define the Person struct
+type Person struct {
+    FirstName string
+    LastName  string
+    Age       int
+}
+```
+
+#### Step 2: Define a Helper Function for Initialization
+
+Create a helper function to initialize the `Person` struct.
+
+```go
+// Helper function to initialize a Person
+func initializePerson(firstName, lastName string, age int) Person {
+    return Person{
+        FirstName: firstName,
+        LastName:  lastName,
+        Age:       age,
+    }
+}
+```
+
+#### Step 3: Define Constructor Functions
+
+Define two constructor functions that use the helper function.
+
+```go
+// Constructor function to create a Person with default values
+func NewDefaultPerson() Person {
+    return initializePerson("John", "Doe", 30)
+}
+
+// Constructor function to create a Person with custom values
+func NewCustomPerson(firstName, lastName string, age int) Person {
+    return initializePerson(firstName, lastName, age)
+}
+```
+
+#### Step 4: Use the Constructor Functions
+
+Finally, use the constructor functions in the `main` function.
+
+```go
+func main() {
+    // Create a Person using the default constructor
+    defaultPerson := NewDefaultPerson()
+    fmt.Printf("Default Person: %+v\n", defaultPerson)
+
+    // Create a Person using the custom constructor
+    customPerson := NewCustomPerson("Alice", "Smith", 25)
+    fmt.Printf("Custom Person: %+v\n", customPerson)
+}
+```
+
+### Explanation
+
+1. **Define the `Person` Struct**:
+   - The `Person` struct has three fields: `FirstName`, `LastName`, and `Age`.
+
+2. **Define a Helper Function for Initialization**:
+   - The `initializePerson` function takes parameters for `FirstName`, `LastName`, and `Age`, and returns a new `Person` instance initialized with these values.
+
+3. **Define Constructor Functions**:
+   - `NewDefaultPerson` uses `initializePerson` to create a `Person` with default values.
+   - `NewCustomPerson` uses `initializePerson` to create a `Person` with custom values provided by the caller.
+
+4. **Use the Constructor Functions**:
+   - In `main`, we create two `Person` instances using the two different constructor functions and print their values.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Default Person: {FirstName:John LastName:Doe Age:30}
+Custom Person: {FirstName:Alice LastName:Smith Age:25}
+```
+
+### Summary
+
+In Go, you can simulate constructors using functions that initialize and return new instances of structs. While Go does not support calling one constructor function from another directly, you can use a helper function to encapsulate common initialization logic. This approach allows you to create multiple constructor functions that share common code, promoting code reuse and maintainability.

@@ -1,1 +1,151 @@
 \\ Patterns — Behavioural patterns — visitor
+
+The Visitor pattern is a behavioral design pattern that allows you to add further operations to objects without having to modify them. It separates an algorithm from the object structure it operates on, making it easier to add new operations.
+
+### Key Components
+
+1. **Visitor Interface**: Declares visit methods for each type of concrete element.
+2. **Concrete Visitor**: Implements the operations defined in the Visitor interface.
+3. **Element Interface**: Declares an accept method that takes a visitor object.
+4. **Concrete Elements**: Implement the accept method to call the visitor's corresponding method.
+5. **Object Structure**: A collection of elements that can be visited by visitors.
+
+### Example: Computer Parts
+
+Let's create an example where different computer parts (elements) are visited by a visitor that performs operations on them.
+
+#### Visitor Interface
+
+```go
+package main
+
+// Visitor interface declares visit methods for each type of element
+type Visitor interface {
+    VisitKeyboard(keyboard *Keyboard)
+    VisitMonitor(monitor *Monitor)
+    VisitMouse(mouse *Mouse)
+}
+```
+
+#### Concrete Visitor
+
+```go
+package main
+
+import "fmt"
+
+// ConcreteVisitor implements operations defined in the Visitor interface
+type ConcreteVisitor struct{}
+
+func (v *ConcreteVisitor) VisitKeyboard(keyboard *Keyboard) {
+    fmt.Println("Visiting Keyboard")
+}
+
+func (v *ConcreteVisitor) VisitMonitor(monitor *Monitor) {
+    fmt.Println("Visiting Monitor")
+}
+
+func (v *ConcreteVisitor) VisitMouse(mouse *Mouse) {
+    fmt.Println("Visiting Mouse")
+}
+```
+
+#### Element Interface
+
+```go
+package main
+
+// Element interface declares an accept method that takes a visitor
+type Element interface {
+    Accept(visitor Visitor)
+}
+```
+
+#### Concrete Elements
+
+```go
+package main
+
+// Keyboard is a Concrete Element
+type Keyboard struct{}
+
+func (k *Keyboard) Accept(visitor Visitor) {
+    visitor.VisitKeyboard(k)
+}
+
+// Monitor is a Concrete Element
+type Monitor struct{}
+
+func (m *Monitor) Accept(visitor Visitor) {
+    visitor.VisitMonitor(m)
+}
+
+// Mouse is a Concrete Element
+type Mouse struct{}
+
+func (m *Mouse) Accept(visitor Visitor) {
+    visitor.VisitMouse(m)
+}
+```
+
+#### Object Structure
+
+```go
+package main
+
+// Computer struct holds elements that can be visited
+type Computer struct {
+    parts []Element
+}
+
+func NewComputer() *Computer {
+    return &Computer{
+        parts: []Element{
+            &Keyboard{},
+            &Monitor{},
+            &Mouse{},
+        },
+    }
+}
+
+func (c *Computer) Accept(visitor Visitor) {
+    for _, part := range c.parts {
+        part.Accept(visitor)
+    }
+}
+```
+
+#### Client
+
+```go
+package main
+
+func main() {
+    computer := NewComputer()
+    visitor := &ConcreteVisitor{}
+
+    computer.Accept(visitor)
+}
+```
+
+### Explanation
+
+1. **Visitor Interface**: The `Visitor` interface declares visit methods for each type of concrete element (`VisitKeyboard`, `VisitMonitor`, and `VisitMouse`).
+2. **Concrete Visitor**: The `ConcreteVisitor` implements the operations defined in the `Visitor` interface. In this example, it prints a message when visiting each part.
+3. **Element Interface**: The `Element` interface declares the `Accept` method that takes a visitor.
+4. **Concrete Elements**: The `Keyboard`, `Monitor`, and `Mouse` structs implement the `Accept` method, which calls the visitor's corresponding visit method.
+5. **Object Structure**: The `Computer` struct holds a collection of elements and implements the `Accept` method to allow a visitor to visit each part.
+6. **Client**: The client code creates a `Computer` instance and a `ConcreteVisitor` instance, then calls the `Accept` method on the computer, allowing the visitor to visit each part of the computer.
+
+### Advantages
+
+- **Open/Closed Principle**: New operations can be added without changing the elements or the object structure.
+- **Single Responsibility Principle**: Element classes don't need to implement the operations. Instead, these operations are moved to the visitor.
+- **Flexibility**: Different visitors can be created to perform different operations on the elements.
+
+### Disadvantages
+
+- **Complexity**: The pattern introduces multiple new classes and interfaces, which can increase the complexity of the code.
+- **Element Interface Change**: If new element types are added, the visitor interface must be updated to include visit methods for the new elements.
+
+By implementing the Visitor pattern, you can separate algorithms from the objects on which they operate, making it easier to add new operations without modifying the existing object structure. This is especially useful when you need to perform different operations on a collection of objects that have different interfaces.

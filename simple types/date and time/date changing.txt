@@ -1,1 +1,138 @@
 \\ Simple types.— Date and time — date changing
+
+
+In Go, you can change or manipulate date and time values using various methods provided by the `time.Time` type in the `time` package. This includes adding or subtracting durations, setting specific components like year, month, day, hour, minute, and second, and calculating differences between dates.
+
+### Changing Dates and Times
+
+1. **Adding or Subtracting Durations**: You can use the `Add` and `AddDate` methods to add or subtract time durations.
+2. **Setting Specific Components**: You can use methods like `AddDate`, `Add`, and fields like `Hour`, `Minute`, etc., to set specific components.
+
+### Example: Adding and Subtracting Durations
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func main() {
+    // Define a starting date
+    startDate := time.Date(2023, time.May, 26, 15, 30, 45, 0, time.UTC)
+    fmt.Println("Start Date:", startDate)
+
+    // Add 10 days
+    newDate := startDate.AddDate(0, 0, 10)
+    fmt.Println("After Adding 10 Days:", newDate)
+
+    // Subtract 2 hours
+    newDate = startDate.Add(-2 * time.Hour)
+    fmt.Println("After Subtracting 2 Hours:", newDate)
+
+    // Add 3 months
+    newDate = startDate.AddDate(0, 3, 0)
+    fmt.Println("After Adding 3 Months:", newDate)
+
+    // Subtract 1 year
+    newDate = startDate.AddDate(-1, 0, 0)
+    fmt.Println("After Subtracting 1 Year:", newDate)
+}
+```
+
+### Explanation
+
+1. **Define a Starting Date**:
+   - We use `time.Date` to create a `time.Time` value representing "2023-05-26 15:30:45".
+
+2. **Add 10 Days**:
+   - We use `AddDate(0, 0, 10)` to add 10 days to the starting date.
+
+3. **Subtract 2 Hours**:
+   - We use `Add(-2 * time.Hour)` to subtract 2 hours from the starting date.
+
+4. **Add 3 Months**:
+   - We use `AddDate(0, 3, 0)` to add 3 months to the starting date.
+
+5. **Subtract 1 Year**:
+   - We use `AddDate(-1, 0, 0)` to subtract 1 year from the starting date.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Start Date: 2023-05-26 15:30:45 +0000 UTC
+After Adding 10 Days: 2023-06-05 15:30:45 +0000 UTC
+After Subtracting 2 Hours: 2023-05-26 13:30:45 +0000 UTC
+After Adding 3 Months: 2023-08-26 15:30:45 +0000 UTC
+After Subtracting 1 Year: 2022-05-26 15:30:45 +0000 UTC
+```
+
+### Example: Setting Specific Components
+
+You can set specific components of a date by creating a new `time.Time` value with the desired components.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func main() {
+    // Define a starting date
+    startDate := time.Date(2023, time.May, 26, 15, 30, 45, 0, time.UTC)
+    fmt.Println("Start Date:", startDate)
+
+    // Change the year to 2025
+    newDate := time.Date(2025, startDate.Month(), startDate.Day(), startDate.Hour(), startDate.Minute(), startDate.Second(), startDate.Nanosecond(), startDate.Location())
+    fmt.Println("Changed Year to 2025:", newDate)
+
+    // Change the month to December
+    newDate = time.Date(startDate.Year(), time.December, startDate.Day(), startDate.Hour(), startDate.Minute(), startDate.Second(), startDate.Nanosecond(), startDate.Location())
+    fmt.Println("Changed Month to December:", newDate)
+
+    // Change the day to the 1st
+    newDate = time.Date(startDate.Year(), startDate.Month(), 1, startDate.Hour(), startDate.Minute(), startDate.Second(), startDate.Nanosecond(), startDate.Location())
+    fmt.Println("Changed Day to 1st:", newDate)
+
+    // Change the time to 10:15:30
+    newDate = time.Date(startDate.Year(), startDate.Month(), startDate.Day(), 10, 15, 30, startDate.Nanosecond(), startDate.Location())
+    fmt.Println("Changed Time to 10:15:30:", newDate)
+}
+```
+
+### Explanation
+
+1. **Change the Year**:
+   - We create a new `time.Time` value with the year set to 2025, while keeping other components the same.
+
+2. **Change the Month**:
+   - We create a new `time.Time` value with the month set to December, while keeping other components the same.
+
+3. **Change the Day**:
+   - We create a new `time.Time` value with the day set to the 1st, while keeping other components the same.
+
+4. **Change the Time**:
+   - We create a new `time.Time` value with the time set to 10:15:30, while keeping other components the same.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Start Date: 2023-05-26 15:30:45 +0000 UTC
+Changed Year to 2025: 2025-05-26 15:30:45 +0000 UTC
+Changed Month to December: 2023-12-26 15:30:45 +0000 UTC
+Changed Day to 1st: 2023-05-01 15:30:45 +0000 UTC
+Changed Time to 10:15:30: 2023-05-26 10:15:30 +0000 UTC
+```
+
+### Summary
+
+Manipulating dates and times in Go involves using methods provided by the `time.Time` type, such as `Add`, `AddDate`, and constructing new `time.Time` values with the desired components. By understanding and using these methods, you can easily change and manipulate date and time values in your Go programs to meet various requirements.

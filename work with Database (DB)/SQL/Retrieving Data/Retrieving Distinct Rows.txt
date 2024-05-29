@@ -1,1 +1,19 @@
 \\ work with database(DB) — SQL — Retrieving Data — Retrieving Distinct Rows
+
+
+SELECT DISTINCT CountryCode
+FROM countrylanguage
+
+CountryCode
+ABW
+AFG
+AGO
+AIA
+ALB
+AND
+ANT
+ARE
+ARG
+...
+
+SELECT DISTINCT CountryCode clause tells the DBMS to return only records with different CountryCode values. If used, the DISTINCT keyword must be placed directly in front of the column names.

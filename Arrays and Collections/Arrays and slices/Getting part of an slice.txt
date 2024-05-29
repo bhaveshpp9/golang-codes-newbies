@@ -1,1 +1,103 @@
 \\ Arrays and collections —  Arrays and Slices — Getting part of an slice
+
+
+In Go, obtaining a part of a slice is commonly referred to as "slicing." Slicing is a powerful feature that allows you to create a new slice header that points to the same underlying array as the original slice but starts and ends at specified indices. This operation is efficient because it doesn't involve copying the slice's elements; instead, it only manipulates the slice headers.
+
+Here’s how you can extract parts of a slice in Go:
+
+### Basic Slicing
+
+Here is an example of how to slice a slice to obtain a subset of its elements:
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Original slice
+    numbers := []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+
+    // Get a part of the slice from index 2 to 5 (exclusive of 5)
+    subSlice := numbers[2:5]
+
+    // Print the original and the sub-slice
+    fmt.Println("Original slice:", numbers)
+    fmt.Println("Sub-slice:", subSlice)
+}
+```
+
+### Explanation:
+- **Slicing**: The notation `numbers[2:5]` takes the elements at indices 2, 3, and 4. The start index is inclusive, and the end index is exclusive.
+- **Result**: The `subSlice` will contain `[2 3 4]`.
+
+### Slicing with Omitted Indices
+
+You can also omit the start or end index when slicing to use their defaults (start defaults to 0, and end defaults to the length of the slice):
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Original slice
+    data := []string{"a", "b", "c", "d", "e"}
+
+    // Omit the start index
+    fromStart := data[:3]  // Equivalent to data[0:3]
+
+    // Omit the end index
+    toEnd := data[3:]  // Equivalent to data[3:len(data)]
+
+    // Print results
+    fmt.Println("From start:", fromStart)
+    fmt.Println("To end:", toEnd)
+}
+```
+
+### Explanation:
+- **`data[:3]`**: This slices from the beginning of `data` up to, but not including, index 3.
+- **`data[3:]`**: This slices from index 3 to the end of `data`.
+
+### Full Slice and Copying
+
+If you need a full slice but want to avoid modifying the original slice when the new slice is modified, you can create a copy using `append` or `copy`.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Original slice
+    original := []int{1, 2, 3, 4, 5}
+
+    // Creating a full slice (shallow copy)
+    fullSlice := original[:]
+
+    // Making a deep copy
+    deepCopy := make([]int, len(original))
+    copy(deepCopy, original)
+
+    // Modify the original
+    original[0] = 999
+
+    // Print to show difference
+    fmt.Println("Original:", original)
+    fmt.Println("Full Slice:", fullSlice)  // This will reflect changes in the original
+    fmt.Println("Deep Copy:", deepCopy)    // This won't reflect changes
+}
+```
+
+### Explanation:
+- **Full Slice**: `fullSlice` is a shallow copy and shares the same underlying array with `original`.
+- **Deep Copy**: `deepCopy` is an independent copy of the `original`. Modifications to `original` do not affect `deepCopy`.
+
+These examples cover basic to advanced slicing techniques, showing how to efficiently access and manage parts of slices in Go, whether you're just referencing data or need an independent copy.

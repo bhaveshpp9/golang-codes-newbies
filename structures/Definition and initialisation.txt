@@ -1,1 +1,214 @@
 \\ Structures — Definition and initialisation
+
+
+In Go, a struct is a composite data type that groups together variables under a single name. These variables are called fields. Structs are useful for grouping data together to form records, and they can contain fields of different types. This makes structs a powerful feature for organizing and managing data in Go programs.
+
+### Defining a Struct
+
+To define a struct, you use the `type` keyword followed by the struct name and the `struct` keyword.
+
+#### Example: Defining a Simple Struct
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define a Person struct
+type Person struct {
+    FirstName string
+    LastName  string
+    Age       int
+}
+
+func main() {
+    // Initialisation examples will go here
+}
+```
+
+In this example, `Person` is a struct type with three fields: `FirstName`, `LastName`, and `Age`.
+
+### Initializing a Struct
+
+You can initialize a struct in several ways:
+
+1. **Using a Struct Literal**
+2. **Using Field Names**
+3. **Using the `new` Keyword**
+4. **Using a Constructor Function**
+
+#### 1. Using a Struct Literal
+
+A struct literal allows you to initialize a struct by listing the field values in order.
+
+##### Example
+
+```go
+func main() {
+    // Initialize a Person using a struct literal
+    person1 := Person{"John", "Doe", 30}
+    fmt.Printf("Person1: %+v\n", person1)
+}
+```
+
+### Explanation
+
+- `person1` is initialized with the values "John", "Doe", and `30` for `FirstName`, `LastName`, and `Age`, respectively.
+- The `%+v` format specifier prints the field names along with their values.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Person1: {FirstName:John LastName:Doe Age:30}
+```
+
+#### 2. Using Field Names
+
+You can specify the field names when initializing a struct. This approach improves readability and allows you to initialize fields in any order.
+
+##### Example
+
+```go
+func main() {
+    // Initialize a Person using field names
+    person2 := Person{
+        FirstName: "Jane",
+        LastName:  "Smith",
+        Age:       25,
+    }
+    fmt.Printf("Person2: %+v\n", person2)
+}
+```
+
+### Explanation
+
+- `person2` is initialized with the specified field names and values.
+- This approach allows initializing fields in any order and improves code readability.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Person2: {FirstName:Jane LastName:Smith Age:25}
+```
+
+#### 3. Using the `new` Keyword
+
+The `new` keyword allocates memory for a new struct and returns a pointer to it. The fields are initialized to their zero values.
+
+##### Example
+
+```go
+func main() {
+    // Initialize a Person using the new keyword
+    person3 := new(Person)
+    person3.FirstName = "Alice"
+    person3.LastName = "Johnson"
+    person3.Age = 22
+    fmt.Printf("Person3: %+v\n", *person3)
+}
+```
+
+### Explanation
+
+- `person3` is a pointer to a `Person` struct, initialized using the `new` keyword.
+- The fields are assigned values individually.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Person3: {FirstName:Alice LastName:Johnson Age:22}
+```
+
+#### 4. Using a Constructor Function
+
+A constructor function initializes and returns a new struct. This approach allows setting default values and encapsulating the creation logic.
+
+##### Example
+
+```go
+// Constructor function for Person
+func NewPerson(firstName, lastName string, age int) Person {
+    return Person{
+        FirstName: firstName,
+        LastName:  lastName,
+        Age:       age,
+    }
+}
+
+func main() {
+    // Initialize a Person using a constructor function
+    person4 := NewPerson("Bob", "Brown", 40)
+    fmt.Printf("Person4: %+v\n", person4)
+}
+```
+
+### Explanation
+
+- `NewPerson` is a constructor function that initializes and returns a new `Person` struct.
+- `person4` is initialized using this constructor function.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Person4: {FirstName:Bob LastName:Brown Age:40}
+```
+
+### Struct with Default Values
+
+Sometimes you may want to initialize a struct with some default values if certain fields are not provided. This can be achieved by defining default values within the constructor function.
+
+##### Example: Constructor with Default Values
+
+```go
+// Constructor function for Person with default values
+func NewPersonWithDefaults(firstName, lastName string, age int) Person {
+    if firstName == "" {
+        firstName = "John" // default first name
+    }
+    if lastName == "" {
+        lastName = "Doe" // default last name
+    }
+    if age == 0 {
+        age = 30 // default age
+    }
+    return Person{
+        FirstName: firstName,
+        LastName:  lastName,
+        Age:       age,
+    }
+}
+
+func main() {
+    // Initialize a Person using a constructor function with default values
+    person5 := NewPersonWithDefaults("", "", 0)
+    fmt.Printf("Person5: %+v\n", person5)
+}
+```
+
+### Explanation
+
+- `NewPersonWithDefaults` is a constructor function that assigns default values if certain fields are not provided.
+- `person5` is initialized with default values since all arguments passed to the constructor are empty or zero.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Person5: {FirstName:John LastName:Doe Age:30}
+```
+
+### Summary
+
+In Go, structs are defined using the `type` and `struct` keywords, and can be initialized in several ways:
+1. **Using a Struct Literal**: Quick and concise, listing field values in order.
+2. **Using Field Names**: Improves readability and allows initialization in any order.
+3. **Using the `new` Keyword**: Allocates memory and returns a pointer to a struct.
+4. **Using a Constructor Function**: Encapsulates initialization logic and allows setting default values.
+
+These methods provide flexibility and clarity when working with structs in your Go programs.

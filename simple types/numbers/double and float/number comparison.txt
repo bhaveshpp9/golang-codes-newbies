@@ -1,1 +1,133 @@
 \\ Simple types.— Numbers — double and float — number comparison
+
+In Go, comparing floating-point numbers (`float32` and `float64`) can be done using standard comparison operators such as `==`, `!=`, `<`, `<=`, `>`, and `>=`. However, due to the nature of floating-point arithmetic, direct comparison can sometimes lead to unexpected results due to precision issues. It's often better to use a small tolerance value when checking for equality.
+
+### Example: Direct Comparison of Floating-Point Numbers
+
+Here’s an example demonstrating how to directly compare `float32` and `float64` numbers using standard comparison operators.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Define float32 numbers
+    var a float32 = 0.1
+    var b float32 = 0.2
+    var c float32 = 0.3
+
+    // Define float64 numbers
+    var x float64 = 0.1
+    var y float64 = 0.2
+    var z float64 = 0.3
+
+    // Direct comparison for float32
+    fmt.Printf("a + b == c for float32: %v\n", a+b == c)
+    fmt.Printf("a + b < c for float32: %v\n", a+b < c)
+    fmt.Printf("a + b > c for float32: %v\n", a+b > c)
+
+    // Direct comparison for float64
+    fmt.Printf("x + y == z for float64: %v\n", x+y == z)
+    fmt.Printf("x + y < z for float64: %v\n", x+y < z)
+    fmt.Printf("x + y > z for float64: %v\n", x+y > z)
+}
+```
+
+### Explanation
+
+1. **Define `float32` Numbers**:
+   - We define `float32` variables `a`, `b`, and `c` with values `0.1`, `0.2`, and `0.3` respectively.
+
+2. **Define `float64` Numbers**:
+   - We define `float64` variables `x`, `y`, and `z` with values `0.1`, `0.2`, and `0.3` respectively.
+
+3. **Direct Comparison for `float32`**:
+   - We compare `a + b` with `c` using `==`, `<`, and `>` operators and print the results.
+
+4. **Direct Comparison for `float64`**:
+   - We compare `x + y` with `z` using `==`, `<`, and `>` operators and print the results.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+a + b == c for float32: false
+a + b < c for float32: true
+a + b > c for float32: false
+x + y == z for float64: false
+x + y < z for float64: true
+x + y > z for float64: false
+```
+
+### Using a Tolerance for Floating-Point Comparison
+
+Due to precision issues, direct comparison can be unreliable. Instead, we can use a small tolerance value to check if two floating-point numbers are approximately equal.
+
+#### Example: Using a Tolerance for Floating-Point Comparison
+
+```go
+package main
+
+import (
+    "fmt"
+    "math"
+)
+
+func main() {
+    // Define float32 numbers
+    var a float32 = 0.1
+    var b float32 = 0.2
+    var c float32 = 0.3
+
+    // Define float64 numbers
+    var x float64 = 0.1
+    var y float64 = 0.2
+    var z float64 = 0.3
+
+    // Define a small tolerance
+    const float32Tolerance float32 = 1e-7
+    const float64Tolerance float64 = 1e-9
+
+    // Comparison with tolerance for float32
+    equalFloat32 := math.Abs(float64(a+b-c)) < float64(float32Tolerance)
+    fmt.Printf("a + b ≈ c for float32: %v\n", equalFloat32)
+
+    // Comparison with tolerance for float64
+    equalFloat64 := math.Abs(x+y-z) < float64Tolerance
+    fmt.Printf("x + y ≈ z for float64: %v\n", equalFloat64)
+}
+```
+
+### Explanation
+
+1. **Define `float32` and `float64` Numbers**:
+   - We define `float32` variables `a`, `b`, and `c` with values `0.1`, `0.2`, and `0.3`.
+   - We define `float64` variables `x`, `y`, and `z` with values `0.1`, `0.2`, and `0.3`.
+
+2. **Define a Small Tolerance**:
+   - We define a small tolerance value for `float32` (`1e-7`) and `float64` (`1e-9`).
+
+3. **Comparison with Tolerance for `float32`**:
+   - We check if the absolute difference between `a + b` and `c` is less than the tolerance.
+   - We use `math.Abs` to compute the absolute difference and compare it with the tolerance.
+
+4. **Comparison with Tolerance for `float64`**:
+   - We check if the absolute difference between `x + y` and `z` is less than the tolerance.
+   - We use `math.Abs` to compute the absolute difference and compare it with the tolerance.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+a + b ≈ c for float32: true
+x + y ≈ z for float64: true
+```
+
+### Summary
+
+Comparing floating-point numbers in Go using standard comparison operators can sometimes lead to unexpected results due to precision issues. Using a small tolerance value is a more reliable way to check for equality. This approach involves checking if the absolute difference between the numbers is smaller than a predefined tolerance. By understanding and using these techniques, you can effectively compare floating-point numbers in your Go programs.

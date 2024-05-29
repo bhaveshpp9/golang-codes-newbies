@@ -1,1 +1,80 @@
 \\ Arrays and collections —  Dictionaries — Default value
+
+
+In Go, when you access a map with a key that does not exist, it returns the zero value for the value type of the map. This default behavior is often utilized to handle cases where keys may or may not exist in the map.
+
+Here's how to work with default values when using maps, including how to set custom default values if the zero value is not suitable for your application.
+
+### Example: Working with Default Values
+
+Let's say you have a map where the keys are strings and the values are integers. The zero value for integers in Go is `0`. Here’s an example:
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Create a map with string keys and integer values
+    scores := map[string]int{
+        "Alice": 25,
+        "Bob":   30,
+    }
+
+    // Accessing a key that exists
+    fmt.Println("Score for Alice:", scores["Alice"])
+
+    // Accessing a key that does not exist
+    fmt.Println("Score for Clara:", scores["Clara"]) // Returns 0, the zero value for int
+}
+```
+
+### Explanation:
+- **Zero Value**: When you access `scores["Clara"]`, Clara is not a key in the map, so Go returns `0`, which is the zero value for the type `int`.
+
+### Setting a Custom Default Value
+
+If the zero value (`0` for integers, `""` for strings, `nil` for slices, etc.) is not appropriate for your use case, you can handle this manually by checking if the key exists in the map.
+
+Here's how to implement custom default handling:
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func getScore(name string, scores map[string]int) int {
+    score, exists := scores[name]
+    if !exists {
+        return -1 // return a custom default value when key is not found
+    }
+    return score
+}
+
+func main() {
+    scores := map[string]int{
+        "Alice": 25,
+        "Bob":   30,
+    }
+
+    // Accessing a key that exists
+    fmt.Println("Score for Alice:", getScore("Alice", scores))
+
+    // Accessing a key that does not exist, using a custom default value
+    fmt.Println("Score for Clara:", getScore("Clara", scores))
+}
+```
+
+### Explanation:
+- **Function `getScore`**: This function takes a name and a map as arguments. It attempts to retrieve the score for the given name. If the name does not exist in the map, it returns `-1` instead of the zero value.
+- **Existence Check**: It uses the two-value assignment form to check if the key exists in the map.
+
+This approach allows for more flexibility compared to relying on the zero value, particularly in scenarios where the zero value of the data type might be a valid and meaningful value in the context of your application.
+
+### Conclusion
+
+Understanding how to manage default values in maps is crucial for writing robust Go code, especially when your logic depends on whether map entries exist. This knowledge helps in writing clearer, more effective Go programs.

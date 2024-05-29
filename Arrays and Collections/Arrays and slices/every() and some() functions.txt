@@ -1,1 +1,80 @@
 \\ Arrays and collections —  Arrays and Slices — every() and some() functions
+
+
+In Go, unlike languages like JavaScript, there aren't built-in `every()` and `some()` functions to directly test every or some elements in a slice against a predicate. However, you can implement similar functionality using loops. These functions are quite useful for quickly checking conditions across all or some elements of a collection.
+
+Here's how you can implement both `every()` and `some()` functions for slices in Go.
+
+### Implementing `every()`
+The `every()` function checks if all elements in a slice meet a specific condition. Here's how you can implement an `every()` function for a slice of integers:
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// every checks if every element in the slice satisfies the provided condition.
+func every(numbers []int, condition func(int) bool) bool {
+    for _, num := range numbers {
+        if !condition(num) {
+            return false
+        }
+    }
+    return true
+}
+
+func main() {
+    numbers := []int{2, 4, 6, 8, 10}
+    allEven := every(numbers, func(n int) bool {
+        return n%2 == 0
+    })
+
+    if allEven {
+        fmt.Println("All numbers are even.")
+    } else {
+        fmt.Println("Not all numbers are even.")
+    }
+}
+```
+
+### Implementing `some()`
+The `some()` function checks if at least one element in the slice meets a specific condition. Here's how you can implement a `some()` function for a slice of integers:
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// some checks if any element in the slice satisfies the provided condition.
+func some(numbers []int, condition func(int) bool) bool {
+    for _, num := range numbers {
+        if condition(num) {
+            return true
+        }
+    }
+    return false
+}
+
+func main() {
+    numbers := []int{1, 3, 5, 7, 8}
+    hasEven := some(numbers, func(n int) bool {
+        return n%2 == 0
+    })
+
+    if hasEven {
+        fmt.Println("There is at least one even number.")
+    } else {
+        fmt.Println("There are no even numbers.")
+    }
+}
+```
+
+### Explanation
+- **Functions `every` and `some`**: Both functions take a slice of integers and a condition function as arguments. The condition function is a predicate that takes an integer and returns a boolean.
+- **Loop Checking**: In `every()`, the loop returns `false` as soon as it finds an element that does not satisfy the condition, ensuring all elements must pass the test. In `some()`, it returns `true` as soon as it finds an element that satisfies the condition, requiring only one element to pass the test.
+
+These custom implementations demonstrate how you can adapt common functional programming patterns in Go, enhancing your ability to handle data collections efficiently and expressively.

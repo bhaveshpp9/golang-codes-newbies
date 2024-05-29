@@ -1,1 +1,20 @@
 \\ work with database(DB) — SQL — Filtering Data — AND and OR Operator
+
+
+SELECT Name, Population
+FROM country
+WHERE
+    (Population > 100000000 OR Population < 2000) AND
+    Continent <> 'Asia' AND
+    Population > 0
+
+Name	Population
+Brazil	170,115,000
+Cocos (Keeling) Islands	600
+Nigeria	111,506,000
+Pitcairn	50
+Russian Federation	146,934,000
+United States	278,357,000
+Holy See (Vatican City State)	1000
+
+SQL processes AND operators before OR operators. Therefore, the example uses parentheses to explicitly group related operators.

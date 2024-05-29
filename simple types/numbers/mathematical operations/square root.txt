@@ -1,1 +1,166 @@
 \\ Simple types.— Numbers —mathematical operations — Square root
+
+
+In Go, you can compute the square root of a number using the `math.Sqrt` function from the `math` package. This function takes a floating-point number as input and returns its square root.
+
+### Example: Computing the Square Root
+
+Here’s an example demonstrating how to compute the square root of a number using `math.Sqrt`.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "math"
+)
+
+func main() {
+    // Define a number
+    num := 16.0
+
+    // Calculate the square root
+    sqrtValue := math.Sqrt(num)
+
+    // Print the result
+    fmt.Printf("The square root of %f is %f\n", num, sqrtValue)
+}
+```
+
+### Explanation
+
+1. **Import the `math` Package**:
+   - The `math` package provides mathematical functions, including `Sqrt` for square root calculations.
+
+2. **Define a Number**:
+   - We define a floating-point number `num` with the value `16.0`.
+
+3. **Calculate the Square Root**:
+   - We use `math.Sqrt(num)` to calculate the square root of `num`.
+
+4. **Print the Result**:
+   - We print the result using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+The square root of 16.000000 is 4.000000
+```
+
+### Handling Different Input Values
+
+You can compute the square root for various input values, including positive numbers, zero, and negative numbers (which will result in `NaN` since the square root of a negative number is not a real number).
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "math"
+)
+
+func main() {
+    // Define a slice of numbers
+    numbers := []float64{0, 4, 9, 16, -4}
+
+    // Calculate and print the square root for each number
+    for _, num := range numbers {
+        sqrtValue := math.Sqrt(num)
+        fmt.Printf("The square root of %f is %f\n", num, sqrtValue)
+    }
+}
+```
+
+### Explanation
+
+1. **Define a Slice of Numbers**:
+   - We define a slice `numbers` containing various floating-point numbers, including a negative number.
+
+2. **Calculate and Print the Square Root for Each Number**:
+   - We loop through the slice and use `math.Sqrt(num)` to calculate the square root for each number.
+   - We print the results using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+The square root of 0.000000 is 0.000000
+The square root of 4.000000 is 2.000000
+The square root of 9.000000 is 3.000000
+The square root of 16.000000 is 4.000000
+The square root of -4.000000 is NaN
+```
+
+### Note on Negative Numbers
+
+When computing the square root of a negative number, the result is `NaN` (Not a Number) because the square root of a negative number is not defined in the set of real numbers. The `math.Sqrt` function handles this by returning `NaN`.
+
+### Custom Function for Square Root with Error Handling
+
+You can create a custom function to handle square root calculations and return an error if the input is negative.
+
+#### Example: Custom Square Root Function with Error Handling
+
+```go
+package main
+
+import (
+    "errors"
+    "fmt"
+    "math"
+)
+
+// Sqrt calculates the square root of a number and returns an error if the number is negative
+func Sqrt(x float64) (float64, error) {
+    if x < 0 {
+        return 0, errors.New("cannot compute the square root of a negative number")
+    }
+    return math.Sqrt(x), nil
+}
+
+func main() {
+    // Define a slice of numbers
+    numbers := []float64{0, 4, 9, 16, -4}
+
+    // Calculate and print the square root for each number
+    for _, num := range numbers {
+        sqrtValue, err := Sqrt(num)
+        if err != nil {
+            fmt.Printf("Error: %v\n", err)
+        } else {
+            fmt.Printf("The square root of %f is %f\n", num, sqrtValue)
+        }
+    }
+}
+```
+
+### Explanation
+
+1. **Define a Custom `Sqrt` Function**:
+   - The function checks if the input number is negative. If it is, it returns an error.
+   - Otherwise, it calculates the square root using `math.Sqrt` and returns the result.
+
+2. **Handle the Square Root Calculation**:
+   - We loop through the slice of numbers and call the custom `Sqrt` function for each number.
+   - If an error is returned, we print the error message.
+   - Otherwise, we print the square root result.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+The square root of 0.000000 is 0.000000
+The square root of 4.000000 is 2.000000
+The square root of 9.000000 is 3.000000
+The square root of 16.000000 is 4.000000
+Error: cannot compute the square root of a negative number
+```
+
+### Summary
+
+In Go, you can compute the square root of a number using the `math.Sqrt` function from the `math` package. This function works with floating-point numbers and returns `NaN` for negative inputs. To handle negative inputs more gracefully, you can create a custom function that returns an error when the input is negative. This approach allows you to effectively handle square root calculations in your Go programs.

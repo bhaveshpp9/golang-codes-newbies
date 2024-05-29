@@ -1,1 +1,125 @@
 \\ Lambda Expressions —  Memoization (Recursive)
+
+Memoization is particularly powerful when applied to recursive functions, as it can dramatically reduce the number of computations by caching previously calculated results. In Go, you can achieve recursive memoization using closures and maps. Here’s a step-by-step guide on how to implement memoization for a recursive function, specifically the Fibonacci sequence.
+
+### Example: Memoizing a Recursive Fibonacci Function
+
+Let's start by implementing a memoized recursive Fibonacci function using lambda expressions (anonymous functions).
+
+#### Step 1: Define the Recursive Function with Memoization
+
+We'll use a closure to encapsulate the memoization logic and a map to store the results of the Fibonacci calculations.
+
+```go
+package main
+
+import "fmt"
+
+// Memoized Fibonacci function using a closure
+func memoizedFibonacci() func(int) int {
+    cache := make(map[int]int) // Cache to store previously computed results
+
+    // Define the recursive function as a closure
+    var fib func(int) int
+    fib = func(n int) int {
+        if result, found := cache[n]; found {
+            return result // Return cached result if found
+        }
+        if n <= 1 {
+            cache[n] = n
+        } else {
+            cache[n] = fib(n-1) + fib(n-2)
+        }
+        return cache[n]
+    }
+
+    return fib // Return the closure
+}
+
+func main() {
+    // Get the memoized Fibonacci function
+    fib := memoizedFibonacci()
+
+    // Test the function
+    fmt.Println(fib(10)) // Output: 55
+    fmt.Println(fib(15)) // Output: 610
+    fmt.Println(fib(20)) // Output: 6765
+}
+```
+
+### Explanation
+
+1. **Cache Initialization:** A map `cache` is created to store the results of Fibonacci calculations.
+2. **Recursive Function Definition:** The `fib` variable is defined as a function that computes the Fibonacci sequence. This function checks the cache before performing the computation.
+3. **Closure:** The `fib` function is returned as a closure, capturing the `cache` map and itself, enabling memoization.
+4. **Function Call:** In the `main` function, the memoized Fibonacci function is called with different arguments, demonstrating its efficiency.
+
+### Benefits of Memoization
+
+Memoization avoids redundant calculations, improving the performance of recursive functions significantly. For example, the non-memoized recursive Fibonacci function has exponential time complexity \(O(2^n)\), while the memoized version has linear time complexity \(O(n)\).
+
+### Generalizing Memoized Recursive Functions
+
+You can create a higher-order function that generalizes the memoization pattern for any recursive function. This involves creating a generic memoization function.
+
+#### Step 2: Generalizing Memoization
+
+Here's a higher-order function for memoizing any recursive function:
+
+```go
+package main
+
+import "fmt"
+
+// Memoize is a higher-order function that memoizes a recursive function
+func memoize(f func(int) int) func(int) int {
+    cache := make(map[int]int) // Cache to store previously computed results
+
+    // Define the memoized function as a closure
+    var memoizedFunc func(int) int
+    memoizedFunc = func(n int) int {
+        if result, found := cache[n]; found {
+            return result // Return cached result if found
+        }
+        result := f(n) // Compute the result by calling the original function
+        cache[n] = result // Store the result in the cache
+        return result
+    }
+
+    return memoizedFunc // Return the closure
+}
+
+// Recursive Fibonacci function to be memoized
+func fibonacci(n int) int {
+    if n <= 1 {
+        return n
+    }
+    return fibonacci(n-1) + fibonacci(n-2)
+}
+
+func main() {
+    // Memoize the Fibonacci function
+    memoizedFib := memoize(fibonacci)
+
+    // Test the memoized function
+    fmt.Println(memoizedFib(10)) // Output: 55
+    fmt.Println(memoizedFib(15)) // Output: 610
+    fmt.Println(memoizedFib(20)) // Output: 6765
+}
+```
+
+### Explanation
+
+1. **Higher-Order Memoize Function:** The `memoize` function takes a function `f` and returns a memoized version of it.
+2. **Cache Initialization:** A map `cache` is created to store the results.
+3. **Memoized Function Definition:** The `memoizedFunc` closure captures the `cache` and the original function `f`.
+4. **Function Call:** In the `main` function, the `fibonacci` function is memoized, and the memoized version is tested with different inputs.
+
+### Summary
+
+- **Memoization:** Store previously computed results to avoid redundant calculations in recursive functions.
+- **Closure:** Use closures to capture the cache and recursive function.
+- **Higher-Order Function:** Generalize memoization for any recursive function using higher-order functions.
+- **Performance:** Dramatically improve the efficiency of recursive algorithms, reducing time complexity.
+
+By implementing memoization using closures and maps, you can optimize recursive functions effectively in Go, leveraging functional programming techniques to enhance performance.

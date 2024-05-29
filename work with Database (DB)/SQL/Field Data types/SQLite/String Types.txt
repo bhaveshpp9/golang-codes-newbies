@@ -1,1 +1,8 @@
 \\ work with database(DB) — SQL — Field data types — SQLite — Boolean Types
+
+
+CHARACTER(20), VARCHAR(255), VARYING CHARACTER(255), NCHAR(55), NATIVE CHARACTER(70), NVARCHAR(100), CLOB are synonymous with TEXT.
+Type list:
+
+Type	Is Fixed Length	Max Size	Encoding
+TEXT	no	macro SQLITE_MAX_LENGTH	UTF-8, UTF-16BE or UTF-16LE

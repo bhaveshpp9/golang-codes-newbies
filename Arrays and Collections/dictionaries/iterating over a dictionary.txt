@@ -1,1 +1,107 @@
 \\ Arrays and collections —  Dictionaries — iterating over a dictionary
+
+
+Iterating over a dictionary (known as a map in Go) involves using a `for` loop along with the `range` clause to traverse through each key-value pair. This is a straightforward and effective way to access or manipulate the elements of a map.
+
+Here’s how to iterate over a map in Go with examples showing various common tasks you might perform during iteration.
+
+### Basic Iteration Over a Map
+
+This basic example demonstrates how to iterate over a map to print all key-value pairs.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Create a map of string keys to int values
+    colors := map[string]int{
+        "red":    1,
+        "blue":   2,
+        "green":  3,
+        "yellow": 4,
+    }
+
+    // Iterate over the map using range
+    for key, value := range colors {
+        fmt.Printf("Key: %s, Value: %d\n", key, value)
+    }
+}
+```
+
+### Explanation:
+- **Map Definition**: A map named `colors` is defined with string keys and integer values.
+- **Iteration**: The `for` loop with `range` iterates over each entry in the map. `key` and `value` represent the key and the value of each map entry, respectively.
+
+### Modifying Values During Iteration
+
+If you need to modify the values in a map during iteration, you can do so directly by accessing the map entries using their keys.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Create a map of string keys to float values
+    temperatures := map[string]float64{
+        "London":    15.4,
+        "New York":  22.3,
+        "Tokyo":     17.8,
+        "Sydney":    18.6,
+    }
+
+    // Increase each temperature by 1 degree
+    for city, temp := range temperatures {
+        temperatures[city] = temp + 1.0
+    }
+
+    // Print the modified map
+    for city, temp := range temperatures {
+        fmt.Printf("%s: %.1f°C\n", city, temp)
+    }
+}
+```
+
+### Explanation:
+- **Modify Values**: During the first iteration over the map, each temperature is increased by 1.0. The map is accessed by its keys (`city`), and values (`temp`) are updated accordingly.
+- **Second Iteration**: A second loop is used to print out the updated temperatures.
+
+### Iterating and Performing Conditional Logic
+
+You can also use conditions within your iteration to perform specific actions based on the values or keys.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Map with inventory counts
+    inventory := map[string]int{
+        "apples":  50,
+        "oranges": 25,
+        "pears":   30,
+    }
+
+    // Print items with less than 30 units in stock
+    for item, count := range inventory {
+        if count < 30 {
+            fmt.Printf("Low stock alert for %s: only %d left\n", item, count)
+        }
+    }
+}
+```
+
+### Explanation:
+- **Conditional Check**: The loop checks each inventory item to see if the stock is below 30. If true, it prints a low stock alert message.
+
+### Conclusion
+These examples illustrate basic to intermediate techniques for iterating over maps in Go, demonstrating how to access, modify, and make decisions based on the contents of a map. Iteration is essential for data manipulation and business logic involving key-value collections in Go.

@@ -1,1 +1,83 @@
 \\ Lambda Expressions —  Currying
+
+Currying is a functional programming concept where a function with multiple arguments is transformed into a series of functions that each take a single argument. Go does not support currying natively as some functional programming languages do, but you can achieve similar behavior using closures and anonymous functions.
+
+### Example: Simulating Currying in Go
+
+Here's an example of how to simulate currying in Go:
+
+```go
+package main
+
+import "fmt"
+
+// A function that returns a curried function
+func add(a int) func(int) int {
+    return func(b int) int {
+        return a + b
+    }
+}
+
+func main() {
+    // Create a curried function by partially applying the first argument
+    addFive := add(5)
+
+    // Call the curried function with the second argument
+    result := addFive(3)
+
+    fmt.Println(result) // Output: 8
+}
+```
+
+### Explanation
+
+1. **Curried Function:** The `add` function takes an integer `a` and returns another function that takes an integer `b` and returns the sum of `a` and `b`.
+2. **Partial Application:** In the `main` function, `addFive` is created by partially applying the first argument (5) to the `add` function.
+3. **Function Call:** The curried function `addFive` is then called with the second argument (3), resulting in the sum (8).
+
+### Practical Example: Currying with Multiple Arguments
+
+To extend this example, let's simulate currying for a function with three arguments:
+
+```go
+package main
+
+import "fmt"
+
+// A function that returns a curried function for three arguments
+func multiply(a int) func(int) func(int) int {
+    return func(b int) func(int) int {
+        return func(c int) int {
+            return a * b * c
+        }
+    }
+}
+
+func main() {
+    // Create a curried function by partially applying the first argument
+    multiplyByTwo := multiply(2)
+
+    // Create another curried function by partially applying the second argument
+    multiplyByTwoAndThree := multiplyByTwo(3)
+
+    // Call the final curried function with the third argument
+    result := multiplyByTwoAndThree(4)
+
+    fmt.Println(result) // Output: 24
+}
+```
+
+### Explanation
+
+1. **Curried Function for Three Arguments:** The `multiply` function takes an integer `a` and returns a function that takes an integer `b`, which in turn returns a function that takes an integer `c` and returns the product of `a`, `b`, and `c`.
+2. **Partial Application:** In the `main` function, `multiplyByTwo` is created by partially applying the first argument (2) to the `multiply` function.
+3. **Further Partial Application:** `multiplyByTwoAndThree` is created by partially applying the second argument (3) to the `multiplyByTwo` function.
+4. **Final Function Call:** The final curried function `multiplyByTwoAndThree` is called with the third argument (4), resulting in the product (24).
+
+### Summary
+
+- **Simulating Currying:** Go does not natively support currying, but you can simulate it using closures and anonymous functions.
+- **Partial Application:** You can create partially applied functions by returning new functions that accept the remaining arguments.
+- **Chaining Functions:** This technique allows you to chain function calls to incrementally apply arguments.
+
+By using closures and anonymous functions, you can leverage currying-like behavior in Go, enabling more flexible and reusable code patterns.

@@ -1,1 +1,16 @@
 \\ work with database(DB) — SQL — Updating Views — Reformat Retrieved Data
+
+
+# for MySQL
+CREATE VIEW countryNames AS
+SELECT
+  Name,
+  CONCAT(Name, ' (', RTRIM(LocalName), ')') AS FullName
+FROM country;
+
+SELECT FullName
+FROM countryNames
+WHERE Name = 'Russian Federation'
+
+FullName
+Russian Federation (Rossija)

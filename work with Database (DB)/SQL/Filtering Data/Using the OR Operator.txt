@@ -1,1 +1,22 @@
 \\ work with database(DB) — SQL — Filtering Data — Using the OR Operator
+
+
+SELECT Name, Population
+FROM country
+WHERE
+    Population > 100000000 OR
+    Population BETWEEN 1 AND 2000
+
+Name	Population
+Bangladesh	129,155,000
+Brazil	170,115,000
+Cocos (Keeling) Islands	600
+China	1,277,558,000
+Falkland Islands	2000
+Indonesia	212,107,000
+India	1,013,662,000
+Japan	126,714,000
+Norfolk Island	2000
+...
+
+OR keyword used in a WHERE clause to specify that any rows matching either of the specified conditions should be retrieved.

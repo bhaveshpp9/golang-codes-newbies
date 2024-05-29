@@ -1,1 +1,10 @@
 \\ work with database(DB) — SQL — Filtering Data — Using the LIKE operator — [^ ] Wildcard
+
+
+--Ms SQL, Access
+SELECT Code, Name
+FROM country
+WHERE Code LIKE 'B[^GH]R'
+
+Code	Name
+BLR	Belarus

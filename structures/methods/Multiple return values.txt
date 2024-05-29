@@ -1,1 +1,236 @@
 \\ Structures — Methods —  Multiple return values
+
+
+In Go, functions and methods can return multiple values. This feature is useful for returning additional information, such as error values or multiple computed results, without needing to use out parameters or modify input arguments.
+
+### Example: Method Returning Multiple Values
+
+Let's create an example where a method returns multiple values. We'll use a `Person` struct and create a method that returns the person's full name and age.
+
+#### Step 1: Define the Struct
+
+First, define a `Person` struct.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define the Person struct
+type Person struct {
+    FirstName string
+    LastName  string
+    Age       int
+}
+```
+
+#### Step 2: Define the Method with Multiple Return Values
+
+Create a method for the `Person` struct that returns the full name and age.
+
+```go
+// Method to get the full name and age of the person
+func (p Person) GetDetails() (string, int) {
+    fullName := p.FirstName + " " + p.LastName
+    return fullName, p.Age
+}
+```
+
+#### Step 3: Use the Method
+
+Finally, use the method in the `main` function.
+
+```go
+func main() {
+    // Create an instance of Person
+    person := Person{
+        FirstName: "John",
+        LastName:  "Doe",
+        Age:       30,
+    }
+
+    // Call the GetDetails method and capture the return values
+    fullName, age := person.GetDetails()
+
+    // Print the return values
+    fmt.Printf("Full Name: %s\n", fullName)
+    fmt.Printf("Age: %d\n", age)
+}
+```
+
+### Explanation
+
+1. **Define the `Person` Struct**:
+   - The `Person` struct has three fields: `FirstName`, `LastName`, and `Age`.
+
+2. **Define the `GetDetails` Method**:
+   - The `GetDetails` method is defined on the `Person` struct. It returns two values: a string (`fullName`) and an int (`age`).
+
+3. **Use the Method**:
+   - In `main`, an instance of the `Person` struct is created and initialized.
+   - The `GetDetails` method is called, and its return values are captured in the `fullName` and `age` variables.
+   - The return values are printed.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Full Name: John Doe
+Age: 30
+```
+
+### Example: Method Returning Multiple Computed Values
+
+Let's create a `Rectangle` struct with a method that returns the area and perimeter of the rectangle.
+
+#### Step 1: Define the Struct
+
+First, define a `Rectangle` struct.
+
+```go
+// Define the Rectangle struct
+type Rectangle struct {
+    Width  float64
+    Height float64
+}
+```
+
+#### Step 2: Define the Method with Multiple Return Values
+
+Create a method for the `Rectangle` struct that returns the area and perimeter.
+
+```go
+// Method to calculate the area and perimeter of the rectangle
+func (r Rectangle) AreaAndPerimeter() (float64, float64) {
+    area := r.Width * r.Height
+    perimeter := 2 * (r.Width + r.Height)
+    return area, perimeter
+}
+```
+
+#### Step 3: Use the Method
+
+Finally, use the method in the `main` function.
+
+```go
+func main() {
+    // Create an instance of Rectangle
+    rect := Rectangle{
+        Width:  10.5,
+        Height: 5.5,
+    }
+
+    // Call the AreaAndPerimeter method and capture the return values
+    area, perimeter := rect.AreaAndPerimeter()
+
+    // Print the return values
+    fmt.Printf("Area: %.2f\n", area)
+    fmt.Printf("Perimeter: %.2f\n", perimeter)
+}
+```
+
+### Explanation
+
+1. **Define the `Rectangle` Struct**:
+   - The `Rectangle` struct has two fields: `Width` and `Height`.
+
+2. **Define the `AreaAndPerimeter` Method**:
+   - The `AreaAndPerimeter` method is defined on the `Rectangle` struct. It returns two values: the area (`area`) and the perimeter (`perimeter`).
+
+3. **Use the Method**:
+   - In `main`, an instance of the `Rectangle` struct is created and initialized.
+   - The `AreaAndPerimeter` method is called, and its return values are captured in the `area` and `perimeter` variables.
+   - The return values are printed.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Area: 57.75
+Perimeter: 32.00
+```
+
+### Example: Method Returning Value and Error
+
+Let's create a `Calculator` struct with a method that returns the result of a division operation and an error if the operation is invalid (e.g., division by zero).
+
+#### Step 1: Define the Struct
+
+First, define a `Calculator` struct.
+
+```go
+// Define the Calculator struct
+type Calculator struct{}
+```
+
+#### Step 2: Define the Method with Value and Error Return
+
+Create a method for the `Calculator` struct that performs division and returns the result and an error.
+
+```go
+import (
+    "errors"
+)
+
+// Method to divide two numbers
+func (c Calculator) Divide(a, b float64) (float64, error) {
+    if b == 0 {
+        return 0, errors.New("division by zero")
+    }
+    return a / b, nil
+}
+```
+
+#### Step 3: Use the Method
+
+Finally, use the method in the `main` function.
+
+```go
+func main() {
+    // Create an instance of Calculator
+    calc := Calculator{}
+
+    // Perform a valid division
+    result, err := calc.Divide(10, 2)
+    if err != nil {
+        fmt.Println("Error:", err)
+    } else {
+        fmt.Printf("Result: %.2f\n", result)
+    }
+
+    // Perform a division by zero
+    result, err = calc.Divide(10, 0)
+    if err != nil {
+        fmt.Println("Error:", err)
+    } else {
+        fmt.Printf("Result: %.2f\n", result)
+    }
+}
+```
+
+### Explanation
+
+1. **Define the `Calculator` Struct**:
+   - The `Calculator` struct is defined as an empty struct.
+
+2. **Define the `Divide` Method**:
+   - The `Divide` method is defined on the `Calculator` struct. It takes two float64 parameters (`a` and `b`) and returns a float64 result and an error.
+   - If `b` is zero, the method returns an error indicating division by zero.
+
+3. **Use the Method**:
+   - In `main`, an instance of the `Calculator` struct is created.
+   - The `Divide` method is called twice: once with valid parameters and once with a division by zero. The results and errors are handled and printed accordingly.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Result: 5.00
+Error: division by zero
+```
+
+### Summary
+
+In Go, methods can return multiple values, allowing you to return additional information such as error values or multiple computed results. This feature provides flexibility and makes it easy to handle various scenarios in a clean and efficient manner. By using multiple return values, you can ensure that your methods provide all necessary information to the caller, promoting robust and maintainable code.

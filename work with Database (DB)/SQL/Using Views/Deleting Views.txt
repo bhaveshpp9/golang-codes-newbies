@@ -1,1 +1,6 @@
 \\ work with database(DB) — SQL — Updating Views — Deleting views
+
+
+DROP VIEW bigCities
+
+This instruction deletes the view created in the previous example.

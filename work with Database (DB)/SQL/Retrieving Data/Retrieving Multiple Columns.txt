@@ -1,1 +1,18 @@
 \\ work with database(DB) — SQL — Retrieving Data — Retrieving Multiple Columns
+
+
+SELECT Name, Continent, Population
+FROM country
+
+Name	Continent	Population
+Aruba	North America	103,000
+Afghanistan	Asia	22,720,000
+Angola	Africa	12,878,000
+Anguilla	North America	8,000
+Albania	Europe	3,401,200
+Andorra	Europe	78,000
+Netherlands Antilles	North America	217,000
+United Arab Emirates	Asia	2,441,000
+...
+
+This statement uses the SELECT statement to retrieve data from the country table. In this example, three column names are specified, each separated by a comma.

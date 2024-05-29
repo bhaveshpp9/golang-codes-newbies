@@ -1,1 +1,4 @@
 \\ work with database(DB) — SQL — Updating Tables — renaming tables — Mysql
+
+
+RENAME TABLE `Orders` TO `OrderList`

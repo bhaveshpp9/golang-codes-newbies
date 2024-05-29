@@ -1,1 +1,123 @@
 \\ Lambda Expressions —  Capture of variables
+
+In Go, there are no lambda expressions in the same way as in some other languages like Python or JavaScript. However, you can achieve similar functionality using anonymous functions, which can capture and use variables from their surrounding scope. This feature allows for a form of closure, where the anonymous function retains access to the variables that were in scope when the function was defined.
+
+### Example: Capturing Variables in Anonymous Functions
+
+Here's a basic example demonstrating how an anonymous function captures variables from its surrounding scope:
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    // Variable defined in the surrounding scope
+    message := "Hello, Go!"
+
+    // Anonymous function capturing the 'message' variable
+    greet := func() {
+        fmt.Println(message)
+    }
+
+    // Calling the anonymous function
+    greet() // Output: Hello, Go!
+
+    // Modifying the captured variable
+    message = "Hello, Gophers!"
+
+    // Calling the anonymous function again
+    greet() // Output: Hello, Gophers!
+}
+```
+
+### Explanation
+
+1. **Variable Capture:** The `message` variable is defined in the surrounding scope of the anonymous function `greet`.
+2. **Anonymous Function Definition:** The anonymous function captures the `message` variable when it is defined.
+3. **Function Call:** When `greet` is called, it prints the value of `message`.
+4. **Variable Modification:** The value of `message` is modified, and subsequent calls to `greet` reflect this change.
+
+### Practical Example: Using Captured Variables in a Closure
+
+Anonymous functions are often used in Go for tasks like event handling, goroutines, and higher-order functions. Here's a more practical example using a closure in a loop:
+
+```go
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func main() {
+    // Create a slice of strings
+    messages := []string{"Hello, Go!", "Hello, Gophers!", "Hello, World!"}
+
+    // Iterate over the slice and create goroutines
+    for _, message := range messages {
+        // Capture the current value of 'message' in the loop
+        func(msg string) {
+            go func() {
+                fmt.Println(msg)
+            }()
+        }(message)
+    }
+
+    // Wait for a moment to allow all goroutines to finish
+    time.Sleep(1 * time.Second)
+}
+```
+
+### Explanation
+
+1. **Slice of Strings:** A slice of strings is defined.
+2. **Loop with Closure:** In the loop, an anonymous function is used to capture the current value of `message` and pass it to another anonymous function that is run as a goroutine.
+3. **Goroutines:** Each goroutine prints the captured value of `message`.
+4. **Sleep:** A short sleep is added to allow all goroutines to complete before the program exits.
+
+### Capturing Variables with Different Lifetimes
+
+When capturing variables in anonymous functions, it is important to understand the lifetime of the variables being captured:
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    // Function that returns an anonymous function capturing 'x'
+    createCounter := func(start int) func() int {
+        x := start
+        return func() int {
+            x++
+            return x
+        }
+    }
+
+    // Create two independent counters
+    counter1 := createCounter(0)
+    counter2 := createCounter(100)
+
+    // Each call to the counter functions affects their respective captured variables
+    fmt.Println(counter1()) // Output: 1
+    fmt.Println(counter1()) // Output: 2
+    fmt.Println(counter2()) // Output: 101
+    fmt.Println(counter2()) // Output: 102
+}
+```
+
+### Explanation
+
+1. **Creating a Counter Function:** `createCounter` returns an anonymous function that captures and increments a variable `x`.
+2. **Independent Counters:** Two independent counters are created with different starting values.
+3. **Capturing Variables:** Each counter retains its own captured variable `x`, and calls to the counters affect their respective captured variables independently.
+
+### Summary
+
+- **Anonymous Functions:** Go uses anonymous functions to achieve functionality similar to lambda expressions.
+- **Variable Capture:** Anonymous functions can capture variables from their surrounding scope, retaining access to these variables even after they go out of scope.
+- **Practical Usage:** This feature is useful in goroutines, event handling, and higher-order functions.
+- **Variable Lifetime:** Be mindful of the lifetime and scope of captured variables to avoid unintended side effects.
+
+By understanding how to capture and use variables in anonymous functions, you can write more flexible and powerful Go programs that leverage closures effectively.

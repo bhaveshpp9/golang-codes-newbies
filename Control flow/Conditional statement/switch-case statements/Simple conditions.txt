@@ -1,0 +1,106 @@
+\\ Control flow — Conditional Statements — switch/case statements -- Simple conditions
+
+
+In Go, `switch` statements are used to simplify the control flow by replacing multiple `if-else` statements. They allow you to branch the execution of code based on the value of an expression. Here’s a basic overview and example of how to use `switch` statements in Go.
+
+### Basic Syntax
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	var x int = 2
+
+	switch x {
+	case 1:
+		fmt.Println("x is 1")
+	case 2:
+		fmt.Println("x is 2")
+	case 3:
+		fmt.Println("x is 3")
+	default:
+		fmt.Println("x is something else")
+	}
+}
+```
+
+### Key Points
+
+1. **No Fallthrough by Default:** Unlike some other languages, Go’s `switch` statements do not fall through from one case to the next by default. Each case is executed exclusively.
+
+2. **Optional Expression:** You can omit the expression in the `switch` statement. In this case, the `switch` statement acts like a cleaner version of a series of `if-else` statements.
+
+3. **Multiple Values in a Case:** You can have multiple values in a single `case` statement.
+
+4. **Default Case:** The `default` case is optional and executes if none of the other cases match.
+
+5. **Case with Conditions:** Each `case` can have its own condition.
+
+### Example with Multiple Values and Conditions
+
+Here’s a more advanced example demonstrating multiple values in a single case and conditions within cases:
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	var dayOfWeek = "Wednesday"
+
+	switch dayOfWeek {
+	case "Monday", "Tuesday":
+		fmt.Println("Start of the work week")
+	case "Wednesday":
+		fmt.Println("Hump day")
+	case "Thursday", "Friday":
+		fmt.Println("Almost weekend")
+	case "Saturday", "Sunday":
+		fmt.Println("Weekend!")
+	default:
+		fmt.Println("Unknown day")
+	}
+
+	var age = 25
+	switch {
+	case age < 18:
+		fmt.Println("Minor")
+	case age >= 18 && age <= 65:
+		fmt.Println("Adult")
+	default:
+		fmt.Println("Senior")
+	}
+}
+```
+
+### Explanation
+
+1. **Multiple Values in Case:**
+   ```go
+   case "Monday", "Tuesday":
+       fmt.Println("Start of the work week")
+   ```
+   This `case` handles both "Monday" and "Tuesday" by printing "Start of the work week".
+
+2. **Case with Conditions:**
+   ```go
+   switch {
+   case age < 18:
+       fmt.Println("Minor")
+   case age >= 18 && age <= 65:
+       fmt.Println("Adult")
+   default:
+       fmt.Println("Senior")
+   }
+   ```
+   This `switch` statement uses conditions within the `case` statements. Here, `switch` is used without an expression, and each `case` evaluates a boolean condition.
+
+### Conclusion
+
+The `switch` statement in Go is a powerful tool for controlling the flow of your program. It’s more readable than a series of `if-else` statements and can handle a wide range of conditions and values.

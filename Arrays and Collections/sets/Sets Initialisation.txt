@@ -1,1 +1,75 @@
 \\ Arrays and collections — Sets — Sets Initialisation
+
+
+In Go, sets are not provided as a built-in data structure, but they can be effectively implemented using maps. The typical approach uses a map with keys as the set elements and values of an empty struct type, which uses no additional memory. Here's how you can initialize and utilize sets in Go using this pattern.
+
+### Example: Initializing and Using a Set
+
+This example shows how to initialize a set, add items, and check for their existence. We'll implement a set of strings.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// StringSet defines a set of strings
+type StringSet map[string]struct{}
+
+// NewStringSet initializes a new set of strings
+func NewStringSet(elements ...string) StringSet {
+    s := StringSet{}
+    for _, element := range elements {
+        s.Add(element)
+    }
+    return s
+}
+
+// Add inserts an element into the set
+func (s StringSet) Add(element string) {
+    s[element] = struct{}{}
+}
+
+// Contains checks if an element is in the set
+func (s StringSet) Contains(element string) bool {
+    _, exists := s[element]
+    return exists
+}
+
+// Size returns the number of elements in the set
+func (s StringSet) Size() int {
+    return len(s)
+}
+
+func main() {
+    // Initialize the set with some elements
+    set := NewStringSet("apple", "banana", "cherry")
+
+    // Add more elements
+    set.Add("date")
+    set.Add("banana") // trying to add "banana" again will have no effect
+
+    // Check if elements are in the set
+    fmt.Println("Contains 'apple':", set.Contains("apple"))
+    fmt.Println("Contains 'mango':", set.Contains("mango"))
+
+    // Print the entire set and its size
+    fmt.Println("Set elements:", set)
+    fmt.Println("Set size:", set.Size())
+}
+```
+
+### Explanation:
+
+- **StringSet Type**: Defined as a map with keys of type string and values of type `struct{}`, which is an empty struct consuming no memory.
+- **NewStringSet Function**: Helps in initializing the set with any number of strings passed as arguments. It loops through the arguments and adds each to the set.
+- **Add Method**: Adds an element to the set. If the element is already in the set, nothing changes because map keys are unique.
+- **Contains Method**: Returns `true` if the element is in the set, otherwise `false`.
+- **Size Method**: Returns the number of elements in the set using the built-in `len` function.
+
+### Usage and Benefits
+
+This implementation of a set is efficient and idiomatic in Go. It leverages Go's map data structure to ensure that all elements in the set are unique and provides constant time complexity \(O(1)\) for basic operations like add and check, making it suitable for scenarios where performance is crucial.
+
+This setup can easily be adapted for other types (e.g., `int`, `float64`) by changing the type signatures accordingly. If you need a more complex set that also orders elements or allows for range queries, consider using a sorted data structure like a balanced tree or an external library that provides a specialized set implementation.

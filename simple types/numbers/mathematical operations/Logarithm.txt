@@ -1,1 +1,157 @@
 \\ Simple types.— Numbers —mathematical operations — Logarithm
+
+
+In Go, you can compute logarithms using the `math` package, which provides functions for natural logarithms, common logarithms (base 10), and logarithms to arbitrary bases.
+
+### Natural Logarithm (base `e`)
+
+To compute the natural logarithm (ln) of a number, use the `math.Log` function.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "math"
+)
+
+func main() {
+    // Define a number
+    num := 2.718281828459045
+
+    // Calculate the natural logarithm (base e)
+    lnValue := math.Log(num)
+
+    // Print the result
+    fmt.Printf("The natural logarithm (base e) of %f is %f\n", num, lnValue)
+}
+```
+
+### Detailed Output
+
+The output of the above code will be:
+```
+The natural logarithm (base e) of 2.718282 is 1.000000
+```
+
+### Common Logarithm (base 10)
+
+To compute the common logarithm (base 10) of a number, use the `math.Log10` function.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "math"
+)
+
+func main() {
+    // Define a number
+    num := 100.0
+
+    // Calculate the common logarithm (base 10)
+    log10Value := math.Log10(num)
+
+    // Print the result
+    fmt.Printf("The common logarithm (base 10) of %f is %f\n", num, log10Value)
+}
+```
+
+### Detailed Output
+
+The output of the above code will be:
+```
+The common logarithm (base 10) of 100.000000 is 2.000000
+```
+
+### Logarithm to an Arbitrary Base
+
+To compute the logarithm of a number to an arbitrary base, you can use the change of base formula: `log_b(x) = log_k(x) / log_k(b)`, where `k` is a common base (usually `e` or 10).
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "math"
+)
+
+// LogBase calculates the logarithm of a number to a given base
+func LogBase(x, base float64) float64 {
+    return math.Log(x) / math.Log(base)
+}
+
+func main() {
+    // Define a number and a base
+    num := 32.0
+    base := 2.0
+
+    // Calculate the logarithm to the given base
+    logBaseValue := LogBase(num, base)
+
+    // Print the result
+    fmt.Printf("The logarithm of %f to base %f is %f\n", num, base, logBaseValue)
+}
+```
+
+### Detailed Output
+
+The output of the above code will be:
+```
+The logarithm of 32.000000 to base 2.000000 is 5.000000
+```
+
+### Handling Different Input Values
+
+Here’s an example demonstrating how to handle logarithm calculations for various input values and bases.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "math"
+)
+
+// LogBase calculates the logarithm of a number to a given base
+func LogBase(x, base float64) float64 {
+    return math.Log(x) / math.Log(base)
+}
+
+func main() {
+    // Define a slice of numbers and bases
+    numbers := []float64{1, 10, 100, 0.1, 0.001, 1e10}
+    base := 2.0
+
+    // Calculate and print the logarithm to the given base for each number
+    for _, num := range numbers {
+        logBaseValue := LogBase(num, base)
+        fmt.Printf("The logarithm of %g to base %f is %f\n", num, base, logBaseValue)
+    }
+}
+```
+
+### Detailed Output
+
+The output of the above code will be:
+```
+The logarithm of 1 to base 2.000000 is 0.000000
+The logarithm of 10 to base 2.000000 is 3.321928
+The logarithm of 100 to base 2.000000 is 6.643856
+The logarithm of 0.1 to base 2.000000 is -3.321928
+The logarithm of 0.001 to base 2.000000 is -9.965784
+The logarithm of 1e+10 to base 2.000000 is 33.219281
+```
+
+### Summary
+
+In Go, you can compute logarithms using the `math` package, which provides functions for natural logarithms (`math.Log`), common logarithms (`math.Log10`), and logarithms to arbitrary bases (using a custom function with `math.Log`). These functions allow you to perform logarithmic calculations for various input values and bases effectively in your Go programs.

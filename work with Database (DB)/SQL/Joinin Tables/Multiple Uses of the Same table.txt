@@ -1,1 +1,23 @@
 \\ work with database(DB) — SQL — Joining Table — Multiple Uses of the Same table
+
+
+SELECT
+    c1.Name,
+    c2.Population
+FROM country AS c1, country AS c2
+WHERE
+    c1.Code = c2.Code
+
+Name	Population
+Aruba	103,000
+Afghanistan	22,720,000
+Angola	12,878,000
+Anguilla	8,000
+Albania	3,401,200
+Andorra	78,000
+Netherlands Antilles	217,000
+United Arab Emirates	2,441,000
+Argentina	37,032,000
+...
+
+The first occurrence of country has an alias of C1, and the second has an alias of C2. Now those aliases can be used as table names.

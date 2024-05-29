@@ -1,1 +1,26 @@
 \\ work with database(DB) — SQL — Inserting data — Inserting Complete Rows 2
+
+
+INSERT INTO customer (
+    customer_id,
+    store_id,
+    first_name,
+    last_name,
+    email,
+    address_id,
+    active,
+    create_date,
+    last_update
+) VALUES (
+    602,
+    1,
+    'IVAN',
+    'SIDOROV',
+    'ivan.sidiriv@gmail.com',
+    591,
+    1,
+    '2018-11-07',
+    NULL
+)
+
+This example does the exact same thing as the previous INSERT statement, but this time the column names are explicitly stated in parentheses after the table name. When the row is inserted the DBMS will match each item in the columns list with the appropriate value in the VALUES list.

@@ -1,1 +1,23 @@
 \\ work with database(DB) — SQL — Joining Table — Select al the Table Columns
+
+
+SELECT
+    c.Name,
+    cl.*
+FROM country AS c, countrylanguage AS cl
+WHERE
+    c.Code = cl.CountryCode
+
+Name	CountryCode	Language	IsOfficial	Percentage
+Aruba	ABW	Dutch	T	5.3
+Aruba	ABW	English	F	9.5
+Aruba	ABW	Papiamento	F	76.7
+Aruba	ABW	Spanish	F	7.4
+Afghanistan	AFG	Balochi	F	0.9
+Afghanistan	AFG	Dari	T	32.1
+Afghanistan	AFG	Pashto	T	52.4
+Afghanistan	AFG	Turkmenian	F	1.9
+Afghanistan	AFG	Uzbek	F	8.8
+...
+
+To select all columns of the table, use the syntax: tableName. *

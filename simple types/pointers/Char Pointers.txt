@@ -1,1 +1,137 @@
 \\ Simple types.— Pointers — Char Pointers
+
+In Go, there isn't a direct equivalent to C's char pointers, since Go does not have a char type. However, you can work with pointers to individual elements of strings, which are of type `byte` or `rune` (the Go equivalents of C's `char` for ASCII and Unicode characters, respectively).
+
+### Working with Pointers to Bytes (Char Pointers)
+
+To illustrate working with pointers to characters, we'll use the `byte` type in Go. Here’s an example demonstrating how to work with pointers to bytes in a string.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Define a string
+    str := "hello"
+
+    // Convert the string to a byte slice
+    byteSlice := []byte(str)
+
+    // Get a pointer to the first byte
+    bytePointer := &byteSlice[0]
+
+    // Print the original string and the first byte via the pointer
+    fmt.Printf("Original string: %s\n", str)
+    fmt.Printf("First byte via pointer: %c\n", *bytePointer)
+
+    // Modify the first byte via the pointer
+    *bytePointer = 'H'
+
+    // Print the modified string
+    fmt.Printf("Modified string: %s\n", string(byteSlice))
+}
+```
+
+### Explanation
+
+1. **Define a String**:
+   - We define a string `str` with the value "hello".
+
+2. **Convert the String to a Byte Slice**:
+   - We convert the string to a byte slice using `[]byte(str)`.
+
+3. **Get a Pointer to the First Byte**:
+   - We get a pointer to the first byte of the byte slice using `&byteSlice[0]`.
+
+4. **Print the Original String and the First Byte via the Pointer**:
+   - We print the original string.
+   - We dereference the pointer to print the first byte as a character using `*bytePointer`.
+
+5. **Modify the First Byte via the Pointer**:
+   - We modify the first byte via the pointer by assigning it a new value `'H'`.
+
+6. **Print the Modified String**:
+   - We print the modified byte slice as a string using `string(byteSlice)`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Original string: hello
+First byte via pointer: h
+Modified string: Hello
+```
+
+### Working with Pointers to Runes (Unicode Characters)
+
+For Unicode characters, you can work with the `rune` type, which is an alias for `int32`.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Define a string with Unicode characters
+    str := "こんにちは"
+
+    // Convert the string to a rune slice
+    runeSlice := []rune(str)
+
+    // Get a pointer to the first rune
+    runePointer := &runeSlice[0]
+
+    // Print the original string and the first rune via the pointer
+    fmt.Printf("Original string: %s\n", str)
+    fmt.Printf("First rune via pointer: %c\n", *runePointer)
+
+    // Modify the first rune via the pointer
+    *runePointer = 'さ'
+
+    // Print the modified string
+    fmt.Printf("Modified string: %s\n", string(runeSlice))
+}
+```
+
+### Explanation
+
+1. **Define a String with Unicode Characters**:
+   - We define a string `str` with Unicode characters.
+
+2. **Convert the String to a Rune Slice**:
+   - We convert the string to a rune slice using `[]rune(str)`.
+
+3. **Get a Pointer to the First Rune**:
+   - We get a pointer to the first rune of the rune slice using `&runeSlice[0]`.
+
+4. **Print the Original String and the First Rune via the Pointer**:
+   - We print the original string.
+   - We dereference the pointer to print the first rune as a character using `*runePointer`.
+
+5. **Modify the First Rune via the Pointer**:
+   - We modify the first rune via the pointer by assigning it a new value `'さ'`.
+
+6. **Print the Modified String**:
+   - We print the modified rune slice as a string using `string(runeSlice)`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Original string: こんにちは
+First rune via pointer: こ
+Modified string: さんにちは
+```
+
+### Summary
+
+In Go, you can work with pointers to individual characters by using the `byte` or `rune` types, which are equivalent to C's `char` for ASCII and Unicode characters, respectively. You can manipulate strings by converting them to slices of bytes or runes, working with pointers to these elements, and modifying them as needed. By understanding these techniques, you can effectively handle character pointers in Go.

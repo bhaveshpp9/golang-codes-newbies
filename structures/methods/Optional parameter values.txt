@@ -1,1 +1,204 @@
 \\ Structures — Methods —  Optional parameter values
+
+
+In Go, methods do not support optional parameters directly like some other languages (e.g., Python or JavaScript). However, you can simulate optional parameters in several ways, such as using variadic parameters, defining custom types with default values, or using a configuration struct.
+
+### Example: Using Variadic Parameters
+
+One way to simulate optional parameters is to use variadic parameters. This allows you to pass a variable number of arguments to a method, which can then check for the presence of these arguments and use default values if necessary.
+
+#### Step 1: Define the Struct
+
+First, define a `Person` struct.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define the Person struct
+type Person struct {
+    FirstName string
+    LastName  string
+    Age       int
+}
+```
+
+#### Step 2: Define the Method with Variadic Parameters
+
+Create a method for the `Person` struct that takes variadic parameters and assigns default values if the parameters are not provided.
+
+```go
+// Method to update details of the person with optional parameters
+func (p *Person) UpdateDetails(firstName string, optional ...string) {
+    // Update the first name
+    p.FirstName = firstName
+
+    // Use default values for last name and age
+    defaultLastName := "Doe"
+    defaultAge := 30
+
+    // Update last name if provided
+    if len(optional) > 0 {
+        p.LastName = optional[0]
+    } else {
+        p.LastName = defaultLastName
+    }
+
+    // Update age if provided
+    if len(optional) > 1 {
+        p.Age = defaultAge
+    }
+}
+```
+
+#### Step 3: Use the Method
+
+Finally, use the method in the `main` function.
+
+```go
+func main() {
+    // Create an instance of Person
+    person := Person{
+        FirstName: "John",
+        LastName:  "Smith",
+        Age:       25,
+    }
+
+    // Update only the first name
+    person.UpdateDetails("Alice")
+    fmt.Printf("Person: %+v\n", person)
+
+    // Update the first name and last name
+    person.UpdateDetails("Alice", "Johnson")
+    fmt.Printf("Person: %+v\n", person)
+}
+```
+
+### Explanation
+
+1. **Define the `Person` Struct**:
+   - The `Person` struct has three fields: `FirstName`, `LastName`, and `Age`.
+
+2. **Define the `UpdateDetails` Method**:
+   - The `UpdateDetails` method has a required `firstName` parameter and a variadic `optional` parameter.
+   - Default values are provided for the `LastName` and `Age` fields.
+   - The method checks the length of the `optional` slice to determine if additional parameters are provided.
+
+3. **Use the Method**:
+   - In `main`, an instance of the `Person` struct is created and initialized.
+   - The `UpdateDetails` method is called with different sets of arguments to demonstrate updating the `Person` struct with optional parameters.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Person: {FirstName:Alice LastName:Doe Age:30}
+Person: {FirstName:Alice LastName:Johnson Age:30}
+```
+
+### Example: Using a Configuration Struct
+
+Another approach is to use a configuration struct that includes optional parameters.
+
+#### Step 1: Define the Structs
+
+Define the `Person` struct and a `PersonConfig` struct that includes optional parameters.
+
+```go
+// Define the PersonConfig struct
+type PersonConfig struct {
+    LastName string
+    Age      int
+}
+
+// Define the Person struct
+type Person struct {
+    FirstName string
+    LastName  string
+    Age       int
+}
+```
+
+#### Step 2: Define the Method with Configuration Struct
+
+Create a method for the `Person` struct that takes a configuration struct as a parameter.
+
+```go
+// Method to update details of the person using a configuration struct
+func (p *Person) UpdateDetailsWithConfig(firstName string, config PersonConfig) {
+    // Update the first name
+    p.FirstName = firstName
+
+    // Use default values if not provided in the config
+    if config.LastName != "" {
+        p.LastName = config.LastName
+    } else {
+        p.LastName = "Doe"
+    }
+
+    if config.Age != 0 {
+        p.Age = config.Age
+    } else {
+        p.Age = 30
+    }
+}
+```
+
+#### Step 3: Use the Method
+
+Finally, use the method in the `main` function.
+
+```go
+func main() {
+    // Create an instance of Person
+    person := Person{
+        FirstName: "John",
+        LastName:  "Smith",
+        Age:       25,
+    }
+
+    // Update with configuration
+    config := PersonConfig{
+        LastName: "Johnson",
+        Age:      35,
+    }
+    person.UpdateDetailsWithConfig("Alice", config)
+    fmt.Printf("Person: %+v\n", person)
+
+    // Update with partial configuration
+    partialConfig := PersonConfig{
+        LastName: "Brown",
+    }
+    person.UpdateDetailsWithConfig("Alice", partialConfig)
+    fmt.Printf("Person: %+v\n", person)
+}
+```
+
+### Explanation
+
+1. **Define the `Person` and `PersonConfig` Structs**:
+   - The `Person` struct has three fields: `FirstName`, `LastName`, and `Age`.
+   - The `PersonConfig` struct includes optional parameters for updating `Person`.
+
+2. **Define the `UpdateDetailsWithConfig` Method**:
+   - The `UpdateDetailsWithConfig` method takes a required `firstName` parameter and a `config` parameter of type `PersonConfig`.
+   - Default values are used if the optional parameters are not provided in the `config`.
+
+3. **Use the Method**:
+   - In `main`, an instance of the `Person` struct is created and initialized.
+   - The `UpdateDetailsWithConfig` method is called with different configurations to demonstrate updating the `Person` struct with optional parameters.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Person: {FirstName:Alice LastName:Johnson Age:35}
+Person: {FirstName:Alice LastName:Brown Age:30}
+```
+
+### Summary
+
+In Go, you can simulate optional parameters in methods by using variadic parameters or configuration structs. Variadic parameters allow you to pass a variable number of arguments, while configuration structs provide a flexible way to pass optional parameters with default values. Both approaches help you create flexible and maintainable methods that can handle optional parameters effectively.

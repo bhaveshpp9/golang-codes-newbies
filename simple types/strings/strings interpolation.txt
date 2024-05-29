@@ -1,1 +1,152 @@
 \\ Simple types.— Strings — strings interpolation
+
+
+In Go, there isn't a built-in string interpolation feature like some other languages (e.g., Python's f-strings or JavaScript's template literals). However, you can achieve similar functionality using the `fmt.Sprintf` function from the `fmt` package, which allows you to format strings with placeholders.
+
+### Using `fmt.Sprintf` for String Interpolation
+
+The `fmt.Sprintf` function formats according to a format specifier and returns the resulting string. This allows you to embed variables within strings using placeholders.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Define some variables
+    name := "Alice"
+    age := 30
+    city := "Wonderland"
+
+    // Interpolate the variables into a string using fmt.Sprintf
+    interpolatedStr := fmt.Sprintf("My name is %s, I am %d years old, and I live in %s.", name, age, city)
+
+    // Print the interpolated string
+    fmt.Println(interpolatedStr)
+}
+```
+
+### Explanation
+
+1. **Import the `fmt` Package**:
+   - The `fmt` package provides the `Sprintf` function for string formatting.
+
+2. **Define Variables**:
+   - We define three variables: `name` with the value "Alice", `age` with the value `30`, and `city` with the value "Wonderland".
+
+3. **Interpolate Variables into a String Using `fmt.Sprintf`**:
+   - We use `fmt.Sprintf` with a format string and placeholders (`%s` for strings, `%d` for integers) to embed the variables into the string.
+
+4. **Print the Interpolated String**:
+   - We print the interpolated string using `fmt.Println`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+My name is Alice, I am 30 years old, and I live in Wonderland.
+```
+
+### Example: Formatting Numbers
+
+You can also format numbers with specific precision or width using `fmt.Sprintf`.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Define some variables
+    item := "apple"
+    quantity := 5
+    price := 1.23
+
+    // Interpolate the variables into a string with number formatting
+    interpolatedStr := fmt.Sprintf("You bought %d %s(s) for a total of $%.2f.", quantity, item, float64(quantity)*price)
+
+    // Print the interpolated string
+    fmt.Println(interpolatedStr)
+}
+```
+
+### Explanation
+
+1. **Define Variables**:
+   - We define three variables: `item` with the value "apple", `quantity` with the value `5`, and `price` with the value `1.23`.
+
+2. **Interpolate Variables into a String with Number Formatting**:
+   - We use `fmt.Sprintf` to embed the variables into the string, formatting the total price to two decimal places using `%.2f`.
+
+3. **Print the Interpolated String**:
+   - We print the interpolated string using `fmt.Println`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+You bought 5 apple(s) for a total of $6.15.
+```
+
+### Example: Complex Interpolation
+
+For more complex interpolation, you can format multiple types and combine various placeholders.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func main() {
+    // Define some variables
+    name := "Bob"
+    score := 42
+    percent := 85.5
+    date := time.Now()
+
+    // Interpolate the variables into a string using fmt.Sprintf
+    interpolatedStr := fmt.Sprintf("Player: %s\nScore: %d\nAccuracy: %.1f%%\nDate: %s", name, score, percent, date.Format("2006-01-02"))
+
+    // Print the interpolated string
+    fmt.Println(interpolatedStr)
+}
+```
+
+### Explanation
+
+1. **Define Variables**:
+   - We define four variables: `name` with the value "Bob", `score` with the value `42`, `percent` with the value `85.5`, and `date` with the current time using `time.Now()`.
+
+2. **Interpolate Variables into a String Using `fmt.Sprintf`**:
+   - We use `fmt.Sprintf` with various placeholders to format and embed the variables into the string.
+   - We format the date using `date.Format("2006-01-02")` to display it in a readable format.
+
+3. **Print the Interpolated String**:
+   - We print the interpolated string using `fmt.Println`.
+
+### Detailed Output
+
+The output of the above code will be something like:
+```
+Player: Bob
+Score: 42
+Accuracy: 85.5%
+Date: 2024-05-26
+```
+
+### Summary
+
+In Go, string interpolation can be achieved using the `fmt.Sprintf` function, which allows you to format and embed variables within strings. This method provides flexibility for handling different data types and formatting requirements. Whether you're dealing with simple strings or complex data, `fmt.Sprintf` is a powerful tool for string interpolation in Go.

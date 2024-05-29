@@ -1,1 +1,176 @@
 \\ Structures — Create a copy of the object
+
+
+In Go, creating a copy of an object, such as a struct, can be done in several ways depending on whether you are working with value types or pointers. For structs, this typically involves copying the fields of the struct to a new instance.
+
+### Creating a Copy of a Struct
+
+#### Example: Copying a Struct by Value
+
+When you work with value types (like structs), you can simply assign one variable to another to create a copy. This creates a shallow copy where the new struct instance has the same values as the original.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define the Person struct
+type Person struct {
+    FirstName string
+    LastName  string
+    Age       int
+}
+
+func main() {
+    // Create an instance of Person
+    original := Person{
+        FirstName: "Alice",
+        LastName:  "Johnson",
+        Age:       28,
+    }
+
+    // Create a copy by value
+    copy := original
+
+    // Modify the copy
+    copy.FirstName = "Bob"
+    copy.Age = 30
+
+    // Print both original and copy
+    fmt.Printf("Original: %+v\n", original)
+    fmt.Printf("Copy: %+v\n", copy)
+}
+```
+
+### Explanation
+
+1. **Define the `Person` Struct**:
+   - The `Person` struct has three fields: `FirstName`, `LastName`, and `Age`.
+
+2. **Create an Instance of `Person`**:
+   - We create an instance `original` with initial values for each field.
+
+3. **Create a Copy by Value**:
+   - We assign `original` to `copy`, creating a new `Person` instance with the same values.
+
+4. **Modify the Copy**:
+   - We modify the fields of `copy` to verify that it is a separate instance from `original`.
+
+5. **Print Both `Original` and `Copy`**:
+   - We print both instances to see the differences.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Original: {FirstName:Alice LastName:Johnson Age:28}
+Copy: {FirstName:Bob LastName:Johnson Age:30}
+```
+
+### Deep Copying
+
+If the struct contains fields that are pointers or other reference types (like slices or maps), copying the struct by value will not create copies of the referenced objects. Instead, both the original and the copy will refer to the same underlying data. To create a deep copy, you need to manually copy each referenced object.
+
+#### Example: Deep Copying a Struct
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define the Address struct
+type Address struct {
+    Street string
+    City   string
+    State  string
+    Zip    string
+}
+
+// Define the Person struct with an Address field
+type Person struct {
+    FirstName string
+    LastName  string
+    Age       int
+    Address   *Address
+}
+
+// Function to create a deep copy of a Person
+func (p *Person) DeepCopy() *Person {
+    copyAddress := *p.Address
+    return &Person{
+        FirstName: p.FirstName,
+        LastName:  p.LastName,
+        Age:       p.Age,
+        Address:   &copyAddress,
+    }
+}
+
+func main() {
+    // Create an instance of Person
+    original := &Person{
+        FirstName: "Alice",
+        LastName:  "Johnson",
+        Age:       28,
+        Address: &Address{
+            Street: "123 Main St",
+            City:   "Anytown",
+            State:  "CA",
+            Zip:    "12345",
+        },
+    }
+
+    // Create a deep copy of the original Person
+    copy := original.DeepCopy()
+
+    // Modify the copy
+    copy.FirstName = "Bob"
+    copy.Address.Street = "456 Elm St"
+
+    // Print both original and copy
+    fmt.Printf("Original: %+v\n", original)
+    fmt.Printf("Copy: %+v\n", copy)
+}
+```
+
+### Explanation
+
+1. **Define the `Address` and `Person` Structs**:
+   - The `Person` struct includes an `Address` field, which is a pointer to an `Address` struct.
+
+2. **Create a Function for Deep Copying**:
+   - The `DeepCopy` method creates a new `Person` instance and manually copies the fields, including creating a new `Address` instance to ensure the copy is deep.
+
+3. **Create an Instance of `Person`**:
+   - We create an instance `original` with initial values for each field, including a nested `Address` struct.
+
+4. **Create a Deep Copy of the `Person`**:
+   - We call the `DeepCopy` method to create a new `Person` instance that is a deep copy of `original`.
+
+5. **Modify the Copy**:
+   - We modify the fields of `copy` to verify that it is a separate instance from `original`.
+
+6. **Print Both `Original` and `Copy`**:
+   - We print both instances to see the differences.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Original: &{FirstName:Alice LastName:Johnson Age:28 Address:0xc000010210}
+Copy: &{FirstName:Bob LastName:Johnson Age:28 Address:0xc000010230}
+```
+
+To show the actual values:
+
+```
+Original: &{FirstName:Alice LastName:Johnson Age:28 Address:0xc000010210 Street:123 Main St City:Anytown State:CA Zip:12345}
+Copy: &{FirstName:Bob LastName:Johnson Age:28 Address:0xc000010230 Street:456 Elm St City:Anytown State:CA Zip:12345}
+```
+
+### Summary
+
+In Go, creating a copy of an object can be done by value assignment for simple structs. For structs containing reference types, a deep copy function is necessary to ensure all referenced objects are also copied. This approach allows you to manage and manipulate copies of complex data structures effectively.

@@ -1,1 +1,126 @@
 \\ Regular expressions — replacement using a function
+
+
+In Go, you can use the `regexp.ReplaceAllStringFunc` method to perform replacements using a function. This allows you to dynamically generate the replacement string based on the matched substring. This is particularly useful for complex replacements where the replacement string depends on the content of the match.
+
+### Example: Replacement Using a Function
+
+Let's create an example where we use a function to replace parts of a string based on a regular expression match.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "regexp"
+    "strings"
+)
+
+func main() {
+    // Define the pattern to match email addresses
+    pattern := `([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})`
+
+    // Compile the regular expression
+    re, err := regexp.Compile(pattern)
+    if err != nil {
+        fmt.Println("Error compiling regex:", err)
+        return
+    }
+
+    // Define a test string
+    text := "Contact us at support@example.com or sales@example.org."
+
+    // Use ReplaceAllStringFunc to replace email addresses with a function
+    replaced := re.ReplaceAllStringFunc(text, func(match string) string {
+        // Example: obfuscate email addresses
+        parts := strings.Split(match, "@")
+        if len(parts) == 2 {
+            local := parts[0]
+            domain := parts[1]
+            obfuscated := fmt.Sprintf("%s at %s", local, strings.Replace(domain, ".", " dot ", -1))
+            return obfuscated
+        }
+        return match
+    })
+    
+    // Print the replaced text
+    fmt.Println("Replaced Text with Function:", replaced)
+}
+```
+
+### Explanation
+
+1. **Pattern Definition**: We define a regex pattern to match email addresses:
+   - `([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})`: This pattern matches common email addresses.
+2. **Compile**: We compile the regex pattern using `regexp.Compile`. This returns a `Regexp` object or an error if the pattern is invalid.
+3. **Test String**: We define a test string that contains email addresses.
+4. **ReplaceAllStringFunc**: We use `ReplaceAllStringFunc` to replace all matches of the pattern with dynamically generated strings using a function.
+   - **Function Definition**: The function receives each matched string and can perform any transformation on it. In this example, the function:
+     - Splits the email address into local and domain parts using `strings.Split`.
+     - Obfuscates the email address by replacing "@" with " at " and "." with " dot ".
+5. **Print the Replaced Text**: We print the result of the replacement.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Replaced Text with Function: Contact us at support at example dot com or sales at example dot org.
+```
+
+### Notes on Using Replacement Functions
+
+- **Custom Logic**: The replacement function allows you to implement custom logic for generating replacement strings based on the content of the match.
+- **String Manipulation**: You can use any string manipulation functions inside the replacement function to transform the match as needed.
+- **Performance**: Be mindful of the performance impact when using complex logic in the replacement function, especially for large inputs or many matches.
+
+### Practical Example: Formatting Dates
+
+Here's another example where we use a function to reformat dates from `YYYY-MM-DD` to `DD/MM/YYYY`.
+
+```go
+package main
+
+import (
+    "fmt"
+    "regexp"
+    "strings"
+)
+
+func main() {
+    // Define the pattern to match dates in YYYY-MM-DD format
+    pattern := `(\d{4})-(\d{2})-(\d{2})`
+
+    // Compile the regular expression
+    re, err := regexp.Compile(pattern)
+    if err != nil {
+        fmt.Println("Error compiling regex:", err)
+        return
+    }
+
+    // Define a test string
+    text := "The event is scheduled for 2023-05-26. Another date is 2024-11-15."
+
+    // Use ReplaceAllStringFunc to reformat dates
+    replaced := re.ReplaceAllStringFunc(text, func(match string) string {
+        parts := strings.Split(match, "-")
+        if len(parts) == 3 {
+            return fmt.Sprintf("%s/%s/%s", parts[2], parts[1], parts[0])
+        }
+        return match
+    })
+
+    // Print the replaced text
+    fmt.Println("Reformatted Text:", replaced)
+}
+```
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Reformatted Text: The event is scheduled for 26/05/2023. Another date is 15/11/2024.
+```
+
+By using the `ReplaceAllStringFunc` method, you can dynamically generate replacement strings based on the content of matches, providing great flexibility for string manipulation tasks. This approach is especially useful for data sanitization, formatting, and other transformations that require custom logic.

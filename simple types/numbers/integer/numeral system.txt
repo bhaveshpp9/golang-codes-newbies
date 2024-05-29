@@ -1,1 +1,153 @@
 \\ Simple types.— Numbers — integer — numeral system
+
+
+In Go, integers can be represented and manipulated in various numeral systems, including binary, octal, decimal, and hexadecimal. The standard library provides functions and formatting options to work with different numeral systems.
+
+### Example: Representing and Converting Between Numeral Systems
+
+Here's an example demonstrating how to represent integers in different numeral systems and convert between them.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "strconv"
+)
+
+func main() {
+    // Define an integer
+    var num int = 255
+
+    // Decimal representation
+    decimal := strconv.Itoa(num)
+    fmt.Printf("Decimal: %s\n", decimal)
+
+    // Binary representation
+    binary := strconv.FormatInt(int64(num), 2)
+    fmt.Printf("Binary: %s\n", binary)
+
+    // Octal representation
+    octal := strconv.FormatInt(int64(num), 8)
+    fmt.Printf("Octal: %s\n", octal)
+
+    // Hexadecimal representation
+    hex := strconv.FormatInt(int64(num), 16)
+    fmt.Printf("Hexadecimal: %s\n", hex)
+}
+```
+
+### Explanation
+
+1. **Define an Integer**:
+   - We define an integer `num` with the value `255`.
+
+2. **Decimal Representation**:
+   - We use `strconv.Itoa(num)` to convert the integer to its decimal string representation.
+   - We print the decimal representation using `fmt.Printf`.
+
+3. **Binary Representation**:
+   - We use `strconv.FormatInt(int64(num), 2)` to convert the integer to its binary string representation.
+   - The second argument (`2`) specifies the base (binary).
+   - We print the binary representation using `fmt.Printf`.
+
+4. **Octal Representation**:
+   - We use `strconv.FormatInt(int64(num), 8)` to convert the integer to its octal string representation.
+   - The second argument (`8`) specifies the base (octal).
+   - We print the octal representation using `fmt.Printf`.
+
+5. **Hexadecimal Representation**:
+   - We use `strconv.FormatInt(int64(num), 16)` to convert the integer to its hexadecimal string representation.
+   - The second argument (`16`) specifies the base (hexadecimal).
+   - We print the hexadecimal representation using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Decimal: 255
+Binary: 11111111
+Octal: 377
+Hexadecimal: ff
+```
+
+### Converting Strings in Different Bases to Integers
+
+You can also convert strings representing numbers in various bases back to integers using `strconv.ParseInt`.
+
+#### Example: Converting Strings to Integers
+
+```go
+package main
+
+import (
+    "fmt"
+    "strconv"
+)
+
+func main() {
+    // Define strings representing numbers in different bases
+    binaryStr := "11111111"
+    octalStr := "377"
+    hexStr := "ff"
+
+    // Convert binary string to int
+    binaryNum, err := strconv.ParseInt(binaryStr, 2, 64)
+    if err != nil {
+        fmt.Println("Error converting binary string:", err)
+        return
+    }
+    fmt.Printf("Binary string '%s' to int: %d\n", binaryStr, binaryNum)
+
+    // Convert octal string to int
+    octalNum, err := strconv.ParseInt(octalStr, 8, 64)
+    if err != nil {
+        fmt.Println("Error converting octal string:", err)
+        return
+    }
+    fmt.Printf("Octal string '%s' to int: %d\n", octalStr, octalNum)
+
+    // Convert hexadecimal string to int
+    hexNum, err := strconv.ParseInt(hexStr, 16, 64)
+    if err != nil {
+        fmt.Println("Error converting hexadecimal string:", err)
+        return
+    }
+    fmt.Printf("Hexadecimal string '%s' to int: %d\n", hexStr, hexNum)
+}
+```
+
+### Explanation
+
+1. **Define Strings Representing Numbers in Different Bases**:
+   - We define strings `binaryStr`, `octalStr`, and `hexStr` representing numbers in binary, octal, and hexadecimal bases, respectively.
+
+2. **Convert Binary String to Integer**:
+   - We use `strconv.ParseInt(binaryStr, 2, 64)` to convert the binary string to an integer.
+   - The second argument (`2`) specifies the base (binary), and the third argument (`64`) specifies the bit size.
+
+3. **Convert Octal String to Integer**:
+   - We use `strconv.ParseInt(octalStr, 8, 64)` to convert the octal string to an integer.
+   - The second argument (`8`) specifies the base (octal).
+
+4. **Convert Hexadecimal String to Integer**:
+   - We use `strconv.ParseInt(hexStr, 16, 64)` to convert the hexadecimal string to an integer.
+   - The second argument (`16`) specifies the base (hexadecimal).
+
+5. **Print the Converted Values**:
+   - We print the converted integer values using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Binary string '11111111' to int: 255
+Octal string '377' to int: 255
+Hexadecimal string 'ff' to int: 255
+```
+
+### Summary
+
+In Go, you can represent and manipulate integers in various numeral systems using functions from the `strconv` package. You can convert integers to strings in different bases (binary, octal, decimal, hexadecimal) and vice versa. These conversion functions are essential for handling numeral system representations in your Go programs.

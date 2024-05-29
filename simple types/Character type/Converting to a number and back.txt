@@ -1,1 +1,152 @@
 \\ Simple types.— Character type — Converting to a number and back
+
+
+In Go, characters are represented by the `rune` type, which is an alias for `int32`. This means you can easily convert characters to their numeric Unicode code points and back. The `rune` type is used to represent a Unicode code point, and it allows you to handle characters and convert them to and from their numeric representations.
+
+### Converting a Character to a Number
+
+To convert a character to its numeric Unicode code point, you can simply use a type conversion.
+
+#### Example: Converting a Character to a Number
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Define a character
+    char := 'A'
+
+    // Convert the character to its numeric Unicode code point
+    num := int(char)
+
+    fmt.Printf("The character '%c' has the Unicode code point: %d\n", char, num) // Output: The character 'A' has the Unicode code point: 65
+}
+```
+
+### Converting a Number to a Character
+
+To convert a numeric Unicode code point back to a character, you can use a type conversion from `int` to `rune`.
+
+#### Example: Converting a Number to a Character
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Define a numeric Unicode code point
+    num := 65
+
+    // Convert the numeric code point to a character
+    char := rune(num)
+
+    fmt.Printf("The Unicode code point %d represents the character: '%c'\n", num, char) // Output: The Unicode code point 65 represents the character: 'A'
+}
+```
+
+### Combining Both Conversions
+
+Let's combine both conversions in a single program to demonstrate the round-trip conversion from character to number and back.
+
+#### Example: Character to Number and Back
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Define a character
+    originalChar := 'A'
+
+    // Convert the character to its numeric Unicode code point
+    codePoint := int(originalChar)
+
+    // Convert the numeric code point back to a character
+    convertedChar := rune(codePoint)
+
+    fmt.Printf("Original character: '%c'\n", originalChar)      // Output: Original character: 'A'
+    fmt.Printf("Unicode code point: %d\n", codePoint)           // Output: Unicode code point: 65
+    fmt.Printf("Converted character: '%c'\n", convertedChar)    // Output: Converted character: 'A'
+}
+```
+
+### Explanation
+
+1. **Define a Character**:
+   - We define a character `originalChar` with the value `'A'`.
+2. **Convert to Numeric Code Point**:
+   - We convert the character to its numeric Unicode code point using `int(originalChar)`.
+3. **Convert Back to Character**:
+   - We convert the numeric code point back to a character using `rune(codePoint)`.
+4. **Print Results**:
+   - We print the original character, its numeric code point, and the character obtained after converting back from the numeric code point.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Original character: 'A'
+Unicode code point: 65
+Converted character: 'A'
+```
+
+### Practical Example: Iterating Over a String
+
+Here's a practical example that demonstrates iterating over a string, converting each character to its numeric Unicode code point, and then converting it back to a character.
+
+#### Example: Iterating Over a String
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Define a string
+    str := "Hello, World!"
+
+    // Iterate over each character in the string
+    for _, char := range str {
+        // Convert the character to its numeric Unicode code point
+        codePoint := int(char)
+
+        // Convert the numeric code point back to a character
+        convertedChar := rune(codePoint)
+
+        fmt.Printf("Character: '%c', Unicode code point: %d, Converted character: '%c'\n", char, codePoint, convertedChar)
+    }
+}
+```
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Character: 'H', Unicode code point: 72, Converted character: 'H'
+Character: 'e', Unicode code point: 101, Converted character: 'e'
+Character: 'l', Unicode code point: 108, Converted character: 'l'
+Character: 'l', Unicode code point: 108, Converted character: 'l'
+Character: 'o', Unicode code point: 111, Converted character: 'o'
+Character: ',', Unicode code point: 44, Converted character: ','
+Character: ' ', Unicode code point: 32, Converted character: ' '
+Character: 'W', Unicode code point: 87, Converted character: 'W'
+Character: 'o', Unicode code point: 111, Converted character: 'o'
+Character: 'r', Unicode code point: 114, Converted character: 'r'
+Character: 'l', Unicode code point: 108, Converted character: 'l'
+Character: 'd', Unicode code point: 100, Converted character: 'd'
+Character: '!', Unicode code point: 33, Converted character: '!'
+```
+
+By using the `rune` type and type conversions, you can easily convert characters to their numeric Unicode code points and back, enabling various string manipulations and character handling tasks in Go.

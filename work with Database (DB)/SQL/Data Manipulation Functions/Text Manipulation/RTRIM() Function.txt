@@ -1,1 +1,20 @@
 \\ work with database(DB) — SQL — Data Manipulation Functions — Text Manipulation — RTRIM() Function
+
+
+SELECT
+    RTRIM(Name)
+FROM country
+
+rtrim(Name)
+Aruba
+Afghanistan
+Angola
+Anguilla
+Albania
+Andorra
+Netherlands Antilles
+United Arab Emirates
+Argentina
+...
+
+RTRIM() function is used to trim white space from the end of a column value.

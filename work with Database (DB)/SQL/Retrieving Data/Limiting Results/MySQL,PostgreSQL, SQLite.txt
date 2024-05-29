@@ -1,1 +1,19 @@
 \\ work with database(DB) — SQL — Retrieving Data — Limiting Results — MySQL,PostgreSQL, SQLite
+
+
+/* first five rows */
+SELECT Name
+FROM country
+LIMIT 5
+
+/* from the 6th to the 10th rows */
+SELECT Name
+FROM country
+LIMIT 5, 5
+
+Name
+Andorra
+Netherlands Antilles
+United Arab Emirates
+Argentina
+Armenia

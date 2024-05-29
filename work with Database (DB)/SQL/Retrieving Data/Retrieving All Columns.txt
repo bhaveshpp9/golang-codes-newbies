@@ -1,1 +1,19 @@
 \\ work with database(DB) — SQL — Retrieving Data — Retrieving All Columns
+
+
+SELECT *
+FROM countrylanguage
+
+CountryCode	Language	IsOfficial	Percentage
+ABW	Dutch	T	5.3
+ABW	English	F	9.5
+ABW	Papiamento	F	76.7
+ABW	Spanish	F	7.4
+AFG	Balochi	F	0.9
+AFG	Dari	T	32.1
+AFG	Pashto	T	52.4
+AFG	Turkmenian	F	1.9
+AFG	Uzbek	F	8.8
+...
+
+When a wildcard (*) is specified, all the columns in the table are returned. The column order will typically, but not always, be the physical order in which the columns appear in the table definition.

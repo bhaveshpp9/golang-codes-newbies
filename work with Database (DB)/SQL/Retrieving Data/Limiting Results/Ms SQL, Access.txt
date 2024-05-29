@@ -1,1 +1,6 @@
 \\ work with database(DB) — SQL — Retrieving Data — Limiting Results — Ms SQL, Access
+
+
+SELECT TOP 5 Name
+FROM country
+

@@ -1,1 +1,19 @@
 \\ work with database(DB) — SQL — Data Manipulation Functions — Using Aggregate Functions — AVG() Function
+
+
+SELECT
+    Continent,
+    AVG(Population)
+FROM country
+GROUP BY Continent
+
+Continent	avg(Population)
+Asia	72,647,562.74
+South America	24,698,571.42
+Europe	15,871,186.95
+Africa	13,525,431.03
+North America	13,053,864.86
+Oceania	1,085,755.35
+Antarctica	0.00
+
+AVG() is used to return the average value of a specific column by counting both the number of rows in the table and the sum of their values.

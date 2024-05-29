@@ -1,1 +1,85 @@
 \\ Regular expressions — Check match string
+
+
+Regular expressions (regex) are powerful tools for pattern matching and string manipulation. In Go, the `regexp` package provides functions to work with regular expressions, allowing you to check if a string matches a pattern, extract substrings, and perform replacements.
+
+### Key Functions in the `regexp` Package
+
+1. **Compile**: Compiles a regular expression and returns a `Regexp` object.
+2. **MatchString**: Checks if a string matches the pattern.
+3. **FindString**: Finds the first matching substring.
+4. **FindAllString**: Finds all matching substrings.
+5. **ReplaceAllString**: Replaces all matching substrings.
+
+### Example: Check if a String Matches a Pattern
+
+Let's create an example where we use regular expressions to check if a string matches a specific pattern.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "regexp"
+)
+
+func main() {
+    // Define the pattern
+    pattern := `^[a-zA-Z0-9_]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$`
+
+    // Compile the regular expression
+    re, err := regexp.Compile(pattern)
+    if err != nil {
+        fmt.Println("Error compiling regex:", err)
+        return
+    }
+
+    // Define test strings
+    testStrings := []string{
+        "test@example.com",
+        "invalid-email",
+        "user@domain.co",
+        "another.test@domain.com",
+    }
+
+    // Check if each string matches the pattern
+    for _, str := range testStrings {
+        if re.MatchString(str) {
+            fmt.Printf("The string '%s' matches the pattern.\n", str)
+        } else {
+            fmt.Printf("The string '%s' does not match the pattern.\n", str)
+        }
+    }
+}
+```
+
+### Explanation
+
+1. **Pattern Definition**: We define a regex pattern to match a basic email format:
+   - `^[a-zA-Z0-9_]+`: Start with one or more alphanumeric characters or underscores.
+   - `@[a-zA-Z0-9]+`: Followed by an `@` symbol and one or more alphanumeric characters.
+   - `\.[a-zA-Z]{2,}$`: End with a dot and two or more alphabetic characters.
+2. **Compile**: We compile the regex pattern using `regexp.Compile`. This returns a `Regexp` object, or an error if the pattern is invalid.
+3. **Test Strings**: We define a slice of test strings to check against the pattern.
+4. **MatchString**: We use the `MatchString` method to check if each test string matches the compiled pattern. If it matches, we print a message indicating the match; otherwise, we print a message indicating no match.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+The string 'test@example.com' matches the pattern.
+The string 'invalid-email' does not match the pattern.
+The string 'user@domain.co' matches the pattern.
+The string 'another.test@domain.com' matches the pattern.
+```
+
+### Notes on Regular Expressions
+
+- **Special Characters**: Regex patterns use special characters for matching. For example, `^` matches the start of a string, `$` matches the end, `+` matches one or more occurrences, and `\` is used to escape special characters.
+- **Character Classes**: Character classes like `[a-zA-Z0-9_]` match any single character within the brackets.
+- **Quantifiers**: Quantifiers like `+`, `*`, and `{2,}` specify how many times the preceding element should be matched.
+- **Error Handling**: Always handle errors when compiling regex patterns, as invalid patterns will cause `regexp.Compile` to return an error.
+
+By using regular expressions in Go, you can perform powerful pattern matching and string manipulation tasks efficiently. This example demonstrates how to check if strings match a specific pattern, but the `regexp` package offers many more functions for advanced regex operations.

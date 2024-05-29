@@ -1,1 +1,236 @@
 \\ Structures — Properties — Read-only properties — Computer properties
+
+In Go, you can simulate read-only properties and computed properties using methods. While Go does not have built-in property syntax like some other languages (e.g., C# or Swift), you can achieve similar functionality by defining getter methods for read-only properties and computed properties.
+
+### Example: Read-only Properties
+
+Let's create an example using a `Person` struct that has a read-only property for the full name. This property will be accessed via a getter method.
+
+#### Step 1: Define the Struct
+
+First, define the `Person` struct.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define the Person struct
+type Person struct {
+    firstName string
+    lastName  string
+}
+```
+
+#### Step 2: Define Getter Methods for Read-only Properties
+
+Create a method for the `Person` struct that returns the full name, simulating a read-only property.
+
+```go
+// Method to get the full name of the person
+func (p Person) FullName() string {
+    return p.firstName + " " + p.lastName
+}
+```
+
+#### Step 3: Use the Method
+
+Finally, use the method in the `main` function.
+
+```go
+func main() {
+    // Create an instance of Person
+    person := Person{
+        firstName: "John",
+        lastName:  "Doe",
+    }
+
+    // Access the FullName method
+    fmt.Printf("Full Name: %s\n", person.FullName())
+}
+```
+
+### Explanation
+
+1. **Define the `Person` Struct**:
+   - The `Person` struct has two fields: `firstName` and `lastName`.
+
+2. **Define the `FullName` Method**:
+   - The `FullName` method concatenates the `firstName` and `lastName` fields to return the full name. This simulates a read-only property.
+
+3. **Use the Method**:
+   - In `main`, an instance of the `Person` struct is created and initialized.
+   - The `FullName` method is called to access the full name, demonstrating the read-only property.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Full Name: John Doe
+```
+
+### Example: Computed Properties
+
+Let's create a `Rectangle` struct with computed properties for the area and perimeter.
+
+#### Step 1: Define the Struct
+
+First, define the `Rectangle` struct.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define the Rectangle struct
+type Rectangle struct {
+    Width  float64
+    Height float64
+}
+```
+
+#### Step 2: Define Methods for Computed Properties
+
+Create methods for the `Rectangle` struct that compute the area and perimeter.
+
+```go
+// Method to compute the area of the rectangle
+func (r Rectangle) Area() float64 {
+    return r.Width * r.Height
+}
+
+// Method to compute the perimeter of the rectangle
+func (r Rectangle) Perimeter() float64 {
+    return 2 * (r.Width + r.Height)
+}
+```
+
+#### Step 3: Use the Methods
+
+Finally, use the methods in the `main` function.
+
+```go
+func main() {
+    // Create an instance of Rectangle
+    rect := Rectangle{
+        Width:  10.5,
+        Height: 5.5,
+    }
+
+    // Access the Area and Perimeter methods
+    fmt.Printf("Area: %.2f\n", rect.Area())
+    fmt.Printf("Perimeter: %.2f\n", rect.Perimeter())
+}
+```
+
+### Explanation
+
+1. **Define the `Rectangle` Struct**:
+   - The `Rectangle` struct has two fields: `Width` and `Height`.
+
+2. **Define the `Area` and `Perimeter` Methods**:
+   - The `Area` method computes and returns the area of the rectangle by multiplying the `Width` and `Height` fields.
+   - The `Perimeter` method computes and returns the perimeter of the rectangle by summing the lengths of all sides.
+
+3. **Use the Methods**:
+   - In `main`, an instance of the `Rectangle` struct is created and initialized.
+   - The `Area` and `Perimeter` methods are called to access the computed properties.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Area: 57.75
+Perimeter: 32.00
+```
+
+### Example: Read-only and Computed Properties Combined
+
+Let's create a `Book` struct that has both read-only and computed properties.
+
+#### Step 1: Define the Struct
+
+First, define the `Book` struct.
+
+```go
+// Define the Book struct
+type Book struct {
+    Title       string
+    Author      string
+    TotalCopies int
+    CopiesOnLoan int
+}
+```
+
+#### Step 2: Define Methods for Read-only and Computed Properties
+
+Create methods for the `Book` struct that return the title, author, and availability status.
+
+```go
+// Method to get the title of the book (read-only)
+func (b Book) GetTitle() string {
+    return b.Title
+}
+
+// Method to get the author of the book (read-only)
+func (b Book) GetAuthor() string {
+    return b.Author
+}
+
+// Method to compute the availability status of the book
+func (b Book) IsAvailable() bool {
+    return b.TotalCopies > b.CopiesOnLoan
+}
+```
+
+#### Step 3: Use the Methods
+
+Finally, use the methods in the `main` function.
+
+```go
+func main() {
+    // Create an instance of Book
+    book := Book{
+        Title:       "Go Programming",
+        Author:      "John Doe",
+        TotalCopies: 5,
+        CopiesOnLoan: 2,
+    }
+
+    // Access the read-only and computed properties
+    fmt.Printf("Title: %s\n", book.GetTitle())
+    fmt.Printf("Author: %s\n", book.GetAuthor())
+    fmt.Printf("Is Available: %t\n", book.IsAvailable())
+}
+```
+
+### Explanation
+
+1. **Define the `Book` Struct**:
+   - The `Book` struct has four fields: `Title`, `Author`, `TotalCopies`, and `CopiesOnLoan`.
+
+2. **Define the Getter Methods and Computed Property Method**:
+   - The `GetTitle` method returns the title of the book, simulating a read-only property.
+   - The `GetAuthor` method returns the author of the book, simulating a read-only property.
+   - The `IsAvailable` method computes and returns the availability status of the book based on the `TotalCopies` and `CopiesOnLoan` fields.
+
+3. **Use the Methods**:
+   - In `main`, an instance of the `Book` struct is created and initialized.
+   - The getter methods and computed property method are called to access the title, author, and availability status.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Title: Go Programming
+Author: John Doe
+Is Available: true
+```
+
+### Summary
+
+In Go, you can simulate read-only properties and computed properties using methods. Getter methods can be used to create read-only properties that return the values of fields, while other methods can perform calculations or logic to compute properties dynamically. This approach allows you to encapsulate logic and provide a clear and consistent interface for accessing data and computed values within your structs.

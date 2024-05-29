@@ -1,1 +1,208 @@
 \\ Simple types.— Strings — Substring index
+
+In Go, you can find the index of a substring within a string using functions from the `strings` package. The `strings.Index`, `strings.LastIndex`, `strings.Contains`, and `strings.Count` functions are commonly used for such tasks.
+
+### Finding the First Index of a Substring
+
+The `strings.Index` function returns the index of the first instance of the substring in the string, or `-1` if the substring is not present.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "strings"
+)
+
+func main() {
+    // Define a string
+    str := "Hello, World!"
+
+    // Define the substring to find
+    substr := "World"
+
+    // Find the first index of the substring
+    index := strings.Index(str, substr)
+
+    // Print the index
+    fmt.Printf("The index of '%s' in '%s' is: %d\n", substr, str, index)
+}
+```
+
+### Explanation
+
+1. **Import the `strings` Package**:
+   - The `strings` package provides the `Index` function for finding the index of a substring.
+
+2. **Define a String and Substring**:
+   - We define a string `str` with the value "Hello, World!".
+   - We define a substring `substr` with the value "World".
+
+3. **Find the First Index of the Substring**:
+   - We use `strings.Index(str, substr)` to find the first index of `substr` in `str`.
+
+4. **Print the Index**:
+   - We print the index using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+The index of 'World' in 'Hello, World!' is: 7
+```
+
+### Finding the Last Index of a Substring
+
+The `strings.LastIndex` function returns the index of the last instance of the substring in the string, or `-1` if the substring is not present.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "strings"
+)
+
+func main() {
+    // Define a string
+    str := "Hello, World! World!"
+
+    // Define the substring to find
+    substr := "World"
+
+    // Find the last index of the substring
+    index := strings.LastIndex(str, substr)
+
+    // Print the index
+    fmt.Printf("The last index of '%s' in '%s' is: %d\n", substr, str, index)
+}
+```
+
+### Explanation
+
+1. **Define a String and Substring**:
+   - We define a string `str` with the value "Hello, World! World!".
+   - We define a substring `substr` with the value "World".
+
+2. **Find the Last Index of the Substring**:
+   - We use `strings.LastIndex(str, substr)` to find the last index of `substr` in `str`.
+
+3. **Print the Index**:
+   - We print the index using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+The last index of 'World' in 'Hello, World! World!' is: 14
+```
+
+### Checking for Substring Presence
+
+The `strings.Contains` function checks if a string contains a specified substring and returns a boolean value.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "strings"
+)
+
+func main() {
+    // Define a string
+    str := "Hello, World!"
+
+    // Define the substring to check
+    substr := "World"
+
+    // Check if the string contains the substring
+    contains := strings.Contains(str, substr)
+
+    // Print the result
+    fmt.Printf("Does '%s' contain '%s'? %t\n", str, substr, contains)
+}
+```
+
+### Explanation
+
+1. **Define a String and Substring**:
+   - We define a string `str` with the value "Hello, World!".
+   - We define a substring `substr` with the value "World".
+
+2. **Check if the String Contains the Substring**:
+   - We use `strings.Contains(str, substr)` to check if `str` contains `substr`.
+
+3. **Print the Result**:
+   - We print the result using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Does 'Hello, World!' contain 'World'? true
+```
+
+### Counting Substring Occurrences
+
+The `strings.Count` function counts the number of non-overlapping instances of a substring in a string.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "strings"
+)
+
+func main() {
+    // Define a string
+    str := "Hello, World! World!"
+
+    // Define the substring to count
+    substr := "World"
+
+    // Count the occurrences of the substring
+    count := strings.Count(str, substr)
+
+    // Print the count
+    fmt.Printf("The number of occurrences of '%s' in '%s' is: %d\n", substr, str, count)
+}
+```
+
+### Explanation
+
+1. **Define a String and Substring**:
+   - We define a string `str` with the value "Hello, World! World!".
+   - We define a substring `substr` with the value "World".
+
+2. **Count the Occurrences of the Substring**:
+   - We use `strings.Count(str, substr)` to count the number of non-overlapping instances of `substr` in `str`.
+
+3. **Print the Count**:
+   - We print the count using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+The number of occurrences of 'World' in 'Hello, World! World!' is: 2
+```
+
+### Summary
+
+In Go, you can find the index of a substring, check its presence, and count its occurrences using functions from the `strings` package:
+- **`strings.Index`**: Finds the first index of a substring.
+- **`strings.LastIndex`**: Finds the last index of a substring.
+- **`strings.Contains`**: Checks if a string contains a substring.
+- **`strings.Count`**: Counts the occurrences of a substring.
+
+These functions provide powerful tools for substring manipulation and analysis in your Go programs.

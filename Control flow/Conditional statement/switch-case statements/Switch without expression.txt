@@ -1,0 +1,96 @@
+\\ Control flow — Conditional Statements — switch/case statements -- Switch without expression
+
+
+In Go, a `switch` statement can be used without an expression. When no expression is provided, the `switch` statement acts like a cleaner and more concise way to write a series of `if-else` statements. Each `case` in this form of `switch` statement is evaluated as a boolean expression.
+
+### Example of Switch without Expression
+
+Here's an example demonstrating how to use a `switch` statement without an expression:
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	temperature := 30
+
+	switch {
+	case temperature < 0:
+		fmt.Println("It's freezing!")
+	case temperature >= 0 && temperature < 15:
+		fmt.Println("It's cold")
+	case temperature >= 15 && temperature < 25:
+		fmt.Println("It's cool")
+	case temperature >= 25 && temperature < 35:
+		fmt.Println("It's warm")
+	default:
+		fmt.Println("It's hot")
+	}
+}
+```
+
+### Explanation
+
+1. **Switch without an Expression:**
+   ```go
+   switch {
+   ```
+   In this form, the `switch` statement doesn't evaluate a single expression. Instead, it evaluates each `case` as a boolean expression.
+
+2. **Boolean Expressions in Cases:**
+   Each `case` is a boolean expression:
+   ```go
+   case temperature < 0:
+       fmt.Println("It's freezing!")
+   case temperature >= 0 && temperature < 15:
+       fmt.Println("It's cold")
+   case temperature >= 15 && temperature < 25:
+       fmt.Println("It's cool")
+   case temperature >= 25 && temperature < 35:
+       fmt.Println("It's warm")
+   default:
+       fmt.Println("It's hot")
+   ```
+   The switch statement checks each `case` in order. If a `case` evaluates to `true`, the corresponding block of code is executed, and the `switch` statement terminates. If no `case` matches, the `default` block is executed.
+
+### Use Cases
+
+Switch statements without expressions are useful when you have multiple conditions to check that are not based on a single value. They help make the code more readable and avoid deep nesting of `if-else` statements.
+
+### Another Example with Time of Day
+
+Here’s another example demonstrating the use of a `switch` statement without an expression to categorize parts of the day:
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	currentHour := time.Now().Hour()
+
+	switch {
+	case currentHour < 6:
+		fmt.Println("It's early morning")
+	case currentHour >= 6 && currentHour < 12:
+		fmt.Println("It's morning")
+	case currentHour >= 12 && currentHour < 18:
+		fmt.Println("It's afternoon")
+	case currentHour >= 18 && currentHour < 21:
+		fmt.Println("It's evening")
+	default:
+		fmt.Println("It's night")
+	}
+}
+```
+
+### Conclusion
+
+Using a `switch` statement without an expression in Go is a powerful and clean way to handle multiple conditional branches. It enhances readability and structure in scenarios where the conditions don't rely on a single value but rather on different boolean expressions.
+

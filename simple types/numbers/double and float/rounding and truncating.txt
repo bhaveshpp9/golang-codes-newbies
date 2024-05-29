@@ -1,1 +1,125 @@
 \\ Simple types.— Numbers — double and float — rounding and truncating
+
+
+In Go, you can round and truncate floating-point numbers using functions from the `math` package. Rounding adjusts the value to the nearest integer, while truncating removes the fractional part, effectively rounding towards zero.
+
+### Truncating Floating-Point Numbers
+
+To truncate a floating-point number, you can use the `math.Trunc` function.
+
+#### Example: Truncating Floating-Point Numbers
+
+```go
+package main
+
+import (
+    "fmt"
+    "math"
+)
+
+func main() {
+    // Define float32 and float64 numbers
+    var float32Num float32 = 123.456
+    var float64Num float64 = 123.456789
+
+    // Truncate the numbers
+    truncatedFloat32 := math.Trunc(float64(float32Num))
+    truncatedFloat64 := math.Trunc(float64Num)
+
+    // Print the truncated values
+    fmt.Printf("Truncated float32: %.3f -> %.0f\n", float32Num, truncatedFloat32)
+    fmt.Printf("Truncated float64: %.6f -> %.0f\n", float64Num, truncatedFloat64)
+}
+```
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Truncated float32: 123.456 -> 123
+Truncated float64: 123.456789 -> 123
+```
+
+### Rounding Floating-Point Numbers
+
+To round a floating-point number to the nearest integer, you can use the `math.Round` function.
+
+#### Example: Rounding Floating-Point Numbers
+
+```go
+package main
+
+import (
+    "fmt"
+    "math"
+)
+
+func main() {
+    // Define float32 and float64 numbers
+    var float32Num float32 = 123.456
+    var float64Num float64 = 123.456789
+
+    // Round the numbers
+    roundedFloat32 := math.Round(float64(float32Num))
+    roundedFloat64 := math.Round(float64Num)
+
+    // Print the rounded values
+    fmt.Printf("Rounded float32: %.3f -> %.0f\n", float32Num, roundedFloat32)
+    fmt.Printf("Rounded float64: %.6f -> %.0f\n", float64Num, roundedFloat64)
+}
+```
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Rounded float32: 123.456 -> 123
+Rounded float64: 123.456789 -> 123
+```
+
+### Rounding to a Specific Decimal Place
+
+If you need to round to a specific number of decimal places, you can create a helper function.
+
+#### Example: Rounding to a Specific Decimal Place
+
+```go
+package main
+
+import (
+    "fmt"
+    "math"
+)
+
+// Round to n decimal places
+func roundToDecimalPlaces(value float64, places int) float64 {
+    factor := math.Pow(10, float64(places))
+    return math.Round(value*factor) / factor
+}
+
+func main() {
+    // Define float32 and float64 numbers
+    var float32Num float32 = 123.456
+    var float64Num float64 = 123.456789
+
+    // Round to 2 decimal places
+    roundedFloat32 := roundToDecimalPlaces(float64(float32Num), 2)
+    roundedFloat64 := roundToDecimalPlaces(float64Num, 2)
+
+    // Print the rounded values
+    fmt.Printf("Rounded float32 to 2 decimal places: %.3f -> %.2f\n", float32Num, roundedFloat32)
+    fmt.Printf("Rounded float64 to 2 decimal places: %.6f -> %.2f\n", float64Num, roundedFloat64)
+}
+```
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Rounded float32 to 2 decimal places: 123.456 -> 123.46
+Rounded float64 to 2 decimal places: 123.456789 -> 123.46
+```
+
+### Summary
+
+In Go, you can use the `math.Trunc` function to truncate floating-point numbers and the `math.Round` function to round them. For rounding to a specific number of decimal places, you can create a helper function that uses `math.Pow` and `math.Round`. These techniques allow you to effectively round and truncate floating-point numbers in your Go programs.

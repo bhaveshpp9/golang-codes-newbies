@@ -1,1 +1,160 @@
 \\ Simple types.— Strings — Split into an array
+
+
+In Go, you can split a string into an array (slice) using functions from the `strings` package. The `strings.Split` and `strings.Fields` functions are commonly used for this purpose.
+
+### Example: Splitting a String Using `strings.Split`
+
+The `strings.Split` function splits a string into all substrings separated by the specified delimiter and returns a slice of these substrings.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "strings"
+)
+
+func main() {
+    // Define a string
+    str := "Hello,World,This,Is,Go"
+
+    // Split the string into a slice of substrings using a comma as the delimiter
+    substrings := strings.Split(str, ",")
+
+    // Print the original string and the resulting slice
+    fmt.Printf("Original string: %s\n", str)
+    fmt.Printf("Substrings: %v\n", substrings)
+}
+```
+
+### Explanation
+
+1. **Define a String**:
+   - We define a string `str` with the value "Hello,World,This,Is,Go".
+
+2. **Split the String into a Slice of Substrings**:
+   - We use `strings.Split(str, ",")` to split the string into substrings using a comma as the delimiter.
+   - The function returns a slice of substrings.
+
+3. **Print the Original String and the Resulting Slice**:
+   - We print the original string and the resulting slice using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Original string: Hello,World,This,Is,Go
+Substrings: [Hello World This Is Go]
+```
+
+### Example: Splitting a String Using `strings.Fields`
+
+The `strings.Fields` function splits a string into substrings separated by whitespace and returns a slice of these substrings. This function is useful for splitting a string based on spaces, tabs, and newlines.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "strings"
+)
+
+func main() {
+    // Define a string with spaces, tabs, and newlines
+    str := "Hello World\nThis\tIs Go"
+
+    // Split the string into a slice of substrings based on whitespace
+    substrings := strings.Fields(str)
+
+    // Print the original string and the resulting slice
+    fmt.Printf("Original string: %s\n", str)
+    fmt.Printf("Substrings: %v\n", substrings)
+}
+```
+
+### Explanation
+
+1. **Define a String with Spaces, Tabs, and Newlines**:
+   - We define a string `str` with spaces, tabs, and newlines.
+
+2. **Split the String into a Slice of Substrings Based on Whitespace**:
+   - We use `strings.Fields(str)` to split the string into substrings based on whitespace.
+   - The function returns a slice of substrings.
+
+3. **Print the Original String and the Resulting Slice**:
+   - We print the original string and the resulting slice using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Original string: Hello World
+This	Is Go
+Substrings: [Hello World This Is Go]
+```
+
+### Example: Splitting a String with Multiple Delimiters
+
+If you need to split a string using multiple delimiters, you can use regular expressions with the `regexp` package.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "regexp"
+)
+
+func main() {
+    // Define a string with multiple delimiters
+    str := "Hello, World! This;Is.Go"
+
+    // Compile a regular expression that matches multiple delimiters
+    re := regexp.MustCompile(`[ ,;.!]+`)
+
+    // Split the string using the regular expression
+    substrings := re.Split(str, -1)
+
+    // Print the original string and the resulting slice
+    fmt.Printf("Original string: %s\n", str)
+    fmt.Printf("Substrings: %v\n", substrings)
+}
+```
+
+### Explanation
+
+1. **Define a String with Multiple Delimiters**:
+   - We define a string `str` with multiple delimiters (comma, space, semicolon, period, exclamation mark).
+
+2. **Compile a Regular Expression that Matches Multiple Delimiters**:
+   - We use `regexp.MustCompile` to compile a regular expression that matches any of the specified delimiters.
+
+3. **Split the String Using the Regular Expression**:
+   - We use `re.Split(str, -1)` to split the string using the compiled regular expression.
+   - The function returns a slice of substrings.
+
+4. **Print the Original String and the Resulting Slice**:
+   - We print the original string and the resulting slice using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Original string: Hello, World! This;Is.Go
+Substrings: [Hello World This Is Go]
+```
+
+### Summary
+
+In Go, you can split a string into an array (slice) using functions from the `strings` package:
+- `strings.Split` splits a string based on a specified delimiter.
+- `strings.Fields` splits a string based on whitespace.
+
+For more complex splitting, such as using multiple delimiters, you can use the `regexp` package to compile a regular expression and split the string. These methods provide flexible options for handling string splitting in your Go programs.

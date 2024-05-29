@@ -1,1 +1,143 @@
 \\ Patterns — Behavioural patterns — mediator
+
+The Mediator pattern is a behavioral design pattern that facilitates communication between different components by providing a centralized mediator object. This pattern helps reduce the direct dependencies between interacting components, promoting loose coupling and making the system easier to maintain and extend.
+
+### Key Components
+
+1. **Mediator Interface**: Declares methods for communicating with components.
+2. **Concrete Mediator**: Implements the mediator interface and coordinates communication between components.
+3. **Colleague Interface**: Declares methods for receiving mediator notifications.
+4. **Concrete Colleagues**: Implement the colleague interface and communicate through the mediator.
+
+### Example: Chat Room Mediator
+
+Let's create an example where we implement a chat room mediator that facilitates communication between multiple users.
+
+#### Mediator Interface
+
+```go
+package main
+
+// Mediator interface declares methods for communication
+type Mediator interface {
+    SendMessage(message string, user User)
+}
+```
+
+#### Concrete Mediator
+
+```go
+package main
+
+import "fmt"
+
+// ChatRoom is a Concrete Mediator
+type ChatRoom struct {
+    users map[string]User
+}
+
+func NewChatRoom() *ChatRoom {
+    return &ChatRoom{users: make(map[string]User)}
+}
+
+func (c *ChatRoom) RegisterUser(user User) {
+    c.users[user.GetName()] = user
+}
+
+func (c *ChatRoom) SendMessage(message string, sender User) {
+    for name, user := range c.users {
+        if name != sender.GetName() {
+            user.ReceiveMessage(message, sender)
+        }
+    }
+}
+```
+
+#### Colleague Interface
+
+```go
+package main
+
+// User interface declares methods for user communication
+type User interface {
+    SendMessage(message string)
+    ReceiveMessage(message string, sender User)
+    GetName() string
+}
+```
+
+#### Concrete Colleagues
+
+```go
+package main
+
+import "fmt"
+
+// ChatUser is a Concrete Colleague
+type ChatUser struct {
+    name     string
+    chatRoom Mediator
+}
+
+func NewChatUser(name string, chatRoom Mediator) *ChatUser {
+    return &ChatUser{name: name, chatRoom: chatRoom}
+}
+
+func (u *ChatUser) SendMessage(message string) {
+    fmt.Printf("%s sends message: %s\n", u.name, message)
+    u.chatRoom.SendMessage(message, u)
+}
+
+func (u *ChatUser) ReceiveMessage(message string, sender User) {
+    fmt.Printf("%s receives message from %s: %s\n", u.name, sender.GetName(), message)
+}
+
+func (u *ChatUser) GetName() string {
+    return u.name
+}
+```
+
+#### Client
+
+```go
+package main
+
+func main() {
+    chatRoom := NewChatRoom()
+
+    user1 := NewChatUser("Alice", chatRoom)
+    user2 := NewChatUser("Bob", chatRoom)
+    user3 := NewChatUser("Charlie", chatRoom)
+
+    chatRoom.RegisterUser(user1)
+    chatRoom.RegisterUser(user2)
+    chatRoom.RegisterUser(user3)
+
+    user1.SendMessage("Hi everyone!")
+    user2.SendMessage("Hello Alice!")
+}
+```
+
+### Explanation
+
+1. **Mediator Interface**: The `Mediator` interface declares the `SendMessage` method for communication.
+2. **Concrete Mediator**: The `ChatRoom` struct implements the `Mediator` interface and coordinates communication between registered users.
+3. **Colleague Interface**: The `User` interface declares methods for sending and receiving messages.
+4. **Concrete Colleagues**:
+    - `ChatUser` struct implements the `User` interface.
+    - Each `ChatUser` holds a reference to the `Mediator` (chat room) and uses it to send messages.
+    - When a message is sent, the mediator (`ChatRoom`) relays it to all other users except the sender.
+5. **Client**: The client code creates an instance of `ChatRoom`, registers users, and facilitates communication through the mediator.
+
+### Advantages
+
+- **Loose Coupling**: Components interact indirectly through the mediator, reducing dependencies.
+- **Centralized Control**: The mediator handles all communication, making it easier to manage and extend the system.
+- **Simplified Object Protocols**: The mediator can simplify communication protocols between components.
+
+### Disadvantages
+
+- **Mediator Complexity**: The mediator can become complex and difficult to maintain if it handles too many components and interactions.
+- **Single Point of Failure**: The mediator becomes a single point of failure in the system.
+
+By implementing the Mediator pattern, you can centralize the communication logic between components, making your system more modular, flexible, and easier to maintain. This pattern is especially useful in scenarios where multiple components need to interact in a loosely coupled manner.

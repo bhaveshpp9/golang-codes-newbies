@@ -1,1 +1,23 @@
 \\ work with database(DB) — SQL — Field data types — MySQL — String Types
+
+
+Type list
+
+Type				Is Fixed Length		Max Length
+CHAR(n)				yes			255
+VARCHAR(n)			no			65,535
+BINARY(n)			yes			255
+VARBINARY(n)			no			65,535
+TINYBLOB, TINYTEXT		no			255
+BLOB, TEXT			no			65,535
+MEDIUMBLOB, MEDIUMTEXT		no			2^24
+LONGBLOB, LONGTEXT		no			2^32
+ENUM('value1','value2',...)	no	1 or 2 bytes, depending on the number of values (65,535 maximum)
+SET('value1','value2',...)	no	1, 2, 3, 4, or 8 bytes, depending on the number of set members (64 maximum)
+
+
+Value		CHAR(4)		Storage		VARCHAR(4)	Storage
+''		'    '		4 bytes		''		1 byte
+'ab'		'ab  '		4 bytes		'ab'		3 bytes
+'abcd'		'abcd'		4 bytes		'abcd'		5 bytes
+'abcdefgh'	'abcd'		4 bytes		'abcd'		¯œ5 bytes

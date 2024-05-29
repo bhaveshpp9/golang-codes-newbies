@@ -1,1 +1,102 @@
 \\ work with files — Text files — Append text to a file
+
+Appending text to a file in Go can be done using the `os` package. The `os.OpenFile` function provides the capability to open a file with specific flags, including the `os.O_APPEND` flag for appending data to the end of the file. 
+
+### Example: Appending Text to a File
+
+Let's create an example where we define a function to append text to a file.
+
+#### Step 1: Import Necessary Packages
+
+First, import the necessary package.
+
+```go
+package main
+
+import (
+    "fmt"
+    "os"
+)
+```
+
+#### Step 2: Define the Function to Append Text to a File
+
+Create a function that takes a file path and a string of text as inputs and appends the text to the file.
+
+```go
+// Function to append text to a file
+func appendTextToFile(filePath string, text string) error {
+    // Open the file in append mode
+    file, err := os.OpenFile(filePath, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0644)
+    if err != nil {
+        return err
+    }
+    defer file.Close()
+
+    // Write the text to the file
+    _, err = file.WriteString(text)
+    if err != nil {
+        return err
+    }
+
+    fmt.Printf("Successfully appended text to file: %s\n", filePath)
+    return nil
+}
+```
+
+#### Step 3: Use the Function
+
+Finally, use the `appendTextToFile` function in the `main` function to append text to a file.
+
+```go
+func main() {
+    // File path to append to
+    filePath := "example.txt"
+
+    // Text to append to the file
+    text := "This is the appended text.\n"
+
+    // Append the text to the file
+    err := appendTextToFile(filePath, text)
+    if err != nil {
+        fmt.Printf("Failed to append text to file: %v\n", err)
+        return
+    }
+}
+```
+
+### Explanation
+
+1. **Import Necessary Packages**:
+   - The `os` package is used for file operations.
+
+2. **Define the `appendTextToFile` Function**:
+   - The function takes a file path and a string of text as inputs.
+   - It opens the file in append mode using `os.OpenFile` with the `os.O_APPEND`, `os.O_WRONLY`, and `os.O_CREATE` flags. The `os.O_APPEND` flag ensures that data is written to the end of the file, `os.O_WRONLY` opens the file in write-only mode, and `os.O_CREATE` creates the file if it does not exist.
+   - It writes the text to the file using `file.WriteString`.
+   - It prints a success message if the text is appended successfully.
+
+3. **Use the Function in `main`**:
+   - In `main`, the path for the text file and the text to append are defined.
+   - The `appendTextToFile` function is called to append the text to the file, and the result is printed.
+
+### Detailed Output
+
+The program will append the specified text to `example.txt` and print the result. For example, if `example.txt` initially contains:
+
+```
+Hello, world!
+This is an example file.
+```
+
+After running the program with the text `"This is the appended text.\n"`, the file will contain:
+
+```
+Hello, world!
+This is an example file.
+This is the appended text.
+```
+
+### Summary
+
+In Go, you can append text to a file using the `os.OpenFile` function with the `os.O_APPEND` flag. By defining a function to handle file appending, you can efficiently manage text file operations in your applications. This approach is useful for tasks such as logging, appending data to existing files, and maintaining text-based records.

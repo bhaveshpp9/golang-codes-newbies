@@ -1,1 +1,16 @@
 \\ work with database(DB) — SQL — Filtering Data — The WHERE Clause Operators
+
+
+list of operators:
+
+Operator	Description
+=	Equality
+<>	Non-equality
+!=	Non-equality
+<	Less than
+<=	Less than or equal to
+>	Greate than
+>=	Greate than or equal to
+BETWEEN	Between two specified values
+IS NULL	Is a NULL value
+.

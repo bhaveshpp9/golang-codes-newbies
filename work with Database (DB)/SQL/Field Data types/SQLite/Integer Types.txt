@@ -1,1 +1,8 @@
 \\ work with database(DB) — SQL — Field data types — SQLite — Integer Types
+
+
+INT, TINYINT, MALLINT, MEDIUMINT, BIGINT, UNSIGNED BIG INT, INT2, INT8 are synonymous with INTEGER.
+Type list:
+
+Type	Bytes	Min Value	Max Value
+INTEGER	1, 2, 3, 4, 6, or 8	-2^63	2^63-1

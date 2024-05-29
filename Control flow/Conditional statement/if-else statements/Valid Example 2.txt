@@ -1,0 +1,46 @@
+\\ Control flow — Conditional Statements — if/else statements -- Valid Example 2
+
+
+Great! Let’s explore another practical use of `if/else` statements in Go. This time, we'll focus on a scenario involving financial transactions, specifically calculating transaction fees based on the amount being transferred.
+
+### Scenario
+We want to implement a function that applies different transaction fees based on the amount being transferred:
+- **No fee:** For transactions up to $100.
+- **Low fee:** A fee of 1% for transactions over $100 and up to $1000.
+- **High fee:** A fee of 2% for transactions over $1000.
+
+### Go Code Example
+```go
+package main
+
+import "fmt"
+
+// function to calculate transaction fee based on the amount
+func calculateFee(amount float64) float64 {
+    switch {
+    case amount <= 100:
+        return 0 // no fee for transactions up to $100
+    case amount <= 1000:
+        return amount * 0.01 // 1% fee for transactions over $100 up to $1000
+    default:
+        return amount * 0.02 // 2% fee for transactions over $1000
+    }
+}
+
+func main() {
+    // Example transaction amounts
+    transactions := []float64{50, 150, 2000}
+
+    // Calculating and printing the fees for each transaction
+    for _, amount := range transactions {
+        fee := calculateFee(amount)
+        fmt.Printf("Transaction amount: $%.2f - Fee: $%.2f\n", amount, fee)
+    }
+}
+```
+
+### Explanation
+1. **calculateFee Function**: This function uses a `switch` statement, which is a form of conditional control similar to `if/else` but often cleaner when dealing with multiple distinct cases. It determines the appropriate fee percentage based on the transaction amount.
+2. **Main Function**: We test the fee calculation function with three different transaction amounts, each designed to fall into one of the fee brackets.
+
+This example clearly illustrates how to use conditional logic to implement a tiered fee structure. It effectively demonstrates decision-making based on financial criteria, which is a common requirement in financial applications. Ready to dive deeper into any specific aspects or need more examples? Just let me know! 🔨🤖🔧

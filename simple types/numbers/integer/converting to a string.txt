@@ -1,1 +1,181 @@
 \\ Simple types.— Numbers — integer — converting to a string
+
+In Go, you can convert integers to strings using functions provided by the `strconv` package, such as `strconv.Itoa` for `int` and `strconv.FormatInt` for other integer types like `int64`. Here's a detailed guide on how to convert integers to strings.
+
+### Example: Converting `int` to a String Using `strconv.Itoa`
+
+The `strconv.Itoa` function is the simplest way to convert an `int` to a string.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "strconv"
+)
+
+func main() {
+    // Define an int value
+    var intValue int = 12345
+
+    // Convert int to string
+    strValue := strconv.Itoa(intValue)
+
+    // Print the string value
+    fmt.Printf("Converted value: %s\n", strValue)
+}
+```
+
+### Explanation
+
+1. **Define an `int` Value**:
+   - We define an integer `intValue` with the value `12345`.
+
+2. **Convert `int` to String**:
+   - We use `strconv.Itoa(intValue)` to convert the integer to a string.
+
+3. **Print the String Value**:
+   - We print the converted string value using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Converted value: 12345
+```
+
+### Example: Converting Other Integer Types to Strings Using `strconv.FormatInt` and `strconv.FormatUint`
+
+For other integer types, you can use the `strconv.FormatInt` and `strconv.FormatUint` functions.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "strconv"
+)
+
+func main() {
+    // Define various integer values
+    var int8Value int8 = 127
+    var int16Value int16 = 32767
+    var int32Value int32 = 2147483647
+    var int64Value int64 = 9223372036854775807
+    var uintValue uint = 4294967295
+    var uint8Value uint8 = 255
+    var uint16Value uint16 = 65535
+    var uint32Value uint32 = 4294967295
+    var uint64Value uint64 = 18446744073709551615
+
+    // Convert integers to strings
+    strInt8 := strconv.FormatInt(int64(int8Value), 10)
+    strInt16 := strconv.FormatInt(int64(int16Value), 10)
+    strInt32 := strconv.FormatInt(int64(int32Value), 10)
+    strInt64 := strconv.FormatInt(int64(int64Value), 10)
+    strUint := strconv.FormatUint(uint64(uintValue), 10)
+    strUint8 := strconv.FormatUint(uint64(uint8Value), 10)
+    strUint16 := strconv.FormatUint(uint64(uint16Value), 10)
+    strUint32 := strconv.FormatUint(uint64(uint32Value), 10)
+    strUint64 := strconv.FormatUint(uint64(uint64Value), 10)
+
+    // Print the string values
+    fmt.Printf("int8: %s\n", strInt8)
+    fmt.Printf("int16: %s\n", strInt16)
+    fmt.Printf("int32: %s\n", strInt32)
+    fmt.Printf("int64: %s\n", strInt64)
+    fmt.Printf("uint: %s\n", strUint)
+    fmt.Printf("uint8: %s\n", strUint8)
+    fmt.Printf("uint16: %s\n", strUint16)
+    fmt.Printf("uint32: %s\n", strUint32)
+    fmt.Printf("uint64: %s\n", strUint64)
+}
+```
+
+### Explanation
+
+1. **Define Various Integer Values**:
+   - We define variables of different integer types (`int8`, `int16`, `int32`, `int64`, `uint`, `uint8`, `uint16`, `uint32`, `uint64`).
+
+2. **Convert Integers to Strings**:
+   - We use `strconv.FormatInt` to convert signed integers to strings.
+   - We use `strconv.FormatUint` to convert unsigned integers to strings.
+   - The second argument to `FormatInt` and `FormatUint` is the base (10 for decimal).
+
+3. **Print the String Values**:
+   - We print the converted string values using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+int8: 127
+int16: 32767
+int32: 2147483647
+int64: 9223372036854775807
+uint: 4294967295
+uint8: 255
+uint16: 65535
+uint32: 4294967295
+uint64: 18446744073709551615
+```
+
+### Example: Converting Integers to Strings with Different Bases
+
+You can also convert integers to strings in different bases, such as binary, octal, and hexadecimal.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "strconv"
+)
+
+func main() {
+    // Define an int value
+    var intValue int = 12345
+
+    // Convert int to string in different bases
+    strBinary := strconv.FormatInt(int64(intValue), 2)
+    strOctal := strconv.FormatInt(int64(intValue), 8)
+    strHex := strconv.FormatInt(int64(intValue), 16)
+
+    // Print the string values
+    fmt.Printf("Binary: %s\n", strBinary)
+    fmt.Printf("Octal: %s\n", strOctal)
+    fmt.Printf("Hexadecimal: %s\n", strHex)
+}
+```
+
+### Explanation
+
+1. **Define an `int` Value**:
+   - We define an integer `intValue` with the value `12345`.
+
+2. **Convert `int` to String in Different Bases**:
+   - We use `strconv.FormatInt(int64(intValue), 2)` to convert the integer to a binary string.
+   - We use `strconv.FormatInt(int64(intValue), 8)` to convert the integer to an octal string.
+   - We use `strconv.FormatInt(int64(intValue), 16)` to convert the integer to a hexadecimal string.
+
+3. **Print the String Values**:
+   - We print the converted string values using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Binary: 11000000111001
+Octal: 30071
+Hexadecimal: 3039
+```
+
+### Summary
+
+In Go, you can convert integers to strings using functions from the `strconv` package. The `strconv.Itoa` function is used for converting `int` to string, while `strconv.FormatInt` and `strconv.FormatUint` are used for converting other integer types. Additionally, you can convert integers to strings in different bases, such as binary, octal, and hexadecimal. These conversion functions are essential for handling integer-to-string conversions in various scenarios.

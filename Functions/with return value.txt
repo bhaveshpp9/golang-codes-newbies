@@ -1,1 +1,164 @@
 \\ Functions — with return value
+
+
+In Go, functions can return values. This allows functions to perform operations and return the results to the caller. Functions can return one or multiple values, and the return type(s) must be specified in the function signature.
+
+### Example: Function with a Single Return Value
+
+Here's a simple example of a function that returns a single value:
+
+```go
+package main
+
+import "fmt"
+
+// add takes two integers and returns their sum
+func add(a int, b int) int {
+	return a + b
+}
+
+func main() {
+	sum := add(3, 4)
+	fmt.Println("Sum:", sum)
+}
+```
+
+### Explanation
+
+1. **Defining the Function:**
+   ```go
+   func add(a int, b int) int {
+       return a + b
+   }
+   ```
+   The `add` function takes two integers `a` and `b`, and returns their sum. The return type `int` is specified after the parameter list.
+
+2. **Calling the Function:**
+   ```go
+   func main() {
+       sum := add(3, 4)
+       fmt.Println("Sum:", sum)
+   }
+   ```
+   The `main` function calls `add` with the arguments `3` and `4`. The result is stored in the variable `sum`, which is then printed.
+
+### Example: Function with Multiple Return Values
+
+Go functions can also return multiple values. This is often used for returning a result along with an error value.
+
+```go
+package main
+
+import (
+	"errors"
+	"fmt"
+)
+
+// divide takes two integers and returns the quotient and an error if any
+func divide(a int, b int) (int, error) {
+	if b == 0 {
+		return 0, errors.New("cannot divide by zero")
+	}
+	return a / b, nil
+}
+
+func main() {
+	quotient, err := divide(10, 2)
+	if err != nil {
+		fmt.Println("Error:", err)
+	} else {
+		fmt.Println("Quotient:", quotient)
+	}
+
+	quotient, err = divide(10, 0)
+	if err != nil {
+		fmt.Println("Error:", err)
+	} else {
+		fmt.Println("Quotient:", quotient)
+	}
+}
+```
+
+### Explanation
+
+1. **Defining the Function:**
+   ```go
+   func divide(a int, b int) (int, error) {
+       if b == 0 {
+           return 0, errors.New("cannot divide by zero")
+       }
+       return a / b, nil
+   }
+   ```
+   The `divide` function takes two integers `a` and `b`. It returns two values: an integer quotient and an `error`. If `b` is zero, the function returns an error indicating division by zero.
+
+2. **Calling the Function:**
+   ```go
+   func main() {
+       quotient, err := divide(10, 2)
+       if err != nil {
+           fmt.Println("Error:", err)
+       } else {
+           fmt.Println("Quotient:", quotient)
+       }
+
+       quotient, err = divide(10, 0)
+       if err != nil {
+           fmt.Println("Error:", err)
+       } else {
+           fmt.Println("Quotient:", quotient)
+       }
+   }
+   ```
+   The `main` function calls `divide` with different arguments. It checks if an error was returned and prints the appropriate message.
+
+### Example: Named Return Values
+
+Go also supports named return values, which can make the code more readable in certain cases.
+
+```go
+package main
+
+import "fmt"
+
+// swap takes two integers and returns them swapped
+func swap(a int, b int) (x int, y int) {
+	x = b
+	y = a
+	return
+}
+
+func main() {
+	a, b := 1, 2
+	fmt.Println("Before swap:", a, b)
+	a, b = swap(a, b)
+	fmt.Println("After swap:", a, b)
+}
+```
+
+### Explanation
+
+1. **Defining the Function with Named Return Values:**
+   ```go
+   func swap(a int, b int) (x int, y int) {
+       x = b
+       y = a
+       return
+   }
+   ```
+   The `swap` function takes two integers `a` and `b`. It returns two integers `x` and `y`, which are named return values. The values of `x` and `y` are assigned inside the function, and the `return` statement without arguments returns the named values.
+
+2. **Calling the Function:**
+   ```go
+   func main() {
+       a, b := 1, 2
+       fmt.Println("Before swap:", a, b)
+       a, b = swap(a, b)
+       fmt.Println("After swap:", a, b)
+   }
+   ```
+   The `main` function calls `swap` to swap the values of `a` and `b`.
+
+### Conclusion
+
+In Go, functions can return one or multiple values. By defining the return types in the function signature, you can create functions that perform operations and return results to the caller. Multiple return values are particularly useful for returning results along with error information. Named return values can also enhance readability in certain scenarios.

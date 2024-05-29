@@ -1,1 +1,87 @@
 \\ work with database(DB) — SQL — Creating table — Specific default  Values — Mysql
+
+Creating tables with specific default values in a MySQL database using Go is straightforward with the `database/sql` package and the MySQL driver `github.com/go-sql-driver/mysql`.
+
+### Step-by-Step Guide
+
+1. **Install the MySQL driver for Go**:
+   ```bash
+   go get -u github.com/go-sql-driver/mysql
+   ```
+
+2. **Write the Go code to create a table with specific default values in MySQL**:
+
+Here's a complete example demonstrating how to create a table with specific default values using Go:
+
+```go
+package main
+
+import (
+    "database/sql"
+    "fmt"
+    "log"
+
+    _ "github.com/go-sql-driver/mysql"
+)
+
+func main() {
+    // Define the MySQL data source name (DSN)
+    // Format: username:password@tcp(host:port)/dbname
+    dsn := "username:password@tcp(127.0.0.1:3306)/yourdbname"
+
+    // Open a connection to the database
+    db, err := sql.Open("mysql", dsn)
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer db.Close()
+
+    // Ensure the connection is available
+    err = db.Ping()
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    // SQL statement to create a table with specific default values
+    createTableSQL := `
+    CREATE TABLE IF NOT EXISTS users (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        username VARCHAR(50) NOT NULL DEFAULT 'guest',
+        email VARCHAR(100),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )`
+
+    // Execute the SQL statement
+    _, err = db.Exec(createTableSQL)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    fmt.Println("Table created successfully")
+}
+```
+
+### Explanation:
+
+1. **Import Packages**: Import the necessary packages. The `database/sql` package provides a generic interface for SQL databases, and `github.com/go-sql-driver/mysql` is the MySQL driver.
+2. **Define DSN**: The Data Source Name (DSN) includes the username, password, host, port, and database name. Adjust `dsn` with your MySQL credentials and database details.
+3. **Open Database Connection**: Use `sql.Open` to establish a connection to the MySQL database.
+4. **Ping Database**: Use `db.Ping()` to verify the connection to the database. This ensures that the database is accessible and catches any configuration issues early.
+5. **Create Table SQL Statement**: Define a SQL statement to create a table named `users` with specific default values:
+   - `id`: An auto-incrementing integer that serves as the primary key.
+   - `username`: A `VARCHAR(50)` field with a default value of 'guest'.
+   - `email`: A `VARCHAR(100)` field with no default value.
+   - `created_at`: A `TIMESTAMP` field that defaults to the current timestamp using `DEFAULT CURRENT_TIMESTAMP`.
+6. **Execute Statement**: Use `db.Exec` to execute the SQL statement. This creates the table in the database.
+7. **Close Resources**: Ensure the database connection is closed using `defer` to avoid resource leaks.
+8. **Output Success Message**: Print a message indicating that the table was created successfully.
+
+### Running the Code
+
+Save the code to a file, for example, `main.go`, and then run it using the Go command:
+
+```bash
+go run main.go
+```
+
+Ensure that the MySQL server is running and accessible with the provided credentials. Adjust the `dsn` variable to match your MySQL server configuration. This example assumes the MySQL server is running locally on the default port 3306 and you have a database named `yourdbname`. Adjust accordingly if your setup is different.

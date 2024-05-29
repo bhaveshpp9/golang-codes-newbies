@@ -1,1 +1,158 @@
 \\ Simple types.— Numbers — double and float — converting to a string
+
+In Go, you can convert floating-point numbers (`float32` and `float64`) to strings using various methods. The `fmt` package provides several functions for formatting numbers, while the `strconv` package offers functions specifically designed for number-to-string conversions.
+
+### Using the `fmt` Package
+
+The `fmt.Sprintf` function allows you to format floating-point numbers into strings with specific precision and formatting options.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Define float32 and float64 numbers
+    var float32Num float32 = 12345.6789
+    var float64Num float64 = 12345.67890123456789
+
+    // Convert float32 to string with specific format
+    float32Str := fmt.Sprintf("%.2f", float32Num)
+    fmt.Printf("float32: %.2f -> %s\n", float32Num, float32Str)
+
+    // Convert float64 to string with specific format
+    float64Str := fmt.Sprintf("%.10f", float64Num)
+    fmt.Printf("float64: %.10f -> %s\n", float64Num, float64Str)
+}
+```
+
+### Explanation
+
+1. **Define `float32` and `float64` Numbers**:
+   - We define a `float32` variable `float32Num` and a `float64` variable `float64Num`.
+
+2. **Convert `float32` to String**:
+   - We use `fmt.Sprintf("%.2f", float32Num)` to convert the `float32` number to a string with 2 decimal places.
+   - `%.2f` specifies the format for floating-point numbers with 2 decimal places.
+
+3. **Convert `float64` to String**:
+   - We use `fmt.Sprintf("%.10f", float64Num)` to convert the `float64` number to a string with 10 decimal places.
+   - `%.10f` specifies the format for floating-point numbers with 10 decimal places.
+
+4. **Print the Results**:
+   - We print the original floating-point numbers and their corresponding string representations.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+float32: 12345.68 -> 12345.68
+float64: 12345.6789012346 -> 12345.6789012346
+```
+
+### Using the `strconv` Package
+
+The `strconv` package provides the `FormatFloat` function for converting floating-point numbers to strings with specific formatting options.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "strconv"
+)
+
+func main() {
+    // Define float32 and float64 numbers
+    var float32Num float32 = 12345.6789
+    var float64Num float64 = 12345.67890123456789
+
+    // Convert float32 to string with specific format
+    float32Str := strconv.FormatFloat(float64(float32Num), 'f', 2, 32)
+    fmt.Printf("float32: %.2f -> %s\n", float32Num, float32Str)
+
+    // Convert float64 to string with specific format
+    float64Str := strconv.FormatFloat(float64Num, 'f', 10, 64)
+    fmt.Printf("float64: %.10f -> %s\n", float64Num, float64Str)
+}
+```
+
+### Explanation
+
+1. **Define `float32` and `float64` Numbers**:
+   - We define a `float32` variable `float32Num` and a `float64` variable `float64Num`.
+
+2. **Convert `float32` to String**:
+   - We use `strconv.FormatFloat(float64(float32Num), 'f', 2, 32)` to convert the `float32` number to a string.
+   - The `float64` conversion ensures compatibility with `FormatFloat`.
+   - The parameters are: the number to convert, the format (`'f'` for decimal), the precision (2 decimal places), and the bit size (32 for `float32`).
+
+3. **Convert `float64` to String**:
+   - We use `strconv.FormatFloat(float64Num, 'f', 10, 64)` to convert the `float64` number to a string.
+   - The parameters are: the number to convert, the format (`'f'` for decimal), the precision (10 decimal places), and the bit size (64 for `float64`).
+
+4. **Print the Results**:
+   - We print the original floating-point numbers and their corresponding string representations.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+float32: 12345.68 -> 12345.68
+float64: 12345.6789012346 -> 12345.6789012346
+```
+
+### Using the `math/big` Package for Arbitrary Precision
+
+If you need to handle very large or very precise decimal numbers, you can use the `math/big` package, which provides the `big.Float` type. You can convert `big.Float` to a string using the `Text` method.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "math/big"
+)
+
+func main() {
+    // Define a big.Float number
+    bigFloatNum := new(big.Float).SetFloat64(12345678901234567890.12345678901234567890)
+
+    // Convert big.Float to string with specific format
+    bigFloatStr := bigFloatNum.Text('f', 20)
+
+    // Print the results
+    fmt.Printf("big.Float: %s\n", bigFloatStr)
+}
+```
+
+### Explanation
+
+1. **Define a `big.Float` Number**:
+   - We create a `big.Float` number using `new(big.Float).SetFloat64()`.
+
+2. **Convert `big.Float` to String**:
+   - We use the `Text('f', 20)` method to convert the `big.Float` number to a string with 20 decimal places.
+   - `'f'` specifies the format for floating-point numbers, and 20 specifies the precision.
+
+3. **Print the Result**:
+   - We print the `big.Float` number's string representation.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+big.Float: 12345678901234567890.12345678901234567890
+```
+
+### Summary
+
+In Go, you can convert floating-point numbers to strings using the `fmt` package for formatted output and the `strconv` package for precise control over the conversion. For arbitrary-precision floating-point numbers, the `math/big` package provides the `big.Float` type, which supports conversion to string with specified precision. By using these methods, you can effectively handle and format floating-point numbers in your Go programs.

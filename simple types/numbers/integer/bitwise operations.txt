@@ -1,1 +1,143 @@
 \\ Simple types.— Numbers — integer — bitwise operations
+
+
+In Go, you can perform bitwise operations on integers using the standard operators: `&` (AND), `|` (OR), `^` (XOR), `&^` (AND NOT), `<<` (left shift), and `>>` (right shift). These operations are useful for manipulating individual bits within an integer.
+
+### Example: Bitwise Operations on Integers
+
+Here’s an example demonstrating how to perform basic bitwise operations on integers in Go.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Define integer variables
+    var a int = 42  // 42 in binary is 00101010
+    var b int = 15  // 15 in binary is 00001111
+
+    // Bitwise AND
+    and := a & b  // 00101010 & 00001111 = 00001010 (10 in decimal)
+    fmt.Printf("%d & %d = %d\n", a, b, and)
+
+    // Bitwise OR
+    or := a | b  // 00101010 | 00001111 = 00101111 (47 in decimal)
+    fmt.Printf("%d | %d = %d\n", a, b, or)
+
+    // Bitwise XOR
+    xor := a ^ b  // 00101010 ^ 00001111 = 00100101 (37 in decimal)
+    fmt.Printf("%d ^ %d = %d\n", a, b, xor)
+
+    // Bitwise AND NOT
+    andNot := a &^ b  // 00101010 &^ 00001111 = 00100000 (32 in decimal)
+    fmt.Printf("%d &^ %d = %d\n", a, b, andNot)
+
+    // Left shift
+    leftShift := a << 2  // 00101010 << 2 = 10101000 (168 in decimal)
+    fmt.Printf("%d << 2 = %d\n", a, leftShift)
+
+    // Right shift
+    rightShift := a >> 2  // 00101010 >> 2 = 00001010 (10 in decimal)
+    fmt.Printf("%d >> 2 = %d\n", a, rightShift)
+}
+```
+
+### Explanation
+
+1. **Define Integer Variables**:
+   - We define two `int` variables `a` and `b` with values `42` and `15`, respectively. The binary representations of these values are `00101010` and `00001111`.
+
+2. **Bitwise AND (`&`)**:
+   - The bitwise AND operation compares each bit of `a` and `b` and returns `1` if both bits are `1`; otherwise, it returns `0`.
+   - Example: `00101010 & 00001111 = 00001010` (10 in decimal).
+
+3. **Bitwise OR (`|`)**:
+   - The bitwise OR operation compares each bit of `a` and `b` and returns `1` if either bit is `1`; otherwise, it returns `0`.
+   - Example: `00101010 | 00001111 = 00101111` (47 in decimal).
+
+4. **Bitwise XOR (`^`)**:
+   - The bitwise XOR operation compares each bit of `a` and `b` and returns `1` if the bits are different; otherwise, it returns `0`.
+   - Example: `00101010 ^ 00001111 = 00100101` (37 in decimal).
+
+5. **Bitwise AND NOT (`&^`)**:
+   - The bitwise AND NOT operation inverts the bits of `b` and then performs a bitwise AND with `a`.
+   - Example: `00101010 &^ 00001111 = 00100000` (32 in decimal).
+
+6. **Left Shift (`<<`)**:
+   - The left shift operation shifts the bits of `a` to the left by the specified number of positions, filling the vacated bits with zeros.
+   - Example: `00101010 << 2 = 10101000` (168 in decimal).
+
+7. **Right Shift (`>>`)**:
+   - The right shift operation shifts the bits of `a` to the right by the specified number of positions, filling the vacated bits with zeros (for unsigned types) or the sign bit (for signed types).
+   - Example: `00101010 >> 2 = 00001010` (10 in decimal).
+
+### Detailed Output
+
+The output of the above code will be:
+```
+42 & 15 = 10
+42 | 15 = 47
+42 ^ 15 = 37
+42 &^ 15 = 32
+42 << 2 = 168
+42 >> 2 = 10
+```
+
+### Working with Different Integer Types
+
+Bitwise operations can be performed on different integer types in Go, such as `int8`, `int16`, `int32`, `int64`, and their unsigned counterparts.
+
+#### Example: Bitwise Operations with Different Integer Types
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Define different integer types
+    var int8Num int8 = 42
+    var int16Num int16 = 42
+    var int32Num int32 = 42
+    var int64Num int64 = 42
+    var uint8Num uint8 = 42
+    var uint16Num uint16 = 42
+    var uint32Num uint32 = 42
+    var uint64Num uint64 = 42
+
+    // Perform bitwise AND on different types
+    fmt.Printf("int8: %d & 15 = %d\n", int8Num, int8Num&15)
+    fmt.Printf("int16: %d & 15 = %d\n", int16Num, int16Num&15)
+    fmt.Printf("int32: %d & 15 = %d\n", int32Num, int32Num&15)
+    fmt.Printf("int64: %d & 15 = %d\n", int64Num, int64Num&15)
+    fmt.Printf("uint8: %d & 15 = %d\n", uint8Num, uint8Num&15)
+    fmt.Printf("uint16: %d & 15 = %d\n", uint16Num, uint16Num&15)
+    fmt.Printf("uint32: %d & 15 = %d\n", uint32Num, uint32Num&15)
+    fmt.Printf("uint64: %d & 15 = %d\n", uint64Num, uint64Num&15)
+}
+```
+
+### Detailed Output
+
+The output of the above code will be:
+```
+int8: 42 & 15 = 10
+int16: 42 & 15 = 10
+int32: 42 & 15 = 10
+int64: 42 & 15 = 10
+uint8: 42 & 15 = 10
+uint16: 42 & 15 = 10
+uint32: 42 & 15 = 10
+uint64: 42 & 15 = 10
+```
+
+### Summary
+
+In Go, you can perform bitwise operations on integers using standard operators: `&`, `|`, `^`, `&^`, `<<`, and `>>`. These operations are useful for manipulating individual bits within an integer and can be applied to various integer types, including signed and unsigned integers. Understanding these operations allows you to efficiently perform low-level bit manipulation in your Go programs.

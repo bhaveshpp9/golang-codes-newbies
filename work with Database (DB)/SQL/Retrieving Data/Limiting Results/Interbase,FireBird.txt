@@ -1,1 +1,19 @@
 \\ work with database(DB) — SQL — Retrieving Data — Limiting Results — Interbase,FireBird
+
+
+/* first five rows */
+SELECT Name
+FROM country
+ROWS 5
+
+/* from the 6th to the 10th rows */
+SELECT Name
+FROM country
+ROWS 6 TO 10
+
+Name
+Andorra
+Netherlands Antilles
+United Arab Emirates
+Argentina
+Armenia

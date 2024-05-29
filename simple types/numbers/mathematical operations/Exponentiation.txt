@@ -1,1 +1,170 @@
 \\ Simple types.— Numbers —mathematical operations — Exponentiation
+
+
+In Go, you can perform exponentiation (raising a number to a power) using the `math.Pow` function from the `math` package. This function allows you to raise a floating-point number to the power of another floating-point number.
+
+### Example: Performing Exponentiation
+
+Here’s an example demonstrating how to perform exponentiation using `math.Pow`.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "math"
+)
+
+func main() {
+    // Define base and exponent
+    base := 2.0
+    exponent := 3.0
+
+    // Calculate base^exponent
+    result := math.Pow(base, exponent)
+
+    // Print the result
+    fmt.Printf("%f raised to the power of %f is %f\n", base, exponent, result)
+}
+```
+
+### Explanation
+
+1. **Import the `math` Package**:
+   - The `math` package provides mathematical functions, including exponentiation.
+
+2. **Define Base and Exponent**:
+   - We define two floating-point numbers, `base` and `exponent`, with values `2.0` and `3.0`, respectively.
+
+3. **Calculate Base Raised to the Power of Exponent**:
+   - We use `math.Pow(base, exponent)` to calculate `base` raised to the power of `exponent`.
+
+4. **Print the Result**:
+   - We print the result using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+2.000000 raised to the power of 3.000000 is 8.000000
+```
+
+### Handling Different Base and Exponent Values
+
+You can perform exponentiation with various base and exponent values, including fractional and negative numbers.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "math"
+)
+
+func main() {
+    // Define a slice of base and exponent pairs
+    baseExponentPairs := [][2]float64{
+        {2, 3},
+        {5, 2},
+        {2, -1},
+        {4, 0.5},
+        {9, 0.5},
+    }
+
+    // Calculate and print the result for each pair
+    for _, pair := range baseExponentPairs {
+        base := pair[0]
+        exponent := pair[1]
+        result := math.Pow(base, exponent)
+        fmt.Printf("%f raised to the power of %f is %f\n", base, exponent, result)
+    }
+}
+```
+
+### Explanation
+
+1. **Define a Slice of Base and Exponent Pairs**:
+   - We define a slice `baseExponentPairs` containing pairs of base and exponent values.
+
+2. **Calculate and Print the Result for Each Pair**:
+   - We loop through the slice and use `math.Pow(base, exponent)` to calculate the result for each pair.
+   - We print the results using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+2.000000 raised to the power of 3.000000 is 8.000000
+5.000000 raised to the power of 2.000000 is 25.000000
+2.000000 raised to the power of -1.000000 is 0.500000
+4.000000 raised to the power of 0.500000 is 2.000000
+9.000000 raised to the power of 0.500000 is 3.000000
+```
+
+### Exponentiation with Integers
+
+For integer exponentiation, you can use `math.Pow` by converting integers to floating-point numbers. However, if you specifically need integer operations, you can write your own function for integer exponentiation.
+
+#### Example: Integer Exponentiation
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// IntegerExponentiation calculates base^exponent for integers
+func IntegerExponentiation(base int, exponent int) int {
+    result := 1
+    for exponent != 0 {
+        if exponent%2 != 0 {
+            result *= base
+        }
+        base *= base
+        exponent /= 2
+    }
+    return result
+}
+
+func main() {
+    // Define base and exponent
+    base := 2
+    exponent := 10
+
+    // Calculate base^exponent
+    result := IntegerExponentiation(base, exponent)
+
+    // Print the result
+    fmt.Printf("%d raised to the power of %d is %d\n", base, exponent, result)
+}
+```
+
+### Explanation
+
+1. **Define IntegerExponentiation Function**:
+   - We define a function `IntegerExponentiation` that calculates `base` raised to the power of `exponent` using an efficient algorithm (Exponentiation by Squaring).
+
+2. **Define Base and Exponent**:
+   - We define two integers, `base` and `exponent`, with values `2` and `10`, respectively.
+
+3. **Calculate Base Raised to the Power of Exponent**:
+   - We call `IntegerExponentiation(base, exponent)` to calculate the result.
+
+4. **Print the Result**:
+   - We print the result using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+2 raised to the power of 10 is 1024
+```
+
+### Summary
+
+In Go, you can perform exponentiation using the `math.Pow` function for floating-point numbers. For integer exponentiation, you can write a custom function to handle the calculations. By understanding these methods, you can effectively perform exponentiation in your Go programs.

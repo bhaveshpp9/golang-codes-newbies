@@ -1,1 +1,109 @@
 \\ work with files — Text files — Read file line by line
+
+Reading a file line by line in Go can be efficiently handled using the `bufio` package. The `bufio.Scanner` provides an easy way to read text from a file line by line.
+
+### Example: Reading a File Line by Line
+
+Let's create an example where we define a function to read a file line by line and print each line.
+
+#### Step 1: Import Necessary Packages
+
+First, import the necessary packages.
+
+```go
+package main
+
+import (
+    "bufio"
+    "fmt"
+    "os"
+)
+```
+
+#### Step 2: Define the Function to Read a File Line by Line
+
+Create a function that takes a file path as input and reads the contents of the file line by line.
+
+```go
+// Function to read a file line by line
+func readFileLineByLine(filePath string) error {
+    // Open the file for reading
+    file, err := os.Open(filePath)
+    if err != nil {
+        return err
+    }
+    defer file.Close()
+
+    // Create a scanner to read the file line by line
+    scanner := bufio.NewScanner(file)
+
+    // Read each line and print it
+    for scanner.Scan() {
+        fmt.Println(scanner.Text())
+    }
+
+    // Check for errors during scanning
+    if err := scanner.Err(); err != nil {
+        return err
+    }
+
+    return nil
+}
+```
+
+#### Step 3: Use the Function
+
+Finally, use the `readFileLineByLine` function in the `main` function to read a file line by line and print its contents.
+
+```go
+func main() {
+    // File path to read from
+    filePath := "example.txt"
+
+    // Read the file line by line
+    err := readFileLineByLine(filePath)
+    if err != nil {
+        fmt.Printf("Failed to read file line by line: %v\n", err)
+        return
+    }
+}
+```
+
+### Explanation
+
+1. **Import Necessary Packages**:
+   - The `os` package is used for basic file operations.
+   - The `bufio` package provides buffered I/O operations and the `Scanner` type for reading text.
+
+2. **Define the `readFileLineByLine` Function**:
+   - The function takes a file path as input.
+   - It opens the file for reading using `os.Open`.
+   - It creates a `Scanner` to read the file line by line.
+   - It reads each line using `scanner.Scan` and prints the line.
+   - It checks for any errors that occurred during scanning using `scanner.Err`.
+
+3. **Use the Function in `main`**:
+   - In `main`, the path for the text file is defined.
+   - The `readFileLineByLine` function is called to read the file line by line, and any errors are printed.
+
+### Detailed Output
+
+The program will read the contents of `example.txt` line by line and print each line. For example, if `example.txt` contains:
+
+```
+Hello, world!
+This is an example file.
+It contains multiple lines of text.
+```
+
+The output will be:
+
+```
+Hello, world!
+This is an example file.
+It contains multiple lines of text.
+```
+
+### Summary
+
+In Go, you can read a file line by line using the `os` and `bufio` packages. By defining a function to handle file reading and using a `Scanner` to read the file line by line, you can efficiently process large text files in a memory-efficient manner. This approach is useful for tasks such as reading log files, processing text data, and loading text resources in your applications.

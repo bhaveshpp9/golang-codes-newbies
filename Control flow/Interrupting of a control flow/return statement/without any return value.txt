@@ -1,1 +1,50 @@
 \\ Control flow — Interrupting of a control flow — "return" statement — without any return value
+
+
+Certainly! In Go, the `return` statement can also be used to exit a function early. This can effectively interrupt the control flow of a function, especially when certain conditions are met and no further processing is required. When used in functions that do not return a value (i.e., functions declared with no return type), the `return` statement simply terminates the function execution.
+
+### Scenario
+Let's say we're developing a function that processes user input for a simple command-line tool. The function checks if the user input is a specific command, and if it's an "exit" command, the function terminates immediately using a `return` statement without any return value.
+
+### Go Code Example
+```go
+package main
+
+import (
+	"fmt"
+	"strings"
+)
+
+// processCommand takes a user input and processes it
+func processCommand(input string) {
+	// Trim space and convert input to lower case for comparison
+	processedInput := strings.TrimSpace(strings.ToLower(input))
+
+	// Check if the input is an "exit" command
+	if processedInput == "exit" {
+		fmt.Println("Exiting the program...")
+		return // Immediately exit the function
+	}
+
+	// If not "exit", perform some other logic
+	fmt.Printf("Processing command: %s\n", input)
+}
+
+func main() {
+	// Example inputs to process
+	inputs := []string{"Hello", "exit", "world"}
+
+	// Loop through each input and process it
+	for _, input := range inputs {
+		processCommand(input)
+		fmt.Println("Command processed.")
+	}
+}
+```
+
+### Explanation
+1. **processCommand Function**: This function checks if the provided user input is the command "exit". If it is, it prints a message and then uses `return` to terminate the function prematurely.
+2. **Other Commands**: If the input is not "exit", it proceeds to print that the command is being processed.
+3. **Main Function**: In the `main` function, we simulate processing a list of commands. When the "exit" command is processed, the `processCommand` function terminates before the "Command processed." print statement can execute for that input.
+
+This example demonstrates how `return` can be effectively used to interrupt the flow of a function based on a condition, similar to how a `break` might be used in a loop, but here it applies to the entire function execution. It's a fundamental part of controlling flow in Go, ensuring that functions can exit as soon as an end condition or special case is encountered. Let me know if you have more questions or need further examples! 🔨🤖🔧

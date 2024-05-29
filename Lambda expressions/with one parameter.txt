@@ -1,1 +1,124 @@
 \\ Lambda Expressions —  with one parameter
+
+
+In Go, lambda expressions, also known as anonymous functions, can be used with a single parameter just like named functions. These anonymous functions are useful for encapsulating small pieces of logic and can be passed around as arguments, assigned to variables, or returned from other functions.
+
+### Example: Basic Lambda Expression with One Parameter
+
+Here's a simple example where an anonymous function takes one parameter and performs an operation:
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    // Define an anonymous function with one parameter
+    square := func(x int) int {
+        return x * x
+    }
+
+    // Use the anonymous function
+    result := square(5)
+
+    fmt.Println(result) // Output: 25
+}
+```
+
+### Explanation
+
+1. **Anonymous Function Definition:** The `square` anonymous function takes one integer parameter `x` and returns its square.
+2. **Function Call:** The `square` function is called with the argument `5`, and the result is printed.
+
+### Example: Using Lambda Expressions in Higher-Order Functions
+
+Higher-order functions can take other functions as parameters or return functions. Here’s an example that demonstrates using lambda expressions with one parameter in a higher-order function:
+
+```go
+package main
+
+import "fmt"
+
+// Define a higher-order function that takes an integer and a function
+func applyOperation(x int, operation func(int) int) int {
+    return operation(x)
+}
+
+func main() {
+    // Define multiple operations using anonymous functions
+    double := func(x int) int {
+        return x * 2
+    }
+
+    triple := func(x int) int {
+        return x * 3
+    }
+
+    // Use the higher-order function with different operations
+    result1 := applyOperation(5, double)
+    result2 := applyOperation(5, triple)
+
+    fmt.Println(result1) // Output: 10
+    fmt.Println(result2) // Output: 15
+}
+```
+
+### Explanation
+
+1. **Higher-Order Function:** The `applyOperation` function takes an integer `x` and a function `operation` that takes an integer and returns an integer.
+2. **Anonymous Functions:** Define anonymous functions `double` and `triple` that perform different arithmetic operations.
+3. **Function Calls:** Use the `applyOperation` function with different operations and print the results.
+
+### Practical Example: Filtering a Slice with a Lambda Expression
+
+Here’s a practical example where an anonymous function is used to filter elements from a slice based on a single criterion.
+
+```go
+package main
+
+import "fmt"
+
+// Define a type for the filtering function
+type filterFunc func(int) bool
+
+// Define a function that filters a slice based on a filter function
+func filter(numbers []int, filter filterFunc) []int {
+    var result []int
+    for _, number := range numbers {
+        if filter(number) {
+            result = append(result, number)
+        }
+    }
+    return result
+}
+
+func main() {
+    // Define a slice of numbers
+    numbers := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+
+    // Define a filter function to filter even numbers
+    isEven := func(n int) bool {
+        return n%2 == 0
+    }
+
+    // Use the filter function
+    evenNumbers := filter(numbers, isEven)
+
+    fmt.Println("Even numbers:", evenNumbers) // Output: Even numbers: [2 4 6 8 10]
+}
+```
+
+### Explanation
+
+1. **Filter Function Type:** Define a function type `filterFunc` for a function that takes one integer and returns a boolean.
+2. **Filtering Function:** The `filter` function takes a slice of integers and a filter function. It returns a new slice containing elements that satisfy the filter function.
+3. **Anonymous Function:** Define the `isEven` anonymous function to filter even numbers.
+4. **Function Call:** Use the `filter` function with the `isEven` filter and print the results.
+
+### Summary
+
+- **Single Parameter:** Anonymous functions in Go can take a single parameter and perform operations on it.
+- **Higher-Order Functions:** Use higher-order functions to pass and return anonymous functions with single parameters.
+- **Practical Uses:** Apply lambda expressions with single parameters for tasks like filtering, mapping, and other operations involving a single criterion.
+
+By leveraging lambda expressions with single parameters, you can create concise and expressive code in Go, encapsulating logic in small, reusable functions. This enables powerful functional programming techniques and enhances the modularity of your code.

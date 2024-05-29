@@ -1,1 +1,79 @@
 \\ work with files — Basic Operations — Delete a directory with data
+
+
+To delete a directory along with its contents (subdirectories and files) in Go, you should use the `os.RemoveAll` function from the `os` package. This function recursively deletes the specified directory and all its contents.
+
+### Example: Deleting a Directory with All Its Contents
+
+Let's create an example where we define a function to delete a directory and all its contents using `os.RemoveAll`.
+
+#### Step 1: Import Necessary Packages
+
+First, import the necessary package.
+
+```go
+package main
+
+import (
+    "fmt"
+    "os"
+)
+```
+
+#### Step 2: Define the Function to Delete a Directory with All Its Contents
+
+Create a function that takes a directory path as input and deletes the directory along with all its contents.
+
+```go
+// Function to delete a directory along with all its contents
+func deleteDirectoryWithContents(path string) error {
+    err := os.RemoveAll(path)
+    if err != nil {
+        return err
+    }
+    fmt.Printf("Successfully deleted directory and all its contents: %s\n", path)
+    return nil
+}
+```
+
+#### Step 3: Use the Function
+
+Finally, use the `deleteDirectoryWithContents` function in the `main` function to delete a directory.
+
+```go
+func main() {
+    // Path for the directory to delete
+    dirToDelete := "example_dir"
+
+    // Delete the directory and all its contents
+    if err := deleteDirectoryWithContents(dirToDelete); err != nil {
+        fmt.Printf("Failed to delete directory and all its contents: %v\n", err)
+    }
+}
+```
+
+### Explanation
+
+1. **Import Necessary Packages**:
+   - The `os` package is used for file operations.
+
+2. **Define the `deleteDirectoryWithContents` Function**:
+   - This function takes a directory path as input.
+   - It uses `os.RemoveAll` to delete the directory along with any contents (subdirectories and files).
+   - It prints a success message if the directory and contents are deleted.
+
+3. **Use the Function in `main`**:
+   - In `main`, the path for the directory to delete is defined.
+   - The `deleteDirectoryWithContents` function is called to delete the directory and all its contents, and the result is printed.
+
+### Detailed Output
+
+The program will delete the specified directory and all its contents and print the result. For example:
+
+```
+Successfully deleted directory and all its contents: example_dir
+```
+
+### Summary
+
+In Go, you can delete a directory along with all its contents using the `os.RemoveAll` function. This function recursively deletes the specified directory and any files or subdirectories it contains. By defining a function to handle directory deletion, you can efficiently manage your file system structure in your applications. This approach is useful for cleaning up directories, removing temporary files, or managing resources that are no longer needed.

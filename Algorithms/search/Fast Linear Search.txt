@@ -1,1 +1,54 @@
 \\ Algorithms — Search — Fast Linear Search
+
+
+A **Fast Linear Search** algorithm enhances the basic linear search by reducing the number of comparisons in scenarios where the element is likely found earlier. One way to potentially speed up a linear search is by searching from both ends of the list simultaneously, often called a **bidirectional linear search**. This method can be particularly efficient if the target is likely to be closer to the beginning or the end of the list.
+
+Here is an example of how you might implement a fast linear search in Go for a slice of integers:
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+// fastLinearSearch performs a bidirectional linear search on a slice `data` looking for `target`.
+// Returns the index of `target` if found, otherwise returns -1.
+func fastLinearSearch(data []int, target int) int {
+	front := 0
+	back := len(data) - 1
+
+	for front <= back {
+		if data[front] == target {
+			return front
+		}
+		if data[back] == target {
+			return back
+		}
+		front++
+		back--
+	}
+	return -1
+}
+
+func main() {
+	data := []int{10, 22, 35, 40, 55, 60, 75, 85, 90}
+	target := 55
+	result := fastLinearSearch(data, target)
+
+	if result != -1 {
+		fmt.Printf("Element %d found at index %d\n", target, result)
+	} else {
+		fmt.Println("Element not found")
+	}
+}
+```
+
+### Explanation
+- **Initialization**: Two indices, `front` and `back`, are initialized to the beginning and end of the array respectively.
+- **Loop through the data**: The loop continues as long as `front` is less than or equal to `back`. This allows simultaneous search from both ends.
+- **Check both ends**: Each iteration checks both the front and back indices. If either matches the target, the index is returned.
+- **Increment and Decrement**: After each check, `front` is incremented and `back` is decremented, effectively narrowing the search range from both ends.
+- **Return**: If the loop completes without finding the target, it returns -1.
+
+This approach reduces the number of iterations needed in the best and average case scenarios, especially when the element is closer to either end of the array. It's a simple enhancement but can provide efficiency improvements in specific scenarios. If you need further adjustments or have another type of data to search through, feel free to ask! 💡

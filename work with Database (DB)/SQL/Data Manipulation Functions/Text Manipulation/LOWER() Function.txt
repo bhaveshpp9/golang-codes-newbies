@@ -1,1 +1,22 @@
 \\ work with database(DB) — SQL — Data Manipulation Functions — Text Manipulation — LOWER() Function
+
+
+SELECT
+    Name, 
+    LOWER(Name) AS NameLowerCase
+    -- or lcase()
+FROM country
+
+Name	NameLowerCase
+Aruba	aruba
+Afghanistan	afghanistan
+Angola	angola
+Anguilla	anguilla
+Albania	albania
+Andorra	andorra
+Netherlands Antilles	netherlands antilles
+United Arab Emirates	united arab emirates
+Argentina	argentina
+...
+
+LOWER() converts text to lower case

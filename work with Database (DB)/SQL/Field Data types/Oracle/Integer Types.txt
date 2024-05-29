@@ -1,1 +1,9 @@
 \\ work with database(DB) — SQL —  Field data types — Oracle — Integer Types
+
+
+Type list
+
+Type	Min Value	Max Value
+NUMBER(2)	-99	99
+NUMBER(7)	-9999999	9999999
+NUMBER(n)	n = 1	n = 38

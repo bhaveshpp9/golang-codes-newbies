@@ -1,1 +1,137 @@
 \\ Lambda Expressions —  void function as a parameter
+
+
+In Go, functions are first-class citizens, meaning you can pass them as parameters to other functions. This includes functions that do not return any values (void functions). This can be useful for implementing callback mechanisms, event handlers, or simple procedural operations that need to be passed around.
+
+### Example: Passing a Void Function as a Parameter
+
+Here’s an example demonstrating how to pass a void function (a function that returns no value) as a parameter:
+
+```go
+package main
+
+import "fmt"
+
+// Define a function type for a void function
+type voidFunc func()
+
+// A function that takes a void function as a parameter and executes it
+func execute(f voidFunc) {
+    f()
+}
+
+func main() {
+    // Define a void function
+    hello := func() {
+        fmt.Println("Hello, World!")
+    }
+
+    // Pass the void function to the execute function
+    execute(hello) // Output: Hello, World!
+}
+```
+
+### Explanation
+
+1. **Function Type:** Define a function type `voidFunc` for a function that takes no parameters and returns no value.
+2. **Higher-Order Function:** Define the `execute` function that takes a `voidFunc` as a parameter and calls it.
+3. **Void Function:** Define a void function `hello` that prints a message.
+4. **Function Call:** Pass the `hello` function to `execute`, which then calls `hello`.
+
+### Practical Example: Event Handling
+
+Let’s consider a more practical example where we pass void functions as event handlers.
+
+```go
+package main
+
+import "fmt"
+
+// Define a function type for a void function
+type voidFunc func()
+
+// A Button struct that can have an onClick event handler
+type Button struct {
+    onClick voidFunc
+}
+
+// SetOnClick sets the onClick event handler for the button
+func (b *Button) SetOnClick(f voidFunc) {
+    b.onClick = f
+}
+
+// Click simulates a button click
+func (b *Button) Click() {
+    if b.onClick != nil {
+        b.onClick()
+    }
+}
+
+func main() {
+    // Create a new button
+    btn := &Button{}
+
+    // Set an onClick event handler for the button
+    btn.SetOnClick(func() {
+        fmt.Println("Button clicked!")
+    })
+
+    // Simulate a button click
+    btn.Click() // Output: Button clicked!
+}
+```
+
+### Explanation
+
+1. **Button Struct:** Define a `Button` struct with an `onClick` event handler of type `voidFunc`.
+2. **SetOnClick Method:** Define the `SetOnClick` method to set the `onClick` event handler for the button.
+3. **Click Method:** Define the `Click` method to simulate a button click by calling the `onClick` event handler if it’s not `nil`.
+4. **Event Handler:** In the `main` function, create a `Button` instance, set an `onClick` event handler using an anonymous function, and simulate a button click.
+
+### Example: Executing Multiple Void Functions
+
+Sometimes, you may want to execute a series of void functions passed as parameters. Here’s how you can achieve that:
+
+```go
+package main
+
+import "fmt"
+
+// Define a function type for a void function
+type voidFunc func()
+
+// A function that takes a slice of void functions and executes them
+func executeAll(funcs []voidFunc) {
+    for _, f := range funcs {
+        f()
+    }
+}
+
+func main() {
+    // Define multiple void functions
+    hello := func() {
+        fmt.Println("Hello!")
+    }
+    world := func() {
+        fmt.Println("World!")
+    }
+
+    // Pass the functions to executeAll
+    executeAll([]voidFunc{hello, world}) // Output: Hello! \n World!
+}
+```
+
+### Explanation
+
+1. **Function Type:** Define a function type `voidFunc` for a void function.
+2. **Higher-Order Function:** Define the `executeAll` function that takes a slice of `voidFunc` and executes each one.
+3. **Void Functions:** Define multiple void functions (`hello` and `world`).
+4. **Function Call:** Pass the functions to `executeAll`, which iterates over the slice and calls each function.
+
+### Summary
+
+- **Void Functions as Parameters:** Go allows passing functions that return no values (void functions) as parameters.
+- **Higher-Order Functions:** Use higher-order functions to execute, manage, or manipulate these void functions.
+- **Practical Applications:** Implement event handling, callbacks, or batch processing using void functions passed as parameters.
+
+By passing void functions as parameters, you can create flexible and reusable code patterns in Go, enabling powerful event-driven and procedural programming techniques.

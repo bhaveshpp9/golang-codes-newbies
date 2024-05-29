@@ -1,1 +1,227 @@
 \\ Structures — Methods —  Variable parameters
+
+In Go, you can define methods that accept a variable number of parameters using variadic functions. A variadic function can take zero or more arguments of a specified type. This is useful when you don't know in advance how many arguments will be passed to the function.
+
+### Example: Method with Variadic Parameters
+
+Let's create a `Math` struct and define a method that calculates the sum of a variable number of integers.
+
+#### Step 1: Define the Struct
+
+First, define a `Math` struct.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define the Math struct
+type Math struct{}
+```
+
+#### Step 2: Define the Method with Variadic Parameters
+
+Create a method for the `Math` struct that takes a variadic number of integers and returns their sum.
+
+```go
+// Method to calculate the sum of a variable number of integers
+func (m Math) Sum(numbers ...int) int {
+    total := 0
+    for _, number := range numbers {
+        total += number
+    }
+    return total
+}
+```
+
+#### Step 3: Use the Method
+
+Finally, use the method in the `main` function.
+
+```go
+func main() {
+    // Create an instance of Math
+    math := Math{}
+
+    // Call the Sum method with different numbers of arguments
+    sum1 := math.Sum(1, 2, 3)
+    sum2 := math.Sum(4, 5, 6, 7, 8)
+    sum3 := math.Sum()
+
+    // Print the results
+    fmt.Printf("Sum1: %d\n", sum1)
+    fmt.Printf("Sum2: %d\n", sum2)
+    fmt.Printf("Sum3: %d\n", sum3)
+}
+```
+
+### Explanation
+
+1. **Define the `Math` Struct**:
+   - The `Math` struct is defined as an empty struct.
+
+2. **Define the `Sum` Method**:
+   - The `Sum` method is defined on the `Math` struct and takes a variadic number of integers (`numbers ...int`).
+   - The method iterates over the `numbers` slice and calculates the sum of the elements.
+
+3. **Use the Method**:
+   - In `main`, an instance of the `Math` struct is created.
+   - The `Sum` method is called with different numbers of arguments to demonstrate its flexibility.
+   - The results are printed.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Sum1: 6
+Sum2: 30
+Sum3: 0
+```
+
+### Example: Method with Variadic Parameters and Other Parameters
+
+You can also define a method that accepts both fixed parameters and variadic parameters.
+
+#### Step 1: Define the Struct
+
+First, define a `Math` struct.
+
+```go
+// Define the Math struct
+type Math struct{}
+```
+
+#### Step 2: Define the Method with Fixed and Variadic Parameters
+
+Create a method for the `Math` struct that takes a fixed parameter and a variadic parameter.
+
+```go
+// Method to calculate the sum of a base value and a variable number of integers
+func (m Math) SumWithBase(base int, numbers ...int) int {
+    total := base
+    for _, number := range numbers {
+        total += number
+    }
+    return total
+}
+```
+
+#### Step 3: Use the Method
+
+Finally, use the method in the `main` function.
+
+```go
+func main() {
+    // Create an instance of Math
+    math := Math{}
+
+    // Call the SumWithBase method with different numbers of arguments
+    sum1 := math.SumWithBase(10, 1, 2, 3)
+    sum2 := math.SumWithBase(20, 4, 5, 6, 7, 8)
+    sum3 := math.SumWithBase(5)
+
+    // Print the results
+    fmt.Printf("Sum1: %d\n", sum1)
+    fmt.Printf("Sum2: %d\n", sum2)
+    fmt.Printf("Sum3: %d\n", sum3)
+}
+```
+
+### Explanation
+
+1. **Define the `Math` Struct**:
+   - The `Math` struct is defined as an empty struct.
+
+2. **Define the `SumWithBase` Method**:
+   - The `SumWithBase` method is defined on the `Math` struct and takes a fixed parameter (`base int`) and a variadic parameter (`numbers ...int`).
+   - The method calculates the sum of the `base` value and the elements in the `numbers` slice.
+
+3. **Use the Method**:
+   - In `main`, an instance of the `Math` struct is created.
+   - The `SumWithBase` method is called with different numbers of arguments to demonstrate its flexibility.
+   - The results are printed.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Sum1: 16
+Sum2: 50
+Sum3: 5
+```
+
+### Example: Method with Variadic Parameters and Struct Fields
+
+You can also use variadic parameters in methods to update struct fields or perform other complex operations.
+
+#### Step 1: Define the Struct
+
+First, define a `Person` struct.
+
+```go
+// Define the Person struct
+type Person struct {
+    FirstName string
+    LastName  string
+    Friends   []string
+}
+```
+
+#### Step 2: Define the Method with Variadic Parameters
+
+Create a method for the `Person` struct that adds a variable number of friends.
+
+```go
+// Method to add friends to the person
+func (p *Person) AddFriends(friends ...string) {
+    p.Friends = append(p.Friends, friends...)
+}
+```
+
+#### Step 3: Use the Method
+
+Finally, use the method in the `main` function.
+
+```go
+func main() {
+    // Create an instance of Person
+    person := Person{
+        FirstName: "John",
+        LastName:  "Doe",
+    }
+
+    // Call the AddFriends method with different numbers of arguments
+    person.AddFriends("Alice", "Bob")
+    person.AddFriends("Charlie")
+
+    // Print the person's details
+    fmt.Printf("Person: %+v\n", person)
+}
+```
+
+### Explanation
+
+1. **Define the `Person` Struct**:
+   - The `Person` struct has three fields: `FirstName`, `LastName`, and `Friends`.
+
+2. **Define the `AddFriends` Method**:
+   - The `AddFriends` method is defined on the `Person` struct and takes a variadic parameter (`friends ...string`).
+   - The method appends the provided friends to the `Friends` slice of the `Person` struct.
+
+3. **Use the Method**:
+   - In `main`, an instance of the `Person` struct is created and initialized.
+   - The `AddFriends` method is called with different numbers of arguments to add friends to the `Person`.
+   - The updated details of the `Person` struct are printed.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Person: {FirstName:John LastName:Doe Friends:[Alice Bob Charlie]}
+```
+
+### Summary
+
+In Go, you can define methods with variadic parameters to accept a variable number of arguments. This feature allows you to create flexible and powerful methods that can handle a varying number of inputs. By using variadic parameters, you can implement methods that perform operations on multiple values, update struct fields, or combine fixed and variable parameters, providing great flexibility in your Go programs.

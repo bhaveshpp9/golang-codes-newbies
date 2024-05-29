@@ -1,1 +1,189 @@
 \\ Structures records — Field and properties
+
+In Go, structures (structs) are used to group together fields, which are variables associated with different data types. Unlike some other programming languages, Go does not have properties in the traditional sense, but you can achieve similar functionality using struct fields and methods.
+
+### Defining Fields in a Struct
+
+Fields in a struct are defined within the struct type. Each field has a name and a type.
+
+#### Example: Defining a Struct with Fields
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define the Person struct with fields
+type Person struct {
+    FirstName string
+    LastName  string
+    Age       int
+}
+
+func main() {
+    // Initialize a Person instance
+    person := Person{
+        FirstName: "Alice",
+        LastName:  "Johnson",
+        Age:       28,
+    }
+
+    // Access and print the fields
+    fmt.Printf("First Name: %s\n", person.FirstName)
+    fmt.Printf("Last Name: %s\n", person.LastName)
+    fmt.Printf("Age: %d\n", person.Age)
+}
+```
+
+### Explanation
+
+1. **Define the `Person` Struct**:
+   - The `Person` struct has three fields: `FirstName`, `LastName`, and `Age`.
+
+2. **Initialize a `Person` Instance**:
+   - We create an instance of `Person` with initial values for each field.
+
+3. **Access and Print the Fields**:
+   - We access and print the fields of the `Person` instance using dot notation.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+First Name: Alice
+Last Name: Johnson
+Age: 28
+```
+
+### Methods for Structs
+
+You can define methods for structs to encapsulate functionality that operates on the struct's fields. Methods in Go are defined with a receiver, which specifies the type the method is associated with.
+
+#### Example: Defining Methods for a Struct
+
+```go
+// Define a method to get the full name of the person
+func (p Person) FullName() string {
+    return p.FirstName + " " + p.LastName
+}
+
+// Define a method to celebrate the person's birthday
+func (p *Person) CelebrateBirthday() {
+    p.Age += 1
+}
+
+func main() {
+    // Initialize a Person instance
+    person := Person{
+        FirstName: "Alice",
+        LastName:  "Johnson",
+        Age:       28,
+    }
+
+    // Use the FullName method
+    fmt.Printf("Full Name: %s\n", person.FullName())
+
+    // Celebrate the person's birthday
+    person.CelebrateBirthday()
+    fmt.Printf("New Age after Birthday: %d\n", person.Age)
+}
+```
+
+### Explanation
+
+1. **Define a Method to Get the Full Name**:
+   - The `FullName` method concatenates the `FirstName` and `LastName` fields.
+
+2. **Define a Method to Celebrate the Person's Birthday**:
+   - The `CelebrateBirthday` method increments the `Age` field. Note that this method has a pointer receiver (`*Person`) to modify the struct.
+
+3. **Use the Methods**:
+   - We call `FullName` to get the person's full name.
+   - We call `CelebrateBirthday` to increase the person's age by one.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Full Name: Alice Johnson
+New Age after Birthday: 29
+```
+
+### Encapsulation with Unexported Fields
+
+Go does not support access modifiers like private or public directly in the struct definitions. Instead, fields that start with a lowercase letter are unexported (private to the package), while fields that start with an uppercase letter are exported (public).
+
+#### Example: Using Unexported Fields
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define the Person struct with unexported fields
+type Person struct {
+    firstName string
+    lastName  string
+    age       int
+}
+
+// Constructor function to create a new Person
+func NewPerson(firstName, lastName string, age int) Person {
+    return Person{
+        firstName: firstName,
+        lastName:  lastName,
+        age:       age,
+    }
+}
+
+// Method to get the full name of the person
+func (p Person) FullName() string {
+    return p.firstName + " " + p.lastName
+}
+
+// Method to get the age of the person
+func (p Person) Age() int {
+    return p.age
+}
+
+func main() {
+    // Initialize a Person instance using the constructor
+    person := NewPerson("Alice", "Johnson", 28)
+
+    // Access the methods to get the full name and age
+    fmt.Printf("Full Name: %s\n", person.FullName())
+    fmt.Printf("Age: %d\n", person.Age())
+}
+```
+
+### Explanation
+
+1. **Define the `Person` Struct with Unexported Fields**:
+   - Fields `firstName`, `lastName`, and `age` are unexported because they start with a lowercase letter.
+
+2. **Constructor Function to Create a New `Person`**:
+   - The `NewPerson` function initializes a `Person` instance and sets the unexported fields.
+
+3. **Define Methods to Access the Fields**:
+   - The `FullName` method concatenates the `firstName` and `lastName` fields.
+   - The `Age` method returns the `age` field.
+
+4. **Use the Constructor and Methods**:
+   - We create a `Person` instance using `NewPerson`.
+   - We call `FullName` and `Age` to access the unexported fields through methods.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Full Name: Alice Johnson
+Age: 28
+```
+
+### Summary
+
+In Go, structs are used to group together fields, which can be accessed using methods. You can define methods with receivers to operate on struct fields. By using unexported (private) fields and providing accessor methods, you can achieve encapsulation and control how the struct's data is accessed and modified. This approach allows you to maintain clean and maintainable code while providing necessary functionality.

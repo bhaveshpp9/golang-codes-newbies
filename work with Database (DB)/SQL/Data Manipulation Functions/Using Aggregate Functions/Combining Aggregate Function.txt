@@ -1,1 +1,13 @@
 \\ work with database(DB) — SQL — Data Manipulation Functions — Using Aggregate Functions — Combining Aggregate Function
+
+
+SELECT
+    COUNT(*) AS CountriesCount,
+    MIN(Population) AS MinPopulation,
+    MAX(Population) AS MaxPopulation,
+    AVG(Population) AS AvgPopulation,
+    SUM(Population) AS SumPopulation
+FROM country
+
+CountriesCount	MinPopulation	MaxPopulation	AvgPopulation	SumPopulation
+239	0	1,277,558,000	25,434,098.11	6,078,749,450

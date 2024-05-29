@@ -1,1 +1,83 @@
 \\ Arrays and collections —  Dictionaries — getting a list of values
+
+
+In Go, to extract a list of values from a dictionary (known as a map in Go), you simply need to iterate over the map and collect the values into a slice. This process is straightforward and allows you to work with the values independently of their keys.
+
+Here is a practical example demonstrating how to get a list of values from a map in Go:
+
+### Example: Extracting Values from a Map
+
+This example uses a map where the keys are strings and the values are integers. The task is to extract all values into a slice.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Create a map with string keys and integer values
+    ageMap := map[string]int{
+        "Alice": 30,
+        "Bob": 25,
+        "Clara": 28,
+        "David": 35,
+    }
+
+    // Create a slice to hold the values
+    var ages []int
+    for _, age := range ageMap {
+        ages = append(ages, age)
+    }
+
+    // Print the slice of values
+    fmt.Println("Ages:", ages)
+}
+```
+
+### Explanation:
+- **Map Definition**: The map `ageMap` is defined with string keys and integer values representing names and ages.
+- **Value Collection**: During the loop, the `range` expression is used to iterate over the map. The underscore `_` is used to ignore the map's keys since only the values are needed. Each value is then appended to the slice `ages`.
+- **Output**: The slice `ages` contains all the values from the map, which are printed at the end.
+
+### Sorting the Values
+
+If you need the values in a sorted order, you can sort the slice after extraction. Here's how you can modify the above code to sort the ages:
+
+```go
+package main
+
+import (
+    "fmt"
+    "sort"
+)
+
+func main() {
+    // Create a map with string keys and integer values
+    ageMap := map[string]int{
+        "Alice": 30,
+        "Bob": 25,
+        "Clara": 28,
+        "David": 35,
+    }
+
+    // Create a slice to hold the values
+    var ages []int
+    for _, age := range ageMap {
+        ages = append(ages, age)
+    }
+
+    // Sort the slice of ages
+    sort.Ints(ages)
+
+    // Print the sorted slice of values
+    fmt.Println("Sorted Ages:", ages)
+}
+```
+
+### Explanation:
+- **Sorting**: After collecting the values in a slice, the `sort.Ints()` function is called to sort the slice in ascending order.
+- **Sorted Output**: The ages are displayed in sorted order, making it easier to analyze or present the data.
+
+These examples illustrate how to work with values extracted from a map in Go, providing flexibility for further manipulation such as sorting or filtering based on your application's needs. This functionality is essential for operations where the specific mapping from keys to values is less important than the set of values itself.

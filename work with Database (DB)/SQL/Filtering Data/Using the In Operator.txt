@@ -1,1 +1,12 @@
 \\ work with database(DB) — SQL — Filtering Data — Using the In Operator
+
+
+SELECT Code, Name
+FROM country
+WHERE Code IN ('RUS', 'USA')
+
+Code	Name
+RUS	Russian Federation
+USA	United States
+
+The SELECT statement retrieves countryes with code 'RUS' and 'USA'. The IN operator is followed by a comma-delimited list of valid values, and the entire list must be enclosed within parentheses. IN operators almost always execute more quickly than lists of OR operators.

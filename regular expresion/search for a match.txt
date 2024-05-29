@@ -1,1 +1,132 @@
 \\ Regular expressions — search for a match
+
+In Go, you can use the `regexp` package to search for matches of a regular expression pattern in a string. The `regexp` package provides several functions to find matches, such as `MatchString`, `FindString`, `FindStringSubmatch`, and `FindStringIndex`. These functions allow you to determine if a match exists, extract the matched substring, and obtain the positions of matches.
+
+### Example: Searching for a Match
+
+Let's create an example where we use regular expressions to search for a match in a string.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "regexp"
+)
+
+func main() {
+    // Define the pattern to match a word
+    pattern := `\btest\b`
+
+    // Compile the regular expression
+    re, err := regexp.Compile(pattern)
+    if err != nil {
+        fmt.Println("Error compiling regex:", err)
+        return
+    }
+
+    // Define a test string
+    text := "This is a test. Testing the regex."
+
+    // Check if the pattern matches the string
+    match := re.MatchString(text)
+    if match {
+        fmt.Println("Match found")
+    } else {
+        fmt.Println("No match found")
+    }
+
+    // Find the first match
+    firstMatch := re.FindString(text)
+    fmt.Println("First Match:", firstMatch)
+
+    // Find the first match with submatches (if any)
+    firstSubmatch := re.FindStringSubmatch(text)
+    fmt.Println("First Submatch:", firstSubmatch)
+
+    // Find the index of the first match
+    firstMatchIndex := re.FindStringIndex(text)
+    fmt.Println("First Match Index:", firstMatchIndex)
+
+    // Find the index of the first match with submatch indices (if any)
+    firstSubmatchIndex := re.FindStringSubmatchIndex(text)
+    fmt.Println("First Submatch Index:", firstSubmatchIndex)
+}
+```
+
+### Explanation
+
+1. **Pattern Definition**: We define a regex pattern to match the word "test":
+   - `\btest\b`: This pattern matches the word "test" with word boundaries (`\b`) on both sides.
+2. **Compile**: We compile the regex pattern using `regexp.Compile`. This returns a `Regexp` object or an error if the pattern is invalid.
+3. **Test String**: We define a test string that contains the word "test".
+4. **MatchString**: We use `MatchString` to check if the pattern matches any part of the string. It returns `true` if a match is found, otherwise `false`.
+5. **FindString**: We use `FindString` to find the first match of the pattern in the string. It returns the matched substring.
+6. **FindStringSubmatch**: We use `FindStringSubmatch` to find the first match and its submatches (if any). It returns a slice of strings, where the first element is the full match and the subsequent elements are the submatches.
+7. **FindStringIndex**: We use `FindStringIndex` to find the start and end indices of the first match in the string. It returns a slice of two integers representing the start and end indices.
+8. **FindStringSubmatchIndex**: We use `FindStringSubmatchIndex` to find the start and end indices of the first match and its submatches (if any). It returns a slice of integers, where the first pair of integers represents the full match and the subsequent pairs represent the submatches.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Match found
+First Match: test
+First Submatch: [test]
+First Match Index: [10 14]
+First Submatch Index: [10 14]
+```
+
+### Notes on Searching for Matches
+
+- **Single Match**: The functions `FindString`, `FindStringSubmatch`, `FindStringIndex`, and `FindStringSubmatchIndex` return information about the first match found.
+- **Submatches**: If your pattern contains capturing groups, `FindStringSubmatch` and `FindStringSubmatchIndex` will return the submatches as well.
+- **Indices**: The index-based functions (`FindStringIndex` and `FindStringSubmatchIndex`) are useful for extracting or manipulating parts of the string based on their positions.
+
+### Practical Example: Extracting First Email Address
+
+Here's another example where we extract the first email address from a string using a regular expression.
+
+```go
+package main
+
+import (
+    "fmt"
+    "regexp"
+)
+
+func main() {
+    // Define the pattern to match email addresses
+    pattern := `([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})`
+
+    // Compile the regular expression
+    re, err := regexp.Compile(pattern)
+    if err != nil {
+        fmt.Println("Error compiling regex:", err)
+        return
+    }
+
+    // Define a test string
+    text := "Contact us at support@example.com or sales@example.org for more information."
+
+    // Find the first email address
+    firstEmail := re.FindString(text)
+    fmt.Println("First Email Address:", firstEmail)
+
+    // Find the first email address with index
+    firstEmailIndex := re.FindStringIndex(text)
+    fmt.Println("First Email Address Index:", firstEmailIndex)
+}
+```
+
+### Detailed Output
+
+The output of the above code will be:
+```
+First Email Address: support@example.com
+First Email Address Index: [13 31]
+```
+
+By using the search functions provided by the `regexp` package, you can efficiently find and extract specific patterns in strings, making it easy to process and analyze text data.

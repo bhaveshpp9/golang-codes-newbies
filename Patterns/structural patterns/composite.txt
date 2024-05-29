@@ -1,1 +1,133 @@
 \\ Patterns — structural patterns — composite
+
+The Composite pattern is a structural design pattern that allows you to compose objects into tree structures to represent part-whole hierarchies. It lets clients treat individual objects and compositions of objects uniformly. This pattern is particularly useful when dealing with tree-like structures.
+
+### Key Components
+
+1. **Component**: An interface that defines common operations for both simple and complex objects.
+2. **Leaf**: A class that represents a simple object in the composition.
+3. **Composite**: A class that represents a composite object (an object that can have children).
+
+### Example: File System
+
+Let's create an example where we have a file system with files and directories. Both files and directories share common operations like `Display`.
+
+#### Component
+
+```go
+package main
+
+// Component interface defines common operations for both simple and complex objects
+type Component interface {
+    Display(indent string)
+}
+```
+
+#### Leaf
+
+```go
+package main
+
+import "fmt"
+
+// File is a leaf component that represents a file in the file system
+type File struct {
+    name string
+}
+
+func NewFile(name string) *File {
+    return &File{name: name}
+}
+
+func (f *File) Display(indent string) {
+    fmt.Println(indent + f.name)
+}
+```
+
+#### Composite
+
+```go
+package main
+
+import "fmt"
+
+// Directory is a composite component that can contain files and other directories
+type Directory struct {
+    name      string
+    children  []Component
+}
+
+func NewDirectory(name string) *Directory {
+    return &Directory{name: name}
+}
+
+func (d *Directory) Add(child Component) {
+    d.children = append(d.children, child)
+}
+
+func (d *Directory) Remove(child Component) {
+    for i, c := range d.children {
+        if c == child {
+            d.children = append(d.children[:i], d.children[i+1:]...)
+            break
+        }
+    }
+}
+
+func (d *Directory) Display(indent string) {
+    fmt.Println(indent + d.name + "/")
+    for _, child := range d.children {
+        child.Display(indent + "  ")
+    }
+}
+```
+
+#### Client
+
+```go
+package main
+
+func main() {
+    root := NewDirectory("root")
+
+    home := NewDirectory("home")
+    user := NewDirectory("user")
+    docs := NewDirectory("docs")
+
+    file1 := NewFile("file1.txt")
+    file2 := NewFile("file2.txt")
+    file3 := NewFile("file3.txt")
+
+    root.Add(home)
+    home.Add(user)
+    user.Add(docs)
+
+    user.Add(file1)
+    docs.Add(file2)
+    docs.Add(file3)
+
+    root.Display("")
+}
+```
+
+### Explanation
+
+1. **Component**: The `Component` interface declares the `Display` method for both simple and complex objects.
+2. **Leaf**:
+   - The `File` struct represents a leaf component. It implements the `Display` method to print its name.
+3. **Composite**:
+   - The `Directory` struct represents a composite component that can contain children. It implements methods to add and remove children and the `Display` method to print its name and the names of its children.
+4. **Client**: The client code creates a tree structure with directories and files, and calls the `Display` method on the root directory to print the entire structure.
+
+### Advantages
+
+- **Uniformity**: Treats individual objects and compositions uniformly.
+- **Extensibility**: New component types can be easily added.
+- **Simplified Client Code**: The client can treat all objects in the composite structure uniformly.
+
+### Disadvantages
+
+- **Complexity**: Can make the design overly general and more complex than necessary.
+- **Overhead**: Managing the composite structure can add overhead.
+
+By using the Composite pattern, you can create complex tree structures and handle them uniformly, making it easier to work with part-whole hierarchies. This pattern is particularly useful for scenarios like file systems, organizational structures, or any hierarchical data.

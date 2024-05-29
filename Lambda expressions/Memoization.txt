@@ -1,1 +1,127 @@
 \\ Lambda Expressions —  Memoization
+
+Memoization is a technique used to optimize functions by caching their previously computed results. This is especially useful for functions that are called repeatedly with the same arguments, such as recursive algorithms.
+
+In Go, you can implement memoization using closures and maps. Here's a detailed example showing how to memoize a function using lambda expressions (anonymous functions).
+
+### Example: Memoizing a Fibonacci Function
+
+First, let's see a simple, non-memoized recursive Fibonacci function:
+
+```go
+package main
+
+import "fmt"
+
+func fibonacci(n int) int {
+    if n <= 1 {
+        return n
+    }
+    return fibonacci(n-1) + fibonacci(n-2)
+}
+
+func main() {
+    fmt.Println(fibonacci(10)) // Output: 55
+}
+```
+
+This function recalculates values multiple times, leading to inefficiency. Let's improve it using memoization.
+
+### Memoized Fibonacci Function
+
+Here’s how you can memoize the Fibonacci function using a map to store the computed values and a closure to encapsulate the memoization logic:
+
+```go
+package main
+
+import "fmt"
+
+// Memoized Fibonacci function
+func memoizedFibonacci() func(int) int {
+    cache := make(map[int]int)
+    var fib func(int) int
+    fib = func(n int) int {
+        if result, found := cache[n]; found {
+            return result
+        }
+        if n <= 1 {
+            cache[n] = n
+        } else {
+            cache[n] = fib(n-1) + fib(n-2)
+        }
+        return cache[n]
+    }
+    return fib
+}
+
+func main() {
+    // Get the memoized Fibonacci function
+    fib := memoizedFibonacci()
+
+    // Test the function
+    fmt.Println(fib(10)) // Output: 55
+    fmt.Println(fib(15)) // Output: 610
+}
+```
+
+### Explanation
+
+1. **Closure for Memoization:** The `memoizedFibonacci` function returns another function `fib` which computes the Fibonacci sequence. The `cache` map stores previously computed results.
+2. **Cache Lookup:** Before computing the Fibonacci value, the function checks if the result is already in the `cache`. If found, it returns the cached result.
+3. **Recursive Calculation:** If the result is not cached, the function computes it recursively and stores the result in the `cache` before returning it.
+
+### Generalizing Memoization
+
+You can generalize memoization to work with any function using a higher-order function. Here’s a generalized memoization function:
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Memoize is a higher-order function that takes a function and returns a memoized version of it
+func memoize(fn func(int) int) func(int) int {
+    cache := make(map[int]int)
+    return func(n int) int {
+        if result, found := cache[n]; found {
+            return result
+        }
+        result := fn(n)
+        cache[n] = result
+        return result
+    }
+}
+
+// Example function to be memoized (Fibonacci)
+func fibonacci(n int) int {
+    if n <= 1 {
+        return n
+    }
+    return fibonacci(n-1) + fibonacci(n-2)
+}
+
+func main() {
+    // Memoize the Fibonacci function
+    memoizedFib := memoize(fibonacci)
+
+    // Test the memoized function
+    fmt.Println(memoizedFib(10)) // Output: 55
+    fmt.Println(memoizedFib(15)) // Output: 610
+}
+```
+
+### Explanation
+
+1. **Higher-Order Function `memoize`:** The `memoize` function takes a function `fn` as an argument and returns a new function that caches the results of `fn`.
+2. **Cache Initialization:** The `cache` map is used to store the results of previous function calls.
+3. **Cache Lookup and Store:** The returned function checks if the result is already in the cache before calling the original function `fn` and storing the result.
+
+### Summary
+
+- **Memoization in Go:** Implement memoization using closures and maps to cache previously computed results.
+- **Higher-Order Function:** Use a higher-order function to generalize memoization for any function.
+- **Efficiency Gains:** Memoization can significantly improve the efficiency of functions, especially recursive ones, by avoiding redundant calculations.
+
+By incorporating memoization, you can optimize your Go programs to handle repeated function calls more efficiently, reducing computational overhead and improving performance.

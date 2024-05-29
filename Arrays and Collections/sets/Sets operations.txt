@@ -1,1 +1,61 @@
 \\ Arrays and collections — Sets — Sets operations
+
+
+In Go, since there's no built-in set type, sets are typically represented using maps with keys as the set elements and values of an empty struct to minimize memory usage. Basic set operations such as union, intersection, and difference can be implemented using these maps. Here, I'll demonstrate how to implement these basic set operations in Go.
+
+### Example: Implementing Basic Set Operations
+
+Let's define a Set type and provide methods for union, intersection, and difference operations:
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Set type defined using a map with empty struct values to minimize space usage
+type Set map[int]struct{}
+
+// NewSet initializes a new set with given elements
+func NewSet(elements ...int) Set {
+    s := Set{}
+    for _, element := range elements {
+        s.Add(element)
+    }
+    return s
+}
+
+// Add inserts an element to the set
+func (s Set) Add(element int) {
+    s[element] = struct{}{}
+}
+
+// Union returns a new set containing all items that are in either set
+func Union(a, b Set) Set {
+    unionSet := NewSet()
+    for element := range a {
+        unionSet.Add(element)
+    }
+    for element := range b {
+        unionSet.Add(element)
+    }
+    return unionSet
+}
+
+// Intersection returns a new set containing all items that are common to both sets
+func Intersection(a, b Set) Set {
+    intersectionSet := NewSet()
+    for element := range a {
+        if _, found := b[element]; found {
+            intersectionSet.Add(element)
+        }
+    }
+    return intersectionSet
+}
+
+// Difference returns a new set containing all items that are in a but not in b
+func Difference(a, b Set) Set {
+    differenceSet := NewSet()
+    for element := range a {
+        if _, found := b[element]; !found

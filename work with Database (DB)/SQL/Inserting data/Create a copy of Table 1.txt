@@ -1,1 +1,9 @@
 \\ work with database(DB) — SQL — Inserting data — Create a copy of Table 1
+
+
+--MsSQL
+SELECT *
+INTO newCustomer
+FROM customer
+
+This SELECT statement creates a new table named newCustomer and copies the entire contents of the customer table into it. Because SELECT * was used, every column in the customer table will be created (and populated) in the newCustomer table. To copy only a subset of the available columns, explicit column names can be specified instead of the * wildcard character.

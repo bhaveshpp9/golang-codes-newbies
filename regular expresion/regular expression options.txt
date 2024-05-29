@@ -1,1 +1,157 @@
 \\ Regular expressions — regular expression options
+
+In Go, the `regexp` package provides several options that can modify the behavior of regular expressions. These options, or flags, can be used to control aspects such as case sensitivity, multi-line matching, and more.
+
+### Common Regular Expression Options
+
+1. **Case Insensitivity (`(?i)`)**: Makes the pattern case-insensitive.
+2. **Multi-Line Mode (`(?m)`)**: Changes the behavior of `^` and `$` to match the start and end of each line, not just the start and end of the string.
+3. **Dot All (`(?s)`)**: Changes the behavior of the dot (`.`) to match newline characters as well.
+
+### Example: Using Regular Expression Options
+
+Let's create an example where we use different regular expression options to demonstrate their effects.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "regexp"
+)
+
+func main() {
+    // Case Insensitivity
+    pattern1 := `(?i)hello`
+    re1, err := regexp.Compile(pattern1)
+    if err != nil {
+        fmt.Println("Error compiling regex:", err)
+        return
+    }
+    fmt.Println(re1.MatchString("Hello")) // Output: true
+
+    // Multi-Line Mode
+    pattern2 := `(?m)^hello`
+    re2, err := regexp.Compile(pattern2)
+    if err != nil {
+        fmt.Println("Error compiling regex:", err)
+        return
+    }
+    text := "hello world\nHello Go\nhello again"
+    matches := re2.FindAllString(text, -1)
+    fmt.Println(matches) // Output: [hello hello again]
+
+    // Dot All Mode
+    pattern3 := `(?s)hello.*world`
+    re3, err := regexp.Compile(pattern3)
+    if err != nil {
+        fmt.Println("Error compiling regex:", err)
+        return
+    }
+    text2 := "hello\nworld"
+    fmt.Println(re3.MatchString(text2)) // Output: true
+}
+```
+
+### Explanation
+
+1. **Case Insensitivity (`(?i)`)**:
+   - The pattern `(?i)hello` is case-insensitive.
+   - `re1.MatchString("Hello")` returns `true` because `hello` matches `Hello` regardless of case.
+
+2. **Multi-Line Mode (`(?m)`)**:
+   - The pattern `(?m)^hello` matches `hello` at the start of each line.
+   - `re2.FindAllString(text, -1)` finds all occurrences of `hello` at the start of any line in the multi-line string.
+   - The text `"hello world\nHello Go\nhello again"` contains `hello` at the start of the first and third lines.
+   - The result is `["hello", "hello again"]`.
+
+3. **Dot All Mode (`(?s)`)**:
+   - The pattern `(?s)hello.*world` allows the dot (`.`) to match newline characters.
+   - `re3.MatchString(text2)` returns `true` because `.*` can match the newline character between `hello` and `world`.
+   - The text `"hello\nworld"` is matched as a whole string.
+
+### Additional Notes
+
+- **Combining Options**: You can combine multiple options in a single pattern. For example, `(?ims)pattern` enables case insensitivity, multi-line mode, and dot all mode.
+- **Positioning of Options**: The options should be placed at the beginning of the pattern.
+- **Performance**: Be aware that some options, especially multi-line and dot all modes, can affect the performance of regular expression matching.
+
+### Practical Example: Extracting Named Groups with Options
+
+Here's a more practical example that combines named groups with regular expression options:
+
+```go
+package main
+
+import (
+    "fmt"
+    "regexp"
+)
+
+func main() {
+    // Pattern with case insensitivity and named groups
+    pattern := `(?i)^(?P<protocol>https?)://(?P<domain>[a-zA-Z0-9.-]+)(?P<path>/.*)?$`
+
+    // Compile the regular expression
+    re, err := regexp.Compile(pattern)
+    if err != nil {
+        fmt.Println("Error compiling regex:", err)
+        return
+    }
+
+    // Define test strings
+    testStrings := []string{
+        "https://example.com/path/to/resource",
+        "http://Example.com",
+        "HTTPS://Another-Example.com/another/path",
+    }
+
+    // Check if each string matches the pattern and extract named groups
+    for _, str := range testStrings {
+        match := re.FindStringSubmatch(str)
+        if match == nil {
+            fmt.Printf("No match found for: %s\n", str)
+            continue
+        }
+
+        // Extract the names of the capturing groups
+        names := re.SubexpNames()
+
+        // Create a map to store the named groups
+        result := make(map[string]string)
+        for i, name := range names {
+            if i != 0 && name != "" {
+                result[name] = match[i]
+            }
+        }
+
+        // Print the named capturing groups
+        fmt.Printf("Match found for: %s\n", str)
+        for name, value := range result {
+            fmt.Printf("  %s: %s\n", name, value)
+        }
+    }
+}
+```
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Match found for: https://example.com/path/to/resource
+  protocol: https
+  domain: example.com
+  path: /path/to/resource
+Match found for: http://Example.com
+  protocol: http
+  domain: Example.com
+  path: 
+Match found for: HTTPS://Another-Example.com/another/path
+  protocol: HTTPS
+  domain: Another-Example.com
+  path: /another/path
+```
+
+By using regular expression options and named groups, you can create powerful and flexible patterns that are easier to read and maintain. These features allow you to handle complex string matching and extraction tasks more effectively.

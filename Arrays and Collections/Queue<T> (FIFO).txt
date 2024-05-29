@@ -1,1 +1,79 @@
 \\ Arrays and collections —  Queue<T> (FIFO)
+
+In Go, you can implement a queue using a slice. A queue is a First-In-First-Out (FIFO) data structure, meaning that the first element added to the queue will be the first one to be removed. This behavior is essential for various applications, such as breadth-first search in graphs, scheduling algorithms, and handling requests in web servers.
+
+Here’s how you might implement a simple queue in Go using generic types, which makes the queue more flexible for different data types. The implementation will include methods for enqueuing (adding to the queue), dequeuing (removing from the queue), and peeking (viewing the element at the front of the queue without removing it).
+
+### Implementation:
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+// Queue represents a FIFO (first in, first out) structure
+type Queue[T any] struct {
+	elements []T
+}
+
+// NewQueue creates a new Queue instance
+func NewQueue[T any]() *Queue[T] {
+	return &Queue[T]{}
+}
+
+// Enqueue adds an element to the end of the queue
+func (q *Queue[T]) Enqueue(value T) {
+	q.elements = append(q.elements, value)
+}
+
+// Dequeue removes the element from the front of the queue and returns it
+// If the queue is empty, it returns the zero value of the type T and false
+func (q *Queue[T]) Dequeue() (T, bool) {
+	if len(q.elements) == 0 {
+		var zero T
+		return zero, false
+	}
+	element := q.elements[0]
+	q.elements = q.elements[1:]
+	return element, true
+}
+
+// Peek returns the element at the front of the queue without removing it
+// If the queue is empty, it returns the zero value of the type T and false
+func (q *Queue[T]) Peek() (T, bool) {
+	if len(q.elements) == 0 {
+		var zero T
+		return zero, false
+	}
+	return q.elements[0], true
+}
+
+func main() {
+	queue := NewQueue[int]()
+	queue.Enqueue(10)
+	queue.Enqueue(20)
+	queue.Enqueue(30)
+
+	fmt.Println("Initial queue:", queue.elements)
+
+	if front, ok := queue.Dequeue(); ok {
+		fmt.Println("Dequeued:", front)
+		fmt.Println("Queue after dequeue:", queue.elements)
+	}
+
+	if front, ok := queue.Peek(); ok {
+		fmt.Println("Peek at front:", front)
+	}
+}
+```
+
+### Explanation:
+
+- **Generic Queue Type**: The `Queue` struct is defined with a type parameter `[T any]`, allowing it to store elements of any type.
+- **Enqueue**: Adds an element to the end of the internal slice, expanding the queue.
+- **Dequeue**: Removes the element from the front of the slice, returning it along with a boolean indicating success. If the queue is empty, it returns the zero value of the type and `false`.
+- **Peek**: Returns the element at the front without removing it, similar to `Dequeue` but does not modify the queue.
+
+This simple example demonstrates the implementation of a basic queue structure using Go's slices and generics. The use of generics makes the queue reusable for any type that fulfills the `any` interface, providing flexibility in various applications.

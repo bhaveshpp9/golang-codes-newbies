@@ -1,1 +1,142 @@
 \\ Patterns — Behavioural patterns — strategy
+
+
+The Strategy pattern is a behavioral design pattern that enables selecting an algorithm's behavior at runtime. It defines a family of algorithms, encapsulates each one, and makes them interchangeable. The Strategy pattern allows the algorithm to vary independently from the clients that use it.
+
+### Key Components
+
+1. **Strategy Interface**: Declares a common interface for all supported algorithms.
+2. **Concrete Strategies**: Implement the algorithm defined by the Strategy interface.
+3. **Context**: Maintains a reference to a Strategy object and delegates it the algorithm's execution.
+
+### Example: Sorting Algorithms
+
+Let's create an example where a context can sort data using different sorting strategies.
+
+#### Strategy Interface
+
+```go
+package main
+
+// SortStrategy declares the common interface for all sorting algorithms
+type SortStrategy interface {
+    Sort(data []int)
+}
+```
+
+#### Concrete Strategies
+
+```go
+package main
+
+import "fmt"
+
+// BubbleSort is a Concrete Strategy that implements the bubble sort algorithm
+type BubbleSort struct{}
+
+func (b *BubbleSort) Sort(data []int) {
+    n := len(data)
+    for i := 0; i < n; i++ {
+        for j := 0; j < n-i-1; j++ {
+            if data[j] > data[j+1] {
+                data[j], data[j+1] = data[j+1], data[j]
+            }
+        }
+    }
+    fmt.Println("Sorted using Bubble Sort:", data)
+}
+
+// QuickSort is a Concrete Strategy that implements the quick sort algorithm
+type QuickSort struct{}
+
+func (q *QuickSort) Sort(data []int) {
+    quickSort(data, 0, len(data)-1)
+    fmt.Println("Sorted using Quick Sort:", data)
+}
+
+func quickSort(data []int, low, high int) {
+    if low < high {
+        pi := partition(data, low, high)
+        quickSort(data, low, pi-1)
+        quickSort(data, pi+1, high)
+    }
+}
+
+func partition(data []int, low, high int) int {
+    pivot := data[high]
+    i := low - 1
+    for j := low; j < high; j++ {
+        if data[j] < pivot {
+            i++
+            data[i], data[j] = data[j], data[i]
+        }
+    }
+    data[i+1], data[high] = data[high], data[i+1]
+    return i + 1
+}
+```
+
+#### Context
+
+```go
+package main
+
+// Context maintains a reference to a SortStrategy object and delegates sorting to it
+type Context struct {
+    strategy SortStrategy
+}
+
+func (c *Context) SetStrategy(strategy SortStrategy) {
+    c.strategy = strategy
+}
+
+func (c *Context) Sort(data []int) {
+    c.strategy.Sort(data)
+}
+```
+
+#### Client
+
+```go
+package main
+
+func main() {
+    data := []int{34, 7, 23, 32, 5, 62}
+
+    context := &Context{}
+
+    // Using Bubble Sort
+    context.SetStrategy(&BubbleSort{})
+    context.Sort(data)
+
+    data = []int{34, 7, 23, 32, 5, 62}
+
+    // Using Quick Sort
+    context.SetStrategy(&QuickSort{})
+    context.Sort(data)
+}
+```
+
+### Explanation
+
+1. **Strategy Interface**: The `SortStrategy` interface declares the `Sort` method that all concrete strategies will implement.
+2. **Concrete Strategies**:
+   - `BubbleSort`: Implements the bubble sort algorithm.
+   - `QuickSort`: Implements the quick sort algorithm.
+3. **Context**: The `Context` struct maintains a reference to a `SortStrategy` object and delegates the sorting task to it.
+   - `SetStrategy` method sets the strategy to be used.
+   - `Sort` method delegates the sorting to the current strategy.
+4. **Client**: The client code creates a `Context` instance, sets different sorting strategies, and sorts the data using these strategies.
+
+### Advantages
+
+- **Flexibility**: The Strategy pattern allows you to switch between different algorithms at runtime.
+- **Encapsulation**: Each algorithm is encapsulated in its own class, adhering to the Single Responsibility Principle.
+- **Open/Closed Principle**: New strategies can be added without modifying the context or other strategies.
+
+### Disadvantages
+
+- **Increased Number of Classes**: The number of classes can increase as each algorithm requires its own class.
+- **Communication Overhead**: The context needs to communicate with the strategy object, which may add some overhead.
+
+By implementing the Strategy pattern, you can create a flexible and maintainable system where different algorithms can be used interchangeably without modifying the context that uses these algorithms. This pattern is particularly useful when you have multiple ways to perform a task and want to select the most appropriate one at runtime.

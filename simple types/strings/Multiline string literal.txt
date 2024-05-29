@@ -1,1 +1,153 @@
 \\ Simple types.— Strings — Multiline string literal
+
+In Go, you can define multi-line string literals using raw string literals. Raw string literals are enclosed in backticks `` ` `` and can span multiple lines, preserving all whitespace, including newlines and tabs, exactly as they are written.
+
+### Example: Defining a Multi-line String Literal
+
+Here’s an example demonstrating how to use raw string literals to define a multi-line string.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Define a multi-line string using a raw string literal
+    multiLineString := `This is a multi-line string.
+It spans multiple lines.
+Tabs and newlines are preserved.
+    Here is a tabbed line.
+And backticks can be included: ` + "`" + `.
+`
+
+    // Print the multi-line string
+    fmt.Println(multiLineString)
+}
+```
+
+### Explanation
+
+1. **Define a Multi-line String Using a Raw String Literal**:
+   - The string `multiLineString` is defined using backticks `` ` ``. This allows the string to span multiple lines and preserves all whitespace, including newlines and tabs.
+   - Within a raw string literal, you can include backticks by concatenating strings, as shown with `And backticks can be included: ` + "`" + `.`.
+
+2. **Print the Multi-line String**:
+   - We use `fmt.Println` to print the multi-line string. The output will display the string exactly as it is written, including all whitespace.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+This is a multi-line string.
+It spans multiple lines.
+Tabs and newlines are preserved.
+    Here is a tabbed line.
+And backticks can be included: `.
+```
+
+### Example: Using Multi-line Strings in Code
+
+Multi-line strings are particularly useful for defining long text blocks, such as JSON, XML, or HTML content, directly within your code.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Define a multi-line string for JSON content
+    jsonContent := `{
+    "name": "John Doe",
+    "age": 30,
+    "email": "john.doe@example.com",
+    "address": {
+        "street": "123 Main St",
+        "city": "Anytown",
+        "state": "CA",
+        "zip": "12345"
+    }
+}`
+
+    // Print the JSON content
+    fmt.Println(jsonContent)
+}
+```
+
+### Explanation
+
+1. **Define a Multi-line String for JSON Content**:
+   - The string `jsonContent` is defined using backticks `` ` ``. This allows the JSON content to span multiple lines, making it easier to read and maintain.
+
+2. **Print the JSON Content**:
+   - We use `fmt.Println` to print the JSON content. The output will display the JSON exactly as it is written.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+{
+    "name": "John Doe",
+    "age": 30,
+    "email": "john.doe@example.com",
+    "address": {
+        "street": "123 Main St",
+        "city": "Anytown",
+        "state": "CA",
+        "zip": "12345"
+    }
+}
+```
+
+### Example: Including Quotes and Backslashes
+
+Raw string literals make it easy to include quotes and backslashes without needing to escape them.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Define a multi-line string with quotes and backslashes
+    multiLineString := `This is a "quoted" string.
+It includes both "double quotes" and 'single quotes'.
+Backslashes are also preserved: C:\Program Files\Go.
+`
+
+    // Print the multi-line string
+    fmt.Println(multiLineString)
+}
+```
+
+### Explanation
+
+1. **Define a Multi-line String with Quotes and Backslashes**:
+   - The string `multiLineString` includes double quotes, single quotes, and backslashes, all preserved exactly as written within the backticks.
+
+2. **Print the Multi-line String**:
+   - We use `fmt.Println` to print the multi-line string. The output will display the string with all quotes and backslashes preserved.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+This is a "quoted" string.
+It includes both "double quotes" and 'single quotes'.
+Backslashes are also preserved: C:\Program Files\Go.
+```
+
+### Summary
+
+In Go, you can define multi-line string literals using raw string literals enclosed in backticks `` ` ``. Raw string literals preserve all whitespace, including newlines and tabs, making them useful for embedding long text blocks, such as JSON, XML, or HTML, directly in your code. This approach simplifies the inclusion of quotes and backslashes without the need for escaping, providing a clear and readable way to handle multi-line strings.

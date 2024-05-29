@@ -1,1 +1,114 @@
 \\ Simple types.— Date and time — conversion from a string
+
+In Go, you can convert a string to a `time.Time` value using the `time.Parse` function provided by the `time` package. The `time.Parse` function requires a layout string that defines the format of the date and time string you are trying to parse. Go uses a specific reference time, "Mon Jan 2 15:04:05 MST 2006", to define the layout. Each part of this reference time corresponds to a specific component of the date and time, such as year, month, day, hour, minute, and second.
+
+### Example: Converting a String to `time.Time`
+
+Here’s an example demonstrating how to convert a date and time string to a `time.Time` value using `time.Parse`.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func main() {
+    // Define a date and time string
+    dateString := "2023-05-26 15:30:45"
+
+    // Define the layout corresponding to the date and time string
+    layout := "2006-01-02 15:04:05"
+
+    // Parse the date and time string
+    date, err := time.Parse(layout, dateString)
+    if err != nil {
+        fmt.Println("Error parsing date:", err)
+        return
+    }
+
+    // Print the parsed date
+    fmt.Println("Parsed date:", date)
+}
+```
+
+### Explanation
+
+1. **Define a Date and Time String**:
+   - We define a string `dateString` representing a date and time in the format "2023-05-26 15:30:45".
+
+2. **Define the Layout**:
+   - We define the layout string `layout` corresponding to the format of `dateString`. The layout "2006-01-02 15:04:05" matches the format "yyyy-MM-dd HH:mm:ss".
+
+3. **Parse the Date and Time String**:
+   - We use `time.Parse(layout, dateString)` to parse the string into a `time.Time` value.
+   - If the string does not match the layout, `time.Parse` returns an error, which we handle.
+
+4. **Print the Parsed Date**:
+   - We print the parsed `time.Time` value.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Parsed date: 2023-05-26 15:30:45 +0000 UTC
+```
+
+### Parsing Different Date Formats
+
+You can parse dates and times in different formats by adjusting the layout string to match the format of the input string.
+
+#### Example: Parsing Different Date Formats
+
+```go
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func main() {
+    // Define different date and time strings and their corresponding layouts
+    examples := []struct {
+        dateString string
+        layout     string
+    }{
+        {"2023-05-26", "2006-01-02"},
+        {"26-05-2023", "02-01-2006"},
+        {"26/May/2023", "02/Jan/2006"},
+        {"05/26/2023", "01/02/2006"},
+        {"26-05-2023 15:30", "02-01-2006 15:04"},
+        {"15:30:45 26-05-2023", "15:04:05 02-01-2006"},
+    }
+
+    // Parse and print each date and time string
+    for _, example := range examples {
+        date, err := time.Parse(example.layout, example.dateString)
+        if err != nil {
+            fmt.Printf("Error parsing date '%s': %v\n", example.dateString, err)
+        } else {
+            fmt.Printf("Parsed date from '%s': %s\n", example.dateString, date)
+        }
+    }
+}
+```
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Parsed date from '2023-05-26': 2023-05-26 00:00:00 +0000 UTC
+Parsed date from '26-05-2023': 2023-05-26 00:00:00 +0000 UTC
+Parsed date from '26/May/2023': 2023-05-26 00:00:00 +0000 UTC
+Parsed date from '05/26/2023': 2023-05-26 00:00:00 +0000 UTC
+Parsed date from '26-05-2023 15:30': 2023-05-26 15:30:00 +0000 UTC
+Parsed date from '15:30:45 26-05-2023': 2023-05-26 15:30:45 +0000 UTC
+```
+
+### Summary
+
+Converting a string to a `time.Time` value in Go involves defining the appropriate layout string that matches the format of the input string. The `time.Parse` function then parses the string based on the provided layout. This method allows you to handle various date and time formats effectively. By understanding and using these techniques, you can work with date and time values in your Go programs efficiently.

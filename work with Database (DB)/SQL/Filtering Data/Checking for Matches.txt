@@ -1,1 +1,20 @@
 \\ work with database(DB) — SQL — Filtering Data — Checking for Matches
+
+
+SELECT Name, Population
+FROM country
+WHERE Continent = 'Asia'
+
+Name	Population
+Afghanistan	22,720,000
+United Arab Emirates	2,441,000
+Armenia	3,520,000
+Azerbaijan	7,734,000
+Bangladesh	129,155,000
+Bahrain	617,000
+Brunei	328,000
+Bhutan	2,124,000
+China	1,277,558,000
+...
+
+This statement retrieves two columns from the country table, but instead of returning all rows, only rows with a Continent value of 'Asia' are returned.

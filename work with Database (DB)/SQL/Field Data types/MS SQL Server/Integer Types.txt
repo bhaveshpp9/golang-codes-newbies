@@ -1,1 +1,13 @@
 \\ work with database(DB) — SQL — Field data types — MS SQL Server — Integer Types
+
+
+Type list
+
+Type	Bytes	Min Value	Max Value
+BIT	1	0	1
+TINYINT	1	0	255
+SMALLINT	2	-32768	32767
+INT	4	-2,147,483,648	2,147,483,647
+BIGINT	8	-9,223,372,036,854,775,808	9,223,372,036,854,775,807
+DECIMAL(9)	5	-999,999,999	999,999,999
+DECIMAL(n)	5 .. 17	n = 1	n = 38

@@ -1,1 +1,89 @@
 \\ Arrays and collections —  Dictionaries — Checking of presence of a key
+
+
+In Go, checking for the presence of a key in a dictionary (or map) is straightforward and efficient. You can do this using the two-value form of indexing a map, which returns the value associated with the key and a boolean indicating whether the key was present in the map.
+
+Here's how you can check for the presence of a key in a map:
+
+### Example: Checking for Key Presence
+
+This example demonstrates how to check if a specific key exists in a map and how to handle cases where the key might not be present.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Create a map with string keys and integer values
+    scores := map[string]int{
+        "Alice": 95,
+        "Bob":   82,
+        // Note: Clara is not in the map
+    }
+
+    // Check if "Alice" is in the map
+    score, ok := scores["Alice"]
+    if ok {
+        fmt.Println("Alice's score:", score)
+    } else {
+        fmt.Println("Alice is not in the map.")
+    }
+
+    // Check if "Clara" is in the map
+    score, ok = scores["Clara"]
+    if ok {
+        fmt.Println("Clara's score:", score)
+    } else {
+        fmt.Println("Clara is not in the map.")
+    }
+}
+```
+
+### Explanation:
+- **Two-Value Indexing**: When accessing an element in a map, Go allows you to retrieve two values: the actual value associated with the key and a boolean (`ok`). The boolean is `true` if the key was found in the map, and `false` otherwise.
+- **Checking the Boolean**: The `ok` variable is used to check whether the key exists in the map. This method avoids handling the zero value of the map's value type when the key is not found.
+
+### Using the Presence Check in Functions
+
+You can encapsulate this pattern in a function to make your code cleaner and more reusable. For example:
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func getScore(name string, scores map[string]int) (int, bool) {
+    score, exists := scores[name]
+    return score, exists
+}
+
+func main() {
+    scores := map[string]int{
+        "Alice": 95,
+        "Bob":   82,
+    }
+
+    if score, exists := getScore("Alice", scores); exists {
+        fmt.Println("Alice's score:", score)
+    } else {
+        fmt.Println("Alice is not in the map.")
+    }
+
+    if score, exists := getScore("Clara", scores); exists {
+        fmt.Println("Clara's score:", score)
+    } else {
+        fmt.Println("Clara is not in the map.")
+    }
+}
+```
+
+### Explanation:
+- **Function `getScore`**: This function attempts to retrieve a score for a given name from a map. It returns both the score and whether the key was found.
+- **Reusable Logic**: By using a function, you can easily reuse the key presence checking logic throughout your application, making your code cleaner and more modular.
+
+This approach is not only idiomatic but also ensures that your program handles cases where a key may not be present, avoiding any unexpected behaviors or crashes due to handling nil or zero values improperly.

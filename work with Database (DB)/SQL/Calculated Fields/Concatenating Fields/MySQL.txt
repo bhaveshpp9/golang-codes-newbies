@@ -1,1 +1,148 @@
 \\ work with database(DB) — SQL — Calculated Fields — Concatenating Fields — MySQL
+
+
+To concatenate fields in MySQL, you can use the `CONCAT` function. This function allows you to combine multiple string fields into one. Below, I will provide an example of how to use the `CONCAT` function in MySQL and how to integrate this functionality into a Go application.
+
+### Example: Concatenating Fields in MySQL
+
+In MySQL, you can use the `CONCAT` function to concatenate fields.
+
+```sql
+SELECT 
+    id, 
+    first_name, 
+    last_name, 
+    CONCAT(first_name, ' ', last_name) AS full_name 
+FROM 
+    employees;
+```
+
+### Integrating with Go
+
+Let's create a Go application that connects to a MySQL database, executes a query with field concatenation, and prints the results.
+
+#### Step 1: Set Up the MySQL Database
+
+First, create the MySQL database and populate it with some example data.
+
+```sql
+CREATE TABLE employees (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(255),
+    last_name VARCHAR(255)
+);
+
+INSERT INTO employees (first_name, last_name) VALUES ('Alice', 'Johnson'), ('Bob', 'Smith'), ('Charlie', 'Brown');
+```
+
+#### Step 2: Install the MySQL Driver
+
+Install the MySQL driver package using `go get`.
+
+```sh
+go get -u github.com/go-sql-driver/mysql
+```
+
+#### Step 3: Write the Go Code
+
+Write the Go code to connect to the MySQL database, execute the query with field concatenation, and print the results.
+
+```go
+package main
+
+import (
+    "database/sql"
+    "fmt"
+    _ "github.com/go-sql-driver/mysql" // Import the MySQL driver
+)
+
+// Function to connect to the MySQL database and execute a query
+func connectAndQueryDB(dsn string) error {
+    // Open a connection to the database
+    db, err := sql.Open("mysql", dsn)
+    if err != nil {
+        return fmt.Errorf("failed to connect to database: %w", err)
+    }
+    defer db.Close()
+
+    // Test the database connection
+    err = db.Ping()
+    if err != nil {
+        return fmt.Errorf("failed to ping database: %w", err)
+    }
+
+    // Execute a query with concatenated fields
+    query := `
+    SELECT 
+        id, 
+        first_name, 
+        last_name, 
+        CONCAT(first_name, ' ', last_name) AS full_name 
+    FROM 
+        employees;
+    `
+    rows, err := db.Query(query)
+    if err != nil {
+        return fmt.Errorf("failed to execute query: %w", err)
+    }
+    defer rows.Close()
+
+    // Print the retrieved data
+    fmt.Println("Data retrieved from the database:")
+    for rows.Next() {
+        var id int
+        var firstName, lastName, fullName string
+        err := rows.Scan(&id, &firstName, &lastName, &fullName)
+        if err != nil {
+            return fmt.Errorf("failed to scan row: %w", err)
+        }
+        fmt.Printf("ID: %d, First Name: %s, Last Name: %s, Full Name: %s\n", id, firstName, lastName, fullName)
+    }
+
+    // Check for errors after iterating through the rows
+    if err := rows.Err(); err != nil {
+        return fmt.Errorf("error iterating through rows: %w", err)
+    }
+
+    return nil
+}
+
+func main() {
+    // Data Source Name (DSN) for the MySQL database
+    // Format: username:password@tcp(host:port)/dbname
+    dsn := "username:password@tcp(127.0.0.1:3306)/testdb"
+
+    // Connect to the database and execute the query
+    err := connectAndQueryDB(dsn)
+    if err != nil {
+        fmt.Printf("Error: %v\n", err)
+    }
+}
+```
+
+### Explanation
+
+1. **Set Up the MySQL Database**:
+   - Create the `employees` table and insert some sample data with first and last names.
+
+2. **Install the MySQL Driver**:
+   - Use `go get` to install the `github.com/go-sql-driver/mysql` package.
+
+3. **Write the Go Code**:
+   - The `connectAndQueryDB` function connects to the MySQL database, executes a query with concatenated fields using the `CONCAT` function, and prints the results.
+   - The `main` function defines the DSN for the MySQL database and calls the `connectAndQueryDB` function.
+
+### Detailed Output
+
+The program will connect to the MySQL database, execute the SQL query with concatenated fields to retrieve data, and print the retrieved data. For example:
+
+```
+Data retrieved from the database:
+ID: 1, First Name: Alice, Last Name: Johnson, Full Name: Alice Johnson
+ID: 2, First Name: Bob, Last Name: Smith, Full Name: Bob Smith
+ID: 3, First Name: Charlie, Last Name: Brown, Full Name: Charlie Brown
+```
+
+### Summary
+
+In Go, you can connect to a MySQL database and execute SQL queries that include concatenated fields using the `github.com/go-sql-driver/mysql` package with the `database/sql` package. By defining functions to handle database connections and query execution, you can efficiently manage database operations and retrieve concatenated fields in your applications. This approach is useful for tasks such as data manipulation, reporting, and presenting combined information from multiple fields.

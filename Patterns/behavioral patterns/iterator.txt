@@ -1,1 +1,126 @@
 \\ Patterns — Behavioural patterns — iterator
+
+
+The Iterator pattern is a behavioral design pattern that allows you to traverse elements of a collection without exposing its underlying representation. This pattern provides a way to access the elements of an aggregate object sequentially without exposing its underlying structure.
+
+### Key Components
+
+1. **Iterator Interface**: Declares the methods for accessing and traversing elements.
+2. **Concrete Iterator**: Implements the `Iterator` interface and keeps track of the current position in the traversal of the aggregate.
+3. **Aggregate Interface**: Declares a method to create an iterator object.
+4. **Concrete Aggregate**: Implements the `Aggregate` interface and returns an instance of a `Concrete Iterator`.
+
+### Example: Iterator for a Custom Collection
+
+Let's create an example where we define an iterator for a custom collection of integers.
+
+#### Iterator Interface
+
+```go
+package main
+
+// Iterator interface declares the methods for accessing and traversing elements
+type Iterator interface {
+    HasNext() bool
+    Next() int
+}
+```
+
+#### Concrete Iterator
+
+```go
+package main
+
+// IntegerIterator is a Concrete Iterator
+type IntegerIterator struct {
+    collection *IntegerCollection
+    index      int
+}
+
+func (i *IntegerIterator) HasNext() bool {
+    return i.index < len(i.collection.items)
+}
+
+func (i *IntegerIterator) Next() int {
+    if i.HasNext() {
+        item := i.collection.items[i.index]
+        i.index++
+        return item
+    }
+    return 0 // Return zero if no more elements (you might want to handle this differently)
+}
+```
+
+#### Aggregate Interface
+
+```go
+package main
+
+// Aggregate interface declares a method to create an iterator
+type Aggregate interface {
+    CreateIterator() Iterator
+}
+```
+
+#### Concrete Aggregate
+
+```go
+package main
+
+// IntegerCollection is a Concrete Aggregate
+type IntegerCollection struct {
+    items []int
+}
+
+func (c *IntegerCollection) CreateIterator() Iterator {
+    return &IntegerIterator{
+        collection: c,
+        index:      0,
+    }
+}
+```
+
+#### Client
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    // Create a collection
+    collection := &IntegerCollection{
+        items: []int{1, 2, 3, 4, 5},
+    }
+
+    // Create an iterator
+    iterator := collection.CreateIterator()
+
+    // Traverse the collection using the iterator
+    for iterator.HasNext() {
+        item := iterator.Next()
+        fmt.Println(item)
+    }
+}
+```
+
+### Explanation
+
+1. **Iterator Interface**: The `Iterator` interface declares methods `HasNext` and `Next` for traversing elements.
+2. **Concrete Iterator**: The `IntegerIterator` struct implements the `Iterator` interface. It keeps a reference to the collection and a current index to track the traversal.
+3. **Aggregate Interface**: The `Aggregate` interface declares the `CreateIterator` method.
+4. **Concrete Aggregate**: The `IntegerCollection` struct implements the `Aggregate` interface and returns an instance of `IntegerIterator`.
+5. **Client**: The client code creates an instance of `IntegerCollection`, obtains an iterator from it, and uses the iterator to traverse the collection.
+
+### Advantages
+
+- **Single Responsibility**: The collection and traversal logic are separated.
+- **Encapsulation**: The internal structure of the collection is hidden from the client.
+- **Flexibility**: Different types of iterators can be created for the same collection.
+
+### Disadvantages
+
+- **Complexity**: Adding a separate iterator class for each collection can increase complexity.
+- **Performance**: Additional overhead due to the iterator abstraction.
+
+By implementing the Iterator pattern, you can provide a standard way to traverse a collection of objects without exposing its underlying representation. This makes your code more flexible and easier to maintain, especially when dealing with complex data structures.

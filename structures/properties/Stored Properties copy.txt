@@ -1,1 +1,147 @@
 \\ Structures — Properties — Stored Properties
+
+
+In Go, "stored properties" refer to fields within a struct that store data directly. These properties are directly accessible and can be used to hold the values for the struct. Unlike computed properties, stored properties do not perform any calculation or logic—they simply store the data provided to them.
+
+### Example: Stored Properties
+
+Let's create an example using a `Person` struct that has stored properties for the first name, last name, and age.
+
+#### Step 1: Define the Struct
+
+First, define the `Person` struct with stored properties.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define the Person struct
+type Person struct {
+    FirstName string
+    LastName  string
+    Age       int
+}
+```
+
+#### Step 2: Create and Manipulate Instances
+
+Create instances of the `Person` struct and manipulate the stored properties.
+
+```go
+func main() {
+    // Create an instance of Person
+    person := Person{
+        FirstName: "John",
+        LastName:  "Doe",
+        Age:       30,
+    }
+
+    // Print the initial values
+    fmt.Printf("Initial Person: %+v\n", person)
+
+    // Modify the stored properties
+    person.FirstName = "Alice"
+    person.LastName = "Smith"
+    person.Age = 25
+
+    // Print the modified values
+    fmt.Printf("Modified Person: %+v\n", person)
+}
+```
+
+### Explanation
+
+1. **Define the `Person` Struct**:
+   - The `Person` struct has three stored properties: `FirstName`, `LastName`, and `Age`.
+
+2. **Create and Manipulate Instances**:
+   - In `main`, an instance of the `Person` struct is created and initialized with values.
+   - The initial values of the stored properties are printed.
+   - The stored properties are modified, and the new values are printed.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Initial Person: {FirstName:John LastName:Doe Age:30}
+Modified Person: {FirstName:Alice LastName:Smith Age:25}
+```
+
+### Example: Using Stored Properties with Nested Structs
+
+Let's create a `Book` struct with stored properties, including a nested `Author` struct.
+
+#### Step 1: Define the Structs
+
+Define the `Author` and `Book` structs with stored properties.
+
+```go
+// Define the Author struct
+type Author struct {
+    FirstName string
+    LastName  string
+}
+
+// Define the Book struct
+type Book struct {
+    Title  string
+    Author Author
+    Pages  int
+}
+```
+
+#### Step 2: Create and Manipulate Instances
+
+Create instances of the `Book` struct and manipulate the stored properties, including nested structs.
+
+```go
+func main() {
+    // Create an instance of Book
+    book := Book{
+        Title: "Go Programming",
+        Author: Author{
+            FirstName: "John",
+            LastName:  "Doe",
+        },
+        Pages: 300,
+    }
+
+    // Print the initial values
+    fmt.Printf("Initial Book: %+v\n", book)
+
+    // Modify the stored properties
+    book.Title = "Advanced Go Programming"
+    book.Author.FirstName = "Alice"
+    book.Author.LastName = "Smith"
+    book.Pages = 400
+
+    // Print the modified values
+    fmt.Printf("Modified Book: %+v\n", book)
+}
+```
+
+### Explanation
+
+1. **Define the `Author` and `Book` Structs**:
+   - The `Author` struct has two stored properties: `FirstName` and `LastName`.
+   - The `Book` struct has three stored properties: `Title`, `Author` (which is a nested struct), and `Pages`.
+
+2. **Create and Manipulate Instances**:
+   - In `main`, an instance of the `Book` struct is created and initialized with values, including the nested `Author` struct.
+   - The initial values of the stored properties are printed.
+   - The stored properties, including the nested struct, are modified, and the new values are printed.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Initial Book: {Title:Go Programming Author:{FirstName:John LastName:Doe} Pages:300}
+Modified Book: {Title:Advanced Go Programming Author:{FirstName:Alice LastName:Smith} Pages:400}
+```
+
+### Summary
+
+In Go, stored properties are simply fields within a struct that store data directly. These properties can be easily accessed and modified. By defining structs with stored properties, you can encapsulate related data within a single type, making your code more organized and maintainable. Nested structs can also be used to represent more complex data relationships, allowing you to build rich data models with Go structs.

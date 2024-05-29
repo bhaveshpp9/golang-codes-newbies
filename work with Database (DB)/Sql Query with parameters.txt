@@ -1,2 +1,247 @@
-
 \\ work with database(DB) — Sql Query with parameters
+
+
+To execute an SQL query with parameters in Go, you can use the `database/sql` package along with the `Query` or `QueryRow` methods. These methods support parameterized queries, which help prevent SQL injection attacks and allow you to pass parameters safely to your SQL queries.
+
+### Example: Executing an SQL Query with Parameters
+
+Let's create an example where we connect to a MySQL database and execute an SQL query with parameters to retrieve data from a table.
+
+#### Step 1: Import Necessary Packages
+
+First, import the necessary packages.
+
+```go
+package main
+
+import (
+    "database/sql"
+    "fmt"
+    _ "github.com/go-sql-driver/mysql" // Import the MySQL driver
+)
+```
+
+#### Step 2: Define the Function to Execute an SQL Query with Parameters
+
+Create a function that connects to the database, executes an SQL query with parameters, and retrieves the data.
+
+```go
+// Function to execute an SQL query with parameters and retrieve data
+func executeSQLQueryWithParams(db *sql.DB, query string, args ...interface{}) (*sql.Rows, error) {
+    // Execute the SQL query with parameters
+    rows, err := db.Query(query, args...)
+    if err != nil {
+        return nil, err
+    }
+    return rows, nil
+}
+```
+
+#### Step 3: Use the Function
+
+Finally, use the `executeSQLQueryWithParams` function in the `main` function to execute an SQL query with parameters and print the retrieved data.
+
+```go
+func main() {
+    // Database connection details
+    dsn := "username:password@tcp(127.0.0.1:3306)/dbname"
+
+    // Open a connection to the database
+    db, err := sql.Open("mysql", dsn)
+    if err != nil {
+        fmt.Printf("Failed to connect to database: %v\n", err)
+        return
+    }
+    defer db.Close()
+
+    // Test the database connection
+    err = db.Ping()
+    if err != nil {
+        fmt.Printf("Failed to ping database: %v\n", err)
+        return
+    }
+
+    // SQL query to retrieve data with a parameter
+    query := "SELECT id, name FROM example WHERE id = ?;"
+
+    // Parameter value
+    id := 1
+
+    // Execute the SQL query with the parameter
+    rows, err := executeSQLQueryWithParams(db, query, id)
+    if err != nil {
+        fmt.Printf("Failed to execute SQL query: %v\n", err)
+        return
+    }
+    defer rows.Close()
+
+    // Print the retrieved data
+    fmt.Println("Data retrieved from the database:")
+    for rows.Next() {
+        var id int
+        var name string
+        err := rows.Scan(&id, &name)
+        if err != nil {
+            fmt.Printf("Failed to scan row: %v\n", err)
+            return
+        }
+        fmt.Printf("ID: %d, Name: %s\n", id, name)
+    }
+
+    // Check for errors after iterating through the rows
+    if err := rows.Err(); err != nil {
+        fmt.Printf("Error iterating through rows: %v\n", err)
+        return
+    }
+}
+```
+
+### Explanation
+
+1. **Import Necessary Packages**:
+   - The `database/sql` package is used for database operations.
+   - The `_ "github.com/go-sql-driver/mysql"` import is a side-effect import that registers the MySQL driver with the `database/sql` package.
+
+2. **Define the `executeSQLQueryWithParams` Function**:
+   - The function takes a database connection, an SQL query, and a variable number of parameters as inputs.
+   - It uses the `db.Query` method to execute the SQL query with the provided parameters.
+   - It returns the rows retrieved and any error encountered.
+
+3. **Use the Function in `main`**:
+   - In `main`, the database connection details are defined.
+   - The `sql.Open` function is used to open a connection to the database.
+   - The `db.Ping` method is used to verify the connection to the database.
+   - An SQL query to retrieve data from the `example` table with a parameter is defined.
+   - The `executeSQLQueryWithParams` function is called to execute the SQL query with the parameter.
+   - The retrieved data is iterated through using `rows.Next` and printed.
+   - The `rows.Scan` method is used to scan each row into variables.
+   - Errors encountered during iteration are checked using `rows.Err`.
+
+### Detailed Output
+
+The program will connect to the MySQL database, execute the SQL query with the parameter to retrieve data from the `example` table, and print the retrieved data. For example:
+
+```
+Data retrieved from the database:
+ID: 1, Name: Alice
+```
+
+### Example: Executing an SQL Query with Multiple Parameters
+
+Let's extend the example to execute an SQL query with multiple parameters.
+
+#### Step 4: Define the Function to Insert Data with Parameters
+
+Create a function that takes multiple parameters and inserts them into the `example` table.
+
+```go
+// Function to insert data into the example table with parameters
+func insertData(db *sql.DB, name string) error {
+    // SQL command to insert data
+    command := `INSERT INTO example (name) VALUES (?);`
+
+    // Execute the SQL command with parameters
+    _, err := db.Exec(command, name)
+    if err != nil {
+        return err
+    }
+    return nil
+}
+```
+
+#### Step 5: Use the Function
+
+Use the `insertData` function in the `main` function to insert data into the table with parameters.
+
+```go
+func main() {
+    // Database connection details
+    dsn := "username:password@tcp(127.0.0.1:3306)/dbname"
+
+    // Open a connection to the database
+    db, err := sql.Open("mysql", dsn)
+    if err != nil {
+        fmt.Printf("Failed to connect to database: %v\n", err)
+        return
+    }
+    defer db.Close()
+
+    // Test the database connection
+    err = db.Ping()
+    if err != nil {
+        fmt.Printf("Failed to ping database: %v\n", err)
+        return
+    }
+
+    // Insert data into the table
+    names := []string{"Alice", "Bob", "Charlie"}
+    for _, name := range names {
+        err = insertData(db, name)
+        if err != nil {
+            fmt.Printf("Failed to insert data: %v\n", err)
+            return
+        }
+    }
+
+    // SQL query to retrieve data with a parameter
+    query := "SELECT id, name FROM example WHERE id = ?;"
+
+    // Parameter value
+    id := 1
+
+    // Execute the SQL query with the parameter
+    rows, err := executeSQLQueryWithParams(db, query, id)
+    if err != nil {
+        fmt.Printf("Failed to execute SQL query: %v\n", err)
+        return
+    }
+    defer rows.Close()
+
+    // Print the retrieved data
+    fmt.Println("Data retrieved from the database:")
+    for rows.Next() {
+        var id int
+        var name string
+        err := rows.Scan(&id, &name)
+        if err != nil {
+            fmt.Printf("Failed to scan row: %v\n", err)
+            return
+        }
+        fmt.Printf("ID: %d, Name: %s\n", id, name)
+    }
+
+    // Check for errors after iterating through the rows
+    if err := rows.Err(); err != nil {
+        fmt.Printf("Error iterating through rows: %v\n", err)
+        return
+    }
+}
+```
+
+### Explanation
+
+1. **Define the `insertData` Function**:
+   - The function takes a database connection and a name as inputs.
+   - It defines an SQL command to insert data into the `example` table.
+   - It uses the `db.Exec` method to execute the SQL command with the provided parameter.
+   - It returns any error encountered during execution.
+
+2. **Use the Function in `main`**:
+   - In `main`, a list of names is defined.
+   - The `insertData` function is called in a loop to insert each name into the `example` table.
+   - The `executeSQLQueryWithParams` function is called to execute the SQL query with a parameter.
+   - The retrieved data is printed as in the previous example.
+
+### Detailed Output
+
+The program will insert the specified names into the `example` table, execute the SQL query with the parameter to retrieve data from the table, and print the retrieved data. For example:
+
+```
+Successfully inserted data.
+Data retrieved from the database:
+ID: 1, Name: Alice
+```
+
+### Summary
+
+In Go, you can execute parameterized SQL queries using the `database/sql` package. By defining functions to handle SQL query execution with parameters, you can efficiently manage database operations while preventing SQL injection attacks. This approach is useful for tasks such as retrieving data, querying records with conditions, and performing other database operations securely.

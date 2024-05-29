@@ -1,1 +1,132 @@
 \\ Simple types.— Numbers —mathematical operations — Sine, cosine and tangent
+
+
+In Go, you can compute the sine, cosine, and tangent of an angle using the `math` package, which provides the `math.Sin`, `math.Cos`, and `math.Tan` functions, respectively. These functions take an angle in radians as input and return the corresponding trigonometric value.
+
+### Example: Computing Sine, Cosine, and Tangent
+
+Here’s an example demonstrating how to compute the sine, cosine, and tangent of an angle using the `math` package.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "math"
+)
+
+func main() {
+    // Define an angle in degrees
+    angleDegrees := 45.0
+
+    // Convert the angle to radians
+    angleRadians := angleDegrees * (math.Pi / 180)
+
+    // Calculate sine, cosine, and tangent
+    sinValue := math.Sin(angleRadians)
+    cosValue := math.Cos(angleRadians)
+    tanValue := math.Tan(angleRadians)
+
+    // Print the results
+    fmt.Printf("Sine of %.2f degrees (%.2f radians) is %.4f\n", angleDegrees, angleRadians, sinValue)
+    fmt.Printf("Cosine of %.2f degrees (%.2f radians) is %.4f\n", angleDegrees, angleRadians, cosValue)
+    fmt.Printf("Tangent of %.2f degrees (%.2f radians) is %.4f\n", angleDegrees, angleRadians, tanValue)
+}
+```
+
+### Explanation
+
+1. **Import the `math` Package**:
+   - The `math` package provides mathematical functions, including trigonometric functions.
+
+2. **Define an Angle in Degrees**:
+   - We define an angle `angleDegrees` with the value `45.0`.
+
+3. **Convert the Angle to Radians**:
+   - We convert the angle from degrees to radians using the formula `radians = degrees * (π / 180)`.
+   - The value of π is provided by `math.Pi`.
+
+4. **Calculate Sine, Cosine, and Tangent**:
+   - We use `math.Sin(angleRadians)` to calculate the sine of the angle.
+   - We use `math.Cos(angleRadians)` to calculate the cosine of the angle.
+   - We use `math.Tan(angleRadians)` to calculate the tangent of the angle.
+
+5. **Print the Results**:
+   - We print the results using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Sine of 45.00 degrees (0.79 radians) is 0.7071
+Cosine of 45.00 degrees (0.79 radians) is 0.7071
+Tangent of 45.00 degrees (0.79 radians) is 1.0000
+```
+
+### Handling Multiple Angles
+
+You can compute the sine, cosine, and tangent for multiple angles by iterating over a slice of angles.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "math"
+)
+
+func main() {
+    // Define a slice of angles in degrees
+    anglesDegrees := []float64{0, 30, 45, 60, 90}
+
+    // Calculate and print sine, cosine, and tangent for each angle
+    for _, angleDegrees := range anglesDegrees {
+        angleRadians := angleDegrees * (math.Pi / 180)
+        sinValue := math.Sin(angleRadians)
+        cosValue := math.Cos(angleRadians)
+        tanValue := math.Tan(angleRadians)
+        fmt.Printf("Angle: %.2f degrees (%.2f radians)\n", angleDegrees, angleRadians)
+        fmt.Printf("  Sine: %.4f\n", sinValue)
+        fmt.Printf("  Cosine: %.4f\n", cosValue)
+        fmt.Printf("  Tangent: %.4f\n", tanValue)
+    }
+}
+```
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Angle: 0.00 degrees (0.00 radians)
+  Sine: 0.0000
+  Cosine: 1.0000
+  Tangent: 0.0000
+Angle: 30.00 degrees (0.52 radians)
+  Sine: 0.5000
+  Cosine: 0.8660
+  Tangent: 0.5774
+Angle: 45.00 degrees (0.79 radians)
+  Sine: 0.7071
+  Cosine: 0.7071
+  Tangent: 1.0000
+Angle: 60.00 degrees (1.05 radians)
+  Sine: 0.8660
+  Cosine: 0.5000
+  Tangent: 1.7321
+Angle: 90.00 degrees (1.57 radians)
+  Sine: 1.0000
+  Cosine: 0.0000
+  Tangent: 16331239353195370.0000
+```
+
+### Note on Tangent for 90 Degrees
+
+The tangent of 90 degrees is technically undefined because it approaches infinity. The large value shown in the output is a result of the limitations of floating-point arithmetic.
+
+### Summary
+
+In Go, you can compute the sine, cosine, and tangent of an angle using the `math.Sin`, `math.Cos`, and `math.Tan` functions, respectively, from the `math` package. These functions take an angle in radians as input. By converting degrees to radians and using these functions, you can perform trigonometric calculations effectively in your Go programs.

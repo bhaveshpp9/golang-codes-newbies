@@ -1,1 +1,171 @@
 \\ Exceptions Handling — Define an exception type
+
+In Go, exceptions are not handled in the same way as in languages like Java or Python. Instead of traditional exceptions, Go encourages using error values. However, you can define custom error types to represent different kinds of errors more clearly. This approach leverages Go's type system to create more structured and informative error handling.
+
+### Defining a Custom Error Type
+
+You can define a custom error type by implementing the `error` interface, which requires a single method `Error() string`.
+
+### Example: Custom Error Type
+
+Let's create a custom error type and use it in a function that may encounter an error:
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+// CustomError is a custom error type
+type CustomError struct {
+	Code    int
+	Message string
+}
+
+// Error implements the error interface for CustomError
+func (e *CustomError) Error() string {
+	return fmt.Sprintf("Error %d: %s", e.Code, e.Message)
+}
+
+func main() {
+	fmt.Println("Starting the program")
+
+	err := performOperation()
+	if err != nil {
+		if customErr, ok := err.(*CustomError); ok {
+			fmt.Printf("Custom error occurred: %v\n", customErr)
+		} else {
+			fmt.Printf("An error occurred: %v\n", err)
+		}
+	} else {
+		fmt.Println("Operation completed successfully")
+	}
+}
+
+// performOperation simulates a function that can return a custom error
+func performOperation() error {
+	// Simulate an error condition
+	return &CustomError{
+		Code:    123,
+		Message: "Something went wrong",
+	}
+}
+```
+
+### Explanation
+
+1. **Defining `CustomError` Type:**
+   ```go
+   type CustomError struct {
+       Code    int
+       Message string
+   }
+   ```
+   The `CustomError` struct contains fields for an error code and an error message.
+
+2. **Implementing the `error` Interface:**
+   ```go
+   func (e *CustomError) Error() string {
+       return fmt.Sprintf("Error %d: %s", e.Code, e.Message)
+   }
+   ```
+   The `Error` method returns a formatted string that describes the error. This method is required to satisfy the `error` interface.
+
+3. **Returning a Custom Error:**
+   ```go
+   func performOperation() error {
+       return &CustomError{
+           Code:    123,
+           Message: "Something went wrong",
+       }
+   }
+   ```
+   The `performOperation` function returns an instance of `CustomError`, simulating an error condition.
+
+4. **Handling the Custom Error:**
+   ```go
+   if err != nil {
+       if customErr, ok := err.(*CustomError); ok {
+           fmt.Printf("Custom error occurred: %v\n", customErr)
+       } else {
+           fmt.Printf("An error occurred: %v\n", err)
+       }
+   } else {
+       fmt.Println("Operation completed successfully")
+   }
+   ```
+   In the `main` function, we check if an error occurred. If the error is of type `CustomError`, we handle it accordingly. Otherwise, we handle it as a generic error.
+
+### Practical Use Case: Database Error Handling
+
+Here's an example of using a custom error type to handle different kinds of database errors:
+
+```go
+package main
+
+import (
+	"database/sql"
+	"fmt"
+
+	_ "github.com/go-sql-driver/mysql"
+)
+
+// DBError represents a custom database error
+type DBError struct {
+	Code    int
+	Message string
+}
+
+// Error implements the error interface for DBError
+func (e *DBError) Error() string {
+	return fmt.Sprintf("DBError %d: %s", e.Code, e.Message)
+}
+
+func main() {
+	err := queryDatabase()
+	if err != nil {
+		if dbErr, ok := err.(*DBError); ok {
+			fmt.Printf("Database error occurred: %v\n", dbErr)
+		} else {
+			fmt.Printf("An error occurred: %v\n", err)
+		}
+	} else {
+		fmt.Println("Query completed successfully")
+	}
+}
+
+// queryDatabase simulates a database query that can return a custom error
+func queryDatabase() error {
+	// Simulate a database connection error
+	return &DBError{
+		Code:    101,
+		Message: "Failed to connect to database",
+	}
+
+	// Normally you would perform database operations here
+	// db, err := sql.Open("mysql", "user:password@/dbname")
+	// if err != nil {
+	//     return &DBError{Code: 102, Message: "Database connection failed"}
+	// }
+	// defer db.Close()
+
+	// Simulate a query error
+	// return &DBError{Code: 103, Message: "Query execution failed"}
+}
+```
+
+### Explanation
+
+1. **Defining `DBError` Type:**
+   The `DBError` struct contains fields for an error code and an error message specific to database errors.
+
+2. **Returning Custom Database Errors:**
+   The `queryDatabase` function simulates different types of database errors by returning instances of `DBError`.
+
+3. **Handling the Custom Database Errors:**
+   In the `main` function, we check if an error occurred during the database query. If the error is of type `DBError`, we handle it accordingly. Otherwise, we handle it as a generic error.
+
+### Conclusion
+
+By defining custom error types in Go, you can create more structured and informative error handling mechanisms. This approach allows you to differentiate between different kinds of errors and handle them appropriately, enhancing the robustness and maintainability of your code. While Go does not have traditional exceptions, custom error types provide a powerful alternative for managing errors in a clear and organized manner.

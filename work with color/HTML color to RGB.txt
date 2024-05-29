@@ -1,1 +1,119 @@
 \\ work with color — HTML color to RGB
+
+To convert an HTML color code to RGB in Go, you can parse the hexadecimal string representation of the color and extract the red, green, and blue components. HTML color codes are usually in the format `#RRGGBB` or `#RGB`.
+
+### Example: Convert HTML Color Code to RGB
+
+Let's create an example where we define a function to convert an HTML color code to RGB components.
+
+#### Step 1: Define the Function to Convert HTML Color Code to RGB
+
+Create a function that takes an HTML color code string as input and returns the RGB components.
+
+```go
+package main
+
+import (
+    "fmt"
+    "strconv"
+    "strings"
+)
+
+// Function to convert an HTML color code to RGB components
+func HTMLColorToRGB(color string) (uint8, uint8, uint8, error) {
+    // Remove the leading '#' if it exists
+    if strings.HasPrefix(color, "#") {
+        color = strings.TrimPrefix(color, "#")
+    }
+
+    // Parse the color based on its length
+    var r, g, b uint64
+    var err error
+    if len(color) == 6 {
+        // #RRGGBB format
+        r, err = strconv.ParseUint(color[0:2], 16, 8)
+        if err != nil {
+            return 0, 0, 0, err
+        }
+        g, err = strconv.ParseUint(color[2:4], 16, 8)
+        if err != nil {
+            return 0, 0, 0, err
+        }
+        b, err = strconv.ParseUint(color[4:6], 16, 8)
+        if err != nil {
+            return 0, 0, 0, err
+        }
+    } else if len(color) == 3 {
+        // #RGB format
+        r, err = strconv.ParseUint(strings.Repeat(string(color[0]), 2), 16, 8)
+        if err != nil {
+            return 0, 0, 0, err
+        }
+        g, err = strconv.ParseUint(strings.Repeat(string(color[1]), 2), 16, 8)
+        if err != nil {
+            return 0, 0, 0, err
+        }
+        b, err = strconv.ParseUint(strings.Repeat(string(color[2]), 2), 16, 8)
+        if err != nil {
+            return 0, 0, 0, err
+        }
+    } else {
+        return 0, 0, 0, fmt.Errorf("invalid color format")
+    }
+
+    return uint8(r), uint8(g), uint8(b), nil
+}
+```
+
+#### Step 2: Use the Function
+
+Finally, use the function in the `main` function to convert an HTML color code to RGB components and print the result.
+
+```go
+func main() {
+    // Example HTML color codes
+    htmlColor1 := "#FFA500" // Orange
+    htmlColor2 := "#09C"    // Shortened HTML color code for #0099CC (Light Blue)
+    
+    // Convert HTML color codes to RGB
+    r1, g1, b1, err1 := HTMLColorToRGB(htmlColor1)
+    if err1 != nil {
+        fmt.Println("Error:", err1)
+    } else {
+        fmt.Printf("HTML Color %s -> RGB(%d, %d, %d)\n", htmlColor1, r1, g1, b1)
+    }
+
+    r2, g2, b2, err2 := HTMLColorToRGB(htmlColor2)
+    if err2 != nil {
+        fmt.Println("Error:", err2)
+    } else {
+        fmt.Printf("HTML Color %s -> RGB(%d, %d, %d)\n", htmlColor2, r2, g2, b2)
+    }
+}
+```
+
+### Explanation
+
+1. **Define the `HTMLColorToRGB` Function**:
+   - The function takes an HTML color code string as input and returns the RGB components as `uint8` values.
+   - The `strings.HasPrefix` function checks if the color string starts with `#` and removes it using `strings.TrimPrefix`.
+   - The function then parses the color string based on its length:
+     - For the `#RRGGBB` format, it extracts the red, green, and blue components using `strconv.ParseUint`.
+     - For the `#RGB` format, it repeats each character to form the `#RRGGBB` format before parsing.
+   - If the color format is invalid, the function returns an error.
+
+2. **Use the Function**:
+   - In `main`, example HTML color codes are provided, including one in the shortened `#RGB` format.
+   - The `HTMLColorToRGB` function is called to convert each HTML color code to RGB components, and the results are printed.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+HTML Color #FFA500 -> RGB(255, 165, 0)
+HTML Color #09C -> RGB(0, 153, 204)
+```
+
+### Summary
+
+In Go, you can convert HTML color codes to RGB components by parsing the hexadecimal string representation of the color. By defining a function that handles both the `#RRGGBB` and `#RGB` formats, you can convert HTML color codes to their corresponding RGB values efficiently. This approach is useful for working with colors in web development and other applications where HTML color codes are used.

@@ -1,1 +1,138 @@
 \\ Patterns — structural patterns — decorator
+
+The Decorator pattern is a structural design pattern that allows behavior to be added to individual objects, either statically or dynamically, without affecting the behavior of other objects from the same class. This pattern is useful for adhering to the Single Responsibility Principle by allowing functionality to be divided between classes with unique areas of concern.
+
+### Key Components
+
+1. **Component**: An interface or abstract class that defines the behavior that can be dynamically added to objects.
+2. **Concrete Component**: A class that implements the Component interface.
+3. **Decorator**: An abstract class that implements the Component interface and contains a reference to a Component object.
+4. **Concrete Decorators**: Classes that extend the Decorator class and add behavior to the component.
+
+### Example: Notifier System
+
+Let's create an example where we have a notifier system that sends notifications. We can decorate the notifier to add additional notification methods like email and SMS.
+
+#### Component
+
+```go
+package main
+
+// Notifier is the component interface that defines the send method
+type Notifier interface {
+    Send(message string)
+}
+```
+
+#### Concrete Component
+
+```go
+package main
+
+import "fmt"
+
+// BasicNotifier is a concrete component that implements the Notifier interface
+type BasicNotifier struct{}
+
+func (n *BasicNotifier) Send(message string) {
+    fmt.Println("Sending basic notification:", message)
+}
+```
+
+#### Decorator
+
+```go
+package main
+
+// NotifierDecorator is an abstract decorator that implements the Notifier interface
+type NotifierDecorator struct {
+    notifier Notifier
+}
+
+func (d *NotifierDecorator) Send(message string) {
+    d.notifier.Send(message)
+}
+```
+
+#### Concrete Decorators
+
+```go
+package main
+
+import "fmt"
+
+// EmailDecorator is a concrete decorator that adds email notification functionality
+type EmailDecorator struct {
+    NotifierDecorator
+}
+
+func NewEmailDecorator(notifier Notifier) *EmailDecorator {
+    return &EmailDecorator{
+        NotifierDecorator: NotifierDecorator{notifier: notifier},
+    }
+}
+
+func (d *EmailDecorator) Send(message string) {
+    d.notifier.Send(message)
+    fmt.Println("Sending email notification:", message)
+}
+
+// SMSDecorator is a concrete decorator that adds SMS notification functionality
+type SMSDecorator struct {
+    NotifierDecorator
+}
+
+func NewSMSDecorator(notifier Notifier) *SMSDecorator {
+    return &SMSDecorator{
+        NotifierDecorator: NotifierDecorator{notifier: notifier},
+    }
+}
+
+func (d *SMSDecorator) Send(message string) {
+    d.notifier.Send(message)
+    fmt.Println("Sending SMS notification:", message)
+}
+```
+
+#### Client
+
+```go
+package main
+
+func main() {
+    // Create a basic notifier
+    notifier := &BasicNotifier{}
+
+    // Decorate the notifier with email functionality
+    emailNotifier := NewEmailDecorator(notifier)
+
+    // Decorate the notifier with SMS functionality
+    smsNotifier := NewSMSDecorator(emailNotifier)
+
+    // Send notification using the decorated notifier
+    smsNotifier.Send("Hello, World!")
+}
+```
+
+### Explanation
+
+1. **Component**: The `Notifier` interface declares the `Send` method.
+2. **Concrete Component**: The `BasicNotifier` class implements the `Notifier` interface and provides the basic notification functionality.
+3. **Decorator**: The `NotifierDecorator` struct is an abstract decorator that implements the `Notifier` interface and holds a reference to a `Notifier` object.
+4. **Concrete Decorators**:
+   - The `EmailDecorator` class extends `NotifierDecorator` and adds email notification functionality.
+   - The `SMSDecorator` class extends `NotifierDecorator` and adds SMS notification functionality.
+5. **Client**: The client code creates a `BasicNotifier`, decorates it with `EmailDecorator` and `SMSDecorator`, and sends a notification using the decorated notifier.
+
+### Advantages
+
+- **Single Responsibility Principle**: Divides functionality among classes, making each class responsible for a single part of the functionality.
+- **Open/Closed Principle**: Classes can be extended with new behavior without modifying existing code.
+- **Flexibility**: Behavior can be added or removed dynamically.
+
+### Disadvantages
+
+- **Complexity**: Can add complexity to the code due to the many small classes.
+- **Performance Overhead**: Each decorator adds a layer of wrapping, which can impact performance.
+
+By using the Decorator pattern, you can add responsibilities to objects dynamically and transparently, making it easy to extend the functionality of a class without modifying its code. This pattern is particularly useful for scenarios where you need to add or remove behaviors at runtime.

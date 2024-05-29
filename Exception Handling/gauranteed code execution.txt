@@ -1,1 +1,139 @@
 \\ Exceptions Handling — gauranteed code execution
+
+In Go, you can ensure that certain code is always executed regardless of whether an exception (panic) occurs by using the `defer` statement. Deferred functions are executed in a last-in-first-out order after the surrounding function returns, whether that return is normal or due to a panic.
+
+### Guaranteed Code Execution Using `defer`
+
+Here's an example demonstrating how you can use `defer` to ensure that critical code (such as cleanup tasks) is always executed:
+
+### Example: Deferred Code Execution
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	fmt.Println("Starting the program")
+
+	// Defer function to ensure cleanup
+	defer cleanup()
+
+	// Trigger a panic
+	causePanic()
+
+	fmt.Println("This will not be printed")
+}
+
+func causePanic() {
+	defer func() {
+		if err := recover(); err != nil {
+			fmt.Println("Recovered from panic:", err)
+		}
+	}()
+
+	fmt.Println("About to panic")
+	panic("Something went wrong!")
+}
+
+func cleanup() {
+	fmt.Println("Performing cleanup tasks")
+}
+```
+
+### Explanation
+
+1. **Starting the Program:**
+   The program starts and prints "Starting the program".
+
+2. **Deferred Cleanup Function:**
+   ```go
+   defer cleanup()
+   ```
+   The `cleanup` function is deferred in the `main` function, ensuring that it will be executed when `main` returns, regardless of whether the return is normal or due to a panic.
+
+3. **Causing a Panic:**
+   ```go
+   causePanic()
+   ```
+   The `causePanic` function triggers a panic by calling `panic("Something went wrong!")`. Before panicking, it defers a recovery function to catch the panic and handle it.
+
+4. **Recovery and Cleanup:**
+   The deferred recovery function catches the panic, allowing the program to handle the panic gracefully and preventing it from crashing. The deferred `cleanup` function is executed after the recovery, ensuring that cleanup tasks are always performed.
+
+### Practical Use Case: Ensuring Resource Cleanup
+
+In real-world applications, you often need to ensure that resources are cleaned up properly, even if an error occurs. Here's an example using a file operation:
+
+### Example: Guaranteed File Closure
+
+```go
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+func main() {
+	err := processFile("example.txt")
+	if err != nil {
+		fmt.Println("Error processing file:", err)
+	}
+}
+
+func processFile(filename string) error {
+	file, err := os.Open(filename)
+	if err != nil {
+		return err
+	}
+
+	// Ensure the file is closed when the function returns
+	defer func() {
+		if cerr := file.Close(); cerr != nil {
+			fmt.Println("Error closing file:", cerr)
+		}
+	}()
+
+	// Simulate a panic
+	// panic("Unexpected error during file processing")
+
+	// Perform file processing
+	// ...
+
+	return nil
+}
+```
+
+### Explanation
+
+1. **Opening the File:**
+   ```go
+   file, err := os.Open(filename)
+   if err != nil {
+       return err
+   }
+   ```
+   The file is opened for reading. If an error occurs, it is returned.
+
+2. **Deferred File Closure:**
+   ```go
+   defer func() {
+       if cerr := file.Close(); cerr != nil {
+           fmt.Println("Error closing file:", cerr)
+       }
+   }()
+   ```
+   The file is deferred for closure using a deferred function, ensuring that the file is closed when `processFile` returns, regardless of how it returns (normally or due to a panic).
+
+3. **Simulating a Panic:**
+   Uncomment the line `panic("Unexpected error during file processing")` to simulate a panic during file processing. Even if a panic occurs, the deferred function will close the file.
+
+4. **Returning from the Function:**
+   The function performs its file processing and returns normally if no panic occurs. The deferred function ensures that the file is closed.
+
+### Conclusion
+
+Using `defer` in Go allows you to ensure that critical code, such as resource cleanup, is always executed, even in the presence of errors or panics. This is particularly useful for managing resources like files, network connections, and locks, ensuring that your application remains robust and does not leak resources. By combining `panic`, `recover`, and `defer`, you can handle exceptional conditions gracefully while maintaining proper resource management.

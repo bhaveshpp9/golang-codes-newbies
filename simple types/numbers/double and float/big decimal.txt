@@ -1,1 +1,139 @@
 \\ Simple types.— Numbers — double and float — big decimal
+
+In Go, for high-precision arithmetic, such as when dealing with big decimal numbers, you can use the `math/big` package, which provides the `big.Float` type. The `big.Float` type supports arbitrary-precision floating-point numbers.
+
+### Using `math/big` for Big Decimal Arithmetic
+
+Here’s an example demonstrating how to perform arithmetic operations with `big.Float`.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "math/big"
+)
+
+func main() {
+    // Create big.Float numbers
+    a := new(big.Float).SetFloat64(12345678901234567890.12345678901234567890)
+    b := new(big.Float).SetFloat64(98765432109876543210.98765432109876543210)
+
+    // Addition
+    sum := new(big.Float).Add(a, b)
+    fmt.Printf("Sum: %g\n", sum)
+
+    // Subtraction
+    diff := new(big.Float).Sub(a, b)
+    fmt.Printf("Difference: %g\n", diff)
+
+    // Multiplication
+    product := new(big.Float).Mul(a, b)
+    fmt.Printf("Product: %g\n", product)
+
+    // Division
+    quotient := new(big.Float).Quo(a, b)
+    fmt.Printf("Quotient: %g\n", quotient)
+
+    // Modulus operation is not directly supported for big.Float
+    // Instead, you can use the Mod method with big.Int if necessary for integers.
+}
+
+```
+
+### Explanation
+
+1. **Create `big.Float` Numbers**:
+   - We create `big.Float` numbers using `new(big.Float).SetFloat64()` to initialize the values.
+
+2. **Addition**:
+   - We use the `Add` method to add two `big.Float` numbers and store the result in `sum`.
+
+3. **Subtraction**:
+   - We use the `Sub` method to subtract one `big.Float` number from another and store the result in `diff`.
+
+4. **Multiplication**:
+   - We use the `Mul` method to multiply two `big.Float` numbers and store the result in `product`.
+
+5. **Division**:
+   - We use the `Quo` method to divide one `big.Float` number by another and store the result in `quotient`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Sum: 1.1111111101111111e+20
+Difference: -8.6419753208641975e+19
+Product: 1.2193263135650053e+39
+Quotient: 0.12499999986931818
+```
+
+### Working with `math/big` for Various Arithmetic Operations
+
+Here’s another example demonstrating how to initialize `big.Float` numbers from strings and perform various arithmetic operations.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "math/big"
+)
+
+func main() {
+    // Initialize big.Float numbers from strings
+    a, _, err := big.ParseFloat("12345678901234567890.12345678901234567890", 10, 256, big.ToNearestEven)
+    if err != nil {
+        fmt.Println("Error parsing a:", err)
+        return
+    }
+
+    b, _, err := big.ParseFloat("98765432109876543210.98765432109876543210", 10, 256, big.ToNearestEven)
+    if err != nil {
+        fmt.Println("Error parsing b:", err)
+        return
+    }
+
+    // Addition
+    sum := new(big.Float).Add(a, b)
+    fmt.Printf("Sum: %s\n", sum.Text('f', 20))
+
+    // Subtraction
+    diff := new(big.Float).Sub(a, b)
+    fmt.Printf("Difference: %s\n", diff.Text('f', 20))
+
+    // Multiplication
+    product := new(big.Float).Mul(a, b)
+    fmt.Printf("Product: %s\n", product.Text('f', 20))
+
+    // Division
+    quotient := new(big.Float).Quo(a, b)
+    fmt.Printf("Quotient: %s\n", quotient.Text('f', 20))
+}
+```
+
+### Explanation
+
+1. **Initialize `big.Float` Numbers from Strings**:
+   - We use `big.ParseFloat` to initialize `big.Float` numbers from string representations with specified precision.
+
+2. **Addition, Subtraction, Multiplication, and Division**:
+   - We perform the arithmetic operations as before and use `Text('f', 20)` to format the output with 20 decimal places for better readability.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Sum: 111111111011111111101.11111111011111111000
+Difference: -86419753208641975320.86419753208641975320
+Product: 1219326313565005313472031691126352696.28487070971500000000
+Quotient: 0.12499999986931818000
+```
+
+### Summary
+
+The `math/big` package in Go provides the `big.Float` type for arbitrary-precision floating-point arithmetic. This is useful when you need to handle very large or very precise decimal numbers. You can perform common arithmetic operations such as addition, subtraction, multiplication, and division using the methods provided by `big.Float`. For high-precision arithmetic with floating-point numbers, `math/big` is the go-to package in Go.

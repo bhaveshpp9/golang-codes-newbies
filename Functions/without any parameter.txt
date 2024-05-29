@@ -1,1 +1,183 @@
 \\ Functions — without any parameter
+
+
+In Go, you can define functions that do not take any parameters. These functions can be used to perform tasks that do not require any input, such as initializing values, performing certain operations, or printing messages.
+
+### Example: Function Without Any Parameters
+
+Here is a simple example of a function that does not take any parameters. This function just prints a welcome message.
+
+```go
+package main
+
+import "fmt"
+
+// greet prints a welcome message
+func greet() {
+	fmt.Println("Welcome to the Go programming language!")
+}
+
+func main() {
+	greet()
+}
+```
+
+### Explanation
+
+1. **Defining the Function:**
+   ```go
+   func greet() {
+       fmt.Println("Welcome to the Go programming language!")
+   }
+   ```
+   The `greet` function does not take any parameters. It simply prints a welcome message to the standard output.
+
+2. **Calling the Function:**
+   ```go
+   func main() {
+       greet()
+   }
+   ```
+   The `main` function calls `greet`. Since `greet` does not take any parameters, it is called with empty parentheses.
+
+### Example: Function to Initialize Values
+
+Another example is a function that initializes some global or package-level variables.
+
+```go
+package main
+
+import "fmt"
+
+var count int
+var message string
+
+// initialize sets initial values for global variables
+func initialize() {
+	count = 10
+	message = "Initialization complete"
+}
+
+func main() {
+	initialize()
+	fmt.Println("Count:", count)
+	fmt.Println("Message:", message)
+}
+```
+
+### Explanation
+
+1. **Global Variables:**
+   ```go
+   var count int
+   var message string
+   ```
+   The `count` and `message` variables are declared at the package level, making them accessible by all functions in the package.
+
+2. **Function to Initialize Values:**
+   ```go
+   func initialize() {
+       count = 10
+       message = "Initialization complete"
+   }
+   ```
+   The `initialize` function sets initial values for the global variables `count` and `message`. This function does not take any parameters.
+
+3. **Calling the Function:**
+   ```go
+   func main() {
+       initialize()
+       fmt.Println("Count:", count)
+       fmt.Println("Message:", message)
+   }
+   ```
+   The `main` function calls `initialize` to set the initial values for the global variables and then prints these values.
+
+### Example: Function for Side Effects
+
+Functions without parameters can also be used to perform side effects, such as logging or performing operations that don't require input.
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+// logCurrentTime logs the current time to the standard output
+func logCurrentTime() {
+	fmt.Println("Current time:", time.Now())
+}
+
+func main() {
+	logCurrentTime()
+}
+```
+
+### Explanation
+
+1. **Function for Logging Time:**
+   ```go
+   func logCurrentTime() {
+       fmt.Println("Current time:", time.Now())
+   }
+   ```
+   The `logCurrentTime` function retrieves the current time using `time.Now()` and prints it. It does not take any parameters.
+
+2. **Calling the Function:**
+   ```go
+   func main() {
+       logCurrentTime()
+   }
+   ```
+   The `main` function calls `logCurrentTime` to log the current time.
+
+### Example: Function for Performing Cleanup
+
+Here is an example where a function without parameters is used to perform cleanup operations.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+// cleanup performs necessary cleanup tasks
+func cleanup() {
+	fmt.Println("Performing cleanup tasks...")
+	// Add cleanup code here
+}
+
+func main() {
+	defer cleanup()
+	fmt.Println("Main function execution")
+	// Add main function code here
+}
+```
+
+### Explanation
+
+1. **Function for Cleanup:**
+   ```go
+   func cleanup() {
+       fmt.Println("Performing cleanup tasks...")
+       // Add cleanup code here
+   }
+   ```
+   The `cleanup` function prints a message indicating that cleanup tasks are being performed. It does not take any parameters.
+
+2. **Using `defer` to Ensure Cleanup:**
+   ```go
+   func main() {
+       defer cleanup()
+       fmt.Println("Main function execution")
+       // Add main function code here
+   }
+   ```
+   The `main` function uses `defer` to ensure that `cleanup` is called after `main` completes execution. This is useful for ensuring that cleanup tasks are performed regardless of how the `main` function exits.
+
+### Conclusion
+
+Functions without parameters in Go are useful for performing tasks that do not require input. They can be used to print messages, initialize values, perform side effects, or handle cleanup tasks. These functions contribute to the modularity and clarity of the code, allowing specific actions to be encapsulated within distinct functions.

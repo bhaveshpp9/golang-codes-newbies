@@ -1,1 +1,8 @@
 \\ work with database(DB) — SQL — Retrieving Data — Using Comments
+
+
+# first comment
+SELECT Name -- second comment
+FROM country
+/* third
+comment */

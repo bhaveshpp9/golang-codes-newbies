@@ -1,1 +1,180 @@
 \\ Simple types.— Strings — Substring replacement
+
+
+In Go, replacing substrings within a string can be done using functions from the `strings` package. The `strings.Replace` and `strings.ReplaceAll` functions are commonly used for replacing substrings. Additionally, for more complex replacement logic, you can use the `regexp` package.
+
+### Example: Replacing a Substring Using `strings.Replace`
+
+The `strings.Replace` function allows you to specify the number of occurrences to replace.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "strings"
+)
+
+func main() {
+    // Define the original string
+    original := "Hello, World! World!"
+
+    // Define the substring to replace and the replacement string
+    oldSubstring := "World"
+    newSubstring := "Go"
+
+    // Replace the first occurrence of the substring
+    result := strings.Replace(original, oldSubstring, newSubstring, 1)
+
+    // Print the original and resulting strings
+    fmt.Printf("Original string: '%s'\n", original)
+    fmt.Printf("Replaced string: '%s'\n", result)
+}
+```
+
+### Explanation
+
+1. **Import the `strings` Package**:
+   - The `strings` package provides the `Replace` function for replacing substrings.
+
+2. **Define the Original String and Substring**:
+   - We define an original string `original` with the value "Hello, World! World!".
+   - We define the substring to replace `oldSubstring` with the value "World".
+   - We define the replacement string `newSubstring` with the value "Go".
+
+3. **Replace the First Occurrence of the Substring**:
+   - We use `strings.Replace(original, oldSubstring, newSubstring, 1)` to replace the first occurrence of `oldSubstring` with `newSubstring`. The `1` argument specifies that only the first occurrence should be replaced.
+
+4. **Print the Original and Resulting Strings**:
+   - We print the original string and the resulting string using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Original string: 'Hello, World! World!'
+Replaced string: 'Hello, Go! World!'
+```
+
+### Example: Replacing All Occurrences of a Substring Using `strings.ReplaceAll`
+
+The `strings.ReplaceAll` function replaces all occurrences of a substring with a new substring.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "strings"
+)
+
+func main() {
+    // Define the original string
+    original := "Hello, World! World!"
+
+    // Define the substring to replace and the replacement string
+    oldSubstring := "World"
+    newSubstring := "Go"
+
+    // Replace all occurrences of the substring
+    result := strings.ReplaceAll(original, oldSubstring, newSubstring)
+
+    // Print the original and resulting strings
+    fmt.Printf("Original string: '%s'\n", original)
+    fmt.Printf("Replaced string: '%s'\n", result)
+}
+```
+
+### Explanation
+
+1. **Define the Original String and Substring**:
+   - We define an original string `original` with the value "Hello, World! World!".
+   - We define the substring to replace `oldSubstring` with the value "World".
+   - We define the replacement string `newSubstring` with the value "Go".
+
+2. **Replace All Occurrences of the Substring**:
+   - We use `strings.ReplaceAll(original, oldSubstring, newSubstring)` to replace all occurrences of `oldSubstring` with `newSubstring`.
+
+3. **Print the Original and Resulting Strings**:
+   - We print the original string and the resulting string using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Original string: 'Hello, World! World!'
+Replaced string: 'Hello, Go! Go!'
+```
+
+### Example: Replacing Substrings Using Regular Expressions
+
+For more complex replacements, such as replacing substrings based on patterns, you can use the `regexp` package.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "regexp"
+)
+
+func main() {
+    // Define the original string
+    original := "Hello, World! World!"
+
+    // Define the pattern and the replacement string
+    pattern := "W[a-z]+d"
+    replacement := "Go"
+
+    // Compile the regular expression
+    re := regexp.MustCompile(pattern)
+
+    // Replace all matches of the pattern
+    result := re.ReplaceAllString(original, replacement)
+
+    // Print the original and resulting strings
+    fmt.Printf("Original string: '%s'\n", original)
+    fmt.Printf("Replaced string: '%s'\n", result)
+}
+```
+
+### Explanation
+
+1. **Import the `regexp` Package**:
+   - The `regexp` package provides functions for working with regular expressions.
+
+2. **Define the Original String and Pattern**:
+   - We define an original string `original` with the value "Hello, World! World!".
+   - We define a pattern `pattern` with the value `"W[a-z]+d"` which matches any word starting with 'W', followed by one or more lowercase letters, and ending with 'd'.
+
+3. **Compile the Regular Expression**:
+   - We compile the regular expression using `regexp.MustCompile(pattern)`.
+
+4. **Replace All Matches of the Pattern**:
+   - We use `re.ReplaceAllString(original, replacement)` to replace all matches of the pattern with `replacement`.
+
+5. **Print the Original and Resulting Strings**:
+   - We print the original string and the resulting string using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Original string: 'Hello, World! World!'
+Replaced string: 'Hello, Go! Go!'
+```
+
+### Summary
+
+In Go, you can replace substrings within a string using various methods:
+- **`strings.Replace`**: Replace a specified number of occurrences of a substring.
+- **`strings.ReplaceAll`**: Replace all occurrences of a substring.
+- **`regexp` package**: Perform more complex replacements using regular expressions.
+
+These methods provide flexibility and efficiency for substring replacement in your Go programs.

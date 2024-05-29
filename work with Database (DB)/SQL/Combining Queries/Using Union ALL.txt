@@ -1,1 +1,206 @@
 \\ work with database(DB) — SQL — Combining Queries — Using Union ALL
+
+
+Using the `UNION ALL` operator in SQL allows you to combine the results of two or more `SELECT` statements, including all duplicate records. This is different from the `UNION` operator, which removes duplicates. Below are examples of how to use `UNION ALL` to combine queries in different database systems: SQL Server, Access, MySQL, PostgreSQL, SQLite, and Firebird. I'll also demonstrate how to integrate this functionality into a Go application.
+
+### Example: Combining Queries Using `UNION ALL` in SQL
+
+#### SQL Server (MS SQL)
+
+In SQL Server, you can use the `UNION ALL` operator to combine queries.
+
+```sql
+SELECT id, first_name, last_name FROM employees1
+UNION ALL
+SELECT id, first_name, last_name FROM employees2
+ORDER BY last_name, first_name;
+```
+
+#### Microsoft Access
+
+In Microsoft Access, the syntax is similar to SQL Server.
+
+```sql
+SELECT id, first_name, last_name FROM employees1
+UNION ALL
+SELECT id, first_name, last_name FROM employees2
+ORDER BY last_name, first_name;
+```
+
+#### MySQL
+
+In MySQL, you can use `UNION ALL` with an `ORDER BY` clause.
+
+```sql
+SELECT id, first_name, last_name FROM employees1
+UNION ALL
+SELECT id, first_name, last_name FROM employees2
+ORDER BY last_name, first_name;
+```
+
+#### PostgreSQL
+
+In PostgreSQL, the syntax is the same as MySQL.
+
+```sql
+SELECT id, first_name, last_name FROM employees1
+UNION ALL
+SELECT id, first_name, last_name FROM employees2
+ORDER BY last_name, first_name;
+```
+
+#### SQLite
+
+In SQLite, you also use `UNION ALL` with an `ORDER BY` clause.
+
+```sql
+SELECT id, first_name, last_name FROM employees1
+UNION ALL
+SELECT id, first_name, last_name FROM employees2
+ORDER BY last_name, first_name;
+```
+
+#### Firebird
+
+In Firebird, the syntax is similar.
+
+```sql
+SELECT id, first_name, last_name FROM employees1
+UNION ALL
+SELECT id, first_name, last_name FROM employees2
+ORDER BY last_name, first_name;
+```
+
+### Integrating with Go
+
+Let's create a Go application that connects to an SQLite database, combines queries using `UNION ALL`, and prints the sorted results.
+
+#### Step 1: Set Up the SQLite Database
+
+First, create the SQLite database and populate it with some example data.
+
+```sql
+CREATE TABLE employees1 (
+    id INTEGER PRIMARY KEY,
+    first_name TEXT,
+    last_name TEXT
+);
+
+CREATE TABLE employees2 (
+    id INTEGER PRIMARY KEY,
+    first_name TEXT,
+    last_name TEXT
+);
+
+INSERT INTO employees1 (first_name, last_name) VALUES ('Alice', 'Johnson'), ('Bob', 'Smith');
+INSERT INTO employees2 (first_name, last_name) VALUES ('Charlie', 'Brown'), ('David', 'Wilson');
+```
+
+#### Step 2: Install the SQLite Driver
+
+Install the SQLite driver package using `go get`.
+
+```sh
+go get github.com/mattn/go-sqlite3
+```
+
+#### Step 3: Write the Go Code
+
+Write the Go code to connect to the SQLite database, execute the combined and sorted query, and print the results.
+
+```go
+package main
+
+import (
+    "database/sql"
+    "fmt"
+    _ "github.com/mattn/go-sqlite3" // Import the SQLite driver
+)
+
+// Function to connect to the SQLite database and execute a combined and sorted query
+func connectAndQueryDB(dsn string) error {
+    // Open a connection to the database
+    db, err := sql.Open("sqlite3", dsn)
+    if err != nil {
+        return fmt.Errorf("failed to connect to database: %w", err)
+    }
+    defer db.Close()
+
+    // Test the database connection
+    err = db.Ping()
+    if err != nil {
+        return fmt.Errorf("failed to ping database: %w", err)
+    }
+
+    // Execute a combined and sorted query
+    query := `
+    SELECT id, first_name, last_name FROM employees1
+    UNION ALL
+    SELECT id, first_name, last_name FROM employees2
+    ORDER BY last_name, first_name;
+    `
+    rows, err := db.Query(query)
+    if err != nil {
+        return fmt.Errorf("failed to execute query: %w", err)
+    }
+    defer rows.Close()
+
+    // Print the retrieved data
+    fmt.Println("Data retrieved from the database:")
+    for rows.Next() {
+        var id int
+        var firstName, lastName string
+        err := rows.Scan(&id, &firstName, &lastName)
+        if err != nil {
+            return fmt.Errorf("failed to scan row: %w", err)
+        }
+        fmt.Printf("ID: %d, First Name: %s, Last Name: %s\n", id, firstName, lastName)
+    }
+
+    // Check for errors after iterating through the rows
+    if err := rows.Err(); err != nil {
+        return fmt.Errorf("error iterating through rows: %w", err)
+    }
+
+    return nil
+}
+
+func main() {
+    // Data Source Name (DSN) for the SQLite database
+    dsn := "employees.db"
+
+    // Connect to the database and execute the query
+    err := connectAndQueryDB(dsn)
+    if err != nil {
+        fmt.Printf("Error: %v\n", err)
+    }
+}
+```
+
+### Explanation
+
+1. **Set Up the SQLite Database**:
+   - Create two tables, `employees1` and `employees2`, and insert sample data.
+
+2. **Install the SQLite Driver**:
+   - Use `go get` to install the `github.com/mattn/go-sqlite3` package.
+
+3. **Write the Go Code**:
+   - The `connectAndQueryDB` function connects to the SQLite database, executes a combined query with `UNION ALL`, and sorts the results using `ORDER BY`.
+   - The `main` function defines the DSN for the SQLite database and calls the `connectAndQueryDB` function.
+
+### Detailed Output
+
+The program will connect to the SQLite database, execute the combined and sorted SQL query, and print the retrieved data. For example:
+
+```
+Data retrieved from the database:
+ID: 3, First Name: Charlie, Last Name: Brown
+ID: 1, First Name: Alice, Last Name: Johnson
+ID: 2, First Name: Bob, Last Name: Smith
+ID: 4, First Name: David, Last Name: Wilson
+```
+
+### Summary
+
+In Go, you can connect to a SQLite database and execute SQL queries that combine results from multiple tables using the `UNION ALL` operator to include all duplicates. This can be done using the `github.com/mattn/go-sqlite3` package with the `database/sql` package. By defining functions to handle database connections and query execution, you can efficiently manage database operations, retrieve combined data, and present sorted results in your applications. This method is applicable to other databases like SQL Server, MySQL, PostgreSQL, Access, and Firebird by adjusting the connection string and SQL syntax accordingly.

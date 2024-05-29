@@ -1,1 +1,222 @@
 \\ Structures — Methods — without any return value
+
+
+In Go, methods on structures can be defined without returning any values. These methods can perform actions, modify the struct's fields, or carry out other operations that do not need to return a result. This is useful for operations like updating state, printing information, or performing side effects.
+
+### Example: Method Without Return Value
+
+Let's create an example where a method modifies a struct's fields without returning any values. We'll use a `Person` struct and create a method that updates the person's name.
+
+#### Step 1: Define the Struct
+
+First, define a `Person` struct.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define the Person struct
+type Person struct {
+    FirstName string
+    LastName  string
+    Age       int
+}
+```
+
+#### Step 2: Define the Method Without Return Value
+
+Create a method for the `Person` struct that updates the person's name.
+
+```go
+// Method to update the person's name
+func (p *Person) UpdateName(firstName, lastName string) {
+    p.FirstName = firstName
+    p.LastName = lastName
+}
+```
+
+#### Step 3: Use the Method
+
+Finally, use the method in the `main` function.
+
+```go
+func main() {
+    // Create an instance of Person
+    person := Person{
+        FirstName: "John",
+        LastName:  "Doe",
+        Age:       30,
+    }
+
+    // Print initial details
+    fmt.Printf("Initial Details: %+v\n", person)
+
+    // Call the UpdateName method
+    person.UpdateName("Alice", "Smith")
+
+    // Print updated details
+    fmt.Printf("Updated Details: %+v\n", person)
+}
+```
+
+### Explanation
+
+1. **Define the `Person` Struct**:
+   - The `Person` struct has three fields: `FirstName`, `LastName`, and `Age`.
+
+2. **Define the `UpdateName` Method**:
+   - The `UpdateName` method is defined on the `Person` struct. It takes two parameters (`firstName` and `lastName`) and updates the corresponding fields in the `Person` struct.
+
+3. **Use the Method**:
+   - In `main`, an instance of the `Person` struct is created and initialized.
+   - The `UpdateName` method is called to modify the `FirstName` and `LastName` fields.
+   - The initial and updated details of the `Person` struct are printed to demonstrate the changes.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Initial Details: {FirstName:John LastName:Doe Age:30}
+Updated Details: {FirstName:Alice LastName:Smith Age:30}
+```
+
+### Example: Method Without Return Value to Perform an Action
+
+Let's create a `Logger` struct with a method that logs a message without returning any values.
+
+#### Step 1: Define the Struct
+
+First, define a `Logger` struct.
+
+```go
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+// Define the Logger struct
+type Logger struct{}
+```
+
+#### Step 2: Define the Method Without Return Value
+
+Create a method for the `Logger` struct that logs a message with a timestamp.
+
+```go
+// Method to log a message with a timestamp
+func (l Logger) LogMessage(message string) {
+    timestamp := time.Now().Format(time.RFC3339)
+    fmt.Printf("[%s] %s\n", timestamp, message)
+}
+```
+
+#### Step 3: Use the Method
+
+Finally, use the method in the `main` function.
+
+```go
+func main() {
+    // Create an instance of Logger
+    logger := Logger{}
+
+    // Call the LogMessage method
+    logger.LogMessage("This is a log message.")
+}
+```
+
+### Explanation
+
+1. **Define the `Logger` Struct**:
+   - The `Logger` struct is defined as an empty struct.
+
+2. **Define the `LogMessage` Method**:
+   - The `LogMessage` method is defined on the `Logger` struct. It takes one parameter (`message`) and logs the message with a timestamp. The method does not return any values.
+
+3. **Use the Method**:
+   - In `main`, an instance of the `Logger` struct is created.
+   - The `LogMessage` method is called to log a message with the current timestamp.
+
+### Detailed Output
+
+The output of the above code will look like this (the exact timestamp will vary):
+```
+[2024-05-26T12:34:56Z] This is a log message.
+```
+
+### Example: Method Without Return Value to Increment a Counter
+
+Let's create a `Counter` struct with a method that increments a counter without returning any values.
+
+#### Step 1: Define the Struct
+
+First, define a `Counter` struct.
+
+```go
+// Define the Counter struct
+type Counter struct {
+    Value int
+}
+```
+
+#### Step 2: Define the Method Without Return Value
+
+Create a method for the `Counter` struct that increments the counter.
+
+```go
+// Method to increment the counter
+func (c *Counter) Increment() {
+    c.Value++
+}
+```
+
+#### Step 3: Use the Method
+
+Finally, use the method in the `main` function.
+
+```go
+func main() {
+    // Create an instance of Counter
+    counter := Counter{
+        Value: 0,
+    }
+
+    // Print initial counter value
+    fmt.Printf("Initial Counter Value: %d\n", counter.Value)
+
+    // Call the Increment method
+    counter.Increment()
+
+    // Print updated counter value
+    fmt.Printf("Updated Counter Value: %d\n", counter.Value)
+}
+```
+
+### Explanation
+
+1. **Define the `Counter` Struct**:
+   - The `Counter` struct has one field: `Value`.
+
+2. **Define the `Increment` Method**:
+   - The `Increment` method is defined on the `Counter` struct. It increments the `Value` field by 1.
+
+3. **Use the Method**:
+   - In `main`, an instance of the `Counter` struct is created and initialized.
+   - The `Increment` method is called to increment the `Value` field.
+   - The initial and updated counter values are printed to demonstrate the change.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Initial Counter Value: 0
+Updated Counter Value: 1
+```
+
+### Summary
+
+In Go, methods on structures can be defined without returning any values. These methods can perform actions, modify the struct's fields, or carry out other operations that do not need to return a result. By defining methods without return values, you can encapsulate behavior within your structs and perform various operations that are intrinsic to the struct. This approach helps keep your code organized and promotes encapsulation and code reuse.

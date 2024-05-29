@@ -1,1 +1,230 @@
 \\ Structures — Properties — Computed properties
+
+
+In Go, structures don't have properties in the same way that some object-oriented languages like C# or Swift do. However, you can achieve similar functionality by using methods to compute and return values based on the struct's fields. These methods can be thought of as "computed properties."
+
+### Example: Computed Properties Using Methods
+
+Let's create an example using a `Rectangle` struct. We'll add methods to compute the area and perimeter of the rectangle, which serve as computed properties.
+
+#### Step 1: Define the Struct
+
+First, define the `Rectangle` struct.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define the Rectangle struct
+type Rectangle struct {
+    Width  float64
+    Height float64
+}
+```
+
+#### Step 2: Define Methods as Computed Properties
+
+Create methods for the `Rectangle` struct that compute the area and perimeter.
+
+```go
+// Method to compute the area of the rectangle
+func (r Rectangle) Area() float64 {
+    return r.Width * r.Height
+}
+
+// Method to compute the perimeter of the rectangle
+func (r Rectangle) Perimeter() float64 {
+    return 2 * (r.Width + r.Height)
+}
+```
+
+#### Step 3: Use the Methods
+
+Finally, use the methods in the `main` function.
+
+```go
+func main() {
+    // Create an instance of Rectangle
+    rect := Rectangle{
+        Width:  10.5,
+        Height: 5.5,
+    }
+
+    // Call the Area and Perimeter methods
+    area := rect.Area()
+    perimeter := rect.Perimeter()
+
+    // Print the results
+    fmt.Printf("Area: %.2f\n", area)
+    fmt.Printf("Perimeter: %.2f\n", perimeter)
+}
+```
+
+### Explanation
+
+1. **Define the `Rectangle` Struct**:
+   - The `Rectangle` struct has two fields: `Width` and `Height`.
+
+2. **Define the `Area` and `Perimeter` Methods**:
+   - The `Area` method computes and returns the area of the rectangle by multiplying the `Width` and `Height`.
+   - The `Perimeter` method computes and returns the perimeter of the rectangle by summing the lengths of all sides.
+
+3. **Use the Methods**:
+   - In `main`, an instance of the `Rectangle` struct is created and initialized.
+   - The `Area` and `Perimeter` methods are called to compute the area and perimeter, respectively.
+   - The results are printed.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Area: 57.75
+Perimeter: 32.00
+```
+
+### Example: Computed Properties with Conditional Logic
+
+Let's create a `Person` struct with a method that computes a property based on some conditional logic. For example, we'll compute whether the person is an adult.
+
+#### Step 1: Define the Struct
+
+First, define the `Person` struct.
+
+```go
+// Define the Person struct
+type Person struct {
+    FirstName string
+    LastName  string
+    Age       int
+}
+```
+
+#### Step 2: Define Methods as Computed Properties
+
+Create a method for the `Person` struct that computes whether the person is an adult.
+
+```go
+// Method to check if the person is an adult
+func (p Person) IsAdult() bool {
+    return p.Age >= 18
+}
+```
+
+#### Step 3: Use the Methods
+
+Finally, use the method in the `main` function.
+
+```go
+func main() {
+    // Create an instance of Person
+    person := Person{
+        FirstName: "Alice",
+        LastName:  "Johnson",
+        Age:       20,
+    }
+
+    // Call the IsAdult method
+    isAdult := person.IsAdult()
+
+    // Print the result
+    fmt.Printf("Is Adult: %t\n", isAdult)
+}
+```
+
+### Explanation
+
+1. **Define the `Person` Struct**:
+   - The `Person` struct has three fields: `FirstName`, `LastName`, and `Age`.
+
+2. **Define the `IsAdult` Method**:
+   - The `IsAdult` method checks if the `Age` is 18 or older and returns `true` if the person is an adult, otherwise `false`.
+
+3. **Use the Method**:
+   - In `main`, an instance of the `Person` struct is created and initialized.
+   - The `IsAdult` method is called to determine if the person is an adult.
+   - The result is printed.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Is Adult: true
+```
+
+### Example: Computed Properties with More Complex Logic
+
+Let's create a `Book` struct with a method that computes the availability status based on some complex logic.
+
+#### Step 1: Define the Struct
+
+First, define the `Book` struct.
+
+```go
+// Define the Book struct
+type Book struct {
+    Title        string
+    Author       string
+    TotalCopies  int
+    CopiesOnLoan int
+}
+```
+
+#### Step 2: Define Methods as Computed Properties
+
+Create a method for the `Book` struct that computes the availability status.
+
+```go
+// Method to check if the book is available
+func (b Book) IsAvailable() bool {
+    return b.TotalCopies > b.CopiesOnLoan
+}
+```
+
+#### Step 3: Use the Methods
+
+Finally, use the method in the `main` function.
+
+```go
+func main() {
+    // Create an instance of Book
+    book := Book{
+        Title:        "Go Programming",
+        Author:       "John Doe",
+        TotalCopies:  5,
+        CopiesOnLoan: 2,
+    }
+
+    // Call the IsAvailable method
+    isAvailable := book.IsAvailable()
+
+    // Print the result
+    fmt.Printf("Is Available: %t\n", isAvailable)
+}
+```
+
+### Explanation
+
+1. **Define the `Book` Struct**:
+   - The `Book` struct has four fields: `Title`, `Author`, `TotalCopies`, and `CopiesOnLoan`.
+
+2. **Define the `IsAvailable` Method**:
+   - The `IsAvailable` method checks if the `TotalCopies` is greater than `CopiesOnLoan` and returns `true` if the book is available, otherwise `false`.
+
+3. **Use the Method**:
+   - In `main`, an instance of the `Book` struct is created and initialized.
+   - The `IsAvailable` method is called to determine if the book is available.
+   - The result is printed.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Is Available: true
+```
+
+### Summary
+
+In Go, you can achieve computed properties by defining methods on structs that compute and return values based on the struct's fields. These methods encapsulate the logic for computing properties and provide a clean and intuitive way to access derived values. By using methods as computed properties, you can keep your code organized and maintainable, while leveraging Go's struct and method capabilities.

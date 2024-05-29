@@ -1,1 +1,81 @@
 \\ Regular expressions — check match whole string
+
+To check if a regular expression matches an entire string in Go, you need to ensure that your pattern matches from the start to the end of the string. This is typically done by using the `^` anchor at the beginning and the `$` anchor at the end of the pattern.
+
+### Example: Check if a String Matches an Entire Pattern
+
+Let's create an example where we use regular expressions to check if a string matches a specific pattern entirely.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "regexp"
+)
+
+func main() {
+    // Define the pattern to match the entire string
+    pattern := `^[a-zA-Z0-9_]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$`
+
+    // Compile the regular expression
+    re, err := regexp.Compile(pattern)
+    if err != nil {
+        fmt.Println("Error compiling regex:", err)
+        return
+    }
+
+    // Define test strings
+    testStrings := []string{
+        "test@example.com",
+        "invalid-email",
+        "user@domain.co",
+        "another.test@domain.com",
+        "partial@example",
+    }
+
+    // Check if each string matches the entire pattern
+    for _, str := range testStrings {
+        if re.MatchString(str) {
+            fmt.Printf("The string '%s' matches the entire pattern.\n", str)
+        } else {
+            fmt.Printf("The string '%s' does not match the entire pattern.\n", str)
+        }
+    }
+}
+```
+
+### Explanation
+
+1. **Pattern Definition**: We define a regex pattern to match an email format completely:
+   - `^`: The start of the string.
+   - `[a-zA-Z0-9_]+`: One or more alphanumeric characters or underscores.
+   - `@`: The `@` symbol.
+   - `[a-zA-Z0-9]+`: One or more alphanumeric characters.
+   - `\.`: A literal dot.
+   - `[a-zA-Z]{2,}$`: Two or more alphabetic characters until the end of the string.
+2. **Compile**: We compile the regex pattern using `regexp.Compile`. This returns a `Regexp` object, or an error if the pattern is invalid.
+3. **Test Strings**: We define a slice of test strings to check against the pattern.
+4. **MatchString**: We use the `MatchString` method to check if each test string matches the entire compiled pattern. If it matches, we print a message indicating the match; otherwise, we print a message indicating no match.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+The string 'test@example.com' matches the entire pattern.
+The string 'invalid-email' does not match the entire pattern.
+The string 'user@domain.co' matches the entire pattern.
+The string 'another.test@domain.com' matches the entire pattern.
+The string 'partial@example' does not match the entire pattern.
+```
+
+### Notes on Matching Entire Strings
+
+- **Anchors**: The `^` anchor matches the start of the string, and the `$` anchor matches the end of the string. Using both ensures that the pattern matches the entire string.
+- **Character Classes**: Character classes like `[a-zA-Z0-9_]` match any single character within the brackets.
+- **Quantifiers**: Quantifiers like `+`, `*`, and `{2,}` specify how many times the preceding element should be matched.
+- **Literal Characters**: Special characters like `.` need to be escaped with a backslash (`\`) to be treated as literals in the pattern.
+
+By ensuring your pattern matches from the start to the end of the string, you can accurately determine if the entire string conforms to the specified format. This method is essential for validating inputs such as email addresses, URLs, and other formatted data.

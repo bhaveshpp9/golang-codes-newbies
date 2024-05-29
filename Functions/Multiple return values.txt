@@ -1,1 +1,163 @@
 \\ Functions — Multiple return values
+
+In Go, functions can return multiple values, a feature that allows for more flexible and concise code. This is particularly useful for functions that need to return more than one result, such as a result along with an error indicator.
+
+### Example: Basic Multiple Return Values
+
+Here's a simple example of a function that returns two integers:
+
+```go
+package main
+
+import "fmt"
+
+// addAndMultiply returns the sum and product of two integers
+func addAndMultiply(a, b int) (int, int) {
+    sum := a + b
+    product := a * b
+    return sum, product
+}
+
+func main() {
+    sum, product := addAndMultiply(3, 4)
+    fmt.Printf("Sum: %d, Product: %d\n", sum, product)
+}
+```
+
+### Explanation
+
+1. **Defining the Function:**
+   ```go
+   func addAndMultiply(a, b int) (int, int) {
+       sum := a + b
+       product := a * b
+       return sum, product
+   }
+   ```
+   The `addAndMultiply` function takes two integers as arguments and returns two integers: their sum and their product.
+
+2. **Calling the Function:**
+   ```go
+   func main() {
+       sum, product := addAndMultiply(3, 4)
+       fmt.Printf("Sum: %d, Product: %d\n", sum, product)
+   }
+   ```
+   In the `main` function, `addAndMultiply` is called with the arguments `3` and `4`. The returned values are assigned to `sum` and `product`, which are then printed.
+
+### Example: Returning a Result and an Error
+
+One of the most common uses of multiple return values in Go is to return a result along with an error. This pattern is used extensively in the standard library.
+
+```go
+package main
+
+import (
+    "errors"
+    "fmt"
+)
+
+// divide returns the result of division and an error if the division is not possible
+func divide(a, b float64) (float64, error) {
+    if b == 0 {
+        return 0, errors.New("division by zero")
+    }
+    return a / b, nil
+}
+
+func main() {
+    result, err := divide(10, 2)
+    if err != nil {
+        fmt.Println("Error:", err)
+    } else {
+        fmt.Println("Result:", result)
+    }
+
+    result, err = divide(10, 0)
+    if err != nil {
+        fmt.Println("Error:", err)
+    } else {
+        fmt.Println("Result:", result)
+    }
+}
+```
+
+### Explanation
+
+1. **Defining the Function:**
+   ```go
+   func divide(a, b float64) (float64, error) {
+       if b == 0 {
+           return 0, errors.New("division by zero")
+       }
+       return a / b, nil
+   }
+   ```
+   The `divide` function takes two `float64` arguments and returns a `float64` result and an `error`. If the divisor `b` is zero, the function returns an error indicating division by zero.
+
+2. **Calling the Function:**
+   ```go
+   func main() {
+       result, err := divide(10, 2)
+       if err != nil {
+           fmt.Println("Error:", err)
+       } else {
+           fmt.Println("Result:", result)
+       }
+
+       result, err = divide(10, 0)
+       if err != nil {
+           fmt.Println("Error:", err)
+       } else {
+           fmt.Println("Result:", result)
+       }
+   }
+   ```
+   The `main` function calls `divide` with different arguments. If an error is returned, it is printed; otherwise, the result is printed.
+
+### Example: Named Return Values
+
+Go also supports named return values, which can make the code more readable by providing names to the return values and allowing you to use a bare return statement.
+
+```go
+package main
+
+import "fmt"
+
+// calculate returns the sum and product of two integers using named return values
+func calculate(a, b int) (sum int, product int) {
+    sum = a + b
+    product = a * b
+    return
+}
+
+func main() {
+    sum, product := calculate(3, 4)
+    fmt.Printf("Sum: %d, Product: %d\n", sum, product)
+}
+```
+
+### Explanation
+
+1. **Defining the Function with Named Return Values:**
+   ```go
+   func calculate(a, b int) (sum int, product int) {
+       sum = a + b
+       product = a * b
+       return
+   }
+   ```
+   The `calculate` function uses named return values `sum` and `product`. The function assigns values to these names and uses a bare `return` statement to return the values.
+
+2. **Calling the Function:**
+   ```go
+   func main() {
+       sum, product := calculate(3, 4)
+       fmt.Printf("Sum: %d, Product: %d\n", sum, product)
+   }
+   ```
+   The `main` function calls `calculate` and prints the returned values.
+
+### Conclusion
+
+Go's ability to return multiple values from a function provides a powerful and flexible way to handle functions that need to return more than one result. This feature is especially useful for returning results along with error indicators, and it promotes clear and idiomatic error handling in Go programs. Using named return values can also improve code readability and make functions more intuitive.

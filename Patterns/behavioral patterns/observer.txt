@@ -1,1 +1,157 @@
 \\ Patterns — Behavioural patterns — observer
+
+The Observer pattern is a behavioral design pattern that defines a one-to-many relationship between objects. When the state of one object (the subject) changes, all its dependent objects (observers) are notified and updated automatically. This pattern is useful for implementing distributed event-handling systems.
+
+### Key Components
+
+1. **Subject Interface**: Declares methods to attach, detach, and notify observers.
+2. **Concrete Subject**: Implements the subject interface and maintains the state that triggers notifications to observers.
+3. **Observer Interface**: Declares the update method used by the subject to notify observers.
+4. **Concrete Observer**: Implements the observer interface and updates its state in response to notifications from the subject.
+
+### Example: Weather Station
+
+Let's create an example where a weather station (subject) notifies various displays (observers) about temperature changes.
+
+#### Subject Interface
+
+```go
+package main
+
+// Subject interface declares methods to attach, detach, and notify observers
+type Subject interface {
+    RegisterObserver(observer Observer)
+    RemoveObserver(observer Observer)
+    NotifyObservers()
+}
+```
+
+#### Concrete Subject
+
+```go
+package main
+
+// WeatherStation is a Concrete Subject
+type WeatherStation struct {
+    observers []Observer
+    temperature float64
+}
+
+func NewWeatherStation() *WeatherStation {
+    return &WeatherStation{}
+}
+
+func (ws *WeatherStation) RegisterObserver(observer Observer) {
+    ws.observers = append(ws.observers, observer)
+}
+
+func (ws *WeatherStation) RemoveObserver(observer Observer) {
+    for i, obs := range ws.observers {
+        if obs == observer {
+            ws.observers = append(ws.observers[:i], ws.observers[i+1:]...)
+            break
+        }
+    }
+}
+
+func (ws *WeatherStation) NotifyObservers() {
+    for _, observer := range ws.observers {
+        observer.Update(ws.temperature)
+    }
+}
+
+func (ws *WeatherStation) SetTemperature(temp float64) {
+    ws.temperature = temp
+    ws.NotifyObservers()
+}
+```
+
+#### Observer Interface
+
+```go
+package main
+
+// Observer interface declares the update method
+type Observer interface {
+    Update(temperature float64)
+}
+```
+
+#### Concrete Observers
+
+```go
+package main
+
+import "fmt"
+
+// TemperatureDisplay is a Concrete Observer
+type TemperatureDisplay struct {
+    station *WeatherStation
+}
+
+func NewTemperatureDisplay(station *WeatherStation) *TemperatureDisplay {
+    return &TemperatureDisplay{station: station}
+}
+
+func (d *TemperatureDisplay) Update(temperature float64) {
+    fmt.Printf("Temperature Display: Current temperature is %.2f\n", temperature)
+}
+
+// Another display example, e.g., StatisticsDisplay
+type StatisticsDisplay struct {
+    station *WeatherStation
+}
+
+func NewStatisticsDisplay(station *WeatherStation) *StatisticsDisplay {
+    return &StatisticsDisplay{station: station}
+}
+
+func (d *StatisticsDisplay) Update(temperature float64) {
+    // In a real example, you would keep track of temperature statistics
+    fmt.Printf("Statistics Display: Temperature updated to %.2f\n", temperature)
+}
+```
+
+#### Client
+
+```go
+package main
+
+func main() {
+    weatherStation := NewWeatherStation()
+
+    tempDisplay := NewTemperatureDisplay(weatherStation)
+    statsDisplay := NewStatisticsDisplay(weatherStation)
+
+    weatherStation.RegisterObserver(tempDisplay)
+    weatherStation.RegisterObserver(statsDisplay)
+
+    weatherStation.SetTemperature(25.3)
+    weatherStation.SetTemperature(27.8)
+}
+```
+
+### Explanation
+
+1. **Subject Interface**: The `Subject` interface declares methods for managing observers (`RegisterObserver`, `RemoveObserver`, and `NotifyObservers`).
+2. **Concrete Subject**: The `WeatherStation` struct implements the `Subject` interface.
+   - It maintains a list of observers and the current temperature.
+   - `SetTemperature` updates the temperature and notifies all observers.
+3. **Observer Interface**: The `Observer` interface declares the `Update` method that takes the temperature as an argument.
+4. **Concrete Observers**:
+   - `TemperatureDisplay` and `StatisticsDisplay` structs implement the `Observer` interface.
+   - These observers update their state when notified by the subject.
+5. **Client**: The client code creates a `WeatherStation` instance, registers observers, and updates the temperature, triggering notifications to the observers.
+
+### Advantages
+
+- **Loose Coupling**: Observers and subjects are loosely coupled. Observers can be added or removed independently of the subject.
+- **Dynamic Relationships**: Observers can be added, removed, or changed at runtime.
+- **Broadcast Communication**: A single update from the subject can notify multiple observers.
+
+### Disadvantages
+
+- **Memory Leaks**: If observers are not correctly removed, it can lead to memory leaks.
+- **Unexpected Updates**: Observers can be updated unexpectedly, which can lead to performance issues if not managed properly.
+
+By implementing the Observer pattern, you can create a flexible and reusable system where changes in one object automatically propagate to dependent objects, maintaining consistency and responsiveness in your applications.

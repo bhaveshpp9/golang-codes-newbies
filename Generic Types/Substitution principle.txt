@@ -1,1 +1,207 @@
 \\ Generic Types — Substitution principle
+
+
+The substitution principle, also known as the Liskov Substitution Principle (LSP), is a concept from object-oriented programming that states that objects of a superclass should be replaceable with objects of a subclass without affecting the correctness of the program. In the context of generics in Go, this principle can be applied to ensure that types satisfying an interface can be substituted in generic functions and types.
+
+In Go, we achieve this by defining generic types and functions that are constrained by interfaces. Any type that satisfies the interface can be used in place of the generic type parameter, adhering to the substitution principle.
+
+### Example: Substitution Principle with Generics
+
+Let's illustrate this with an example where we have a generic function that operates on an interface, and we can substitute any type that implements the interface.
+
+#### Example: Shape Interface and Generic Function
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+// Shape is an interface that requires an Area method
+type Shape interface {
+	Area() float64
+}
+
+// Circle is a type that implements Shape
+type Circle struct {
+	Radius float64
+}
+
+// Area calculates the area of the circle
+func (c Circle) Area() float64 {
+	return 3.14 * c.Radius * c.Radius
+}
+
+// Rectangle is a type that implements Shape
+type Rectangle struct {
+	Width, Height float64
+}
+
+// Area calculates the area of the rectangle
+func (r Rectangle) Area() float64 {
+	return r.Width * r.Height
+}
+
+// PrintArea prints the area of any shape that conforms to the Shape interface
+func PrintArea[T Shape](shape T) {
+	fmt.Printf("Area: %.2f\n", shape.Area())
+}
+
+func main() {
+	circle := Circle{Radius: 5}
+	rectangle := Rectangle{Width: 3, Height: 4}
+
+	PrintArea(circle)      // Circle conforms to Shape
+	PrintArea(rectangle)   // Rectangle conforms to Shape
+}
+```
+
+### Explanation
+
+1. **Defining the Interface:**
+   ```go
+   type Shape interface {
+       Area() float64
+   }
+   ```
+   The `Shape` interface requires an `Area` method that returns a `float64`.
+
+2. **Implementing the Interface:**
+   ```go
+   type Circle struct {
+       Radius float64
+   }
+
+   func (c Circle) Area() float64 {
+       return 3.14 * c.Radius * c.Radius
+   }
+
+   type Rectangle struct {
+       Width, Height float64
+   }
+
+   func (r Rectangle) Area() float64 {
+       return r.Width * r.Height
+   }
+   ```
+   The `Circle` and `Rectangle` types implement the `Shape` interface by providing an `Area` method.
+
+3. **Creating a Generic Function with an Interface Constraint:**
+   ```go
+   func PrintArea[T Shape](shape T) {
+       fmt.Printf("Area: %.2f\n", shape.Area())
+   }
+   ```
+   The `PrintArea` function is generic and constrained to types that implement the `Shape` interface. It calls the `Area` method on the `shape` parameter.
+
+4. **Using the Generic Function:**
+   ```go
+   func main() {
+       circle := Circle{Radius: 5}
+       rectangle := Rectangle{Width: 3, Height: 4}
+
+       PrintArea(circle)      // Circle conforms to Shape
+       PrintArea(rectangle)   // Rectangle conforms to Shape
+   }
+   ```
+   The `main` function demonstrates calling `PrintArea` with both `Circle` and `Rectangle` instances, which conform to the `Shape` interface. 
+
+This example adheres to the substitution principle: the generic function `PrintArea` can accept any type that implements the `Shape` interface, ensuring that `Circle` and `Rectangle` can be used interchangeably.
+
+### Extending the Example: More Shapes
+
+Let's add another shape, `Triangle`, to demonstrate further substitution.
+
+#### Adding Triangle
+
+```go
+package main
+
+import (
+	"fmt"
+	"math"
+)
+
+// Shape is an interface that requires an Area method
+type Shape interface {
+	Area() float64
+}
+
+// Circle is a type that implements Shape
+type Circle struct {
+	Radius float64
+}
+
+// Area calculates the area of the circle
+func (c Circle) Area() float64 {
+	return 3.14 * c.Radius * c.Radius
+}
+
+// Rectangle is a type that implements Shape
+type Rectangle struct {
+	Width, Height float64
+}
+
+// Area calculates the area of the rectangle
+func (r Rectangle) Area() float64 {
+	return r.Width * r.Height
+}
+
+// Triangle is a type that implements Shape
+type Triangle struct {
+	Base, Height float64
+}
+
+// Area calculates the area of the triangle
+func (t Triangle) Area() float64 {
+	return 0.5 * t.Base * t.Height
+}
+
+// PrintArea prints the area of any shape that conforms to the Shape interface
+func PrintArea[T Shape](shape T) {
+	fmt.Printf("Area: %.2f\n", shape.Area())
+}
+
+func main() {
+	circle := Circle{Radius: 5}
+	rectangle := Rectangle{Width: 3, Height: 4}
+	triangle := Triangle{Base: 4, Height: 5}
+
+	PrintArea(circle)      // Circle conforms to Shape
+	PrintArea(rectangle)   // Rectangle conforms to Shape
+	PrintArea(triangle)    // Triangle conforms to Shape
+}
+```
+
+### Explanation
+
+1. **Adding the Triangle Type:**
+   ```go
+   type Triangle struct {
+       Base, Height float64
+   }
+
+   func (t Triangle) Area() float64 {
+       return 0.5 * t.Base * t.Height
+   }
+   ```
+   The `Triangle` type implements the `Shape` interface by providing an `Area` method.
+
+2. **Using the Generic Function with Triangle:**
+   ```go
+   func main() {
+       circle := Circle{Radius: 5}
+       rectangle := Rectangle{Width: 3, Height: 4}
+       triangle := Triangle{Base: 4, Height: 5}
+
+       PrintArea(circle)      // Circle conforms to Shape
+       PrintArea(rectangle)   // Rectangle conforms to Shape
+       PrintArea(triangle)    // Triangle conforms to Shape
+   }
+   ```
+   The `main` function demonstrates calling `PrintArea` with the `Triangle` instance, which also conforms to the `Shape` interface.
+
+### Conclusion
+
+By defining generic types and functions that are constrained by interfaces, you can apply the substitution principle in Go. This ensures that any type that satisfies the interface can be used interchangeably, providing both flexibility and type safety in your code. The examples above demonstrate how to define and use generic types and functions with interface constraints, adhering to the substitution principle and showcasing the power and versatility of generics in Go.

@@ -1,1 +1,117 @@
 \\ Patterns — structural patterns — proxy
+
+The Proxy pattern is a structural design pattern that provides a surrogate or placeholder for another object to control access to it. The Proxy pattern can be used for various purposes, such as lazy initialization, access control, logging, and remote object representation.
+
+### Key Components
+
+1. **Subject Interface**: Declares the common interface for RealSubject and Proxy.
+2. **RealSubject**: The actual object that the proxy represents.
+3. **Proxy**: Controls access to the RealSubject. It can add additional behavior before or after forwarding requests to the RealSubject.
+
+### Example: Remote Proxy for a Database
+
+Let's create an example where we have a database that we want to control access to using a proxy. The proxy will handle logging access to the database and ensuring that the database connection is only created when needed (lazy initialization).
+
+#### Subject Interface
+
+```go
+package main
+
+// Database is the subject interface
+type Database interface {
+    Query(query string) string
+}
+```
+
+#### RealSubject
+
+```go
+package main
+
+import "fmt"
+
+// RealDatabase is the real subject that the proxy represents
+type RealDatabase struct{}
+
+func (db *RealDatabase) Query(query string) string {
+    // Simulate a real database query
+    return fmt.Sprintf("Executing query: %s", query)
+}
+```
+
+#### Proxy
+
+```go
+package main
+
+import (
+    "fmt"
+    "sync"
+)
+
+// DatabaseProxy is the proxy that controls access to the RealDatabase
+type DatabaseProxy struct {
+    realDatabase *RealDatabase
+    mu           sync.Mutex
+}
+
+func (proxy *DatabaseProxy) Query(query string) string {
+    proxy.mu.Lock()
+    defer proxy.mu.Unlock()
+
+    // Lazy initialization: create the real database connection when needed
+    if proxy.realDatabase == nil {
+        fmt.Println("Creating real database connection...")
+        proxy.realDatabase = &RealDatabase{}
+    }
+
+    // Log the query
+    fmt.Println("Logging query:", query)
+
+    // Forward the query to the real database
+    return proxy.realDatabase.Query(query)
+}
+```
+
+#### Client
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    var db Database = &DatabaseProxy{}
+
+    // Use the proxy to query the database
+    result := db.Query("SELECT * FROM users")
+    fmt.Println(result)
+
+    result = db.Query("INSERT INTO users (name) VALUES ('John')")
+    fmt.Println(result)
+}
+```
+
+### Explanation
+
+1. **Subject Interface**: The `Database` interface declares the `Query` method that both the `RealDatabase` and `DatabaseProxy` will implement.
+2. **RealSubject**: The `RealDatabase` struct implements the `Database` interface and provides the actual database query functionality.
+3. **Proxy**:
+   - The `DatabaseProxy` struct implements the `Database` interface and controls access to the `RealDatabase`.
+   - It uses a mutex (`mu`) to ensure thread-safe access.
+   - It performs lazy initialization by creating the `RealDatabase` instance only when it's first needed.
+   - It adds logging functionality by printing the query before forwarding it to the `RealDatabase`.
+4. **Client**: The client code uses the `Database` interface to query the database through the `DatabaseProxy`. The proxy handles the actual access to the `RealDatabase`.
+
+### Advantages
+
+- **Controlled Access**: The proxy controls access to the real subject, which can add additional behavior such as access control, logging, or lazy initialization.
+- **Separation of Concerns**: The proxy separates the additional functionality from the main business logic of the real subject.
+- **Lazy Initialization**: The proxy can delay the creation and initialization of the real subject until it is needed, improving performance and resource usage.
+
+### Disadvantages
+
+- **Overhead**: The proxy can add additional overhead due to the extra layer of indirection.
+- **Complexity**: Introducing a proxy adds complexity to the code, as you now have an additional class to maintain.
+
+By using the Proxy pattern, you can control access to an object and add additional behavior without modifying the real subject. This pattern is particularly useful in scenarios where you need to manage access to a resource, implement lazy initialization, or add logging or security checks.

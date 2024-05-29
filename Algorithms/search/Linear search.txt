@@ -1,1 +1,45 @@
 \\ Algorithms — Search — Linear search
+
+
+Certainly! A linear search, also known as sequential search, is one of the simplest searching algorithms. It scans each element of a list in sequence to find a match with the target value. If the element is found, it returns the index of the element. If it reaches the end of the list without finding the element, it returns -1.
+
+Here’s how you might implement a basic linear search in Go:
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+// linearSearch function searches for a target value within a slice and returns the index of the target if found.
+// If the target is not found, it returns -1.
+func linearSearch(data []int, target int) int {
+	for index, value := range data {
+		if value == target {
+			return index
+		}
+	}
+	return -1
+}
+
+func main() {
+	data := []int{3, 10, 18, 20, 34, 42, 55, 58, 60, 75}
+	target := 55
+	result := linearSearch(data, target)
+
+	if result != -1 {
+		fmt.Printf("Element %d found at index %d\n", target, result)
+	} else {
+		fmt.Println("Element not found")
+	}
+}
+```
+
+### Explanation
+- **Function Definition**: The `linearSearch` function takes a slice of integers `data` and the `target` integer we're looking for.
+- **Iteration**: The function uses a `for` loop with `range` to iterate through each element in the slice. `range` returns both the index and the value of each element as the loop iterates.
+- **Condition Check**: Inside the loop, it checks if the current `value` from the slice equals the `target`. If they match, it returns the current `index`.
+- **Return Not Found**: If the loop completes and no match is found, the function returns `-1`, indicating the target is not in the slice.
+
+This example demonstrates a straightforward implementation of a linear search in Go. It's easy to understand and implement but is not the most efficient method for large datasets as it has a linear time complexity, \(O(n)\). If efficiency becomes a concern or if you need to search through more complex data structures, alternative search methods or optimizations may be required.

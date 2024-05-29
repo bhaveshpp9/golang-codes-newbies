@@ -1,1 +1,80 @@
 \\ Arrays and collections — Sets — treeset
+
+
+In Go, there is no built-in TreeSet implementation like there is in some other languages such as Java. A `TreeSet` is typically a set that is backed by a tree structure, often a Red-Black tree, which keeps its elements sorted according to their natural ordering or a specified comparator. To implement a TreeSet in Go, you'd need to use an external library or implement your own mechanism to keep elements ordered.
+
+One common approach in Go for ordered collections is to use a combination of a slice to maintain order and a map to manage uniqueness and allow for fast lookups, insertions, and deletions. For a more robust and tree-based implementation, you might consider using a third-party package like `github.com/emirpasic/gods` which provides various data structures including trees.
+
+Here's an example of how you might simulate a TreeSet in Go using a slice for ordering and a map for fast access, though it's not backed by a tree and does not have the same performance characteristics:
+
+### Basic TreeSet Implementation Using a Slice and a Map
+
+```go
+package main
+
+import (
+    "fmt"
+    "sort"
+)
+
+// TreeSet struct simulates a TreeSet using a slice and a map
+type TreeSet struct {
+    elementsMap map[int]struct{}
+    elementsSlice []int
+}
+
+// NewTreeSet creates a new TreeSet
+func NewTreeSet() *TreeSet {
+    return &TreeSet{
+        elementsMap: make(map[int]struct{}),
+        elementsSlice: []int{},
+    }
+}
+
+// Add inserts a new element if it isn't already present
+func (ts *TreeSet) Add(element int) bool {
+    if _, exists := ts.elementsMap[element]; !exists {
+        ts.elementsMap[element] = struct{}{}
+        ts.elementsSlice = append(ts.elementsSlice, element)
+        sort.Ints(ts.elementsSlice) // Keep the slice sorted
+        return true
+    }
+    return false
+}
+
+// Remove deletes an element if it exists
+func (ts *TreeSet) Remove(element int) bool {
+    if _, exists := ts.elementsMap[element]; exists {
+        delete(ts.elementsMap, element)
+        index := sort.SearchInts(ts.elementsSlice, element)
+        ts.elementsSlice = append(ts.elementsSlice[:index], ts.elementsSlice[index+1:]...)
+        return true
+    }
+    return false
+}
+
+// Contains checks if an element exists in the TreeSet
+func (ts *TreeSet) Contains(element int) bool {
+    _, exists := ts.elementsMap[element]
+    return exists
+}
+
+func main() {
+    ts := NewTreeSet()
+    ts.Add(10)
+    ts.Add(5)
+    ts.Add(20)
+    ts.Remove(5)
+    ts.Add(5)
+
+    fmt.Println("TreeSet Elements:", ts.elementsSlice)
+}
+
+```
+
+### Explanation:
+- **TreeSet Structure**: Combines a map for uniqueness and fast lookup and a slice to maintain order.
+- **Add and Remove**: When adding or removing elements, both the map and slice are updated to ensure the set remains ordered and consistent.
+- **Performance Considerations**: Using `sort.Ints()` during each addition ensures elements are sorted but isn't as efficient as a tree-based implementation which maintains order with lower overhead for insertions and deletions.
+
+For actual tree-based set implementations in Go that maintain order with more efficiency than sorting a slice every time you add an element, consider using a specialized library like [GoDS (Go Data Structures)](https://github.com/emirpasic/gods). Libraries like GoDS offer Red-Black tree implementations and other complex data structures that can be used directly to create a TreeSet-like behavior.

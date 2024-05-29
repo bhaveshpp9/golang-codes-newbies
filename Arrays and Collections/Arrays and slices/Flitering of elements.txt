@@ -1,1 +1,84 @@
 \\ Arrays and collections —  Arrays and Slices — Filtering of elements
+
+
+Filtering elements from a slice in Go requires you to manually implement the logic to iterate through the slice and selectively keep elements that satisfy a specific condition. This is a common task in many programming scenarios, such as processing collections of data or user inputs.
+
+Here’s how to filter slices in Go based on a condition, exemplified with both numeric and string data types.
+
+### Example 1: Filtering Integers
+
+Let's filter a slice of integers to only include numbers that are greater than a specified threshold.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// filterGreaterThan filters and returns elements greater than a threshold.
+func filterGreaterThan(numbers []int, threshold int) []int {
+    var filtered []int
+    for _, num := range numbers {
+        if num > threshold {
+            filtered = append(filtered, num)
+        }
+    }
+    return filtered
+}
+
+func main() {
+    numbers := []int{1, 22, 3, 14, 5, 60, 7, 8}
+    threshold := 10
+
+    result := filterGreaterThan(numbers, threshold)
+    fmt.Println("Filtered numbers:", result)
+}
+```
+
+### Explanation:
+- **Function `filterGreaterThan`**: This function iterates over the given slice of integers and appends only those that are greater than the provided threshold to a new slice.
+- **Appending to Slices**: The `append` function is used to add an element to the slice `filtered`, which grows dynamically as needed.
+
+### Example 2: Filtering Strings
+
+Suppose you want to filter a slice of strings to only include strings that contain a certain substring.
+
+```go
+package main
+
+import (
+    "fmt"
+    "strings"
+)
+
+// filterContains filters and returns elements that contain a specified substring.
+func filterContains(words []string, substring string) []string {
+    var filtered []string
+    for _, word := range words {
+        if strings.Contains(word, substring) {
+            filtered = append(filtered, word)
+        }
+    }
+    return filtered
+}
+
+func main() {
+    words := []string{"apple", "banana", "grape", "mango", "apricot"}
+    substring := "ap"
+
+    result := filterContains(words, substring)
+    fmt.Println("Filtered words:", result)
+}
+```
+
+### Explanation:
+- **Function `filterContains`**: This function checks if each string in the slice contains the specified substring using `strings.Contains`.
+- **String Filtering**: Only strings containing the substring are added to the new `filtered` slice.
+
+### General Tips for Filtering in Go:
+1. **Memory Efficiency**: If you are aware of the expected number of elements after filtering, you can preallocate the slice with that capacity using `make` to improve memory efficiency.
+2. **Reusability**: Writing filtering logic as a separate function enhances reusability and keeps your code organized.
+3. **Generic Filtering with Interfaces**: With the introduction of generics in Go 1.18, you can write more abstract and reusable filtering functions that operate on any data type.
+
+These examples provide a clear pattern for filtering slices based on specific criteria, a common requirement in data processing and manipulation tasks in Go programming.

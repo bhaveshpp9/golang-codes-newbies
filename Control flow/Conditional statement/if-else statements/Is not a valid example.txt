@@ -1,0 +1,51 @@
+\\ Control flow — Conditional Statements — if/else statements -- is not a valid example
+
+
+I see! If you're asking for a simpler or more specific example of using `if/else` statements that involve a different kind of condition, perhaps focusing on checking invalid conditions, let's create a scenario where we evaluate user input for its validity. This might involve checking if a given value is not in a list of allowed values, a common task in input validation.
+
+### Scenario
+Imagine we're writing a function that processes user input for a command in a simple application. The valid commands are "start", "stop", and "pause". Any other command should be considered invalid.
+
+### Go Code Example
+```go
+package main
+
+import "fmt"
+
+// function to validate command
+func validateCommand(command string) string {
+    // list of valid commands
+    validCommands := []string{"start", "stop", "pause"}
+
+    // check if the input command is not valid
+    isValid := false
+    for _, validCommand := range validCommands {
+        if command == validCommand {
+            isValid = true
+            break
+        }
+    }
+
+    if !isValid {
+        return "Invalid command"
+    } else {
+        return "Valid command: " + command
+    }
+}
+
+func main() {
+    // testing the function with different commands
+    testCommands := []string{"start", "stop", "exit", "pause", "resume"}
+    for _, command := range testCommands {
+        result := validateCommand(command)
+        fmt.Println(result)
+    }
+}
+```
+
+### Explanation
+1. **validateCommand Function**: This function checks if the provided `command` is in a list of `validCommands`. It uses a loop to compare the input with each valid command.
+2. **Validation Check**: If the command does not match any valid option, `isValid` remains `false`, and we return "Invalid command". Otherwise, we confirm the command is valid.
+3. **Main Function**: We test the validation function with an array of sample commands, demonstrating how some are recognized as valid and others as invalid.
+
+This example employs an `if/else` statement to handle an "is not" condition implicitly by checking if a boolean flag remains `false`. This is a typical approach in Go for managing validations where you might have multiple correct inputs and need to confirm whether the given input is among them. Hope this hits the mark! 🎯💡

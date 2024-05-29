@@ -1,1 +1,65 @@
 \\ Algorithms — Sorting — Counting sort
+
+
+Counting sort is an efficient sorting algorithm that operates with integer keys. It counts the number of occurrences of each distinct key and uses this information to place each key directly into its correct position in the output array. Counting sort is not a comparison-based sorting algorithm and has a linear time complexity \(O(n + k)\), where \(n\) is the number of elements in the input array and \(k\) is the range of the input.
+
+Here’s how you might implement Counting sort in Go, assuming the numbers are non-negative:
+
+```go
+
+
+package main
+
+import (
+	"fmt"
+)
+
+// countingSort sorts an array of non-negative integers.
+func countingSort(data []int) []int {
+	if len(data) == 0 {
+		return data
+	}
+
+	// Find the maximum value to determine the size of the count slice
+	max := data[0]
+	for _, value := range data {
+		if value > max {
+			max = value
+		}
+	}
+
+	// Create a slice to count each element's frequency
+	count := make([]int, max+1)
+
+	// Store the count of each element
+	for _, value := range data {
+		count[value]++
+	}
+
+	// Build the output array using the count slice
+	index := 0
+	for num, cnt := range count {
+		for i := 0; i < cnt; i++ {
+			data[index] = num
+			index++
+		}
+	}
+
+	return data
+}
+
+func main() {
+	data := []int{4, 2, 2, 8, 3, 3, 1}
+	fmt.Println("Original array:", data)
+	sortedData := countingSort(data)
+	fmt.Println("Sorted array:", sortedData)
+}
+```
+
+### Explanation:
+- **Finding the Maximum Value**: First, the function identifies the maximum value in the input array to determine the size of the counting array.
+- **Counting Occurrences**: A counting array is initialized based on the maximum value. Each index in this array represents a value from the input array, and its content represents the count of occurrences.
+- **Constructing the Output**: The algorithm iterates through the counting array, reconstructing the sorted array by appending each number according to its count.
+- **In-place Sorting**: The sorted data replaces the original input in the same array to save space. However, you can easily modify it to return a new sorted array instead, depending on your use case.
+
+This implementation of counting sort assumes that the input consists of non-negative integers. If you need to sort negative numbers or other types of data, the algorithm would need adjustments to handle such cases properly. Counting sort is extremely efficient for sorting large datasets with a limited range of integer keys, but it's not suitable for datasets with large, diverse ranges or non-integer keys without significant modifications.

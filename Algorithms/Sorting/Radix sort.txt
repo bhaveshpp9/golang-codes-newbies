@@ -1,1 +1,81 @@
 \\ Algorithms — Sorting — Radix sort
+
+
+Radix sort is a non-comparative integer sorting algorithm that sorts data with integer keys by grouping the keys by individual digits which share the same significant position and value. It processes integer digits from least significant to most significant. Radix sort uses counting sort as a subroutine to sort the digits. Because it uses counting sort to process digits, it is stable and can handle larger integers efficiently if the range of digits is not too large.
+
+Here’s how you might implement radix sort in Go for sorting positive integers:
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+// getMax finds the maximum value in an array
+func getMax(data []int) int {
+	max := data[0]
+	for _, value := range data {
+		if value > max {
+			max = value
+		}
+	}
+	return max
+}
+
+// countingSortByDigit sorts the array based on the digit represented by exp (10^i)
+func countingSortByDigit(data []int, exp int) {
+	n := len(data)
+	output := make([]int, n) // output array that will have sorted numbers
+	count := make([]int, 10) // count array to store count of occurrences of digits
+
+	// Store count of occurrences in count[]
+	for i := 0; i < n; i++ {
+		index := (data[i] / exp) % 10
+		count[index]++
+	}
+
+	// Change count so that it now contains actual position of this digit in output[]
+	for i := 1; i < 10; i++ {
+		count[i] += count[i-1]
+	}
+
+	// Build the output array
+	for i := n - 1; i >= 0; i-- {
+		index := (data[i] / exp) % 10
+		output[count[index]-1] = data[i]
+		count[index]--
+	}
+
+	// Copy the output array to data[], so that data now contains sorted numbers
+	for i := 0; i < n; i++ {
+		data[i] = output[i]
+	}
+}
+
+// radixSort sorts the input array using Radix Sort
+func radixSort(data []int) {
+	// Find the maximum number to know the number of digits
+	m := getMax(data)
+
+	// Do counting sort for every digit. The exp is 10^i where i is the current digit number
+	for exp := 1; m/exp > 0; exp *= 10 {
+		countingSortByDigit(data, exp)
+	}
+}
+
+func main() {
+	data := []int{170, 45, 75, 90, 802, 24, 2, 66}
+	fmt.Println("Original array:", data)
+	radixSort(data)
+	fmt.Println("Sorted array:", data)
+}
+```
+
+### Explanation:
+- **getMax**: This function is used to find the maximum value in the array, which determines the number of digits we need to sort by.
+- **countingSortByDigit**: A modified counting sort that sorts the elements based on the digit represented by `exp`. `exp` is effectively \(10^i\) where \(i\) is the position of the digit being considered, starting from the least significant digit.
+- **Radix Sort Process**: The `radixSort` function works by applying the counting sort subroutine to each digit. Starting with the least significant digit, it sorts all the numbers and progressively moves towards the most significant digit.
+- **Stability**: The stability of the counting sort subroutine ensures that earlier sorts of lesser significant digits are preserved, making radix sort stable.
+
+Radix sort's complexity is \(O(nk)\), where \(n\) is the number of elements and \(k\) is the number of digits in the maximum number. It's particularly efficient when \(k\) (the number of digits) is not significantly larger than \(n\).

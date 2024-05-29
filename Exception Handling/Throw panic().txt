@@ -1,1 +1,155 @@
 \\ Exceptions Handling — Throw panic()
+
+
+In Go, exceptions are handled differently compared to many other programming languages. Instead of using traditional exception handling mechanisms, Go employs the `panic` and `recover` functions for handling errors and exceptional situations. The `panic` function is used to halt the normal execution of a program and initiate a state of emergency.
+
+### Using `panic`
+
+The `panic` function is called when an unrecoverable error occurs. When a function calls `panic`, it stops execution and begins to unwind the stack, running any deferred functions before the program crashes. This can be useful for handling unexpected situations that the program cannot recover from.
+
+### Example of Using `panic`
+
+Here's a basic example of how to use `panic` in Go:
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	fmt.Println("Starting the program")
+
+	// Calling a function that panics
+	causePanic()
+
+	fmt.Println("This will not be printed")
+}
+
+func causePanic() {
+	fmt.Println("About to panic!")
+	panic("Something went wrong")
+}
+```
+
+### Explanation
+
+1. **Calling `panic`:**
+   ```go
+   panic("Something went wrong")
+   ```
+   This line triggers a panic with the message "Something went wrong". The program will stop executing at this point and start unwinding the stack.
+
+2. **Unwinding the Stack:**
+   When `panic` is called, the program prints the message, starts running deferred functions (if any), and then terminates the program.
+
+### Using `recover`
+
+The `recover` function is used to regain control of a panicking goroutine. `recover` can only be called from within a deferred function. If a call to `recover` is successful, it stops the panic and returns the value that was passed to `panic`.
+
+### Example of Using `panic` and `recover`
+
+Here’s an example demonstrating both `panic` and `recover`:
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	fmt.Println("Starting the program")
+
+	// Calling a function that panics, but recover from it
+	safeFunction()
+
+	fmt.Println("Program continues execution")
+}
+
+func safeFunction() {
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("Recovered from panic:", r)
+		}
+	}()
+
+	fmt.Println("About to panic!")
+	panic("Something went wrong")
+	fmt.Println("This will not be printed")
+}
+```
+
+### Explanation
+
+1. **Deferring a `recover` Function:**
+   ```go
+   defer func() {
+       if r := recover(); r != nil {
+           fmt.Println("Recovered from panic:", r)
+       }
+   }()
+   ```
+   This deferred function will execute when the surrounding function (`safeFunction`) returns, either normally or because of a panic. If there is a panic, `recover` will catch it and the program will continue.
+
+2. **Panic and Recovery:**
+   ```go
+   panic("Something went wrong")
+   ```
+   When `panic` is called, it triggers the deferred function which calls `recover`. If `recover` is successful, the program prints "Recovered from panic: Something went wrong" and continues execution.
+
+### Practical Use Case
+
+Using `panic` and `recover` can be useful in situations where you need to handle unexpected errors and ensure that certain clean-up actions are performed. For example, it can be used in web servers to recover from panics in handler functions, preventing the entire server from crashing.
+
+### Example in a Web Server
+
+Here's an example of using `panic` and `recover` in a web server context:
+
+```go
+package main
+
+import (
+	"fmt"
+	"net/http"
+)
+
+func main() {
+	http.HandleFunc("/", safeHandler)
+	http.ListenAndServe(":8080", nil)
+}
+
+func safeHandler(w http.ResponseWriter, r *http.Request) {
+	defer func() {
+		if err := recover(); err != nil {
+			http.Error(w, fmt.Sprintf("Internal Server Error: %v", err), http.StatusInternalServerError)
+		}
+	}()
+
+	// Simulate a panic
+	panic("Unexpected error occurred!")
+}
+```
+
+### Explanation
+
+1. **Deferred `recover`:**
+   ```go
+   defer func() {
+       if err := recover(); err != nil {
+           http.Error(w, fmt.Sprintf("Internal Server Error: %v", err), http.StatusInternalServerError)
+       }
+   }()
+   ```
+   This ensures that if a panic occurs in the handler, the server responds with a 500 Internal Server Error instead of crashing.
+
+2. **Simulated Panic:**
+   ```go
+   panic("Unexpected error occurred!")
+   ```
+   This simulates an unexpected error. The deferred function catches the panic and responds with an appropriate error message.
+
+### Conclusion
+
+Using `panic` and `recover` in Go allows for handling exceptional situations and ensuring that clean-up operations are performed. However, `panic` should be used sparingly and typically only in situations where the program cannot continue to operate normally. Proper error handling using Go's error type is generally preferred for managing expected error conditions.

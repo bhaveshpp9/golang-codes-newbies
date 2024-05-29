@@ -1,1 +1,198 @@
 \\ Generic Types — Generic Methods
+
+In Go, generic methods allow you to define methods on types that are parameterized with one or more type parameters. This enables you to create methods that can operate on a variety of types while maintaining type safety. Let's explore how to define and use generic methods in Go.
+
+### Example: Generic Methods
+
+We'll create a generic type `Container` and define a generic method on it.
+
+#### Defining a Generic Type with Generic Methods
+
+```go
+package main
+
+import "fmt"
+
+// Container is a generic type that holds a value of any type
+type Container[T any] struct {
+	value T
+}
+
+// SetValue sets the value of the container
+func (c *Container[T]) SetValue(val T) {
+	c.value = val
+}
+
+// GetValue returns the value of the container
+func (c *Container[T]) GetValue() T {
+	return c.value
+}
+
+// NewContainer creates a new Container with the given value
+func NewContainer[T any](val T) *Container[T] {
+	return &Container[T]{value: val}
+}
+
+func main() {
+	// Create a container for an integer
+	intContainer := NewContainer(42)
+	fmt.Printf("Integer Container Value: %d\n", intContainer.GetValue())
+
+	intContainer.SetValue(100)
+	fmt.Printf("Updated Integer Container Value: %d\n", intContainer.GetValue())
+
+	// Create a container for a string
+	strContainer := NewContainer("Hello, Go!")
+	fmt.Printf("String Container Value: %s\n", strContainer.GetValue())
+
+	strContainer.SetValue("Generics are great!")
+	fmt.Printf("Updated String Container Value: %s\n", strContainer.GetValue())
+}
+```
+
+### Explanation
+
+1. **Defining the Generic Type:**
+   ```go
+   type Container[T any] struct {
+       value T
+   }
+   ```
+   The `Container` type is defined with a type parameter `T`, which can be any type. The `value` field holds a value of type `T`.
+
+2. **Defining Generic Methods:**
+   ```go
+   func (c *Container[T]) SetValue(val T) {
+       c.value = val
+   }
+
+   func (c *Container[T]) GetValue() T {
+       return c.value
+   }
+   ```
+   The `SetValue` and `GetValue` methods are defined on the `Container` type. These methods can operate on the type `T` specified when the `Container` instance is created.
+
+3. **Creating a New Container:**
+   ```go
+   func NewContainer[T any](val T) *Container[T] {
+       return &Container[T]{value: val}
+   }
+   ```
+   The `NewContainer` function creates and returns a new `Container` instance initialized with the given value.
+
+4. **Using the Generic Type and Methods:**
+   ```go
+   func main() {
+       // Create a container for an integer
+       intContainer := NewContainer(42)
+       fmt.Printf("Integer Container Value: %d\n", intContainer.GetValue())
+
+       intContainer.SetValue(100)
+       fmt.Printf("Updated Integer Container Value: %d\n", intContainer.GetValue())
+
+       // Create a container for a string
+       strContainer := NewContainer("Hello, Go!")
+       fmt.Printf("String Container Value: %s\n", strContainer.GetValue())
+
+       strContainer.SetValue("Generics are great!")
+       fmt.Printf("Updated String Container Value: %s\n", strContainer.GetValue())
+   }
+   ```
+   The `main` function demonstrates creating `Container` instances for both integers and strings. The generic methods `SetValue` and `GetValue` are used to manipulate and retrieve the values stored in the containers.
+
+### Example: Generic Methods with Constraints
+
+You can also define constraints on the type parameters of your generic methods to restrict the types that can be used. Here's an example using a constraint to ensure that the type implements the `fmt.Stringer` interface.
+
+#### Defining a Generic Method with a Constraint
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+// Printable is a constraint that requires the type to implement fmt.Stringer
+type Printable interface {
+	fmt.Stringer
+}
+
+// Printer is a generic type that prints values of any type that implements fmt.Stringer
+type Printer[T Printable] struct {
+	value T
+}
+
+// Print prints the value using its String method
+func (p *Printer[T]) Print() {
+	fmt.Println(p.value.String())
+}
+
+// NewPrinter creates a new Printer with the given value
+func NewPrinter[T Printable](val T) *Printer[T] {
+	return &Printer[T]{value: val}
+}
+
+// CustomString type that implements fmt.Stringer
+type CustomString string
+
+func (cs CustomString) String() string {
+	return string(cs)
+}
+
+func main() {
+	cs := CustomString("Hello, Go Generics!")
+	printer := NewPrinter(cs)
+	printer.Print()
+}
+```
+
+### Explanation
+
+1. **Defining the Constraint:**
+   ```go
+   type Printable interface {
+       fmt.Stringer
+   }
+   ```
+   The `Printable` interface requires that a type implements the `fmt.Stringer` interface.
+
+2. **Defining the Generic Type and Method with Constraint:**
+   ```go
+   type Printer[T Printable] struct {
+       value T
+   }
+
+   func (p *Printer[T]) Print() {
+       fmt.Println(p.value.String())
+   }
+   ```
+   The `Printer` type is defined with a type parameter `T` that must satisfy the `Printable` constraint. The `Print` method calls the `String` method on the value of type `T`.
+
+3. **Creating a New Printer:**
+   ```go
+   func NewPrinter[T Printable](val T) *Printer[T] {
+       return &Printer[T]{value: val}
+   }
+   ```
+   The `NewPrinter` function creates and returns a new `Printer` instance initialized with the given value.
+
+4. **Using the Generic Type and Method with a Custom Type:**
+   ```go
+   type CustomString string
+
+   func (cs CustomString) String() string {
+       return string(cs)
+   }
+
+   func main() {
+       cs := CustomString("Hello, Go Generics!")
+       printer := NewPrinter(cs)
+       printer.Print()
+   }
+   ```
+   The `CustomString` type implements the `fmt.Stringer` interface, and the `main` function demonstrates creating a `Printer` instance for `CustomString` and calling the `Print` method.
+
+### Conclusion
+
+Generic methods in Go provide a powerful way to write reusable and type-safe code. By using type parameters and constraints, you can create flexible methods that operate on a variety of types while maintaining type safety and adhering to specific type requirements. This allows you to build more robust and maintainable code.

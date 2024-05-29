@@ -1,1 +1,22 @@
 \\ work with database(DB) — SQL — Data Manipulation Functions — Text Manipulation — UPPER() Function
+
+
+SELECT
+    Name, 
+    UPPER(Name) AS NameUpperCase
+    -- or ucase()
+FROM country
+
+Name	NameUpperCase
+Aruba	ARUBA
+Afghanistan	AFGHANISTAN
+Angola	ANGOLA
+Anguilla	ANGUILLA
+Albania	ALBANIA
+Andorra	ANDORRA
+Netherlands Antilles	NETHERLANDS ANTILLES
+United Arab Emirates	UNITED ARAB EMIRATES
+Argentina	ARGENTINA
+...
+
+UPPER() converts text to upper case

@@ -1,1 +1,116 @@
 \\ Patterns — Behavioural patterns — interpreter
+
+
+The Interpreter pattern is a behavioral design pattern that defines a grammar for a language and uses this representation to interpret sentences in the language. This pattern is often used to design a component that interprets sentences in a language defined by a formal grammar.
+
+### Key Components
+
+1. **Abstract Expression**: Declares an interface for interpreting the context.
+2. **Terminal Expression**: Implements an interpretation operation for terminal symbols in the grammar.
+3. **Non-Terminal Expression**: Implements an interpretation operation for non-terminal symbols in the grammar.
+4. **Context**: Contains information that is global to the interpreter.
+
+### Example: Simple Arithmetic Interpreter
+
+Let's create an example where we interpret simple arithmetic expressions consisting of addition and subtraction.
+
+#### Abstract Expression
+
+```go
+package main
+
+// Expression interface declares the Interpret method
+type Expression interface {
+    Interpret() int
+}
+```
+
+#### Terminal Expression
+
+```go
+package main
+
+// Number is a Terminal Expression
+type Number struct {
+    value int
+}
+
+func (n *Number) Interpret() int {
+    return n.value
+}
+```
+
+#### Non-Terminal Expression
+
+```go
+package main
+
+// Addition is a Non-Terminal Expression
+type Addition struct {
+    left, right Expression
+}
+
+func (a *Addition) Interpret() int {
+    return a.left.Interpret() + a.right.Interpret()
+}
+
+// Subtraction is a Non-Terminal Expression
+type Subtraction struct {
+    left, right Expression
+}
+
+func (s *Subtraction) Interpret() int {
+    return s.left.Interpret() - s.right.Interpret()
+}
+```
+
+#### Context
+
+In this simple example, we don't need a separate context class, but typically, a context would contain global information needed during interpretation.
+
+#### Client
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    // Construct the expression tree: (5 + 3) - (2 + 1)
+    expression := &Subtraction{
+        left: &Addition{
+            left:  &Number{value: 5},
+            right: &Number{value: 3},
+        },
+        right: &Addition{
+            left:  &Number{value: 2},
+            right: &Number{value: 1},
+        },
+    }
+
+    // Interpret the expression
+    result := expression.Interpret()
+    fmt.Println("Result:", result) // Output: Result: 5
+}
+```
+
+### Explanation
+
+1. **Expression Interface**: The `Expression` interface declares the `Interpret` method.
+2. **Terminal Expression**: The `Number` struct implements the `Expression` interface and represents terminal symbols (numbers) in the grammar.
+3. **Non-Terminal Expressions**:
+   - `Addition` and `Subtraction` structs implement the `Expression` interface and represent non-terminal symbols (addition and subtraction operations) in the grammar.
+   - These structs hold references to other `Expression` objects, forming an expression tree.
+4. **Client**: The client code constructs an expression tree for the arithmetic expression `(5 + 3) - (2 + 1)` and interprets it using the `Interpret` method, producing the result `5`.
+
+### Advantages
+
+- **Flexibility**: You can easily change and extend the grammar.
+- **Separation of Concerns**: The grammar and the interpretation logic are separated from other parts of the system.
+
+### Disadvantages
+
+- **Complexity**: The pattern can lead to a large number of classes, especially for complex grammars.
+- **Performance**: Interpreting complex expressions can be less efficient compared to more direct approaches.
+
+By implementing the Interpreter pattern, you can define and process a grammar for a language in a flexible and extensible way. This pattern is particularly useful in scenarios involving the interpretation of expressions, commands, or other structured text.

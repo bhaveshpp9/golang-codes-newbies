@@ -1,1 +1,122 @@
 \\ Simple types.— Numbers — double and float — converting to integer
+
+In Go, you can convert floating-point numbers (`float32` and `float64`) to integers (`int`, `int32`, `int64`, etc.) using type conversion. This conversion will truncate the decimal part of the floating-point number, essentially rounding towards zero.
+
+### Example: Converting `float32` and `float64` to Integer
+
+Here’s an example demonstrating how to convert `float32` and `float64` numbers to various integer types.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Define float32 and float64 numbers
+    var float32Num float32 = 12345.6789
+    var float64Num float64 = 12345.67890123456789
+
+    // Convert float32 to int
+    intFromFloat32 := int(float32Num)
+    fmt.Printf("float32: %.4f -> int: %d\n", float32Num, intFromFloat32)
+
+    // Convert float64 to int
+    intFromFloat64 := int(float64Num)
+    fmt.Printf("float64: %.16f -> int: %d\n", float64Num, intFromFloat64)
+
+    // Convert float64 to int32
+    int32FromFloat64 := int32(float64Num)
+    fmt.Printf("float64: %.16f -> int32: %d\n", float64Num, int32FromFloat64)
+
+    // Convert float64 to int64
+    int64FromFloat64 := int64(float64Num)
+    fmt.Printf("float64: %.16f -> int64: %d\n", float64Num, int64FromFloat64)
+}
+```
+
+### Explanation
+
+1. **Define `float32` and `float64` Numbers**:
+   - We define a `float32` variable `float32Num` and a `float64` variable `float64Num`.
+
+2. **Convert `float32` to `int`**:
+   - We use `int(float32Num)` to convert the `float32` number to an `int`.
+   - This truncates the decimal part, effectively rounding towards zero.
+
+3. **Convert `float64` to `int`**:
+   - We use `int(float64Num)` to convert the `float64` number to an `int`.
+   - This also truncates the decimal part.
+
+4. **Convert `float64` to `int32` and `int64`**:
+   - We use `int32(float64Num)` and `int64(float64Num)` to convert the `float64` number to `int32` and `int64` respectively.
+   - These conversions also truncate the decimal part.
+
+5. **Print the Results**:
+   - We print the original floating-point numbers and their corresponding integer representations using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+float32: 12345.6787 -> int: 12345
+float64: 12345.6789012345678900 -> int: 12345
+float64: 12345.6789012345678900 -> int32: 12345
+float64: 12345.6789012345678900 -> int64: 12345
+```
+
+### Handling Special Cases
+
+#### Rounding Instead of Truncating
+
+If you need to round the floating-point number to the nearest integer instead of truncating, you can use the `math.Round` function.
+
+```go
+package main
+
+import (
+    "fmt"
+    "math"
+)
+
+func main() {
+    // Define float32 and float64 numbers
+    var float32Num float32 = 12345.6789
+    var float64Num float64 = 12345.67890123456789
+
+    // Round float32 and convert to int
+    roundedIntFromFloat32 := int(math.Round(float64(float32Num)))
+    fmt.Printf("float32: %.4f -> rounded int: %d\n", float32Num, roundedIntFromFloat32)
+
+    // Round float64 and convert to int
+    roundedIntFromFloat64 := int(math.Round(float64Num))
+    fmt.Printf("float64: %.16f -> rounded int: %d\n", float64Num, roundedIntFromFloat64)
+}
+```
+
+### Explanation
+
+1. **Convert to `float64` and Round**:
+   - We convert the `float32` number to `float64` for compatibility with `math.Round`.
+   - We use `math.Round` to round the floating-point number to the nearest integer.
+
+2. **Convert the Rounded Value to `int`**:
+   - We convert the rounded `float64` value to `int`.
+
+3. **Print the Results**:
+   - We print the original floating-point numbers and their corresponding rounded integer representations.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+float32: 12345.6787 -> rounded int: 12346
+float64: 12345.6789012345678900 -> rounded int: 12346
+```
+
+### Summary
+
+Converting floating-point numbers to integers in Go involves type conversion, which truncates the decimal part. If you need to round the floating-point number instead of truncating, you can use the `math.Round` function. By understanding these conversion techniques, you can effectively handle floating-point to integer conversions in your Go programs.

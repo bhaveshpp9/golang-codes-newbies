@@ -1,1 +1,244 @@
 \\ Structures — Methods —  with return value
+
+
+In Go, methods on structures can have return values, just like any other function. This allows you to encapsulate behavior within your structs and provide computed results or derived values through method calls.
+
+### Example: Method with Return Value
+
+Let's create an example where a method returns a computed value. We'll use a `Rectangle` struct and create a method that returns the area of the rectangle.
+
+#### Step 1: Define the Struct
+
+First, define a `Rectangle` struct.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define the Rectangle struct
+type Rectangle struct {
+    Width  float64
+    Height float64
+}
+```
+
+#### Step 2: Define the Method with Return Value
+
+Create a method for the `Rectangle` struct that returns the area of the rectangle.
+
+```go
+// Method to calculate the area of the rectangle
+func (r Rectangle) Area() float64 {
+    return r.Width * r.Height
+}
+```
+
+#### Step 3: Use the Method
+
+Finally, use the method in the `main` function.
+
+```go
+func main() {
+    // Create an instance of Rectangle
+    rect := Rectangle{
+        Width:  10.5,
+        Height: 5.5,
+    }
+
+    // Call the Area method and capture the return value
+    area := rect.Area()
+
+    // Print the result
+    fmt.Printf("Area: %.2f\n", area)
+}
+```
+
+### Explanation
+
+1. **Define the `Rectangle` Struct**:
+   - The `Rectangle` struct has two fields: `Width` and `Height`.
+
+2. **Define the `Area` Method**:
+   - The `Area` method is defined on the `Rectangle` struct. It calculates and returns the area by multiplying the `Width` and `Height` fields.
+
+3. **Use the Method**:
+   - In `main`, an instance of the `Rectangle` struct is created and initialized.
+   - The `Area` method is called, and its return value is captured in the `area` variable.
+   - The result is printed.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Area: 57.75
+```
+
+### Example: Method with Return Value and Error
+
+Let's create a `Calculator` struct with a method that performs division and returns the result along with an error if the operation is invalid (e.g., division by zero).
+
+#### Step 1: Define the Struct
+
+First, define a `Calculator` struct.
+
+```go
+package main
+
+import (
+    "errors"
+    "fmt"
+)
+
+// Define the Calculator struct
+type Calculator struct{}
+```
+
+#### Step 2: Define the Method with Return Value and Error
+
+Create a method for the `Calculator` struct that performs division and returns the result and an error.
+
+```go
+// Method to divide two numbers
+func (c Calculator) Divide(a, b float64) (float64, error) {
+    if b == 0 {
+        return 0, errors.New("division by zero")
+    }
+    return a / b, nil
+}
+```
+
+#### Step 3: Use the Method
+
+Finally, use the method in the `main` function.
+
+```go
+func main() {
+    // Create an instance of Calculator
+    calc := Calculator{}
+
+    // Perform a valid division
+    result, err := calc.Divide(10, 2)
+    if err != nil {
+        fmt.Println("Error:", err)
+    } else {
+        fmt.Printf("Result: %.2f\n", result)
+    }
+
+    // Perform a division by zero
+    result, err = calc.Divide(10, 0)
+    if err != nil {
+        fmt.Println("Error:", err)
+    } else {
+        fmt.Printf("Result: %.2f\n", result)
+    }
+}
+```
+
+### Explanation
+
+1. **Define the `Calculator` Struct**:
+   - The `Calculator` struct is defined as an empty struct.
+
+2. **Define the `Divide` Method**:
+   - The `Divide` method is defined on the `Calculator` struct. It takes two float64 parameters (`a` and `b`) and returns a float64 result and an error.
+   - If `b` is zero, the method returns an error indicating division by zero.
+
+3. **Use the Method**:
+   - In `main`, an instance of the `Calculator` struct is created.
+   - The `Divide` method is called twice: once with valid parameters and once with a division by zero. The results and errors are handled and printed accordingly.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Result: 5.00
+Error: division by zero
+```
+
+### Example: Method Returning a Struct
+
+Let's create a `Person` struct with a method that returns a new `Person` instance with updated details.
+
+#### Step 1: Define the Struct
+
+First, define a `Person` struct.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define the Person struct
+type Person struct {
+    FirstName string
+    LastName  string
+    Age       int
+}
+```
+
+#### Step 2: Define the Method Returning a Struct
+
+Create a method for the `Person` struct that returns a new `Person` instance with updated details.
+
+```go
+// Method to update the person's details and return a new Person instance
+func (p Person) UpdateDetails(firstName, lastName string, age int) Person {
+    return Person{
+        FirstName: firstName,
+        LastName:  lastName,
+        Age:       age,
+    }
+}
+```
+
+#### Step 3: Use the Method
+
+Finally, use the method in the `main` function.
+
+```go
+func main() {
+    // Create an instance of Person
+    person := Person{
+        FirstName: "John",
+        LastName:  "Doe",
+        Age:       30,
+    }
+
+    // Call the UpdateDetails method and capture the return value
+    updatedPerson := person.UpdateDetails("Alice", "Smith", 25)
+
+    // Print the original and updated person
+    fmt.Printf("Original Person: %+v\n", person)
+    fmt.Printf("Updated Person: %+v\n", updatedPerson)
+}
+```
+
+### Explanation
+
+1. **Define the `Person` Struct**:
+   - The `Person` struct has three fields: `FirstName`, `LastName`, and `Age`.
+
+2. **Define the `UpdateDetails` Method**:
+   - The `UpdateDetails` method is defined on the `Person` struct. It takes three parameters (`firstName`, `lastName`, and `age`) and returns a new `Person` instance with the updated details.
+
+3. **Use the Method**:
+   - In `main`, an instance of the `Person` struct is created and initialized.
+   - The `UpdateDetails` method is called, and its return value (a new `Person` instance) is captured in the `updatedPerson` variable.
+   - The original and updated `Person` instances are printed to demonstrate that a new instance is returned with the updated details.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Original Person: {FirstName:John LastName:Doe Age:30}
+Updated Person: {FirstName:Alice LastName:Smith Age:25}
+```
+
+### Summary
+
+In Go, methods on structures can have return values just like functions. This allows you to encapsulate behavior and provide computed results, error values, or even new instances of structs. By defining methods with return values, you can create flexible and reusable code that adheres to Go's principles of simplicity and composability.

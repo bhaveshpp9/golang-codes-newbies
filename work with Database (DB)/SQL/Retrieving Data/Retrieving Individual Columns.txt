@@ -1,1 +1,19 @@
 \\ work with database(DB) — SQL — Retrieving Data — Retrieving Individual Columns
+
+
+SELECT Name 
+FROM country
+
+Name
+Aruba
+Afghanistan
+Angola
+Anguilla
+Albania
+Andorra
+Netherlands Antilles
+United Arab Emirates
+Argentina
+...
+
+The statement uses the SELECT statement to retrieve a single column called Name from the country table. The desired column name is specified right after the SELECT keyword, and the FROM keyword specifies the name of the table from which to retrieve the data.

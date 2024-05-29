@@ -1,1 +1,146 @@
 \\ Structures — Inheritance — Base class
+
+
+Go doesn't support traditional class-based inheritance as found in object-oriented languages like Java or C++. Instead, Go uses composition to achieve similar behavior. You can embed structs within other structs to reuse fields and methods, simulating inheritance. This approach promotes composition over inheritance, a common idiom in Go programming.
+
+### Example: Simulating Inheritance with Embedding
+
+Let's create a `Person` struct as a base type and an `Employee` struct that embeds `Person`.
+
+#### Step 1: Define the Base Struct
+
+First, define the `Person` struct.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define the Person struct
+type Person struct {
+    FirstName string
+    LastName  string
+    Age       int
+}
+
+// Method for the Person struct
+func (p Person) FullName() string {
+    return p.FirstName + " " + p.LastName
+}
+```
+
+#### Step 2: Define the Composed Struct
+
+Next, define the `Employee` struct that embeds `Person` and adds additional fields and methods.
+
+```go
+// Define the Employee struct with an embedded Person
+type Employee struct {
+    Person
+    EmployeeID int
+    Position   string
+}
+
+// Method for the Employee struct
+func (e Employee) Details() string {
+    return fmt.Sprintf("Name: %s, Position: %s, ID: %d", e.FullName(), e.Position, e.EmployeeID)
+}
+```
+
+#### Step 3: Use the Structs
+
+Finally, use the structs in the `main` function.
+
+```go
+func main() {
+    // Create an Employee instance
+    emp := Employee{
+        Person: Person{
+            FirstName: "Alice",
+            LastName:  "Johnson",
+            Age:       30,
+        },
+        EmployeeID: 1234,
+        Position:   "Software Engineer",
+    }
+
+    // Access fields and methods
+    fmt.Printf("Full Name: %s\n", emp.FullName())
+    fmt.Printf("Details: %s\n", emp.Details())
+}
+```
+
+### Explanation
+
+1. **Define the `Person` Struct**:
+   - The `Person` struct has three fields: `FirstName`, `LastName`, and `Age`.
+   - The `FullName` method returns the full name of the person.
+
+2. **Define the `Employee` Struct**:
+   - The `Employee` struct embeds the `Person` struct and adds `EmployeeID` and `Position` fields.
+   - The `Details` method returns a formatted string containing the employee's details.
+
+3. **Use the Structs**:
+   - In `main`, we create an `Employee` instance, initialize it with values, and call the methods to access and print the fields.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Full Name: Alice Johnson
+Details: Name: Alice Johnson, Position: Software Engineer, ID: 1234
+```
+
+### Example: Extending Base Struct with Additional Methods
+
+You can also add more methods to the base struct and have them available in the composed struct.
+
+#### Step 1: Define Additional Methods for Base Struct
+
+Extend the `Person` struct with additional methods.
+
+```go
+// Method to check if the person is an adult
+func (p Person) IsAdult() bool {
+    return p.Age >= 18
+}
+```
+
+#### Step 2: Use the Additional Methods in the Composed Struct
+
+Use the new method in the `Employee` struct.
+
+```go
+func main() {
+    // Create an Employee instance
+    emp := Employee{
+        Person: Person{
+            FirstName: "Bob",
+            LastName:  "Smith",
+            Age:       25,
+        },
+        EmployeeID: 5678,
+        Position:   "Product Manager",
+    }
+
+    // Access fields and methods
+    fmt.Printf("Full Name: %s\n", emp.FullName())
+    fmt.Printf("Details: %s\n", emp.Details())
+    fmt.Printf("Is Adult: %t\n", emp.IsAdult())
+}
+```
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Full Name: Bob Smith
+Details: Name: Bob Smith, Position: Product Manager, ID: 5678
+Is Adult: true
+```
+
+### Summary
+
+In Go, you can simulate inheritance by embedding structs within other structs. This approach allows you to reuse fields and methods from the embedded struct in the embedding struct, effectively achieving composition over inheritance. By defining methods on the base struct, you can extend functionality and make it available to the composed struct, promoting code reuse and maintainability in your Go programs.

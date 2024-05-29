@@ -1,1 +1,79 @@
 \\ Arrays and collections —  Arrays and Slices — slice with a default value
+
+
+In Go, when you need to initialize a slice with a default value, you typically use the `make` function to create the slice and then manually set each element to the desired default value. Go does not directly provide a built-in way to initialize a slice with a non-zero default value, unlike some other languages. However, you can achieve this with a simple loop.
+
+Here's an example of how to initialize a slice with a specific default value:
+
+### Example: Initializing a Slice with a Default Value
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Length of the slice
+    length := 10
+
+    // Default value for each element
+    defaultValue := 5
+
+    // Create a slice of integers with specified length
+    slice := make([]int, length)
+
+    // Set each element to the default value
+    for i := range slice {
+        slice[i] = defaultValue
+    }
+
+    fmt.Println("Slice with default values:", slice)
+}
+```
+
+### Explanation:
+
+- **Making the Slice**: The `make` function creates a slice of the specified length, filled initially with zeros (the zero value of `int`).
+- **Setting the Default Value**: A loop runs over the slice, setting each element to the specified default value.
+
+### Alternative: Using `copy` for Repetitive Values
+
+If you want to initialize a slice where all elements have the same repetitive value, you can also use a combination of `append` and `copy` to achieve this more efficiently:
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Length of the slice
+    length := 10
+
+    // Default value for each element
+    defaultValue := 5
+
+    // Create a slice with one element set to the default value
+    tempSlice := []int{defaultValue}
+
+    // Create the main slice with the required length
+    slice := make([]int, length)
+
+    // Use copy in a loop to fill the slice efficiently
+    for i := 0; i < length; i += len(tempSlice) {
+        copy(slice[i:], tempSlice)
+    }
+
+    fmt.Println("Slice with default values:", slice)
+}
+```
+
+### Explanation:
+
+- **Temp Slice**: A temporary slice `tempSlice` is created with the default value.
+- **Copy to Fill**: The `copy` function is used to replicate this value across the main slice. This method can be particularly efficient if you're setting up large slices and the temporary slice (`tempSlice`) can be larger than one element to reduce the number of iterations in the loop.
+
+Both of these methods provide effective ways to initialize slices with default values in Go, with the choice of method depending on the specific requirements and preferences for code readability and performance.

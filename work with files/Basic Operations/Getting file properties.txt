@@ -1,1 +1,91 @@
 \\ work with files — Basic Operations — Getting file properties
+
+
+To get file properties in Go, you can use the `os.Stat` function from the `os` package. This function returns a `os.FileInfo` interface, which provides methods to get various properties of the file such as its name, size, permissions, modification time, and whether it is a directory.
+
+### Example: Getting File Properties
+
+Let's create an example where we define a function to get and display properties of a file.
+
+#### Step 1: Import Necessary Packages
+
+First, import the necessary package.
+
+```go
+package main
+
+import (
+    "fmt"
+    "os"
+    "time"
+)
+```
+
+#### Step 2: Define the Function to Get File Properties
+
+Create a function that takes a file path as input and prints the file properties.
+
+```go
+// Function to get and display file properties
+func getFileProperties(filePath string) error {
+    fileInfo, err := os.Stat(filePath)
+    if err != nil {
+        return err
+    }
+
+    fmt.Printf("File Name: %s\n", fileInfo.Name())
+    fmt.Printf("Size: %d bytes\n", fileInfo.Size())
+    fmt.Printf("Permissions: %s\n", fileInfo.Mode())
+    fmt.Printf("Last Modified: %s\n", fileInfo.ModTime().Format(time.RFC3339))
+    fmt.Printf("Is Directory: %t\n", fileInfo.IsDir())
+
+    return nil
+}
+```
+
+#### Step 3: Use the Function
+
+Finally, use the `getFileProperties` function in the `main` function to get and display the properties of a file.
+
+```go
+func main() {
+    // File path to get properties for
+    filePath := "example_file.txt"
+
+    // Get and display the file properties
+    if err := getFileProperties(filePath); err != nil {
+        fmt.Printf("Failed to get file properties: %v\n", err)
+    }
+}
+```
+
+### Explanation
+
+1. **Import Necessary Packages**:
+   - The `os` package is used for file operations.
+   - The `time` package is used to format the modification time.
+
+2. **Define the `getFileProperties` Function**:
+   - The function takes a file path as input.
+   - It uses `os.Stat` to get the file properties.
+   - It prints various properties of the file, including the file name, size, permissions, last modified time, and whether it is a directory.
+
+3. **Use the Function in `main`**:
+   - In `main`, the path for the file is defined.
+   - The `getFileProperties` function is called to get and display the file properties, and the result is printed.
+
+### Detailed Output
+
+The program will get and display the properties of `example_file.txt`. For example:
+
+```
+File Name: example_file.txt
+Size: 1234 bytes
+Permissions: -rw-r--r--
+Last Modified: 2022-10-12T15:04:05Z
+Is Directory: false
+```
+
+### Summary
+
+In Go, you can get file properties using the `os.Stat` function. This function returns a `os.FileInfo` interface, which provides methods to get various properties of the file such as its name, size, permissions, modification time, and whether it is a directory. By defining a function to get and display file properties, you can efficiently manage and inspect files in your applications. This approach is useful for tasks such as logging file information, checking file properties before performing operations, and monitoring files in a system.

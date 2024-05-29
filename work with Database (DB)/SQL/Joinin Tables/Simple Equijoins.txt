@@ -1,1 +1,24 @@
 \\ work with database(DB) — SQL — Joining Table — Simple Equijoins
+
+
+SELECT
+    country.Name,
+    countrylanguage.Language
+FROM country, countrylanguage
+WHERE
+    country.Code = countrylanguage.CountryCode
+
+Name	Language
+Aruba	Dutch
+Aruba	English
+Aruba	Papiamento
+Aruba	Spanish
+Afghanistan	Balochi
+Afghanistan	Dari
+Afghanistan	Pashto
+Afghanistan	Turkmenian
+Afghanistan	Uzbek
+...
+
+SELECT statements has two tables listed in the FROM clause: country and countrylanguage.
+The tables are correctly joined with a WHERE clause, that links them by country code.

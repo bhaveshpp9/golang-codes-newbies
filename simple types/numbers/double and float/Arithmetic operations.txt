@@ -1,1 +1,166 @@
 \\ Simple types.— Numbers — double and float — Arithmetic operations
+
+In Go, you can perform arithmetic operations on floating-point numbers using the built-in types `float32` and `float64`. These types are used to represent single-precision and double-precision floating-point numbers, respectively. The common arithmetic operations include addition, subtraction, multiplication, and division.
+
+### Example: Arithmetic Operations on Floating-Point Numbers
+
+Here’s an example demonstrating how to perform basic arithmetic operations on floating-point numbers in Go.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Define two float64 numbers
+    var a, b float64
+    a = 5.7
+    b = 2.3
+
+    // Addition
+    sum := a + b
+    fmt.Printf("%.2f + %.2f = %.2f\n", a, b, sum)
+
+    // Subtraction
+    difference := a - b
+    fmt.Printf("%.2f - %.2f = %.2f\n", a, b, difference)
+
+    // Multiplication
+    product := a * b
+    fmt.Printf("%.2f * %.2f = %.2f\n", a, b, product)
+
+    // Division
+    quotient := a / b
+    fmt.Printf("%.2f / %.2f = %.2f\n", a, b, quotient)
+
+    // Modulus operation is not directly supported for floating-point numbers in Go
+    // You can use math.Mod from the math package for floating-point modulus
+    remainder := math.Mod(a, b)
+    fmt.Printf("%.2f %% %.2f = %.2f\n", a, b, remainder)
+}
+```
+
+### Explanation
+
+1. **Define Float64 Numbers**:
+   - We define two `float64` variables `a` and `b` with the values `5.7` and `2.3`, respectively.
+
+2. **Addition**:
+   - We perform addition using the `+` operator and store the result in the `sum` variable.
+   - We print the result using `fmt.Printf`.
+
+3. **Subtraction**:
+   - We perform subtraction using the `-` operator and store the result in the `difference` variable.
+   - We print the result using `fmt.Printf`.
+
+4. **Multiplication**:
+   - We perform multiplication using the `*` operator and store the result in the `product` variable.
+   - We print the result using `fmt.Printf`.
+
+5. **Division**:
+   - We perform division using the `/` operator and store the result in the `quotient` variable.
+   - We print the result using `fmt.Printf`.
+
+6. **Modulus**:
+   - The modulus operation is not directly supported for floating-point numbers.
+   - We use `math.Mod` from the `math` package to calculate the remainder and store the result in the `remainder` variable.
+   - We print the result using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+5.70 + 2.30 = 8.00
+5.70 - 2.30 = 3.40
+5.70 * 2.30 = 13.11
+5.70 / 2.30 = 2.48
+5.70 % 2.30 = 1.10
+```
+
+### Working with `float32` and `float64`
+
+Both `float32` and `float64` types can be used for arithmetic operations. The primary difference is the precision and range of values they can represent.
+
+#### Example: Using `float32` and `float64`
+
+```go
+package main
+
+import (
+    "fmt"
+    "math"
+)
+
+func main() {
+    // Define float32 numbers
+    var x, y float32
+    x = 3.5
+    y = 1.2
+
+    // Perform arithmetic operations
+    sum32 := x + y
+    difference32 := x - y
+    product32 := x * y
+    quotient32 := x / y
+    remainder32 := math.Mod(float64(x), float64(y)) // math.Mod only works with float64
+
+    // Print the results for float32
+    fmt.Printf("float32: %.2f + %.2f = %.2f\n", x, y, sum32)
+    fmt.Printf("float32: %.2f - %.2f = %.2f\n", x, y, difference32)
+    fmt.Printf("float32: %.2f * %.2f = %.2f\n", x, y, product32)
+    fmt.Printf("float32: %.2f / %.2f = %.2f\n", x, y, quotient32)
+    fmt.Printf("float32: %.2f %% %.2f = %.2f\n", x, y, float32(remainder32))
+
+    // Define float64 numbers
+    var a, b float64
+    a = 5.7
+    b = 2.3
+
+    // Perform arithmetic operations
+    sum64 := a + b
+    difference64 := a - b
+    product64 := a * b
+    quotient64 := a / b
+    remainder64 := math.Mod(a, b)
+
+    // Print the results for float64
+    fmt.Printf("float64: %.2f + %.2f = %.2f\n", a, b, sum64)
+    fmt.Printf("float64: %.2f - %.2f = %.2f\n", a, b, difference64)
+    fmt.Printf("float64: %.2f * %.2f = %.2f\n", a, b, product64)
+    fmt.Printf("float64: %.2f / %.2f = %.2f\n", a, b, quotient64)
+    fmt.Printf("float64: %.2f %% %.2f = %.2f\n", a, b, remainder64)
+}
+```
+
+### Explanation
+
+- **Using `float32`**:
+  - We perform the same arithmetic operations on `float32` numbers and print the results.
+  - Note that for the modulus operation, `math.Mod` only works with `float64`, so we need to convert `float32` to `float64` before using `math.Mod`.
+
+- **Using `float64`**:
+  - We perform the same arithmetic operations on `float64` numbers and print the results.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+float32: 3.50 + 1.20 = 4.70
+float32: 3.50 - 1.20 = 2.30
+float32: 3.50 * 1.20 = 4.20
+float32: 3.50 / 1.20 = 2.92
+float32: 3.50 % 1.20 = 1.10
+float64: 5.70 + 2.30 = 8.00
+float64: 5.70 - 2.30 = 3.40
+float64: 5.70 * 2.30 = 13.11
+float64: 5.70 / 2.30 = 2.48
+float64: 5.70 % 2.30 = 1.10
+```
+
+### Summary
+
+In Go, you can perform arithmetic operations on floating-point numbers using the built-in types `float32` and `float64`. The common arithmetic operations include addition, subtraction, multiplication, and division. The modulus operation can be performed using the `math.Mod` function for `float64` numbers. Understanding these operations allows you to effectively work with floating-point arithmetic in your Go programs.

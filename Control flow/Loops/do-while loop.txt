@@ -1,1 +1,49 @@
 \\ Control flow — Loops — "do-while" loop
+
+
+Go does not have a direct equivalent of the `do-while` loop that is common in many other programming languages. However, you can simulate the behavior of a `do-while` loop using a regular `for` or `for` with `break` in Go. The essential characteristic of a `do-while` loop is that it executes its body at least once before checking the condition at the end of each iteration.
+
+### Scenario
+Let's simulate a `do-while` loop where a program continuously prompts the user for input until "quit" is entered. This is an excellent use case for a `do-while` loop since we want to ensure the user is prompted at least once.
+
+### Go Code Example
+```go
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strings"
+)
+
+func main() {
+	// Create a new scanner to read from standard input
+	scanner := bufio.NewScanner(os.Stdin)
+
+	// Simulating a do-while loop in Go
+	for {
+		fmt.Print("Enter command ('quit' to exit): ")
+		scanner.Scan()
+		input := scanner.Text()
+
+		// Process the input
+		if strings.ToLower(input) == "quit" {
+			fmt.Println("Exiting program.")
+			break
+		}
+
+		fmt.Println("You entered:", input)
+		// The loop continues until 'quit' is entered
+	}
+}
+```
+
+### Explanation
+1. **Scanner Setup**: We set up a `bufio.Scanner` to read text input from the standard input (`os.Stdin`).
+2. **Infinite For Loop**: We use a `for` loop without any condition, creating an infinite loop. This loop mimics the behavior of a `do-while` loop by running its contents at least once.
+3. **Input Reading**: Inside the loop, we prompt the user and read the input.
+4. **Condition Check**: After processing the input, we check if the input is "quit". If so, we print a message and `break` out of the loop.
+5. **Loop Execution**: The loop keeps executing until "quit" is entered. It ensures the body of the loop is executed at least once, just like a `do-while` loop.
+
+This approach achieves the behavior of a `do-while` loop, where the loop's body is guaranteed to execute at least once before the condition to continue is evaluated. If you have more questions or need examples of other loop types in Go, feel free to ask! 🔨🤖🔧

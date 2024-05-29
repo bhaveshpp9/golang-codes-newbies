@@ -1,1 +1,90 @@
 \\ Arrays and collections —  Arrays and Slices — Getting unique values
+
+
+Extracting unique values from an array or slice in Go involves filtering out duplicates, which isn't directly supported by the Go standard library. However, you can accomplish this using a map to track seen values. This method is effective as maps provide quick lookups and can be used to ensure that only unique items are retained.
+
+Here's a practical example of how you can retrieve unique values from a slice:
+
+### Example: Getting Unique Values from a Slice
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func uniqueElements(elements []int) []int {
+    // Create a map to track seen elements
+    seen := make(map[int]bool)
+    // Slice to hold the unique elements
+    unique := []int{}
+
+    // Iterate over the slice
+    for _, element := range elements {
+        if _, ok := seen[element]; !ok {
+            // If the element is not yet seen, add it to the map and the unique slice
+            seen[element] = true
+            unique = append(unique, element)
+        }
+    }
+    return unique
+}
+
+func main() {
+    // A slice with duplicate values
+    numbers := []int{1, 2, 2, 3, 4, 5, 5, 6, 7, 8, 8, 9}
+
+    // Get the unique values
+    uniqueNumbers := uniqueElements(numbers)
+
+    // Print the unique values
+    fmt.Println("Unique Numbers:", uniqueNumbers)
+}
+```
+
+### Explanation:
+- **Map for Tracking**: A map named `seen` is used to record each element that has been encountered. The key is the element from the slice, and the value is a boolean indicating whether it's been seen.
+- **Iterate Over Elements**: Loop through each element in the slice. Check if it is already in the `seen` map.
+- **Append Unique Elements**: If the element isn't in the `seen` map, it is added both to the map and to the `unique` slice.
+
+### Alternative: Unique Strings Example
+
+If you're working with a slice of strings (or any other type), the method remains essentially the same, with adjustments for the type:
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func uniqueStrings(elements []string) []string {
+    seen := make(map[string]bool)
+    unique := []string{}
+
+    for _, element := range elements {
+        if _, ok := seen[element]; !ok {
+            seen[element] = true
+            unique = append(unique, element)
+        }
+    }
+    return unique
+}
+
+func main() {
+    // A slice with duplicate string values
+    words := []string{"apple", "banana", "apple", "orange", "banana", "grape"}
+
+    // Get the unique strings
+    uniqueWords := uniqueStrings(words)
+
+    // Print the unique strings
+    fmt.Println("Unique Words:", uniqueWords)
+}
+```
+
+### Explanation:
+- **Generic Approach**: The function `uniqueStrings` works similarly to `uniqueElements` but for strings. This versatility shows how the approach can be adapted to different data types using Go's type system.
+
+These examples provide a robust template for extracting unique values from collections in Go, helping maintain data integrity and prevent redundancy. This approach is highly effective for sets of data where uniqueness is a requirement for further operations or analyses.

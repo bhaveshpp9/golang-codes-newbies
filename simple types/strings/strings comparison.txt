@@ -1,1 +1,174 @@
 \\ Simple types.— Strings — strings comparison
+
+
+In Go, comparing strings is straightforward. You can compare strings using standard comparison operators (`==`, `!=`, `<`, `<=`, `>`, `>=`) and functions from the `strings` package for case-insensitive comparisons or other specific needs.
+
+### Comparing Strings Using Comparison Operators
+
+The simplest way to compare strings in Go is by using comparison operators. These operators compare strings lexicographically based on their Unicode values.
+
+#### Example: Using Comparison Operators
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Define two strings
+    str1 := "Hello"
+    str2 := "World"
+
+    // Compare strings for equality
+    isEqual := str1 == str2
+    fmt.Printf("%s == %s: %t\n", str1, str2, isEqual)
+
+    // Compare strings for inequality
+    isNotEqual := str1 != str2
+    fmt.Printf("%s != %s: %t\n", str1, str2, isNotEqual)
+
+    // Compare strings lexicographically
+    isLess := str1 < str2
+    fmt.Printf("%s < %s: %t\n", str1, str2, isLess)
+
+    isLessOrEqual := str1 <= str2
+    fmt.Printf("%s <= %s: %t\n", str1, str2, isLessOrEqual)
+
+    isGreater := str1 > str2
+    fmt.Printf("%s > %s: %t\n", str1, str2, isGreater)
+
+    isGreaterOrEqual := str1 >= str2
+    fmt.Printf("%s >= %s: %t\n", str1, str2, isGreaterOrEqual)
+}
+```
+
+### Explanation
+
+1. **Define Two Strings**:
+   - We define two strings `str1` with the value "Hello" and `str2` with the value "World".
+
+2. **Compare Strings for Equality**:
+   - We use the `==` operator to check if `str1` is equal to `str2`.
+
+3. **Compare Strings for Inequality**:
+   - We use the `!=` operator to check if `str1` is not equal to `str2`.
+
+4. **Compare Strings Lexicographically**:
+   - We use the `<`, `<=`, `>`, and `>=` operators to compare `str1` and `str2` lexicographically.
+
+5. **Print the Results**:
+   - We print the results of each comparison using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Hello == World: false
+Hello != World: true
+Hello < World: true
+Hello <= World: true
+Hello > World: false
+Hello >= World: false
+```
+
+### Comparing Strings Using `strings.EqualFold` for Case-Insensitive Comparison
+
+To compare strings case-insensitively, you can use the `strings.EqualFold` function.
+
+#### Example: Case-Insensitive Comparison
+
+```go
+package main
+
+import (
+    "fmt"
+    "strings"
+)
+
+func main() {
+    // Define two strings
+    str1 := "hello"
+    str2 := "HELLO"
+
+    // Compare strings case-insensitively
+    isEqualFold := strings.EqualFold(str1, str2)
+    fmt.Printf("%s equals %s (case-insensitive): %t\n", str1, str2, isEqualFold)
+}
+```
+
+### Explanation
+
+1. **Define Two Strings**:
+   - We define two strings `str1` with the value "hello" and `str2` with the value "HELLO".
+
+2. **Compare Strings Case-Insensitively**:
+   - We use `strings.EqualFold(str1, str2)` to compare `str1` and `str2` case-insensitively.
+
+3. **Print the Result**:
+   - We print the result using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+hello equals HELLO (case-insensitive): true
+```
+
+### Using `strings.Compare` for Lexicographical Comparison
+
+The `strings.Compare` function can be used for lexicographical comparison. It returns an integer indicating the relationship between the strings.
+
+#### Example: Lexicographical Comparison Using `strings.Compare`
+
+```go
+package main
+
+import (
+    "fmt"
+    "strings"
+)
+
+func main() {
+    // Define two strings
+    str1 := "Hello"
+    str2 := "World"
+
+    // Compare strings lexicographically
+    result := strings.Compare(str1, str2)
+
+    // Print the comparison result
+    switch result {
+    case 0:
+        fmt.Printf("%s is equal to %s\n", str1, str2)
+    case -1:
+        fmt.Printf("%s is less than %s\n", str1, str2)
+    case 1:
+        fmt.Printf("%s is greater than %s\n", str1, str2)
+    }
+}
+```
+
+### Explanation
+
+1. **Define Two Strings**:
+   - We define two strings `str1` with the value "Hello" and `str2` with the value "World".
+
+2. **Compare Strings Lexicographically**:
+   - We use `strings.Compare(str1, str2)` to compare `str1` and `str2` lexicographically.
+   - The function returns `0` if the strings are equal, `-1` if `str1` is less than `str2`, and `1` if `str1` is greater than `str2`.
+
+3. **Print the Comparison Result**:
+   - We use a `switch` statement to print the result of the comparison.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Hello is less than World
+```
+
+### Summary
+
+In Go, you can compare strings using standard comparison operators (`==`, `!=`, `<`, `<=`, `>`, `>=`) for lexicographical comparisons. For case-insensitive comparisons, you can use `strings.EqualFold`. The `strings.Compare` function provides another way to perform lexicographical comparisons, returning an integer indicating the relationship between the strings. These methods offer flexibility and ease of use for various string comparison scenarios in your Go programs.

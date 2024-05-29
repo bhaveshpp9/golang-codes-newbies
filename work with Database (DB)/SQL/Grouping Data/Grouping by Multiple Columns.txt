@@ -1,1 +1,25 @@
 \\ work with database(DB) — SQL — Grouping data —Grouping by Multiple Columns
+
+
+SELECT
+    Continent,
+    Region,
+    COUNT(*) AS CountriesCount,
+    AVG(Population) AS AvgPopulation
+FROM country
+GROUP BY Continent, Region
+
+Continent	Region	CountriesCount	AvgPopulation
+North America	Caribbean	24	1,589,166.66
+Asia	Southern and Central Asia	14	106,484,000.00
+Africa	Central Africa	9	10,628,000.00
+Europe	Southern Europe	15	9,644,946.66
+Asia	Middle East	18	10,465,594.44
+South America	South America	14	24,698,571.42
+Oceania	Polynesia	10	63,305.00
+Antarctica	Antarctica	5	0.00
+Oceania	Australia and New Zealand	5	4,550,620.00
+...
+
+GROUP BY clauses can contain as many columns as you want. This enables you to nest groups, providing you with more granular control over how data is grouped.
+Aside from the aggregate calculations statements, every column in your SELECT statement must be present in the GROUP BY clause.

@@ -1,1 +1,84 @@
 \\ Asynchronous Operations — Start a Goroutine
+
+
+In Go, a goroutine is a lightweight thread managed by the Go runtime. Goroutines are used to perform concurrent operations, allowing you to run multiple tasks in parallel. Starting a goroutine is very simple and requires only the `go` keyword followed by a function call.
+
+Here’s a basic example demonstrating how to start a goroutine to perform some background operations:
+
+### Example: Starting a Goroutine
+
+```go
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+// printNumbers prints numbers from 1 to 5 with a delay
+func printNumbers() {
+    for i := 1; i <= 5; i++ {
+        fmt.Println(i)
+        time.Sleep(1 * time.Second) // Sleep for 1 second between numbers
+    }
+}
+
+func main() {
+    fmt.Println("Main execution starts")
+
+    // Start the goroutine
+    go printNumbers()
+
+    // Main goroutine does other work
+    fmt.Println("Main execution continues")
+    time.Sleep(500 * time.Millisecond) // Small delay to observe output
+    fmt.Println("Main execution doing some work")
+
+    // Wait for the goroutine to finish (not the recommended way to synchronize)
+    time.Sleep(6 * time.Second) // Ensure main doesn't exit before printNumbers finishes
+    fmt.Println("Main execution ends")
+}
+```
+
+### Key Points of the Example:
+
+- **Goroutine Start**: The `go printNumbers()` statement starts a new goroutine. The `printNumbers` function runs concurrently with the rest of the code in `main()`.
+- **Concurrency**: While the `printNumbers` goroutine is running and printing numbers from 1 to 5 with a second delay between each, the main goroutine continues executing the next lines of code.
+- **Sleep for Synchronization**: The use of `time.Sleep` in the `main` function is a simplistic way to prevent the program from exiting before the goroutine finishes its execution. This is not a recommended practice for real-world applications because it introduces fixed delays and is not reliable for synchronization.
+- **Proper Synchronization**: In practical applications, you would typically use synchronization primitives like channels or wait groups to manage goroutines more effectively. These methods allow you to wait for goroutines to complete their tasks without relying on arbitrary sleep times.
+
+### Proper Synchronization Example Using WaitGroup:
+
+Here's how you can use a `sync.WaitGroup` to properly wait for a goroutine to complete its execution:
+
+```go
+package main
+
+import (
+    "fmt"
+    "sync"
+    "time"
+)
+
+func printNumbers(wg *sync.WaitGroup) {
+    defer wg.Done() // Mark this goroutine as done on function exit
+    for i := 1; i <= 5; i++ {
+        fmt.Println(i)
+        time.Sleep(1 * time.Second)
+    }
+}
+
+func main() {
+    var wg sync.WaitGroup
+    wg.Add(1) // Add one goroutine to wait for
+
+    fmt.Println("Main execution starts")
+    go printNumbers(&wg) // Start the goroutine with a pointer to wg
+
+    fmt.Println("Main execution continues")
+    wg.Wait() // Wait for all goroutines in the WaitGroup to complete
+    fmt.Println("Main execution ends")
+}
+```
+
+This version of the code uses a `WaitGroup` from the `sync` package to handle synchronization. The `WaitGroup` ensures that the `main()` function waits for `printNumbers()` to complete before it exits, making the program more robust and concurrent-safe.

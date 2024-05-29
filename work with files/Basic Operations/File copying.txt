@@ -1,1 +1,111 @@
 \\ work with files — Basic Operations — File copying
+
+
+To copy a file in Go, you need to open the source file, create the destination file, and then copy the contents from the source to the destination. The `io.Copy` function from the `io` package is useful for copying file contents.
+
+### Example: Copying a File
+
+Let's create an example where we define a function to copy a file using `os` and `io` packages.
+
+#### Step 1: Import Necessary Packages
+
+First, import the necessary packages.
+
+```go
+package main
+
+import (
+    "fmt"
+    "io"
+    "os"
+)
+```
+
+#### Step 2: Define the Function to Copy a File
+
+Create a function that takes the source file path and destination file path as inputs and copies the file.
+
+```go
+// Function to copy a file
+func copyFile(srcFilePath, destFilePath string) error {
+    // Open the source file
+    srcFile, err := os.Open(srcFilePath)
+    if err != nil {
+        return err
+    }
+    defer srcFile.Close()
+
+    // Create the destination file
+    destFile, err := os.Create(destFilePath)
+    if err != nil {
+        return err
+    }
+    defer destFile.Close()
+
+    // Copy the contents from the source file to the destination file
+    _, err = io.Copy(destFile, srcFile)
+    if err != nil {
+        return err
+    }
+
+    // Copy the file permissions from the source file to the destination file
+    srcInfo, err := os.Stat(srcFilePath)
+    if err != nil {
+        return err
+    }
+    err = os.Chmod(destFilePath, srcInfo.Mode())
+    if err != nil {
+        return err
+    }
+
+    fmt.Printf("Successfully copied file from %s to %s\n", srcFilePath, destFilePath)
+    return nil
+}
+```
+
+#### Step 3: Use the Function
+
+Finally, use the `copyFile` function in the `main` function to copy a file.
+
+```go
+func main() {
+    // Source and destination file paths
+    srcFilePath := "source_file.txt"
+    destFilePath := "destination_file.txt"
+
+    // Copy the file
+    if err := copyFile(srcFilePath, destFilePath); err != nil {
+        fmt.Printf("Failed to copy file: %v\n", err)
+    }
+}
+```
+
+### Explanation
+
+1. **Import Necessary Packages**:
+   - The `os` package is used for file operations.
+   - The `io` package is used for copying file contents.
+
+2. **Define the `copyFile` Function**:
+   - The function takes the source file path and destination file path as inputs.
+   - It opens the source file using `os.Open` and defers its closure.
+   - It creates the destination file using `os.Create` and defers its closure.
+   - It copies the contents from the source file to the destination file using `io.Copy`.
+   - It retrieves the file permissions of the source file using `os.Stat` and applies the same permissions to the destination file using `os.Chmod`.
+   - It prints a success message if the file is copied.
+
+3. **Use the Function in `main`**:
+   - In `main`, the source and destination file paths are defined.
+   - The `copyFile` function is called to copy the file, and the result is printed.
+
+### Detailed Output
+
+The program will copy the contents of `source_file.txt` to `destination_file.txt` and print the result. For example:
+
+```
+Successfully copied file from source_file.txt to destination_file.txt
+```
+
+### Summary
+
+In Go, you can copy a file by opening the source file, creating the destination file, and using `io.Copy` to transfer the contents. By defining a function to handle file copying, you can efficiently manage your file system operations in your applications. This approach is useful for tasks such as duplicating files, creating backups, or moving resources within your applications.

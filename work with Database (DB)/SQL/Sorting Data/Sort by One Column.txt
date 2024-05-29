@@ -1,1 +1,20 @@
 \\ work with database(DB) — SQL — Sorting data — Sort by one column
+
+
+SELECT Name
+FROM country
+ORDER BY Name
+
+Name
+Afghanistan
+Albania
+Algeria
+American Samoa
+Andorra
+Angola
+Anguilla
+Antarctica
+Antigua and Barbuda
+...
+
+ORDER BY instructing the DBMS software to sort the data by the Name column.

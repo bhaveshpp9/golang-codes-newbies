@@ -1,1 +1,11 @@
 \\ work with database(DB) — SQL — Field data types — PostgreSQL —  Integer Types
+
+
+Type list
+
+Type	Bytes	Min Value	Max Value
+smallint	2	-32,768	+32,767
+integer	4	-2,147,483,648	+2,147,483,647
+bigint	8	-9,223,372,036,854,775,808	+9,223,372,036,854,775,807
+decimal(7)	variable	-9,999,999	+9,999,999
+numeric(9)	variable	-999,999,999	999,999,999

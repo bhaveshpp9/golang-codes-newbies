@@ -1,1 +1,92 @@
 \\ Simple types.— Numbers — integer — big integer
+
+
+In Go, for working with integers larger than what the standard integer types (`int`, `int64`, etc.) can handle, you can use the `math/big` package. This package provides the `big.Int` type for arbitrary-precision integers, allowing you to perform arithmetic operations on very large integers without worrying about overflow.
+
+### Using `math/big` for Big Integers
+
+Here’s an example demonstrating how to use the `big.Int` type for performing basic arithmetic operations on large integers.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "math/big"
+)
+
+func main() {
+    // Create big.Int numbers
+    a := new(big.Int)
+    b := new(big.Int)
+
+    // Set values for a and b
+    a.SetString("1234567890123456789012345678901234567890", 10)
+    b.SetString("9876543210987654321098765432109876543210", 10)
+
+    // Addition
+    sum := new(big.Int).Add(a, b)
+    fmt.Printf("Sum: %s + %s = %s\n", a.String(), b.String(), sum.String())
+
+    // Subtraction
+    difference := new(big.Int).Sub(a, b)
+    fmt.Printf("Difference: %s - %s = %s\n", a.String(), b.String(), difference.String())
+
+    // Multiplication
+    product := new(big.Int).Mul(a, b)
+    fmt.Printf("Product: %s * %s = %s\n", a.String(), b.String(), product.String())
+
+    // Division
+    quotient := new(big.Int).Div(a, b)
+    fmt.Printf("Quotient: %s / %s = %s\n", a.String(), b.String(), quotient.String())
+
+    // Modulus
+    remainder := new(big.Int).Mod(a, b)
+    fmt.Printf("Remainder: %s %% %s = %s\n", a.String(), b.String(), remainder.String())
+}
+```
+
+### Explanation
+
+1. **Create `big.Int` Numbers**:
+   - We create `big.Int` variables `a` and `b` using `new(big.Int)`.
+
+2. **Set Values for `a` and `b`**:
+   - We use the `SetString` method to set the values of `a` and `b` from string representations of large numbers. The second parameter (10) specifies the base of the numbers (decimal).
+
+3. **Addition**:
+   - We use the `Add` method to add `a` and `b`, and store the result in `sum`.
+   - We print the result using `fmt.Printf`.
+
+4. **Subtraction**:
+   - We use the `Sub` method to subtract `b` from `a`, and store the result in `difference`.
+   - We print the result using `fmt.Printf`.
+
+5. **Multiplication**:
+   - We use the `Mul` method to multiply `a` and `b`, and store the result in `product`.
+   - We print the result using `fmt.Printf`.
+
+6. **Division**:
+   - We use the `Div` method to divide `a` by `b`, and store the result in `quotient`.
+   - We print the result using `fmt.Printf`.
+
+7. **Modulus**:
+   - We use the `Mod` method to find the remainder of `a` divided by `b`, and store the result in `remainder`.
+   - We print the result using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Sum: 1234567890123456789012345678901234567890 + 9876543210987654321098765432109876543210 = 11111111101111111110111111111011111111100
+Difference: 1234567890123456789012345678901234567890 - 9876543210987654321098765432109876543210 = -8641975320864197532086419753208641975320
+Product: 1234567890123456789012345678901234567890 * 9876543210987654321098765432109876543210 = 12193263113702179522618503273362292333223746380111126352626288030842513776265540086420
+Quotient: 1234567890123456789012345678901234567890 / 9876543210987654321098765432109876543210 = 0
+Remainder: 1234567890123456789012345678901234567890 % 9876543210987654321098765432109876543210 = 1234567890123456789012345678901234567890
+```
+
+### Summary
+
+The `math/big` package in Go provides the `big.Int` type for arbitrary-precision integers, allowing you to perform arithmetic operations on very large integers. You can use methods like `Add`, `Sub`, `Mul`, `Div`, and `Mod` to perform addition, subtraction, multiplication, division, and modulus operations on `big.Int` values. This approach ensures that you can handle large integer values without overflow issues, making `math/big` a powerful tool for high-precision arithmetic in Go programs.

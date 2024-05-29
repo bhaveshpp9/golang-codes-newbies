@@ -1,1 +1,156 @@
 \\ Structures — Constructors — with parameters
+
+
+In Go, you can create constructor-like functions to initialize structs with parameters. These functions typically return a new instance of the struct, setting the values of the fields based on the parameters provided. This approach ensures that the struct is always initialized in a consistent state.
+
+### Example: Constructor Function with Parameters
+
+Let's create a `Person` struct and a constructor function that initializes it with given parameters.
+
+#### Step 1: Define the Struct
+
+First, define the `Person` struct.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define the Person struct
+type Person struct {
+    FirstName string
+    LastName  string
+    Age       int
+}
+```
+
+#### Step 2: Define the Constructor Function
+
+Create a constructor function that accepts parameters for initializing the `Person` struct.
+
+```go
+// Constructor function for Person
+func NewPerson(firstName, lastName string, age int) Person {
+    return Person{
+        FirstName: firstName,
+        LastName:  lastName,
+        Age:       age,
+    }
+}
+```
+
+#### Step 3: Use the Constructor Function
+
+Finally, use the constructor function in the `main` function.
+
+```go
+func main() {
+    // Create a Person using the constructor with parameters
+    person := NewPerson("John", "Doe", 30)
+    fmt.Printf("Person: %+v\n", person)
+}
+```
+
+### Explanation
+
+1. **Define the `Person` Struct**:
+   - The `Person` struct has three fields: `FirstName`, `LastName`, and `Age`.
+
+2. **Define the Constructor Function**:
+   - The `NewPerson` function initializes and returns a `Person` struct with the values provided as parameters: `firstName`, `lastName`, and `age`.
+
+3. **Use the Constructor Function**:
+   - In `main`, we call `NewPerson` to create a `Person` instance with the specified values and print it.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Person: {FirstName:John LastName:Doe Age:30}
+```
+
+### Example: Constructor Function with Default and Custom Parameters
+
+You can also create a constructor function that provides default values for some parameters while allowing others to be customized.
+
+#### Step 1: Define the Struct
+
+First, define the `Person` struct.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define the Person struct
+type Person struct {
+    FirstName string
+    LastName  string
+    Age       int
+}
+```
+
+#### Step 2: Define the Constructor Function with Default Values
+
+Create a constructor function that accepts parameters and sets default values if some parameters are not provided.
+
+```go
+// Constructor function for Person with default values
+func NewPerson(firstName, lastName string, age ...int) Person {
+    p := Person{
+        FirstName: firstName,
+        LastName:  lastName,
+        Age:       30, // default age
+    }
+
+    if len(age) > 0 {
+        p.Age = age[0]
+    }
+
+    return p
+}
+```
+
+#### Step 3: Use the Constructor Function
+
+Finally, use the constructor function in the `main` function.
+
+```go
+func main() {
+    // Create a Person using the constructor with default age
+    person1 := NewPerson("John", "Doe")
+    fmt.Printf("Person1: %+v\n", person1)
+
+    // Create a Person using the constructor with custom age
+    person2 := NewPerson("Alice", "Smith", 25)
+    fmt.Printf("Person2: %+v\n", person2)
+}
+```
+
+### Explanation
+
+1. **Define the `Person` Struct**:
+   - The `Person` struct has three fields: `FirstName`, `LastName`, and `Age`.
+
+2. **Define the Constructor Function with Default Values**:
+   - The `NewPerson` function initializes and returns a `Person` struct with default values for `Age` (set to 30).
+   - If an age is provided as an optional parameter, it overrides the default age.
+
+3. **Use the Constructor Function**:
+   - In `main`, we create two `Person` instances: one using the default age and another with a custom age. Both instances are printed.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Person1: {FirstName:John LastName:Doe Age:30}
+Person2: {FirstName:Alice LastName:Smith Age:25}
+```
+
+### Summary
+
+In Go, you can create constructor functions with parameters to initialize structs with specific values. By using variadic parameters or configuration structs, you can provide both default and custom initialization options. This approach ensures that your structs are always initialized with valid and consistent data, promoting code reuse and maintainability.

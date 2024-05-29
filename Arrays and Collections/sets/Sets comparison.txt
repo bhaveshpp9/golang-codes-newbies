@@ -1,1 +1,108 @@
 \\ Arrays and collections — Sets — Sets comparison
+
+
+In Go, sets are typically implemented using maps with empty struct types (`struct{}`) as the value type because they use no storage space. Comparing sets involves checking if two sets contain the same elements. 
+
+We'll demonstrate how to implement and compare two sets in Go. The comparison functions we'll look at include checking if sets are equal, if one set is a subset of another, or if they are disjoint (have no elements in common).
+
+### Example: Implementing and Comparing Sets
+
+First, let's implement basic set operations and then write functions to compare these sets.
+
+#### Set Initialization and Operations
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Set type defined as a map with empty struct values
+type Set map[string]struct{}
+
+// NewSet initializes a new set
+func NewSet(items ...string) Set {
+    s := Set{}
+    for _, item := range items {
+        s[item] = struct{}{}
+    }
+    return s
+}
+
+// Add adds a new element to the set
+func (s Set) Add(item string) {
+    s[item] = struct{}{}
+}
+
+// Delete removes an element from the set
+func (s Set) Delete(item string) {
+    delete(s, item)
+}
+
+// Contains checks if an item is in the set
+func (s Set) Contains(item string) bool {
+    _, exists := s[item]
+    return exists
+}
+
+// Equal checks if two sets contain the same elements
+func Equal(set1, set2 Set) bool {
+    if len(set1) != len(set2) {
+        return false
+    }
+    for item := range set1 {
+        if !set2.Contains(item) {
+            return false
+        }
+    }
+    return true
+}
+
+// Subset checks if the first set is a subset of the second
+func Subset(subset, superset Set) bool {
+    if len(subset) > len(superset) {
+        return false
+    }
+    for item := range subset {
+        if !superset.Contains(item) {
+            return false
+        }
+    }
+    return true
+}
+
+// Disjoint checks if two sets have no elements in common
+func Disjoint(set1, set2 Set) bool {
+    for item := range set1 {
+        if set2.Contains(item) {
+            return false
+        }
+    }
+    return true
+}
+
+func main() {
+    set1 := NewSet("a", "b", "c", "d")
+    set2 := NewSet("c", "d")
+    set3 := NewSet("e", "f")
+
+    fmt.Println("Set1:", set1)
+    fmt.Println("Set2:", set2)
+    fmt.Println("Set3:", set3)
+
+    fmt.Println("Set1 equals Set2:", Equal(set1, set2))
+    fmt.Println("Set2 is a subset of Set1:", Subset(set2, set1))
+    fmt.Println("Set1 and Set3 are disjoint:", Disjoint(set1, set3))
+}
+```
+
+### Explanation
+- **Set Type**: We use a map where keys are the elements and values are empty structs. This is a memory-efficient way to implement sets since `struct{}` occupies zero bytes.
+- **Operations**: Functions are implemented for adding, deleting, and checking membership.
+- **Comparison Functions**:
+    - **Equal**: Both sets must be the same size and contain exactly the same elements.
+    - **Subset**: All elements of the first set must also be in the second set.
+    - **Disjoint**: No elements from the first set should be found in the second set.
+
+This implementation demonstrates how to manage sets in Go and provides the foundation for more advanced data manipulation using set theory principles, which are essential for many algorithms and applications.

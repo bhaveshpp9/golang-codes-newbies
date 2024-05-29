@@ -1,1 +1,99 @@
 \\ Arrays and collections —  Dictionaries — getting keys by value
+
+
+In Go, finding all keys that correspond to a specific value in a dictionary (map) involves iterating over the map and collecting keys that match the target value. Since Go maps do not support reverse lookup directly, this operation requires a manual approach to search through the map.
+
+Here’s an example to demonstrate how to retrieve all keys that have a specific value in a map:
+
+### Example: Getting Keys by Value in a Map
+
+This example illustrates how to find all keys in a map that correspond to a specific integer value. This is useful when your map may have multiple keys with the same value, and you need to find all such keys.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// findKeysByValue searches the map for all keys that have the given value.
+func findKeysByValue(m map[string]int, targetValue int) []string {
+    var keys []string
+    for key, value := range m {
+        if value == targetValue {
+            keys = append(keys, key)
+        }
+    }
+    return keys
+}
+
+func main() {
+    // Map of strings to integers
+    grades := map[string]int{
+        "Alice": 92,
+        "Bob":   87,
+        "Clara": 92,
+        "David": 85,
+    }
+
+    // Find all keys that have the value 92
+    result := findKeysByValue(grades, 92)
+
+    // Print the result
+    fmt.Println("Keys with value 92:", result)
+}
+```
+
+### Explanation:
+- **Function `findKeysByValue`**: This function takes a map and a target value as arguments. It iterates over the map and checks each value against the target value. If a match is found, the corresponding key is added to a slice of strings.
+- **Usage**: The function is called with a map and a value to find, returning a slice of all keys that map to that value.
+
+### Variation: Case with More Complex Data Types
+
+If the values in the map are more complex, such as custom structs, you might need to compare struct fields specifically or use methods to evaluate equality. Here’s a quick modification to handle such a case:
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+type Student struct {
+    Name  string
+    Grade int
+}
+
+// findStudentsByGrade searches for students with the given grade.
+func findStudentsByGrade(students map[string]Student, targetGrade int) []string {
+    var names []string
+    for name, student := range students {
+        if student.Grade == targetGrade {
+            names = append(names, name)
+        }
+    }
+    return names
+}
+
+func main() {
+    // Map of student names to Student structs
+    students := map[string]Student{
+        "Alice": {Name: "Alice", Grade: 92},
+        "Bob":   {Name: "Bob", Grade: 87},
+        "Clara": {Name: "Clara", Grade: 92},
+        "David": {Name: "David", Grade: 85},
+    }
+
+    // Find all students with the grade 92
+    result := findStudentsByGrade(students, 92)
+
+    // Print the result
+    fmt.Println("Students with grade 92:", result)
+}
+```
+
+### Explanation:
+- **Custom Struct `Student`**: Represents more complex data where each student has a name and a grade.
+- **Function Modification**: The function now checks a specific field (`Grade`) in the struct to decide whether to include the student's name in the result list.
+
+These examples show how flexible Go can be with managing and querying data in maps, adapting easily to both simple and more complex data types. This functionality is essential for effectively navigating and manipulating collections based on their content.

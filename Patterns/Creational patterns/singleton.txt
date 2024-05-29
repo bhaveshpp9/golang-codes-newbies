@@ -1,1 +1,123 @@
 \\ Patterns — creational patterns — singleton
+
+
+The Singleton pattern is a creational design pattern that ensures a class has only one instance and provides a global point of access to that instance. This pattern is useful when exactly one object is needed to coordinate actions across the system.
+
+### Key Concepts
+
+1. **Private Constructor**: Prevents other objects from instantiating the class.
+2. **Static Method**: Provides a way to get the instance of the class.
+3. **Static Variable**: Holds the single instance of the class.
+
+### Example: Singleton Logger
+
+Let's create an example where a logger is implemented as a singleton to ensure that all logging messages are handled by a single logger instance.
+
+#### Singleton Logger
+
+```go
+package main
+
+import (
+    "fmt"
+    "sync"
+)
+
+// Logger is a singleton logger struct
+type Logger struct{}
+
+var (
+    instance *Logger
+    once     sync.Once
+)
+
+// GetInstance returns the single instance of Logger
+func GetInstance() *Logger {
+    once.Do(func() {
+        instance = &Logger{}
+    })
+    return instance
+}
+
+// Log logs a message to the console
+func (l *Logger) Log(message string) {
+    fmt.Println(message)
+}
+```
+
+### Explanation
+
+1. **Private Constructor**: In Go, you can't directly make a constructor private. However, by not exporting the `Logger` struct and its fields, you ensure that they can't be accessed from outside the package.
+2. **Static Method**: The `GetInstance` function ensures that the `Logger` instance is created only once using the `sync.Once` mechanism, which guarantees that the initialization code is executed only once.
+3. **Static Variable**: The `instance` variable holds the single instance of the `Logger` class.
+
+#### Client
+
+```go
+package main
+
+func main() {
+    logger := GetInstance()
+    logger.Log("Singleton logger instance")
+
+    anotherLogger := GetInstance()
+    anotherLogger.Log("Same singleton logger instance")
+
+    if logger == anotherLogger {
+        fmt.Println("Both loggers are the same instance")
+    }
+}
+```
+
+### Explanation
+
+1. **GetInstance**: Calling `GetInstance` multiple times returns the same `Logger` instance.
+2. **Log**: The `Log` method prints messages to the console.
+3. **Instance Check**: The client checks if both `logger` and `anotherLogger` point to the same instance.
+
+### Advantages
+
+- **Controlled Access**: Ensures that there is only one instance of the class.
+- **Reduced Namespace Pollution**: Encapsulates the single instance, reducing the number of global variables.
+- **Lazy Initialization**: The instance is created only when it is needed.
+- **Single Point of Access**: Provides a global point of access to the instance.
+
+### Disadvantages
+
+- **Global State**: Can introduce global state into an application, which can be problematic for testing and debugging.
+- **Single Responsibility Principle Violation**: The class is responsible for creating and managing its single instance.
+- **Concurrency Issues**: Ensuring thread safety can add complexity.
+
+### Thread Safety in Go
+
+In Go, the `sync.Once` mechanism ensures that the singleton instance is created in a thread-safe manner. The `once.Do` method guarantees that the initialization function is executed only once, even if multiple goroutines call `GetInstance` simultaneously.
+
+### Alternative Implementation
+
+An alternative and simpler implementation without `sync.Once` might look like this, but it wouldn't be thread-safe:
+
+```go
+package main
+
+import "fmt"
+
+var instance *Logger
+
+// GetInstance returns the single instance of Logger
+func GetInstance() *Logger {
+    if instance == nil {
+        instance = &Logger{}
+    }
+    return instance
+}
+
+type Logger struct{}
+
+func (l *Logger) Log(message string) {
+    fmt.Println(message)
+}
+```
+
+This implementation is not thread-safe because multiple goroutines could potentially create multiple instances of `Logger` before the `instance` variable is set.
+
+By using the Singleton pattern, you can ensure that a class has only one instance and provide a global point of access to it, making it easier to manage shared resources and coordinate actions across a system. This pattern is particularly useful for logging, configuration settings, and access to shared resources.

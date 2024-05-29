@@ -1,0 +1,5 @@
+\\ work with database(DB) — SQL — Updating Tables — Deleting foreign key — MySql
+
+
+ALTER TABLE Orders
+DROP FOREIGN KEY FK_OrderPerson;

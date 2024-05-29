@@ -1,1 +1,182 @@
 \\ Structures records — Methods
+
+
+In Go, methods are functions with a special receiver argument that allows them to be associated with a particular type, typically a struct. Methods provide a way to define behavior (functions) that operates on the data (fields) of the struct.
+
+### Defining Methods for a Struct
+
+Here's how you can define and use methods for a struct in Go.
+
+#### Example: Defining a Struct and Methods
+
+Let's start by defining a `Person` struct and adding methods to it.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define the Person struct
+type Person struct {
+    FirstName string
+    LastName  string
+    Age       int
+}
+
+// Method to get the full name of the person
+func (p Person) FullName() string {
+    return p.FirstName + " " + p.LastName
+}
+
+// Method to increment the age of the person
+func (p *Person) CelebrateBirthday() {
+    p.Age += 1
+}
+
+func main() {
+    // Initialize a Person instance
+    person := Person{
+        FirstName: "Alice",
+        LastName:  "Johnson",
+        Age:       28,
+    }
+
+    // Use the FullName method
+    fmt.Printf("Full Name: %s\n", person.FullName())
+
+    // Celebrate the person's birthday
+    person.CelebrateBirthday()
+    fmt.Printf("New Age after Birthday: %d\n", person.Age)
+}
+```
+
+### Explanation
+
+1. **Define the `Person` Struct**:
+   - The `Person` struct has three fields: `FirstName`, `LastName`, and `Age`.
+
+2. **Define the `FullName` Method**:
+   - The `FullName` method concatenates the `FirstName` and `LastName` fields to return the full name.
+   - The receiver `(p Person)` means that `FullName` can be called on instances of `Person`.
+
+3. **Define the `CelebrateBirthday` Method**:
+   - The `CelebrateBirthday` method increments the `Age` field by 1.
+   - The receiver `(p *Person)` means that `CelebrateBirthday` has a pointer receiver, allowing it to modify the original `Person` instance.
+
+4. **Initialize a `Person` Instance**:
+   - We create an instance of `Person` with initial values for each field.
+
+5. **Use the Methods**:
+   - We call `FullName` to get the person's full name.
+   - We call `CelebrateBirthday` to increase the person's age by one.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Full Name: Alice Johnson
+New Age after Birthday: 29
+```
+
+### Method Receivers
+
+Go methods can have either value receivers or pointer receivers. The choice between the two affects whether the method can modify the receiver and whether it is called on a copy of the receiver or the original.
+
+#### Value Receiver
+
+A method with a value receiver operates on a copy of the receiver.
+
+```go
+// Method with a value receiver
+func (p Person) FullName() string {
+    return p.FirstName + " " + p.LastName
+}
+```
+
+- **Pros**: Safe from unintended modifications. Suitable for read-only methods.
+- **Cons**: Can be inefficient for large structs due to copying.
+
+#### Pointer Receiver
+
+A method with a pointer receiver operates on the original receiver, allowing modifications.
+
+```go
+// Method with a pointer receiver
+func (p *Person) CelebrateBirthday() {
+    p.Age += 1
+}
+```
+
+- **Pros**: Can modify the receiver. More efficient for large structs as it avoids copying.
+- **Cons**: Must ensure the pointer is not `nil`.
+
+### Example: Value Receiver vs. Pointer Receiver
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define the Rectangle struct
+type Rectangle struct {
+    Width  int
+    Height int
+}
+
+// Method with a value receiver to calculate area
+func (r Rectangle) Area() int {
+    return r.Width * r.Height
+}
+
+// Method with a pointer receiver to scale the rectangle
+func (r *Rectangle) Scale(factor int) {
+    r.Width *= factor
+    r.Height *= factor
+}
+
+func main() {
+    // Initialize a Rectangle instance
+    rect := Rectangle{Width: 10, Height: 5}
+
+    // Calculate the area
+    fmt.Printf("Area: %d\n", rect.Area())
+
+    // Scale the rectangle
+    rect.Scale(2)
+    fmt.Printf("Scaled Rectangle: %+v\n", rect)
+}
+```
+
+### Explanation
+
+1. **Define the `Rectangle` Struct**:
+   - The `Rectangle` struct has two fields: `Width` and `Height`.
+
+2. **Define the `Area` Method**:
+   - The `Area` method has a value receiver `(r Rectangle)` and returns the area of the rectangle.
+
+3. **Define the `Scale` Method**:
+   - The `Scale` method has a pointer receiver `(r *Rectangle)` and scales the width and height by the given factor.
+
+4. **Initialize a `Rectangle` Instance**:
+   - We create an instance of `Rectangle` with initial values for width and height.
+
+5. **Use the Methods**:
+   - We call `Area` to calculate the area of the rectangle.
+   - We call `Scale` to double the size of the rectangle.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Area: 50
+Scaled Rectangle: {Width:20 Height:10}
+```
+
+### Summary
+
+In Go, methods are functions with a special receiver argument, allowing them to be associated with a struct. Methods can have either value receivers or pointer receivers, each with different implications for efficiency and mutability. Using methods, you can encapsulate functionality that operates on the struct's fields, promoting clean and maintainable code.

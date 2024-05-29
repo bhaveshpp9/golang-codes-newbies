@@ -1,1 +1,13 @@
 \\ work with database(DB) — SQL — Filtering Data — Using the LIKE operator — _ Wildcard
+
+
+SELECT Code, Name
+FROM country
+WHERE Code LIKE 'B_R'
+
+Code	Name
+BGR	Bulgaria
+BHR	Bahrain
+BLR	Belarus
+
+The underscore is used just like %, but instead of matching multiple characters the underscore matches just a single character.

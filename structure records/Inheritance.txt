@@ -1,1 +1,139 @@
 \\ Structures records — Inheritance
+
+
+In Go, inheritance as it exists in traditional object-oriented programming languages (like Java or C++) does not exist. Instead, Go uses composition to achieve similar behavior. Composition involves embedding one struct within another, allowing the embedded struct's fields and methods to be accessed as if they were part of the outer struct.
+
+### Composition Example
+
+Let's consider an example where we have a `Person` struct and we want to create an `Employee` struct that includes the fields and methods of `Person`.
+
+#### Step 1: Define the Base Struct
+
+First, define the `Person` struct with some fields and methods.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define the Person struct
+type Person struct {
+    FirstName string
+    LastName  string
+    Age       int
+}
+
+// Define a method for Person
+func (p Person) FullName() string {
+    return p.FirstName + " " + p.LastName
+}
+```
+
+#### Step 2: Define the Composed Struct
+
+Next, define the `Employee` struct that embeds the `Person` struct.
+
+```go
+// Define the Employee struct which embeds Person
+type Employee struct {
+    Person
+    EmployeeID int
+    Position   string
+}
+```
+
+#### Step 3: Create and Use Instances
+
+Now, create instances of `Employee` and access the fields and methods of the embedded `Person` struct.
+
+```go
+func main() {
+    // Create an Employee instance
+    emp := Employee{
+        Person: Person{
+            FirstName: "John",
+            LastName:  "Doe",
+            Age:       30,
+        },
+        EmployeeID: 1234,
+        Position:   "Software Engineer",
+    }
+
+    // Access fields and methods of the embedded Person struct
+    fmt.Printf("Employee: %+v\n", emp)
+    fmt.Printf("Full Name: %s\n", emp.FullName())
+}
+```
+
+### Explanation
+
+1. **Define the `Person` Struct**:
+   - The `Person` struct has fields `FirstName`, `LastName`, and `Age`.
+   - The `FullName` method concatenates the `FirstName` and `LastName` fields.
+
+2. **Define the `Employee` Struct**:
+   - The `Employee` struct embeds the `Person` struct.
+   - The `Employee` struct has additional fields `EmployeeID` and `Position`.
+
+3. **Create and Use Instances**:
+   - We create an instance of `Employee`, initializing both `Person` fields and `Employee` fields.
+   - We access the `FullName` method of the embedded `Person` struct using the `Employee` instance.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Employee: {Person:{FirstName:John LastName:Doe Age:30} EmployeeID:1234 Position:Software Engineer}
+Full Name: John Doe
+```
+
+### Method Overriding (Simulating)
+
+While Go does not support method overriding in the traditional sense, you can achieve similar behavior by defining methods with the same name in both the embedded and embedding structs. The method in the embedding struct will shadow the method in the embedded struct.
+
+#### Example: Simulating Method Overriding
+
+```go
+// Define a method for Employee that shadows Person's FullName method
+func (e Employee) FullName() string {
+    return fmt.Sprintf("%s (ID: %d)", e.Person.FullName(), e.EmployeeID)
+}
+
+func main() {
+    // Create an Employee instance
+    emp := Employee{
+        Person: Person{
+            FirstName: "John",
+            LastName:  "Doe",
+            Age:       30,
+        },
+        EmployeeID: 1234,
+        Position:   "Software Engineer",
+    }
+
+    // Access the shadowed FullName method
+    fmt.Printf("Full Name: %s\n", emp.FullName())
+}
+```
+
+### Explanation
+
+1. **Define a Method for Employee**:
+   - The `FullName` method in the `Employee` struct shadows the `FullName` method in the `Person` struct.
+   - This method calls the `FullName` method of the embedded `Person` struct and appends the `EmployeeID`.
+
+2. **Access the Shadowed Method**:
+   - When calling `emp.FullName()`, the `FullName` method of the `Employee` struct is used, which includes the `EmployeeID`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Full Name: John Doe (ID: 1234)
+```
+
+### Summary
+
+In Go, inheritance is achieved through composition rather than classical inheritance. By embedding structs within other structs, you can reuse fields and methods. Method shadowing allows you to override behavior in the embedding struct, providing flexibility similar to traditional inheritance models. This approach maintains Go's simplicity and promotes code reuse and readability.

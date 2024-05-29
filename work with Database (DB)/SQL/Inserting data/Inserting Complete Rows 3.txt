@@ -1,1 +1,26 @@
 \\ work with database(DB) — SQL — Inserting data — Inserting Complete Rows 3
+
+
+INSERT INTO customer (
+    first_name,
+    last_name,
+    email,
+    address_id,
+    active,
+    create_date,
+    last_update,
+    customer_id,
+    store_id
+) VALUES (
+    'IVAN',
+    'SIDOROV',
+    'ivan.sidiriv@gmail.com',
+    591,
+    1,
+    '2018-11-07',
+    NULL,
+    602,
+    1
+)
+
+All fields in the customer table are populated, but the order of the columns is different from the table definition.

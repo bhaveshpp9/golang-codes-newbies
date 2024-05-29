@@ -1,1 +1,139 @@
 \\ Simple types.— Numbers — integer — Arithmetic operations
+
+
+In Go, you can perform arithmetic operations on integers using the standard operators: `+` (addition), `-` (subtraction), `*` (multiplication), `/` (division), and `%` (modulus). Go supports various integer types, including `int`, `int8`, `int16`, `int32`, `int64`, and their unsigned counterparts (`uint`, `uint8`, `uint16`, `uint32`, `uint64`).
+
+### Example: Basic Arithmetic Operations on Integers
+
+Here’s an example demonstrating how to perform basic arithmetic operations on integers in Go.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Define integer variables
+    var a int = 20
+    var b int = 6
+
+    // Addition
+    sum := a + b
+    fmt.Printf("%d + %d = %d\n", a, b, sum)
+
+    // Subtraction
+    difference := a - b
+    fmt.Printf("%d - %d = %d\n", a, b, difference)
+
+    // Multiplication
+    product := a * b
+    fmt.Printf("%d * %d = %d\n", a, b, product)
+
+    // Division
+    quotient := a / b
+    fmt.Printf("%d / %d = %d\n", a, b, quotient)
+
+    // Modulus
+    remainder := a % b
+    fmt.Printf("%d %% %d = %d\n", a, b, remainder)
+}
+```
+
+### Explanation
+
+1. **Define Integer Variables**:
+   - We define two `int` variables `a` and `b` with values `20` and `6` respectively.
+
+2. **Addition**:
+   - We perform addition using the `+` operator and store the result in `sum`.
+   - We print the result using `fmt.Printf`.
+
+3. **Subtraction**:
+   - We perform subtraction using the `-` operator and store the result in `difference`.
+   - We print the result using `fmt.Printf`.
+
+4. **Multiplication**:
+   - We perform multiplication using the `*` operator and store the result in `product`.
+   - We print the result using `fmt.Printf`.
+
+5. **Division**:
+   - We perform division using the `/` operator and store the result in `quotient`.
+   - We print the result using `fmt.Printf`.
+
+6. **Modulus**:
+   - We perform the modulus operation using the `%` operator and store the result in `remainder`.
+   - We print the result using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+20 + 6 = 26
+20 - 6 = 14
+20 * 6 = 120
+20 / 6 = 3
+20 % 6 = 2
+```
+
+### Working with Different Integer Types
+
+Go supports different integer types, and you can perform arithmetic operations on these types similarly.
+
+#### Example: Arithmetic Operations with Different Integer Types
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Define different integer types
+    var int8Num int8 = 120
+    var int16Num int16 = 32000
+    var int32Num int32 = 2000000000
+    var int64Num int64 = 9000000000000000000
+
+    // Perform addition
+    sum8 := int8Num + 10
+    sum16 := int16Num + 1000
+    sum32 := int32Num + 100000000
+    sum64 := int64Num + 1000000000000000000
+
+    // Print the results
+    fmt.Printf("int8: %d + 10 = %d\n", int8Num, sum8)
+    fmt.Printf("int16: %d + 1000 = %d\n", int16Num, sum16)
+    fmt.Printf("int32: %d + 100000000 = %d\n", int32Num, sum32)
+    fmt.Printf("int64: %d + 1000000000000000000 = %d\n", int64Num, sum64)
+}
+```
+
+### Explanation
+
+1. **Define Different Integer Types**:
+   - We define variables of different integer types (`int8`, `int16`, `int32`, and `int64`).
+
+2. **Perform Addition**:
+   - We perform addition on each integer type and store the results.
+
+3. **Print the Results**:
+   - We print the original values and their corresponding addition results using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+int8: 120 + 10 = 130
+int16: 32000 + 1000 = 33000
+int32: 2000000000 + 100000000 = 2100000000
+int64: 9000000000000000000 + 1000000000000000000 = 10000000000000000000
+```
+
+### Summary
+
+In Go, you can perform arithmetic operations on integers using standard operators. These operations work consistently across different integer types (`int`, `int8`, `int16`, `int32`, `int64`, and their unsigned counterparts). Understanding these operations allows you to effectively work with integers in your Go programs.

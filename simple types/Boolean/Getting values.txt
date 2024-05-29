@@ -1,1 +1,149 @@
 \\ Simple types.— Boolean — Getting values
+
+
+In Go, boolean values are the simplest types and can have only two possible values: `true` and `false`. These values can be used directly in your code, and there are several ways to obtain or manipulate boolean values, such as:
+
+1. **Direct Assignment**: Assigning boolean literals (`true` or `false`) directly to variables.
+2. **Boolean Expressions**: Using expressions that result in boolean values.
+3. **Comparison Operations**: Using comparison operators (`==`, `!=`, `<`, `>`, `<=`, `>=`) which yield boolean results.
+4. **Logical Operations**: Using logical operators (`&&`, `||`, `!`) to combine or invert boolean values.
+
+### Example: Getting Boolean Values
+
+Let's look at different ways to obtain boolean values in Go.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Direct assignment
+    var a bool = true
+    var b bool = false
+
+    fmt.Printf("a: %t, b: %t\n", a, b) // Output: a: true, b: false
+
+    // Boolean expressions
+    c := (5 > 3)
+    d := (5 < 3)
+
+    fmt.Printf("c: %t, d: %t\n", c, d) // Output: c: true, d: false
+
+    // Comparison operations
+    e := (10 == 10)
+    f := (10 != 10)
+
+    fmt.Printf("e: %t, f: %t\n", e, f) // Output: e: true, f: false
+
+    // Logical operations
+    g := (true && false)
+    h := (true || false)
+    i := !true
+
+    fmt.Printf("g: %t, h: %t, i: %t\n", g, h, i) // Output: g: false, h: true, i: false
+
+    // Using boolean functions
+    isEven := func(n int) bool {
+        return n%2 == 0
+    }
+
+    fmt.Printf("isEven(4): %t, isEven(3): %t\n", isEven(4), isEven(3)) // Output: isEven(4): true, isEven(3): false
+}
+```
+
+### Explanation
+
+1. **Direct Assignment**:
+   - We directly assign the boolean literals `true` and `false` to variables `a` and `b`.
+   - We print these values using `fmt.Printf` with the `%t` format specifier for boolean values.
+
+2. **Boolean Expressions**:
+   - We use the expression `5 > 3` which evaluates to `true` and assign it to `c`.
+   - We use the expression `5 < 3` which evaluates to `false` and assign it to `d`.
+
+3. **Comparison Operations**:
+   - We use the equality operator `==` to check if `10` is equal to `10`, which is `true`, and assign it to `e`.
+   - We use the inequality operator `!=` to check if `10` is not equal to `10`, which is `false`, and assign it to `f`.
+
+4. **Logical Operations**:
+   - We use the logical AND operator `&&` to combine `true` and `false`, resulting in `false`, and assign it to `g`.
+   - We use the logical OR operator `||` to combine `true` and `false`, resulting in `true`, and assign it to `h`.
+   - We use the logical NOT operator `!` to invert `true`, resulting in `false`, and assign it to `i`.
+
+5. **Boolean Functions**:
+   - We define a function `isEven` that takes an integer and returns `true` if the integer is even, otherwise `false`.
+   - We call `isEven` with `4` (which is even) and `3` (which is odd) and print the results.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+a: true, b: false
+c: true, d: false
+e: true, f: false
+g: false, h: true, i: false
+isEven(4): true, isEven(3): false
+```
+
+### Additional Examples of Getting Boolean Values
+
+#### From User Input
+
+You can also get boolean values from user input, though you need to handle the conversion from string to boolean.
+
+```go
+package main
+
+import (
+    "bufio"
+    "fmt"
+    "os"
+    "strings"
+    "strconv"
+)
+
+func main() {
+    reader := bufio.NewReader(os.Stdin)
+    fmt.Print("Enter a boolean value (true/false): ")
+    input, _ := reader.ReadString('\n')
+    input = strings.TrimSpace(input)
+
+    boolValue, err := strconv.ParseBool(input)
+    if err != nil {
+        fmt.Println("Invalid boolean value")
+    } else {
+        fmt.Printf("You entered: %t\n", boolValue)
+    }
+}
+```
+
+#### Using Conditions
+
+You can also get boolean values from conditions in control flow statements.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    number := 10
+
+    if number > 5 {
+        fmt.Println("Number is greater than 5: true")
+    } else {
+        fmt.Println("Number is greater than 5: false")
+    }
+}
+```
+
+### Summary
+
+Boolean values in Go are fundamental and can be obtained and manipulated in various ways, including direct assignment, boolean expressions, comparison operations, logical operations, and boolean-returning functions. These techniques are essential for controlling the flow of your programs and making decisions based on conditions.

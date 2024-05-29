@@ -1,1 +1,21 @@
 \\ work with database(DB) — SQL — Data Manipulation Functions — Using Aggregate Functions — COUNT() Function
+
+
+SELECT
+    Continent,
+    COUNT(*)
+FROM country
+GROUP BY Continent
+
+Continent	count(*)
+North America	37
+Asia	51
+Africa	58
+Europe	46
+South America	14
+Oceania	28
+Antarctica	5
+
+Using COUNT(), you can determine the number of rows in a table or the number of rows that match a specific criterion. COUNT() can be used two ways: 
+• Use COUNT(*) to count the number of rows in a table, whether columns contain values or NULL values. 
+• Use COUNT(column) to count the number of rows that have values in a specific column, ignoring NULL values.

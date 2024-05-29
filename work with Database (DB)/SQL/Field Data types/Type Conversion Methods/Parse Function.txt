@@ -1,1 +1,8 @@
 \\ work with database(DB) — SQL — Field data types — Type Conversion methods — Parse Function
+
+
+/* Ms SQL */
+SELECT PARSE('08/17/2019' AS datetime2) AS Result; 
+SELECT PARSE('Sat, 17 August 2019' AS date USING 'en-US') AS Result;
+
+The Parse function returns the result of an expression, translated to the requested data type in SQL Server. Syntax: PARSE ( string_value AS data_type [ USING culture ] )

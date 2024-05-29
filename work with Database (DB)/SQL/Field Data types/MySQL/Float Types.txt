@@ -1,1 +1,11 @@
 \\ work with database(DB) — SQL — Field data types — MySQL — Float Types
+
+
+Type list
+
+Type	Bytes	Min Value	Max Value
+DECIMAL(5,2)	4	-999.99	999.99
+DECIMAL(7)	4	-9999999	9999999
+DECIMAL(5,0)	4	-99999	99999
+FLOAT(7,4)	4	-999.9999	999.9999
+DOUBLE(53)	8	-1.7976931348623157E+308	1.7976931348623157E+308

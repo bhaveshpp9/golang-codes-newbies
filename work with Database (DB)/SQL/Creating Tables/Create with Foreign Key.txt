@@ -1,1 +1,218 @@
 \\ work with database(DB) — SQL — Creating table — Create with Foreign Key
+
+
+Creating tables with foreign keys in SQL ensures referential integrity between related tables. Below are examples of how to create tables with foreign keys in various SQL database systems: SQL Server, Access, MySQL, PostgreSQL, SQLite, and Firebird. I'll also demonstrate how to integrate this functionality into a Go application.
+
+### Example: Creating Tables with Foreign Keys in SQL
+
+#### SQL Server (MS SQL)
+
+In SQL Server, you can create tables with foreign keys using the `FOREIGN KEY` constraint.
+
+```sql
+CREATE TABLE departments (
+    department_id INT PRIMARY KEY,
+    department_name NVARCHAR(100)
+);
+
+CREATE TABLE employees (
+    employee_id INT PRIMARY KEY,
+    first_name NVARCHAR(100),
+    last_name NVARCHAR(100),
+    department_id INT,
+    FOREIGN KEY (department_id) REFERENCES departments(department_id)
+);
+```
+
+#### Microsoft Access
+
+In Microsoft Access, the syntax for creating tables with foreign keys is similar.
+
+```sql
+CREATE TABLE departments (
+    department_id INT PRIMARY KEY,
+    department_name TEXT(100)
+);
+
+CREATE TABLE employees (
+    employee_id INT PRIMARY KEY,
+    first_name TEXT(100),
+    last_name TEXT(100),
+    department_id INT,
+    FOREIGN KEY (department_id) REFERENCES departments(department_id)
+);
+```
+
+#### MySQL
+
+In MySQL, you can create tables with foreign keys as follows.
+
+```sql
+CREATE TABLE departments (
+    department_id INT PRIMARY KEY,
+    department_name VARCHAR(100)
+);
+
+CREATE TABLE employees (
+    employee_id INT PRIMARY KEY,
+    first_name VARCHAR(100),
+    last_name VARCHAR(100),
+    department_id INT,
+    FOREIGN KEY (department_id) REFERENCES departments(department_id)
+);
+```
+
+#### PostgreSQL
+
+In PostgreSQL, the syntax is the same as in MySQL.
+
+```sql
+CREATE TABLE departments (
+    department_id INT PRIMARY KEY,
+    department_name VARCHAR(100)
+);
+
+CREATE TABLE employees (
+    employee_id INT PRIMARY KEY,
+    first_name VARCHAR(100),
+    last_name VARCHAR(100),
+    department_id INT,
+    FOREIGN KEY (department_id) REFERENCES departments(department_id)
+);
+```
+
+#### SQLite
+
+In SQLite, you can create tables with foreign keys using the following syntax.
+
+```sql
+CREATE TABLE departments (
+    department_id INTEGER PRIMARY KEY,
+    department_name TEXT
+);
+
+CREATE TABLE employees (
+    employee_id INTEGER PRIMARY KEY,
+    first_name TEXT,
+    last_name TEXT,
+    department_id INTEGER,
+    FOREIGN KEY (department_id) REFERENCES departments(department_id)
+);
+```
+
+#### Firebird
+
+In Firebird, the syntax for creating tables with foreign keys is as follows.
+
+```sql
+CREATE TABLE departments (
+    department_id INTEGER PRIMARY KEY,
+    department_name VARCHAR(100)
+);
+
+CREATE TABLE employees (
+    employee_id INTEGER PRIMARY KEY,
+    first_name VARCHAR(100),
+    last_name VARCHAR(100),
+    department_id INTEGER,
+    FOREIGN KEY (department_id) REFERENCES departments(department_id)
+);
+```
+
+### Integrating with Go
+
+Let's create a Go application that connects to a SQLite database and creates tables with foreign keys.
+
+#### Step 1: Install the SQLite Driver
+
+Install the SQLite driver package using `go get`.
+
+```sh
+go get github.com/mattn/go-sqlite3
+```
+
+#### Step 2: Write the Go Code
+
+Write the Go code to connect to the SQLite database and create tables with foreign keys.
+
+```go
+package main
+
+import (
+    "database/sql"
+    "fmt"
+    _ "github.com/mattn/go-sqlite3" // Import the SQLite driver
+)
+
+// Function to connect to the SQLite database and create tables with foreign keys
+func connectAndCreateTables(dsn string) error {
+    // Open a connection to the database
+    db, err := sql.Open("sqlite3", dsn)
+    if err != nil {
+        return fmt.Errorf("failed to connect to database: %w", err)
+    }
+    defer db.Close()
+
+    // Create the departments table
+    createDepartmentsTable := `
+    CREATE TABLE IF NOT EXISTS departments (
+        department_id INTEGER PRIMARY KEY,
+        department_name TEXT
+    );`
+    _, err = db.Exec(createDepartmentsTable)
+    if err != nil {
+        return fmt.Errorf("failed to create departments table: %w", err)
+    }
+
+    // Create the employees table with a foreign key
+    createEmployeesTable := `
+    CREATE TABLE IF NOT EXISTS employees (
+        employee_id INTEGER PRIMARY KEY,
+        first_name TEXT,
+        last_name TEXT,
+        department_id INTEGER,
+        FOREIGN KEY (department_id) REFERENCES departments(department_id)
+    );`
+    _, err = db.Exec(createEmployeesTable)
+    if err != nil {
+        return fmt.Errorf("failed to create employees table: %w", err)
+    }
+
+    fmt.Println("Tables created successfully.")
+    return nil
+}
+
+func main() {
+    // Data Source Name (DSN) for the SQLite database
+    dsn := "example.db"
+
+    // Connect to the database and create the tables
+    err := connectAndCreateTables(dsn)
+    if err != nil {
+        fmt.Printf("Error: %v\n", err)
+    }
+}
+```
+
+### Explanation
+
+1. **Install the SQLite Driver**:
+   - Use `go get` to install the `github.com/mattn/go-sqlite3` package.
+
+2. **Write the Go Code**:
+   - The `connectAndCreateTables` function connects to the SQLite database and creates two tables: `departments` and `employees`.
+   - The `departments` table includes a primary key (`department_id`).
+   - The `employees` table includes a foreign key (`department_id`) that references the `departments` table.
+   - The `main` function defines the DSN for the SQLite database and calls the `connectAndCreateTables` function.
+
+### Detailed Output
+
+The program will connect to the SQLite database and create the `departments` and `employees` tables with the appropriate foreign key constraint. The output will be:
+
+```
+Tables created successfully.
+```
+
+### Summary
+
+In Go, you can connect to a SQLite database and create tables with foreign keys using the `github.com/mattn/go-sqlite3` package with the `database/sql` package. By defining functions to handle database connections and table creation, you can efficiently manage database schema setup in your applications. This approach is applicable to other databases like SQL Server, MySQL, PostgreSQL, Access, and Firebird by adjusting the connection string and SQL syntax accordingly.

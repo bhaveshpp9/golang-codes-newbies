@@ -1,1 +1,65 @@
 \\ Arrays and collections —  Arrays and Slices — Iterating over an array(reverse)
+
+
+Iterating over an array or slice in reverse order in Go is a common task, especially when you need to process elements from the end to the beginning. This can be done by using a traditional `for` loop and managing the index manually to start from the last element and work backwards.
+
+### Example: Iterating Over an Array in Reverse
+
+Here is a simple example of how you can iterate over an array or slice in reverse:
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Define an array of integers
+    numbers := [5]int{10, 20, 30, 40, 50}
+
+    // Iterating over the array in reverse
+    for i := len(numbers) - 1; i >= 0; i-- {
+        fmt.Println(numbers[i])
+    }
+}
+```
+
+### Explanation:
+- **Array Definition**: An array of five integers is defined.
+- **Loop in Reverse**: The loop starts from `len(numbers) - 1` (the last element's index) and decrements the index `i` until it reaches 0 (the first element's index).
+- **Print Elements**: Each element is accessed using its index and printed in reverse order.
+
+### Alternative with Slices
+
+The same logic applies if you are dealing with a slice. Here's how you would iterate over a slice in reverse:
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Define a slice of strings
+    names := []string{"Alice", "Bob", "Charlie", "Diana"}
+
+    // Iterating over the slice in reverse
+    for i := len(names) - 1; i >= 0; i-- {
+        fmt.Println(names[i])
+    }
+}
+```
+
+### Explanation:
+- **Slice Definition**: A slice of strings is defined.
+- **Reverse Iteration**: The loop uses the same logic as with the array, starting from the last index of the slice and moving backwards.
+
+### Practical Use
+
+Iterating in reverse is particularly useful when you need to modify the sequence while iterating, such as removing elements from a slice based on certain conditions, where direct forward iteration could complicate index management or cause skipping of elements.
+
+### Performance Note
+
+Both array and slice are accessed in constant time when indexed directly, so iterating in reverse does not have any performance penalty compared to forward iteration. This technique ensures that your application logic can handle data in any order required by the use case.

@@ -1,1 +1,121 @@
 \\ Lambda Expressions —  without return value
+
+
+In Go, lambda expressions (anonymous functions) can be used without a return value. These types of functions are often used for operations that have side effects, such as modifying variables, printing to the console, or performing actions within a higher-order function.
+
+### Example: Basic Lambda Expression Without Return Value
+
+Here's a simple example where an anonymous function takes an argument and prints a message:
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    // Define an anonymous function without a return value
+    greet := func(name string) {
+        fmt.Println("Hello,", name)
+    }
+
+    // Use the anonymous function
+    greet("Alice") // Output: Hello, Alice
+    greet("Bob")   // Output: Hello, Bob
+}
+```
+
+### Explanation
+
+1. **Anonymous Function Definition:** The `greet` anonymous function takes one parameter `name` and prints a greeting message. It does not return any value.
+2. **Function Call:** The `greet` function is called with the arguments `"Alice"` and `"Bob"`, and it prints the respective messages.
+
+### Example: Using Anonymous Functions in Higher-Order Functions
+
+Higher-order functions can take other functions as parameters or return functions. Here’s an example demonstrating how to use anonymous functions without return values in a higher-order function:
+
+```go
+package main
+
+import "fmt"
+
+// Define a higher-order function that takes a string and a void function
+func applyToEach(names []string, action func(string)) {
+    for _, name := range names {
+        action(name)
+    }
+}
+
+func main() {
+    // Define an anonymous function without a return value
+    printName := func(name string) {
+        fmt.Println(name)
+    }
+
+    // List of names
+    names := []string{"Alice", "Bob", "Charlie"}
+
+    // Use the higher-order function with the anonymous function
+    applyToEach(names, printName)
+}
+```
+
+### Explanation
+
+1. **Higher-Order Function:** The `applyToEach` function takes a slice of strings `names` and a function `action` that takes a string and returns no value.
+2. **Anonymous Function:** Define the `printName` anonymous function to print each name.
+3. **Function Call:** Use the `applyToEach` function with the `printName` function to print all names in the list.
+
+### Practical Example: Event Handling
+
+Here’s a practical example where an anonymous function is used to handle an event:
+
+```go
+package main
+
+import "fmt"
+
+// Button struct with an event handler
+type Button struct {
+    onClick func()
+}
+
+// Method to set the onClick event handler
+func (b *Button) SetOnClick(handler func()) {
+    b.onClick = handler
+}
+
+// Method to simulate a button click
+func (b *Button) Click() {
+    if b.onClick != nil {
+        b.onClick()
+    }
+}
+
+func main() {
+    // Create a new button
+    btn := &Button{}
+
+    // Set an onClick event handler using an anonymous function
+    btn.SetOnClick(func() {
+        fmt.Println("Button clicked!")
+    })
+
+    // Simulate a button click
+    btn.Click() // Output: Button clicked!
+}
+```
+
+### Explanation
+
+1. **Button Struct:** Define a `Button` struct with an `onClick` event handler of type `func()`.
+2. **SetOnClick Method:** Define the `SetOnClick` method to set the `onClick` event handler.
+3. **Click Method:** Define the `Click` method to simulate a button click by calling the `onClick` event handler if it’s not `nil`.
+4. **Anonymous Function:** In the `main` function, create a `Button` instance, set an `onClick` event handler using an anonymous function, and simulate a button click.
+
+### Summary
+
+- **Void Functions:** Anonymous functions in Go can be used without a return value for operations that perform side effects.
+- **Higher-Order Functions:** Use higher-order functions to pass and utilize anonymous functions without return values.
+- **Practical Uses:** Apply anonymous functions for tasks like printing, modifying variables, handling events, and other procedural operations.
+
+By using lambda expressions without return values, you can encapsulate and manage side effects in your Go programs effectively, creating more modular and readable code.

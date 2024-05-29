@@ -1,1 +1,108 @@
 \\ Simple types.— Character type —escape characters
+
+In Go, escape characters are special characters used within string literals to represent certain special characters or to control the formatting of the output. Escape characters start with a backslash (`\`) followed by one or more characters that together represent a single character.
+
+### Common Escape Characters in Go
+
+Here are some of the most commonly used escape characters in Go:
+
+- `\n`: Newline
+- `\r`: Carriage return
+- `\t`: Horizontal tab
+- `\\`: Backslash
+- `\"`: Double quote
+- `\'`: Single quote (within rune literals)
+- `\uXXXX`: Unicode escape sequence for a 16-bit hexadecimal value
+- `\UXXXXXXXX`: Unicode escape sequence for a 32-bit hexadecimal value
+- `\xXX`: ASCII escape sequence for an 8-bit hexadecimal value
+
+### Example: Using Escape Characters
+
+Let's create an example demonstrating the use of various escape characters in Go strings.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Newline escape character
+    str1 := "Hello,\nWorld!"
+    
+    // Carriage return escape character
+    str2 := "Hello,\rWorld!"
+    
+    // Horizontal tab escape character
+    str3 := "Hello,\tWorld!"
+    
+    // Backslash escape character
+    str4 := "Hello,\\World!"
+    
+    // Double quote escape character
+    str5 := "Hello,\"World!\""
+    
+    // Single quote escape character in rune literals
+    char := '\''
+    
+    // Unicode escape sequence
+    str6 := "Hello, \u4e16\u754c!" // 世界 (World in Chinese)
+    
+    // ASCII escape sequence
+    str7 := "Hello, \x57\x6f\x72\x6c\x64!" // World in ASCII
+    
+    // Print the strings
+    fmt.Println(str1) // Output: Hello,
+                      //         World!
+    fmt.Println(str2) // Output: Hello,
+                      //         World!
+    fmt.Println(str3) // Output: Hello,    World!
+    fmt.Println(str4) // Output: Hello,\World!
+    fmt.Println(str5) // Output: Hello,"World!"
+    fmt.Printf("Single quote character: %c\n", char) // Output: Single quote character: '
+    fmt.Println(str6) // Output: Hello, 世界!
+    fmt.Println(str7) // Output: Hello, World!
+}
+```
+
+### Explanation
+
+1. **Newline (`\n`)**:
+   - `str1` contains the newline escape character `\n`, which moves the cursor to the next line.
+2. **Carriage Return (`\r`)**:
+   - `str2` contains the carriage return escape character `\r`, which moves the cursor to the beginning of the line.
+3. **Horizontal Tab (`\t`)**:
+   - `str3` contains the horizontal tab escape character `\t`, which inserts a tab space.
+4. **Backslash (`\\`)**:
+   - `str4` contains the backslash escape character `\\`, which represents a literal backslash character.
+5. **Double Quote (`\"`)**:
+   - `str5` contains the double quote escape character `\"`, which represents a literal double quote character.
+6. **Single Quote (`\'`)**:
+   - `char` is a rune containing the single quote escape character `\'`, which represents a literal single quote character.
+7. **Unicode Escape Sequence (`\uXXXX`)**:
+   - `str6` contains Unicode escape sequences `\u4e16\u754c`, which represent the Chinese characters for "world" (世界).
+8. **ASCII Escape Sequence (`\xXX`)**:
+   - `str7` contains ASCII escape sequences `\x57\x6f\x72\x6c\x64`, which represent the characters "World".
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Hello,
+World!
+Hello,
+World!
+Hello,	World!
+Hello,\World!
+Hello,"World!"
+Single quote character: '
+Hello, 世界!
+Hello, World!
+```
+
+### Summary
+
+Escape characters in Go are used to represent special characters or control formatting within string literals. They provide a way to include characters in strings that would otherwise be difficult to represent. By understanding and using these escape characters, you can create more readable and properly formatted strings in your Go programs.

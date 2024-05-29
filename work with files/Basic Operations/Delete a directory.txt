@@ -1,1 +1,103 @@
 \\ work with files — Basic Operations — Delete a directory
+
+
+To delete a directory in Go, you can use the `os.Remove` or `os.RemoveAll` functions from the `os` package. The `os.Remove` function removes a single file or directory, while `os.RemoveAll` removes a directory and any contents it contains.
+
+### Example: Deleting a Directory
+
+Let's create an example where we define functions to delete a directory. We'll use both `os.Remove` and `os.RemoveAll` to demonstrate their usage.
+
+#### Step 1: Import Necessary Packages
+
+First, import the necessary package.
+
+```go
+package main
+
+import (
+    "fmt"
+    "os"
+)
+```
+
+#### Step 2: Define Functions to Delete a Directory
+
+Create functions to delete a single directory and to delete a directory with all its contents.
+
+```go
+// Function to delete a single directory
+func deleteSingleDirectory(path string) error {
+    err := os.Remove(path)
+    if err != nil {
+        return err
+    }
+    fmt.Printf("Successfully deleted directory: %s\n", path)
+    return nil
+}
+
+// Function to delete a directory along with all its contents
+func deleteNestedDirectories(path string) error {
+    err := os.RemoveAll(path)
+    if err != nil {
+        return err
+    }
+    fmt.Printf("Successfully deleted directory and all its contents: %s\n", path)
+    return nil
+}
+```
+
+#### Step 3: Use the Functions
+
+Finally, use the functions in the `main` function to delete directories.
+
+```go
+func main() {
+    // Path for a single directory
+    singleDir := "example_dir"
+
+    // Path for nested directories
+    nestedDir := "parent_dir"
+
+    // Delete a single directory
+    if err := deleteSingleDirectory(singleDir); err != nil {
+        fmt.Printf("Failed to delete directory: %v\n", err)
+    }
+
+    // Delete nested directories and all contents
+    if err := deleteNestedDirectories(nestedDir); err != nil {
+        fmt.Printf("Failed to delete directory and all its contents: %v\n", err)
+    }
+}
+```
+
+### Explanation
+
+1. **Import Necessary Packages**:
+   - The `os` package is used for file operations.
+
+2. **Define Functions**:
+   - `deleteSingleDirectory` function:
+     - Takes a path as input.
+     - Uses `os.Remove` to delete a single directory.
+     - Prints a success message if the directory is deleted.
+   - `deleteNestedDirectories` function:
+     - Takes a path as input.
+     - Uses `os.RemoveAll` to delete the directory along with any contents.
+     - Prints a success message if the directory and contents are deleted.
+
+3. **Use the Functions in `main`**:
+   - In `main`, paths for a single directory and nested directories are defined.
+   - The `deleteSingleDirectory` and `deleteNestedDirectories` functions are called to delete the directories, and the results are printed.
+
+### Detailed Output
+
+The program will delete the specified directories and print the results. For example:
+
+```
+Successfully deleted directory: example_dir
+Successfully deleted directory and all its contents: parent_dir
+```
+
+### Summary
+
+In Go, you can delete directories using the `os.Remove` and `os.RemoveAll` functions. The `os.Remove` function deletes a single directory, while the `os.RemoveAll` function deletes a directory along with any contents it contains. By defining functions to handle directory deletion, you can efficiently manage your file system structure in your applications. This approach is useful for cleaning up directories, removing temporary files, or managing resources that are no longer needed.

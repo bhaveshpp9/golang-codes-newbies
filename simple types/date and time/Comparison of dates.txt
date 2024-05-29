@@ -1,1 +1,164 @@
 \\ Simple types.— Date and time — Comparison of dates
+
+In Go, the `time` package provides comprehensive support for working with dates and times. You can compare dates using the methods provided by the `time.Time` type, such as `Before`, `After`, and `Equal`. These methods allow you to determine the relative order of two date-time values.
+
+### Comparing Dates
+
+#### Example: Comparing Dates Using `Before`, `After`, and `Equal`
+
+Here’s an example demonstrating how to compare two dates using the `time` package.
+
+```go
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func main() {
+    // Define two dates
+    date1 := time.Date(2023, time.May, 26, 0, 0, 0, 0, time.UTC)
+    date2 := time.Date(2024, time.May, 26, 0, 0, 0, 0, time.UTC)
+
+    // Compare the dates
+    if date1.Before(date2) {
+        fmt.Println("date1 is before date2")
+    }
+
+    if date2.After(date1) {
+        fmt.Println("date2 is after date1")
+    }
+
+    if date1.Equal(date2) {
+        fmt.Println("date1 is equal to date2")
+    } else {
+        fmt.Println("date1 is not equal to date2")
+    }
+}
+```
+
+### Explanation
+
+1. **Define Dates**:
+   - We use `time.Date` to create two date-time values, `date1` and `date2`.
+   - The `time.Date` function takes year, month, day, hour, minute, second, nanosecond, and location (time zone) as arguments.
+
+2. **Compare Dates Using `Before`**:
+   - `date1.Before(date2)` returns `true` if `date1` is before `date2`.
+
+3. **Compare Dates Using `After`**:
+   - `date2.After(date1)` returns `true` if `date2` is after `date1`.
+
+4. **Compare Dates Using `Equal`**:
+   - `date1.Equal(date2)` returns `true` if `date1` is equal to `date2`.
+
+5. **Print Results**:
+   - Based on the comparisons, we print the results indicating the relative order of the dates.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+date1 is before date2
+date2 is after date1
+date1 is not equal to date2
+```
+
+### Additional Comparisons
+
+#### Example: Comparing Dates with the Current Date
+
+You can also compare a date with the current date using `time.Now()`.
+
+```go
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func main() {
+    // Define a specific date
+    date := time.Date(2023, time.May, 26, 0, 0, 0, 0, time.UTC)
+
+    // Get the current date
+    now := time.Now()
+
+    // Compare the specific date with the current date
+    if date.Before(now) {
+        fmt.Println("The specific date is before the current date")
+    }
+
+    if date.After(now) {
+        fmt.Println("The specific date is after the current date")
+    }
+
+    if date.Equal(now) {
+        fmt.Println("The specific date is equal to the current date")
+    } else {
+        fmt.Println("The specific date is not equal to the current date")
+    }
+}
+```
+
+### Detailed Output
+
+The output will vary depending on the current date, but it will look something like:
+```
+The specific date is before the current date
+The specific date is not equal to the current date
+```
+
+### Practical Example: Sorting Dates
+
+Here’s a practical example that demonstrates how to sort a slice of dates.
+
+#### Example: Sorting Dates
+
+```go
+package main
+
+import (
+    "fmt"
+    "sort"
+    "time"
+)
+
+func main() {
+    // Define a slice of dates
+    dates := []time.Time{
+        time.Date(2023, time.May, 26, 0, 0, 0, 0, time.UTC),
+        time.Date(2021, time.January, 1, 0, 0, 0, 0, time.UTC),
+        time.Date(2022, time.December, 31, 0, 0, 0, 0, time.UTC),
+        time.Now(),
+    }
+
+    // Sort the slice of dates
+    sort.Slice(dates, func(i, j int) bool {
+        return dates[i].Before(dates[j])
+    })
+
+    // Print the sorted dates
+    fmt.Println("Sorted dates:")
+    for _, date := range dates {
+        fmt.Println(date)
+    }
+}
+```
+
+### Detailed Output
+
+The output will display the dates in ascending order:
+```
+Sorted dates:
+2021-01-01 00:00:00 +0000 UTC
+2022-12-31 00:00:00 +0000 UTC
+2023-05-26 00:00:00 +0000 UTC
+(current date and time)
+```
+
+### Summary
+
+Comparing dates in Go is straightforward using the `time` package. The `Before`, `After`, and `Equal` methods of the `time.Time` type allow you to determine the relative order of two date-time values. These methods can be used for a variety of purposes, such as checking deadlines, scheduling events, or sorting dates. By understanding how to use these methods, you can effectively manage and manipulate date-time values in your Go programs.

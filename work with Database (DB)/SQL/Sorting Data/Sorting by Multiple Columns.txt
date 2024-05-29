@@ -1,1 +1,20 @@
 \\ work with database(DB) — SQL — Sorting data — Sorting by Multiple Columns
+
+
+SELECT Continent, Region, Name
+FROM country
+ORDER BY Continent, Region, Name
+
+Continent	Region	Name
+Asia	Eastern Asia	China
+Asia	Eastern Asia	Hong Kong
+Asia	Eastern Asia	Japan
+Asia	Eastern Asia	Macao
+Asia	Eastern Asia	Mongolia
+Asia	Eastern Asia	North Korea
+Asia	Eastern Asia	South Korea
+Asia	Eastern Asia	Taiwan
+Asia	Middle East	Armenia
+...
+
+To sort by multiple columns, simply specify the column names separated by commas in the ORDER BY clause.

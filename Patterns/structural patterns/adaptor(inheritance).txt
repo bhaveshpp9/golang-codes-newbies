@@ -1,1 +1,143 @@
 \\ Patterns — structural patterns — adaptor(inheritance)
+
+The Adapter pattern can also be implemented using inheritance, where the adapter class inherits from the adaptee class and implements the target interface. This approach is particularly useful when you can subclass the adaptee to extend its functionality and adapt its interface to the target interface.
+
+### Key Components
+
+1. **Target Interface**: The interface expected by the client.
+2. **Adaptee**: The existing interface that needs to be adapted.
+3. **Adapter**: The class that inherits from the adaptee and implements the target interface.
+
+### Example: Adapter Pattern using Inheritance
+
+Let's create an example where we have an existing `AudioPlayer` class that only plays MP3 files, and we want to adapt it to play VLC and MP4 files using an `AdvancedMediaPlayer`.
+
+#### Target Interface
+
+```go
+package main
+
+// MediaPlayer is the target interface expected by the client
+type MediaPlayer interface {
+    Play(audioType string, fileName string)
+}
+```
+
+#### Adaptee
+
+```go
+package main
+
+import "fmt"
+
+// AdvancedMediaPlayer is the existing interface that needs to be adapted
+type AdvancedMediaPlayer interface {
+    PlayVLC(fileName string)
+    PlayMP4(fileName string)
+}
+
+// VLCPlayer is a concrete implementation of AdvancedMediaPlayer
+type VLCPlayer struct{}
+
+func (v *VLCPlayer) PlayVLC(fileName string) {
+    fmt.Println("Playing VLC file. Name:", fileName)
+}
+
+func (v *VLCPlayer) PlayMP4(fileName string) {
+    // Do nothing
+}
+
+// MP4Player is a concrete implementation of AdvancedMediaPlayer
+type MP4Player struct{}
+
+func (m *MP4Player) PlayVLC(fileName string) {
+    // Do nothing
+}
+
+func (m *MP4Player) PlayMP4(fileName string) {
+    fmt.Println("Playing MP4 file. Name:", fileName)
+}
+```
+
+#### Adapter using Inheritance
+
+```go
+package main
+
+// MediaAdapter is the adapter that inherits from VLCPlayer and MP4Player and implements MediaPlayer
+type MediaAdapter struct {
+    advancedMediaPlayer AdvancedMediaPlayer
+}
+
+func NewMediaAdapter(audioType string) *MediaAdapter {
+    if audioType == "vlc" {
+        return &MediaAdapter{advancedMediaPlayer: &VLCPlayer{}}
+    } else if audioType == "mp4" {
+        return &MediaAdapter{advancedMediaPlayer: &MP4Player{}}
+    }
+    return nil
+}
+
+func (m *MediaAdapter) Play(audioType string, fileName string) {
+    if audioType == "vlc" {
+        m.advancedMediaPlayer.PlayVLC(fileName)
+    } else if audioType == "mp4" {
+        m.advancedMediaPlayer.PlayMP4(fileName)
+    }
+}
+```
+
+#### Client
+
+```go
+package main
+
+import "fmt"
+
+// AudioPlayer is the client that uses MediaPlayer to play audio files
+type AudioPlayer struct {
+    mediaAdapter *MediaAdapter
+}
+
+func (a *AudioPlayer) Play(audioType string, fileName string) {
+    if audioType == "mp3" {
+        fmt.Println("Playing MP3 file. Name:", fileName)
+    } else if audioType == "vlc" || audioType == "mp4" {
+        a.mediaAdapter = NewMediaAdapter(audioType)
+        a.mediaAdapter.Play(audioType, fileName)
+    } else {
+        fmt.Println("Invalid media. ", audioType, " format not supported")
+    }
+}
+
+func main() {
+    audioPlayer := &AudioPlayer{}
+
+    audioPlayer.Play("mp3", "song.mp3")   // Output: Playing MP3 file. Name: song.mp3
+    audioPlayer.Play("mp4", "movie.mp4")  // Output: Playing MP4 file. Name: movie.mp4
+    audioPlayer.Play("vlc", "video.vlc")  // Output: Playing VLC file. Name: video.vlc
+    audioPlayer.Play("avi", "clip.avi")   // Output: Invalid media.  avi  format not supported
+}
+```
+
+### Explanation
+
+1. **Target Interface**: The `MediaPlayer` interface declares the `Play` method that the client expects.
+2. **Adaptee**: The `AdvancedMediaPlayer` interface and its concrete implementations (`VLCPlayer` and `MP4Player`) represent the existing interfaces that need to be adapted.
+3. **Adapter using Inheritance**:
+   - The `MediaAdapter` struct implements the `MediaPlayer` interface.
+   - Instead of using composition, the `MediaAdapter` uses an instance of `AdvancedMediaPlayer` to delegate the handling of different media types.
+4. **Client**: The `AudioPlayer` class uses the `MediaPlayer` interface to play different types of audio files. It delegates the handling of non-MP3 formats to the `MediaAdapter`.
+
+### Advantages
+
+- **Reusability**: Allows existing code to work with new code without modification.
+- **Separation of Concerns**: Separates the interface translation from the actual business logic.
+- **Flexibility**: New adapters can be added to handle additional formats without changing existing code.
+
+### Disadvantages
+
+- **Complexity**: Introduces additional classes and interfaces, which can make the system more complex.
+- **Performance Overhead**: The adapter can add a slight overhead due to the extra level of indirection.
+
+By using the Adapter pattern with inheritance, you can integrate new functionality into existing systems seamlessly, ensuring that objects with incompatible interfaces can work together efficiently. This pattern is particularly useful when you need to use existing classes but cannot modify their source code.

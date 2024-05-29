@@ -1,1 +1,249 @@
 \\ work with database(DB) — SQL — Calculated Fields — Concatenating Fields — Ms SQL, Access
+
+
+To concatenate fields in SQL for Microsoft SQL Server (MS SQL) and Microsoft Access, you can use different functions depending on the database system. Below are examples of how to concatenate fields in both SQL Server and Access, and how to integrate this functionality into a Go application.
+
+### Example: Concatenating Fields in SQL
+
+#### SQL Server (MS SQL)
+
+In SQL Server, you can use the `+` operator to concatenate fields.
+
+```sql
+SELECT 
+    id, 
+    first_name, 
+    last_name, 
+    first_name + ' ' + last_name AS full_name 
+FROM 
+    employees;
+```
+
+#### Microsoft Access
+
+In Microsoft Access, you can use the `&` operator to concatenate fields.
+
+```sql
+SELECT 
+    id, 
+    first_name, 
+    last_name, 
+    first_name & ' ' & last_name AS full_name 
+FROM 
+    employees;
+```
+
+### Integrating with Go
+
+Let's create a Go application that connects to a SQL Server database, executes a query with field concatenation, and prints the results.
+
+#### Step 1: Set Up the SQL Server Database
+
+First, create the SQL Server database and populate it with some example data.
+
+```sql
+CREATE TABLE employees (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    first_name NVARCHAR(255),
+    last_name NVARCHAR(255)
+);
+
+INSERT INTO employees (first_name, last_name) VALUES ('Alice', 'Johnson'), ('Bob', 'Smith'), ('Charlie', 'Brown');
+```
+
+#### Step 2: Install the SQL Server Driver
+
+Install the SQL Server driver package using `go get`.
+
+```sh
+go get github.com/denisenkom/go-mssqldb
+```
+
+#### Step 3: Write the Go Code
+
+Write the Go code to connect to the SQL Server database, execute the query with field concatenation, and print the results.
+
+```go
+package main
+
+import (
+    "database/sql"
+    "fmt"
+    _ "github.com/denisenkom/go-mssqldb" // Import the SQL Server driver
+)
+
+// Function to connect to the SQL Server database and execute a query
+func connectAndQueryDB(dsn string) error {
+    // Open a connection to the database
+    db, err := sql.Open("sqlserver", dsn)
+    if err != nil {
+        return fmt.Errorf("failed to connect to database: %w", err)
+    }
+    defer db.Close()
+
+    // Test the database connection
+    err = db.Ping()
+    if err != nil {
+        return fmt.Errorf("failed to ping database: %w", err)
+    }
+
+    // Execute a query with concatenated fields
+    query := `
+    SELECT 
+        id, 
+        first_name, 
+        last_name, 
+        first_name + ' ' + last_name AS full_name 
+    FROM 
+        employees;
+    `
+    rows, err := db.Query(query)
+    if err != nil {
+        return fmt.Errorf("failed to execute query: %w", err)
+    }
+    defer rows.Close()
+
+    // Print the retrieved data
+    fmt.Println("Data retrieved from the database:")
+    for rows.Next() {
+        var id int
+        var firstName, lastName, fullName string
+        err := rows.Scan(&id, &firstName, &lastName, &fullName)
+        if err != nil {
+            return fmt.Errorf("failed to scan row: %w", err)
+        }
+        fmt.Printf("ID: %d, First Name: %s, Last Name: %s, Full Name: %s\n", id, firstName, lastName, fullName)
+    }
+
+    // Check for errors after iterating through the rows
+    if err := rows.Err(); err != nil {
+        return fmt.Errorf("error iterating through rows: %w", err)
+    }
+
+    return nil
+}
+
+func main() {
+    // Data Source Name (DSN) for the SQL Server database
+    // Format: sqlserver://username:password@host:port?database=dbname
+    dsn := "sqlserver://username:password@localhost:1433?database=testdb"
+
+    // Connect to the database and execute the query
+    err := connectAndQueryDB(dsn)
+    if err != nil {
+        fmt.Printf("Error: %v\n", err)
+    }
+}
+```
+
+### Detailed Output
+
+The program will connect to the SQL Server database, execute the SQL query with concatenated fields to retrieve data, and print the retrieved data. For example:
+
+```
+Data retrieved from the database:
+ID: 1, First Name: Alice, Last Name: Johnson, Full Name: Alice Johnson
+ID: 2, First Name: Bob, Last Name: Smith, Full Name: Bob Smith
+ID: 3, First Name: Charlie, Last Name: Brown, Full Name: Charlie Brown
+```
+
+### Summary
+
+In Go, you can connect to a SQL Server database and execute SQL queries that include concatenated fields using the `github.com/denisenkom/go-mssqldb` package with the `database/sql` package. By defining functions to handle database connections and query execution, you can efficiently manage database operations and retrieve concatenated fields in your applications. This approach is useful for tasks such as data manipulation, reporting, and presenting combined information from multiple fields.
+
+### Microsoft Access
+
+For Microsoft Access, Go does not have a native driver like for other databases, but you can still interact with Access databases using an ODBC driver. Below is a simple example of how you might connect to an Access database using ODBC.
+
+#### Step 1: Install the ODBC Driver for Access
+
+Ensure you have the ODBC driver for Access installed on your system. You can download it from the official Microsoft website.
+
+#### Step 2: Install the ODBC Driver Package in Go
+
+Install the ODBC driver package using `go get`.
+
+```sh
+go get github.com/alexbrainman/odbc
+```
+
+#### Step 3: Write the Go Code
+
+Write the Go code to connect to the Access database, execute the query with field concatenation, and print the results.
+
+```go
+package main
+
+import (
+    "database/sql"
+    "fmt"
+    _ "github.com/alexbrainman/odbc" // Import the ODBC driver
+)
+
+// Function to connect to the Access database and execute a query
+func connectAndQueryDB(dsn string) error {
+    // Open a connection to the database
+    db, err := sql.Open("odbc", dsn)
+    if err != nil {
+        return fmt.Errorf("failed to connect to database: %w", err)
+    }
+    defer db.Close()
+
+    // Test the database connection
+    err = db.Ping()
+    if err != nil {
+        return fmt.Errorf("failed to ping database: %w", err)
+    }
+
+    // Execute a query with concatenated fields
+    query := `
+    SELECT 
+        id, 
+        first_name, 
+        last_name, 
+        first_name & ' ' & last_name AS full_name 
+    FROM 
+        employees;
+    `
+    rows, err := db.Query(query)
+    if err != nil {
+        return fmt.Errorf("failed to execute query: %w", err)
+    }
+    defer rows.Close()
+
+    // Print the retrieved data
+    fmt.Println("Data retrieved from the database:")
+    for rows.Next() {
+        var id int
+        var firstName, lastName, fullName string
+        err := rows.Scan(&id, &firstName, &lastName, &fullName)
+        if err != nil {
+            return fmt.Errorf("failed to scan row: %w", err)
+        }
+        fmt.Printf("ID: %d, First Name: %s, Last Name: %s, Full Name: %s\n", id, firstName, lastName, fullName)
+    }
+
+    // Check for errors after iterating through the rows
+    if err := rows.Err(); err != nil {
+        return fmt.Errorf("error iterating through rows: %w", err)
+    }
+
+    return nil
+}
+
+func main() {
+    // Data Source Name (DSN) for the Access database
+    // Format: DSN=<your_dsn>
+    dsn := "DSN=YourDSNName"
+
+    // Connect to the database and execute the query
+    err := connectAndQueryDB(dsn)
+    if err != nil {
+        fmt.Printf("Error: %v\n", err)
+    }
+}
+```
+
+### Summary for Microsoft Access
+
+To connect to a Microsoft Access database in Go, you can use the ODBC driver via the `github.com/alexbrainman/odbc` package. By defining functions to handle database connections and query execution, you can efficiently manage database operations and retrieve concatenated fields in your applications. This approach is useful for tasks such as data manipulation, reporting, and presenting combined information from multiple fields.

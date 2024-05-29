@@ -1,1 +1,138 @@
 \\ Initialising of types — Collections — Directories
+
+In Go, initializing collections such as maps, slices, and directories (as directory listings) is an essential part of many applications. However, Go does not have a built-in data type specifically for directories. Instead, directories are typically handled by interacting with the file system using the `os` and `io/ioutil` (deprecated) or `os` and `io/fs` packages.
+
+### Initializing Collections
+
+1. **Maps**
+2. **Slices**
+3. **Directories**
+
+### Maps
+
+Maps are collections of key-value pairs.
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    // Initializing a map
+    var m1 map[string]int = map[string]int{"one": 1, "two": 2, "three": 3}
+    m2 := map[string]string{"a": "apple", "b": "banana"}
+
+    // Adding a new key-value pair
+    m1["four"] = 4
+
+    fmt.Println(m1)
+    fmt.Println(m2)
+}
+```
+
+### Slices
+
+Slices are dynamically-sized arrays.
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    // Initializing slices
+    var slice1 []int = []int{1, 2, 3}
+    slice2 := []string{"a", "b", "c"}
+
+    // Appending to a slice
+    slice1 = append(slice1, 4)
+
+    fmt.Println(slice1)
+    fmt.Println(slice2)
+}
+```
+
+### Directories
+
+To work with directories in Go, you use functions from the `os` and `io/ioutil` (or `os` and `io/fs` for Go 1.16+) packages to read directory contents, create directories, etc.
+
+#### Listing Directory Contents
+
+Here’s how you can list the contents of a directory:
+
+```go
+package main
+
+import (
+    "fmt"
+    "io/fs"
+    "log"
+    "os"
+)
+
+func main() {
+    // Specify the directory
+    dir := "./"
+
+    // Open the directory
+    f, err := os.Open(dir)
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer f.Close()
+
+    // Read directory entries
+    entries, err := f.ReadDir(-1)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    // Iterate over entries and print their names
+    for _, entry := range entries {
+        if entry.IsDir() {
+            fmt.Println("Dir:", entry.Name())
+        } else {
+            fmt.Println("File:", entry.Name())
+        }
+    }
+}
+```
+
+#### Creating a Directory
+
+To create a new directory, you can use the `os.Mkdir` or `os.MkdirAll` functions:
+
+```go
+package main
+
+import (
+    "log"
+    "os"
+)
+
+func main() {
+    // Create a single directory
+    err := os.Mkdir("testdir", 0755)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    // Create a nested directory structure
+    err = os.MkdirAll("parentdir/childdir", 0755)
+    if err != nil {
+        log.Fatal(err)
+    }
+}
+```
+
+### Summary
+
+Here’s a quick summary of initializing and working with different collections and directories in Go:
+
+- **Maps:** Use `map[KeyType]ValueType{...}` for initialization and `map[key] = value` for adding elements.
+- **Slices:** Use `[]Type{...}` for initialization and `append(slice, value)` for adding elements.
+- **Directories:**
+  - **Listing Contents:** Use `os.Open` and `ReadDir` to list directory contents.
+  - **Creating Directories:** Use `os.Mkdir` for single directories and `os.MkdirAll` for nested directories.
+
+By leveraging these techniques, you can effectively manage collections and directories in your Go applications.

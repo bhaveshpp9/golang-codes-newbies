@@ -1,1 +1,211 @@
 \\ Functions — Array of parameters
+
+
+In Go, you can pass an array or a slice as a parameter to a function. This allows you to handle multiple values of the same type efficiently. Arrays have a fixed size, while slices are more flexible and can grow dynamically.
+
+### Passing an Array to a Function
+
+Here's an example of passing an array to a function:
+
+```go
+package main
+
+import "fmt"
+
+// printArray prints all elements of an array
+func printArray(arr [5]int) {
+	for i, v := range arr {
+		fmt.Printf("Element %d: %d\n", i, v)
+	}
+}
+
+func main() {
+	array := [5]int{1, 2, 3, 4, 5}
+	printArray(array)
+}
+```
+
+### Explanation
+
+1. **Defining the Function:**
+   ```go
+   func printArray(arr [5]int) {
+       for i, v := range arr {
+           fmt.Printf("Element %d: %d\n", i, v)
+       }
+   }
+   ```
+   The `printArray` function takes an array of 5 integers as its parameter and prints each element with its index.
+
+2. **Calling the Function:**
+   ```go
+   func main() {
+       array := [5]int{1, 2, 3, 4, 5}
+       printArray(array)
+   }
+   ```
+   The `main` function initializes an array of 5 integers and passes it to the `printArray` function.
+
+### Passing a Slice to a Function
+
+Slices are more commonly used in Go because they are more flexible than arrays. Here's an example of passing a slice to a function:
+
+```go
+package main
+
+import "fmt"
+
+// printSlice prints all elements of a slice
+func printSlice(slice []int) {
+	for i, v := range slice {
+		fmt.Printf("Element %d: %d\n", i, v)
+	}
+}
+
+func main() {
+	slice := []int{1, 2, 3, 4, 5}
+	printSlice(slice)
+}
+```
+
+### Explanation
+
+1. **Defining the Function:**
+   ```go
+   func printSlice(slice []int) {
+       for i, v := range slice {
+           fmt.Printf("Element %d: %d\n", i, v)
+       }
+   }
+   ```
+   The `printSlice` function takes a slice of integers as its parameter and prints each element with its index.
+
+2. **Calling the Function:**
+   ```go
+   func main() {
+       slice := []int{1, 2, 3, 4, 5}
+       printSlice(slice)
+   }
+   ```
+   The `main` function initializes a slice of integers and passes it to the `printSlice` function.
+
+### Example: Modifying a Slice in a Function
+
+Slices are passed by reference, which means that changes to the slice inside the function will reflect in the caller.
+
+```go
+package main
+
+import "fmt"
+
+// doubleValues modifies each element in the slice to be twice its value
+func doubleValues(slice []int) {
+	for i := range slice {
+		slice[i] *= 2
+	}
+}
+
+func main() {
+	slice := []int{1, 2, 3, 4, 5}
+	fmt.Println("Before:", slice)
+	doubleValues(slice)
+	fmt.Println("After:", slice)
+}
+```
+
+### Explanation
+
+1. **Defining the Function:**
+   ```go
+   func doubleValues(slice []int) {
+       for i := range slice {
+           slice[i] *= 2
+       }
+   }
+   ```
+   The `doubleValues` function takes a slice of integers and doubles each element's value.
+
+2. **Calling the Function:**
+   ```go
+   func main() {
+       slice := []int{1, 2, 3, 4, 5}
+       fmt.Println("Before:", slice)
+       doubleValues(slice)
+       fmt.Println("After:", slice)
+   }
+   ```
+   The `main` function initializes a slice, prints it, calls `doubleValues`, and then prints the modified slice to show the changes.
+
+### Example: Summing an Array or Slice
+
+Here’s a function that calculates the sum of an array or slice:
+
+```go
+package main
+
+import "fmt"
+
+// sumArray calculates the sum of all elements in an array
+func sumArray(arr [5]int) int {
+	sum := 0
+	for _, v := range arr {
+		sum += v
+	}
+	return sum
+}
+
+// sumSlice calculates the sum of all elements in a slice
+func sumSlice(slice []int) int {
+	sum := 0
+	for _, v := range slice {
+		sum += v
+	}
+	return sum
+}
+
+func main() {
+	array := [5]int{1, 2, 3, 4, 5}
+	fmt.Println("Sum of array:", sumArray(array))
+
+	slice := []int{1, 2, 3, 4, 5}
+	fmt.Println("Sum of slice:", sumSlice(slice))
+}
+```
+
+### Explanation
+
+1. **Defining the Functions:**
+   ```go
+   func sumArray(arr [5]int) int {
+       sum := 0
+       for _, v := range arr {
+           sum += v
+       }
+       return sum
+   }
+
+   func sumSlice(slice []int) int {
+       sum := 0
+       for _, v := range slice {
+           sum += v
+       }
+       return sum
+   }
+   ```
+   The `sumArray` function calculates the sum of elements in an array, and the `sumSlice` function calculates the sum of elements in a slice.
+
+2. **Calling the Functions:**
+   ```go
+   func main() {
+       array := [5]int{1, 2, 3, 4, 5}
+       fmt.Println("Sum of array:", sumArray(array))
+
+       slice := []int{1, 2, 3, 4, 5}
+       fmt.Println("Sum of slice:", sumSlice(slice))
+   }
+   ```
+   The `main` function initializes an array and a slice, then prints the sum of their elements using `sumArray` and `sumSlice`.
+
+### Conclusion
+
+Passing arrays and slices to functions in Go allows you to handle multiple values of the same type efficiently. Arrays have a fixed size and are passed by value, while slices are more flexible and are passed by reference, allowing for in-place modifications. By using slices, you can write more flexible and dynamic code.

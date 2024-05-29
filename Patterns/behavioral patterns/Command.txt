@@ -1,1 +1,128 @@
 \\ Patterns — Behavioural patterns — Command
+
+
+The Command pattern is a behavioral design pattern that turns a request into a stand-alone object containing all information about the request. This transformation allows for parameterization of clients with different requests, queuing of requests, and logging the requests. It also supports undoable operations.
+
+In Go, the Command pattern can be implemented using structs and interfaces. Here's a detailed explanation and example of how to implement the Command pattern in Go.
+
+### Key Components
+
+1. **Command Interface**: Declares a method for executing a command.
+2. **Concrete Commands**: Implement the Command interface by binding a set of actions on a receiver.
+3. **Receiver**: Contains the business logic. Any class can act as a Receiver.
+4. **Invoker**: Asks the command to carry out the request.
+5. **Client**: Creates a ConcreteCommand object and sets its receiver.
+
+### Example
+
+Let's create a simple example where we have a `Light` that can be turned on and off using commands.
+
+#### Command Interface
+
+```go
+package main
+
+// Command interface declares a method for executing a command
+type Command interface {
+    Execute()
+}
+```
+
+#### Concrete Commands
+
+```go
+package main
+
+// Light struct acts as a Receiver
+type Light struct{}
+
+func (l *Light) On() {
+    fmt.Println("The light is on")
+}
+
+func (l *Light) Off() {
+    fmt.Println("The light is off")
+}
+
+// TurnOnCommand is a ConcreteCommand
+type TurnOnCommand struct {
+    light *Light
+}
+
+func (c *TurnOnCommand) Execute() {
+    c.light.On()
+}
+
+// TurnOffCommand is a ConcreteCommand
+type TurnOffCommand struct {
+    light *Light
+}
+
+func (c *TurnOffCommand) Execute() {
+    c.light.Off()
+}
+```
+
+#### Invoker
+
+```go
+package main
+
+// RemoteControl struct acts as an Invoker
+type RemoteControl struct {
+    command Command
+}
+
+func (r *RemoteControl) SetCommand(command Command) {
+    r.command = command
+}
+
+func (r *RemoteControl) PressButton() {
+    r.command.Execute()
+}
+```
+
+#### Client
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    light := &Light{}
+
+    turnOnCommand := &TurnOnCommand{light: light}
+    turnOffCommand := &TurnOffCommand{light: light}
+
+    remote := &RemoteControl{}
+
+    remote.SetCommand(turnOnCommand)
+    remote.PressButton() // Output: The light is on
+
+    remote.SetCommand(turnOffCommand)
+    remote.PressButton() // Output: The light is off
+}
+```
+
+### Explanation
+
+1. **Command Interface**: The `Command` interface declares the `Execute` method.
+2. **Receiver**: The `Light` struct acts as the Receiver with `On` and `Off` methods.
+3. **Concrete Commands**: 
+    - `TurnOnCommand` and `TurnOffCommand` implement the `Command` interface.
+    - They encapsulate the action of turning the light on and off by calling the corresponding methods on the `Light` receiver.
+4. **Invoker**: The `RemoteControl` struct acts as the Invoker, which holds a reference to a `Command` object. It has methods to set the command and execute it by pressing a button.
+5. **Client**: The client code in the `main` function creates instances of `Light`, `TurnOnCommand`, and `TurnOffCommand`. It then uses the `RemoteControl` to execute these commands.
+
+### Advantages
+
+- **Decoupling**: The Command pattern decouples the sender and receiver of a request.
+- **Flexibility**: You can add new commands without changing existing code.
+- **Undo/Redo**: Commands can be extended to support undo/redo operations.
+
+### Disadvantages
+
+- **Complexity**: Adding new classes and objects can make the system more complex.
+
+By implementing the Command pattern in Go, you can encapsulate requests as objects, allowing for more flexible and extensible code. This pattern is particularly useful in scenarios involving operations that need to be parameterized, queued, or logged.

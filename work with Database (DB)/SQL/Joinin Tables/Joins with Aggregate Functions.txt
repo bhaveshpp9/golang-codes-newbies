@@ -1,1 +1,25 @@
 \\ work with database(DB) — SQL — Joining Table — Joins with Aggregate Functions
+
+
+SELECT
+    c.Name,
+    COUNT(ct.Name) AS CityCount
+FROM country AS c
+INNER JOIN city AS ct ON
+    ct.CountryCode = c.Code
+GROUP BY c.Name
+ORDER BY 2 DESC
+
+Name	CityCount
+China	363
+India	341
+United States	274
+Brazil	250
+Japan	248
+Russian Federation	189
+Mexico	173
+Philippines	136
+Germany	93
+...
+
+This query combines the country and city tables. Then count the number of cities in each country.

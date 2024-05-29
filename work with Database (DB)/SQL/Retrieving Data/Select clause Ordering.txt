@@ -1,1 +1,12 @@
 \\ work with database(DB) — SQL — Retrieving Data — Select clause Ordering
+
+
+Clause Ordering:
+
+Clause		Description						Need
+SELECT		Columns or expressions to be returned			Yes
+FROM		Table or subquery to retrieve data from			Yes
+WHERE		Row-level filtring					No
+GROUP BY	Group specification					Only if calculating aggregates by group
+HAVING		Group-level filtring					No
+ORDER BY	Output sort order					No

@@ -1,1 +1,197 @@
 \\ Structures records — Constants
+
+
+In Go, constants are declared using the `const` keyword and can be of various types, including string, numeric, and boolean. Constants are values that do not change and are typically used to define fixed values that are used throughout your program.
+
+### Defining Constants
+
+#### Example: Numeric Constants
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Define numeric constants
+    const Pi = 3.14159
+    const LightSpeed = 299792458 // in meters per second
+
+    // Print the constants
+    fmt.Printf("Pi: %f\n", Pi)
+    fmt.Printf("Speed of light: %d m/s\n", LightSpeed)
+}
+```
+
+### Explanation
+
+1. **Define Numeric Constants**:
+   - We use the `const` keyword to define numeric constants `Pi` and `LightSpeed`.
+   - `Pi` is assigned the value `3.14159`.
+   - `LightSpeed` is assigned the value `299792458` (meters per second).
+
+2. **Print the Constants**:
+   - We use `fmt.Printf` to print the values of the constants.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Pi: 3.141590
+Speed of light: 299792458 m/s
+```
+
+#### Example: String Constants
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Define string constants
+    const Greeting = "Hello, World!"
+    const Farewell = "Goodbye, World!"
+
+    // Print the constants
+    fmt.Printf("Greeting: %s\n", Greeting)
+    fmt.Printf("Farewell: %s\n", Farewell)
+}
+```
+
+### Explanation
+
+1. **Define String Constants**:
+   - We use the `const` keyword to define string constants `Greeting` and `Farewell`.
+   - `Greeting` is assigned the value `"Hello, World!"`.
+   - `Farewell` is assigned the value `"Goodbye, World!"`.
+
+2. **Print the Constants**:
+   - We use `fmt.Printf` to print the values of the constants.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Greeting: Hello, World!
+Farewell: Goodbye, World!
+```
+
+### Grouping Constants
+
+You can group multiple constants together using a single `const` block.
+
+#### Example: Grouped Constants
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Define grouped constants
+    const (
+        Pi         = 3.14159
+        LightSpeed = 299792458
+        Greeting   = "Hello, World!"
+        Farewell   = "Goodbye, World!"
+    )
+
+    // Print the constants
+    fmt.Printf("Pi: %f\n", Pi)
+    fmt.Printf("Speed of light: %d m/s\n", LightSpeed)
+    fmt.Printf("Greeting: %s\n", Greeting)
+    fmt.Printf("Farewell: %s\n", Farewell)
+}
+```
+
+### Explanation
+
+1. **Define Grouped Constants**:
+   - We use a single `const` block to group multiple constants together.
+   - Constants `Pi`, `LightSpeed`, `Greeting`, and `Farewell` are defined within the block.
+
+2. **Print the Constants**:
+   - We use `fmt.Printf` to print the values of the constants.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Pi: 3.141590
+Speed of light: 299792458 m/s
+Greeting: Hello, World!
+Farewell: Goodbye, World!
+```
+
+### Constants in Structures
+
+While Go does not allow constant fields within a struct directly, you can use constants in conjunction with structs to define fixed values related to the struct.
+
+#### Example: Using Constants with Structs
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define constants related to a struct
+const (
+    DefaultWidth  = 100
+    DefaultHeight = 50
+)
+
+// Define a struct
+type Rectangle struct {
+    Width  int
+    Height int
+}
+
+func main() {
+    // Create a Rectangle using the constants
+    rect := Rectangle{
+        Width:  DefaultWidth,
+        Height: DefaultHeight,
+    }
+
+    // Print the struct and constants
+    fmt.Printf("Rectangle: %+v\n", rect)
+    fmt.Printf("Default Width: %d\n", DefaultWidth)
+    fmt.Printf("Default Height: %d\n", DefaultHeight)
+}
+```
+
+### Explanation
+
+1. **Define Constants Related to a Struct**:
+   - We define constants `DefaultWidth` and `DefaultHeight` that will be used to initialize fields of a struct.
+
+2. **Define a Struct**:
+   - We define a struct `Rectangle` with fields `Width` and `Height`.
+
+3. **Create a Struct Using Constants**:
+   - We create an instance of `Rectangle` using the constants `DefaultWidth` and `DefaultHeight`.
+
+4. **Print the Struct and Constants**:
+   - We use `fmt.Printf` to print the struct and the constants.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Rectangle: {Width:100 Height:50}
+Default Width: 100
+Default Height: 50
+```
+
+### Summary
+
+In Go, constants are defined using the `const` keyword and can hold numeric, string, or boolean values. Constants can be grouped together using a single `const` block for better organization. While constants cannot be fields within a struct, they can be used to initialize struct fields or define fixed values related to the struct. These practices help ensure that your code is clear, maintainable, and free from magic numbers or hard-coded strings.

@@ -1,1 +1,12 @@
 \\ work with database(DB) — SQL — Field data types — FireBird, Interbase — Integer Types
+
+
+Type list
+
+Type	Bytes	Min Value	Max Value
+SMALLINT	2	-32 768 (unsigned: 0)	32 767 (unsigned: 65 535)
+INTEGER	4	-2 147 483 648 (unsigned: 0)	2 147 483 647 (unsigned: 4 294 967 295)
+BIGINT	8	-9 223 372 036 854 775 808 (unsigned: 0)	9 223 372 036 854 775 807 (unsigned: 18 446 744 073 709 551 615)
+DECIMAL(9)	4	-999,999,999	999,999,999
+DECIMAL(n)	4 or 8	n = 1	n = 18
+NUMERIC(n)	2, 4,  8	n = 1	n = 18

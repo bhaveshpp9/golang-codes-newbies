@@ -1,1 +1,231 @@
 \\ Structures — Nested struct
+
+In Go, nested structs allow you to define a struct that contains another struct as one of its fields. This is useful for creating complex data types that model real-world entities. Nested structs can help organize and encapsulate related data within a larger structure.
+
+### Defining a Nested Struct
+
+To define a nested struct, you simply declare one struct type as a field within another struct type.
+
+#### Example: Nested Struct Definition
+
+Let's define a `Person` struct that includes an `Address` struct as one of its fields.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define the Address struct
+type Address struct {
+    Street string
+    City   string
+    State  string
+    Zip    string
+}
+
+// Define the Person struct with an Address field
+type Person struct {
+    FirstName string
+    LastName  string
+    Age       int
+    Address   Address
+}
+
+func main() {
+    // Initialize a Person instance with an Address
+    person := Person{
+        FirstName: "Alice",
+        LastName:  "Johnson",
+        Age:       28,
+        Address: Address{
+            Street: "123 Main St",
+            City:   "Anytown",
+            State:  "CA",
+            Zip:    "12345",
+        },
+    }
+
+    // Access and print the nested fields
+    fmt.Printf("Person: %+v\n", person)
+    fmt.Printf("Address: %s, %s, %s %s\n",
+        person.Address.Street,
+        person.Address.City,
+        person.Address.State,
+        person.Address.Zip,
+    )
+}
+```
+
+### Explanation
+
+1. **Define the `Address` Struct**:
+   - The `Address` struct has four fields: `Street`, `City`, `State`, and `Zip`.
+
+2. **Define the `Person` Struct with an `Address` Field**:
+   - The `Person` struct has four fields: `FirstName`, `LastName`, `Age`, and an `Address` field of type `Address`.
+
+3. **Initialize a `Person` Instance with an `Address`**:
+   - We create an instance of `Person`, initializing both the `Person` fields and the nested `Address` fields.
+
+4. **Access and Print the Nested Fields**:
+   - We access the nested fields using dot notation and print them.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Person: {FirstName:Alice LastName:Johnson Age:28 Address:{Street:123 Main St City:Anytown State:CA Zip:12345}}
+Address: 123 Main St, Anytown, CA 12345
+```
+
+### Nested Structs with Embedded Fields
+
+Go supports embedding structs directly within other structs, allowing you to access the fields of the embedded struct as if they were part of the outer struct.
+
+#### Example: Nested Structs with Embedded Fields
+
+```go
+// Define the Address struct
+type Address struct {
+    Street string
+    City   string
+    State  string
+    Zip    string
+}
+
+// Define the Person struct with an embedded Address
+type Person struct {
+    FirstName string
+    LastName  string
+    Age       int
+    Address   // Embedded struct
+}
+
+func main() {
+    // Initialize a Person with an embedded Address
+    person := Person{
+        FirstName: "Bob",
+        LastName:  "Smith",
+        Age:       35,
+        Address: Address{
+            Street: "456 Elm St",
+            City:   "Othertown",
+            State:  "TX",
+            Zip:    "67890",
+        },
+    }
+
+    // Access and print the nested fields directly
+    fmt.Printf("Person: %+v\n", person)
+    fmt.Printf("Address: %s, %s, %s %s\n",
+        person.Street,  // Access embedded struct fields directly
+        person.City,
+        person.State,
+        person.Zip,
+    )
+}
+```
+
+### Explanation
+
+1. **Define the `Address` Struct**:
+   - The `Address` struct has fields `Street`, `City`, `State`, and `Zip`.
+
+2. **Define the `Person` Struct with an Embedded `Address`**:
+   - The `Person` struct embeds the `Address` struct directly, without naming it. This allows direct access to the fields of the `Address` struct.
+
+3. **Initialize a `Person` with an Embedded `Address`**:
+   - We create a `Person` instance, initializing both `Person` fields and the embedded `Address` fields.
+
+4. **Access and Print the Nested Fields Directly**:
+   - The fields of the embedded struct are accessed directly using the outer struct's name.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Person: {FirstName:Bob LastName:Smith Age:35 Address:{Street:456 Elm St City:Othertown State:TX Zip:67890}}
+Address: 456 Elm St, Othertown, TX 67890
+```
+
+### Nested Structs with Pointers
+
+Using pointers to nested structs can be useful when you want to avoid copying the entire struct or when you need to share the same nested struct instance between multiple structs.
+
+#### Example: Nested Structs with Pointers
+
+```go
+// Define the Address struct
+type Address struct {
+    Street string
+    City   string
+    State  string
+    Zip    string
+}
+
+// Define the Person struct with an Address pointer
+type Person struct {
+    FirstName string
+    LastName  string
+    Age       int
+    Address   *Address
+}
+
+func main() {
+    // Create an Address instance
+    address := &Address{
+        Street: "789 Pine St",
+        City:   "Anycity",
+        State:  "NY",
+        Zip:    "11223",
+    }
+
+    // Initialize a Person with an Address pointer
+    person := Person{
+        FirstName: "Charlie",
+        LastName:  "Brown",
+        Age:       40,
+        Address:   address,
+    }
+
+    // Access and print the nested fields
+    fmt.Printf("Person: %+v\n", person)
+    fmt.Printf("Address: %s, %s, %s %s\n",
+        person.Address.Street,
+        person.Address.City,
+        person.Address.State,
+        person.Address.Zip,
+    )
+}
+```
+
+### Explanation
+
+1. **Define the `Address` Struct**:
+   - The `Address` struct has fields `Street`, `City`, `State`, and `Zip`.
+
+2. **Define the `Person` Struct with an `Address` Pointer**:
+   - The `Person` struct has an `Address` field, which is a pointer to an `Address` struct.
+
+3. **Create an `Address` Instance**:
+   - We create an instance of `Address` and initialize its fields.
+
+4. **Initialize a `Person` with an `Address` Pointer**:
+   - We create a `Person` instance, initializing its fields and setting the `Address` field to point to the `Address` instance.
+
+5. **Access and Print the Nested Fields**:
+   - The fields of the nested struct are accessed using dot notation.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Person: {FirstName:Charlie LastName:Brown Age:40 Address:0xc000010230}
+Address: 789 Pine St, Anycity, NY 11223
+```
+
+### Summary
+
+In Go, nested structs allow you to create complex data structures by embedding one struct within another. You can access and modify the fields of the nested struct using dot notation. Go also supports embedding structs directly, enabling you to access the fields of the embedded struct as if they were part of the outer struct. Additionally, you can use pointers to nested structs to avoid copying the entire struct or to share the same nested struct instance between multiple structs. These techniques provide powerful ways to model and manage complex data relationships in Go.

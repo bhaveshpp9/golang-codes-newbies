@@ -1,0 +1,47 @@
+\\ Control flow — Conditional Statements — if/else statements -- Ternary Operator
+
+
+In Go, there's actually no ternary operator like you might find in languages like C, C++, or JavaScript. Go was designed without a ternary operator in order to keep the language simple and readable. In those languages, a ternary operator allows for quick conditional assignments based on a condition, usually written as `condition ? true_value : false_value`.
+
+Even though Go doesn't have a ternary operator, you can achieve similar results with a standard `if-else` statement. Let’s go through an example where you might typically want to use a ternary operator and show how you would implement it in Go.
+
+### Scenario
+Suppose you need to assign a discount rate based on whether the user is a member of a loyalty program. Members get a 10% discount, and non-members get no discount.
+
+### Go Code Example
+```go
+package main
+
+import "fmt"
+
+// function to determine discount
+func getDiscount(isMember bool) float64 {
+    var discount float64
+    if isMember {
+        discount = 0.10 // 10% discount for members
+    } else {
+        discount = 0.00 // no discount for non-members
+    }
+    return discount
+}
+
+func main() {
+    // Example users' membership status
+    isMember := true
+    nonMember := false
+
+    // Determine discount for a member
+    memberDiscount := getDiscount(isMember)
+    fmt.Printf("Member discount: %.2f%%\n", memberDiscount*100)
+
+    // Determine discount for a non-member
+    nonMemberDiscount := getDiscount(nonMember)
+    fmt.Printf("Non-member discount: %.2f%%\n", nonMemberDiscount*100)
+}
+```
+
+### Explanation
+1. **getDiscount Function**: This function takes a boolean `isMember` and decides the discount rate. It uses a simple `if-else` statement to assign the discount percentage based on membership status.
+2. **Main Function**: We test this function using two scenarios — one where the user is a member and one where they are not, printing out the applicable discount percentages.
+
+This approach maintains the readability and clarity of the code, which is a core philosophy of Go. While it's a bit more verbose than using a ternary operator, it avoids the potential pitfalls of less readable or overly compact code. Keep it simple and clear, just how Go likes it! 🛠️🤖🔧

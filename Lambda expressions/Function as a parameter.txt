@@ -1,1 +1,139 @@
 \\ Lambda Expressions —  Function as a parameter
+
+
+In Go, functions are first-class citizens, meaning you can pass them as parameters to other functions, return them from functions, and assign them to variables. This feature allows for higher-order functions and greater flexibility in your code.
+
+### Example: Passing a Function as a Parameter
+
+Here's a basic example demonstrating how to pass a function as a parameter in Go:
+
+```go
+package main
+
+import "fmt"
+
+// Define a function type for a function that takes two ints and returns an int
+type operation func(int, int) int
+
+// A function that takes two integers and an operation function
+func compute(a int, b int, op operation) int {
+    return op(a, b)
+}
+
+// Define a couple of simple operation functions
+func add(x int, y int) int {
+    return x + y
+}
+
+func multiply(x int, y int) int {
+    return x * y
+}
+
+func main() {
+    // Pass the add function as a parameter
+    resultAdd := compute(3, 4, add)
+    fmt.Println("3 + 4 =", resultAdd) // Output: 3 + 4 = 7
+
+    // Pass the multiply function as a parameter
+    resultMultiply := compute(3, 4, multiply)
+    fmt.Println("3 * 4 =", resultMultiply) // Output: 3 * 4 = 12
+}
+```
+
+### Explanation
+
+1. **Function Type:** Define a function type `operation` that represents a function taking two `int` parameters and returning an `int`.
+2. **Higher-Order Function:** Define the `compute` function that takes two integers and a function of type `operation` as parameters.
+3. **Operation Functions:** Define the `add` and `multiply` functions that match the `operation` type.
+4. **Function Calls:** In the `main` function, call `compute` with different operation functions (`add` and `multiply`).
+
+### Practical Example: Using Anonymous Functions
+
+You can also pass anonymous functions directly as parameters:
+
+```go
+package main
+
+import "fmt"
+
+// Define a function type for a function that takes two ints and returns an int
+type operation func(int, int) int
+
+// A function that takes two integers and an operation function
+func compute(a int, b int, op operation) int {
+    return op(a, b)
+}
+
+func main() {
+    // Pass an anonymous add function as a parameter
+    resultAdd := compute(5, 7, func(x int, y int) int {
+        return x + y
+    })
+    fmt.Println("5 + 7 =", resultAdd) // Output: 5 + 7 = 12
+
+    // Pass an anonymous multiply function as a parameter
+    resultMultiply := compute(5, 7, func(x int, y int) int {
+        return x * y
+    })
+    fmt.Println("5 * 7 =", resultMultiply) // Output: 5 * 7 = 35
+}
+```
+
+### Explanation
+
+1. **Anonymous Functions:** Define and pass anonymous functions directly as parameters to the `compute` function.
+
+### Higher-Order Functions: Filter Example
+
+A more practical example is using a higher-order function to filter elements in a slice:
+
+```go
+package main
+
+import "fmt"
+
+// Define a function type for a function that takes an int and returns a bool
+type predicate func(int) bool
+
+// A function that filters a slice based on a predicate function
+func filter(slice []int, pred predicate) []int {
+    var result []int
+    for _, value := range slice {
+        if pred(value) {
+            result = append(result, value)
+        }
+    }
+    return result
+}
+
+func main() {
+    numbers := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+
+    // Filter for even numbers
+    evenNumbers := filter(numbers, func(n int) bool {
+        return n%2 == 0
+    })
+    fmt.Println("Even numbers:", evenNumbers) // Output: Even numbers: [2 4 6 8 10]
+
+    // Filter for numbers greater than 5
+    greaterThanFive := filter(numbers, func(n int) bool {
+        return n > 5
+    })
+    fmt.Println("Numbers greater than 5:", greaterThanFive) // Output: Numbers greater than 5: [6 7 8 9 10]
+}
+```
+
+### Explanation
+
+1. **Predicate Type:** Define a function type `predicate` for a function that takes an `int` and returns a `bool`.
+2. **Filter Function:** Define the `filter` function that takes a slice of integers and a `predicate` function, returning a new slice of integers that satisfy the predicate.
+3. **Anonymous Functions:** Pass anonymous functions as predicates to filter even numbers and numbers greater than 5.
+
+### Summary
+
+- **Function as Parameter:** Go supports passing functions as parameters, enabling higher-order functions.
+- **Function Types:** Use type definitions to define the function signature for clarity and reuse.
+- **Anonymous Functions:** Directly pass anonymous functions for inline behavior.
+- **Higher-Order Functions:** Create more complex behaviors like filtering or mapping using functions as parameters.
+
+By using functions as parameters, you can write more flexible and reusable code, allowing for powerful functional programming techniques in Go.

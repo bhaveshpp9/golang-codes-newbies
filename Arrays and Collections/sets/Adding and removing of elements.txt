@@ -1,1 +1,81 @@
 \\ Arrays and collections — Sets — Adding and removing of elements
+
+
+In Go, a set is typically represented using a map, where keys represent the elements of the set, and the values are often of type `struct{}` to minimize memory usage, since `struct{}` does not occupy any space. Here's how to implement a set, including adding and removing elements:
+
+### Example: Implementing a Set with Add and Remove Operations
+
+We'll define a set type and implement methods to add and remove elements, showing the entire set operation process in Go.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Set type defined as a map with empty struct values
+type Set map[int]struct{}
+
+// NewSet initializes a new set
+func NewSet(items ...int) Set {
+    s := Set{}
+    for _, item := range items {
+        s.Add(item)
+    }
+    return s
+}
+
+// Add adds an element to the set
+func (s Set) Add(item int) {
+    s[item] = struct{}{}
+}
+
+// Remove removes an element from the set
+func (s Set) Remove(item int) {
+    delete(s, item)
+}
+
+// Contains checks if an item is in the set
+func (s Set) Contains(item int) bool {
+    _, exists := s[item]
+    return exists
+}
+
+func main() {
+    set := NewSet(1, 2, 3, 4, 5)  // Initialize the set with some elements
+    fmt.Println("Initial Set:", set)
+
+    // Add a new element to the set
+    set.Add(6)
+    fmt.Println("Set after adding 6:", set)
+
+    // Remove an element from the set
+    set.Remove(3)
+    fmt.Println("Set after removing 3:", set)
+
+    // Check if a specific element is in the set
+    if set.Contains(2) {
+        fmt.Println("Set contains 2")
+    } else {
+        fmt.Println("Set does not contain 2")
+    }
+
+    // Trying to add a duplicate (no effect on the set)
+    set.Add(2)
+    fmt.Println("Set after trying to add another 2:", set)
+}
+```
+
+### Explanation:
+- **Set Type**: Defined as a map where each key is an element of the set, and the value is an empty struct.
+- **NewSet Function**: Helper function to create a new set and initialize it with zero or more integers.
+- **Add Method**: Adds an element to the set. If the element is already present, this has no effect (which is set behavior).
+- **Remove Method**: Removes an element from the set using the `delete` built-in function. If the element is not present, this call has no effect.
+- **Contains Method**: Checks if an element exists in the set by looking for the key in the map.
+- **Printing the Set**: Shows the set's contents after various operations. The `fmt.Println` shows the set as a map, where the elements are keys and the values are empty structs.
+
+### Handling of Elements
+This implementation does not allow duplication in the set, adding an already existing element does nothing, and removing an element that doesn't exist also has no effect, which is typical behavior for a set.
+
+This simple example covers basic set operations in Go and can be extended or adapted for more complex data types or additional set operations (like union, intersection, etc.) as needed.

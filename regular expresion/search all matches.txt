@@ -1,1 +1,152 @@
 \\ Regular expressions — search all matches
+
+
+In Go, you can use the `regexp` package to find all matches of a regular expression in a string. The `regexp` package provides several functions to search for matches, such as `FindAllString`, `FindAllStringSubmatch`, `FindAllStringIndex`, and `FindAllStringSubmatchIndex`. These functions allow you to retrieve all matches and their positions.
+
+### Example: Finding All Matches
+
+Let's create an example where we use regular expressions to find all matches of a pattern in a string.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "regexp"
+)
+
+func main() {
+    // Define the pattern to match words
+    pattern := `\b\w+\b`
+
+    // Compile the regular expression
+    re, err := regexp.Compile(pattern)
+    if err != nil {
+        fmt.Println("Error compiling regex:", err)
+        return
+    }
+
+    // Define a test string
+    text := "This is a test. Test all matches in this test string."
+
+    // Find all matches
+    matches := re.FindAllString(text, -1)
+    fmt.Println("All Matches:", matches)
+
+    // Find all matches with submatches (if any)
+    submatches := re.FindAllStringSubmatch(text, -1)
+    fmt.Println("All Submatches:")
+    for _, match := range submatches {
+        fmt.Println(match)
+    }
+
+    // Find all match indices
+    matchIndices := re.FindAllStringIndex(text, -1)
+    fmt.Println("All Match Indices:", matchIndices)
+
+    // Find all match indices with submatch indices
+    submatchIndices := re.FindAllStringSubmatchIndex(text, -1)
+    fmt.Println("All Submatch Indices:")
+    for _, indices := range submatchIndices {
+        fmt.Println(indices)
+    }
+}
+```
+
+### Explanation
+
+1. **Pattern Definition**: We define a regex pattern to match words:
+   - `\b\w+\b`: This pattern matches word boundaries (`\b`) and one or more word characters (`\w+`).
+2. **Compile**: We compile the regex pattern using `regexp.Compile`. This returns a `Regexp` object or an error if the pattern is invalid.
+3. **Test String**: We define a test string that contains multiple words.
+4. **FindAllString**: We use `FindAllString` to find all matches of the pattern in the string and return them as a slice of strings.
+5. **FindAllStringSubmatch**: We use `FindAllStringSubmatch` to find all matches and their submatches. Each match is returned as a slice of strings, where the first element is the full match and the subsequent elements are the submatches.
+6. **FindAllStringIndex**: We use `FindAllStringIndex` to find the start and end indices of all matches in the string. Each match is returned as a slice of two integers representing the start and end indices.
+7. **FindAllStringSubmatchIndex**: We use `FindAllStringSubmatchIndex` to find the start and end indices of all matches and their submatches. Each match is returned as a slice of integers, where the first pair of integers represents the full match and the subsequent pairs represent the submatches.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+All Matches: [This is a test Test all matches in this test string]
+All Submatches:
+[This]
+[is]
+[a]
+[test]
+[Test]
+[all]
+[matches]
+[in]
+[this]
+[test]
+[string]
+All Match Indices: [[0 4] [5 7] [8 9] [10 14] [15 19] [20 23] [24 31] [32 34] [35 39] [40 44] [45 49] [50 56]]
+All Submatch Indices:
+[0 4]
+[5 7]
+[8 9]
+[10 14]
+[15 19]
+[20 23]
+[24 31]
+[32 34]
+[35 39]
+[40 44]
+[45 49]
+[50 56]
+```
+
+### Notes on Finding Matches
+
+- **Count**: The second parameter to `FindAllString`, `FindAllStringSubmatch`, `FindAllStringIndex`, and `FindAllStringSubmatchIndex` is the maximum number of matches to return. Use `-1` to return all matches.
+- **Submatches**: If your pattern contains capturing groups, `FindAllStringSubmatch` and `FindAllStringSubmatchIndex` will return the submatches as well.
+- **Indices**: The index-based functions (`FindAllStringIndex` and `FindAllStringSubmatchIndex`) are useful for extracting or manipulating parts of the string based on their positions.
+
+### Practical Example: Extracting Email Addresses
+
+Here's another example where we extract all email addresses from a string using a regular expression.
+
+```go
+package main
+
+import (
+    "fmt"
+    "regexp"
+)
+
+func main() {
+    // Define the pattern to match email addresses
+    pattern := `([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})`
+
+    // Compile the regular expression
+    re, err := regexp.Compile(pattern)
+    if err != nil {
+        fmt.Println("Error compiling regex:", err)
+        return
+    }
+
+    // Define a test string
+    text := "Contact us at support@example.com or sales@example.org for more information."
+
+    // Find all email addresses
+    emails := re.FindAllString(text, -1)
+    fmt.Println("Email Addresses:", emails)
+
+    // Find all email addresses with indices
+    emailIndices := re.FindAllStringIndex(text, -1)
+    fmt.Println("Email Indices:", emailIndices)
+}
+```
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Email Addresses: [support@example.com sales@example.org]
+Email Indices: [[13 31] [35 53]]
+```
+
+By using the `FindAll` functions provided by the `regexp` package, you can efficiently search for and extract multiple matches of a pattern in a string, making it easy to process and analyze text data.

@@ -1,1 +1,129 @@
 \\ Lambda Expressions —  Function as a return value
+
+
+In Go, functions are first-class citizens, which means you can also return them from other functions. This feature enables you to create higher-order functions and implement patterns like currying, function composition, and more.
+
+### Example: Returning a Function from Another Function
+
+Here's a basic example demonstrating how to return a function from another function in Go:
+
+```go
+package main
+
+import "fmt"
+
+// A function that returns another function
+func add(a int) func(int) int {
+    return func(b int) int {
+        return a + b
+    }
+}
+
+func main() {
+    // Create a function by calling add with an argument
+    addFive := add(5)
+
+    // Use the returned function
+    result := addFive(3)
+
+    fmt.Println(result) // Output: 8
+}
+```
+
+### Explanation
+
+1. **Returning a Function:** The `add` function takes an integer `a` and returns another function that takes an integer `b` and returns the sum of `a` and `b`.
+2. **Using the Returned Function:** In the `main` function, `addFive` is created by calling `add` with the argument `5`. This returns a function that adds `5` to its argument. Calling `addFive(3)` then returns `8`.
+
+### Practical Example: Function Composition
+
+A practical example of returning functions is function composition, where you combine simple functions to create more complex ones.
+
+```go
+package main
+
+import "fmt"
+
+// A function that returns another function which adds a fixed value
+func adder(x int) func(int) int {
+    return func(y int) int {
+        return x + y
+    }
+}
+
+// A function that returns another function which multiplies by a fixed value
+func multiplier(x int) func(int) int {
+    return func(y int) int {
+        return x * y
+    }
+}
+
+func main() {
+    // Create an addFive function
+    addFive := adder(5)
+
+    // Create a multiplyByTwo function
+    multiplyByTwo := multiplier(2)
+
+    // Compose the functions to create a new function
+    addFiveAndMultiplyByTwo := func(z int) int {
+        return multiplyByTwo(addFive(z))
+    }
+
+    // Use the composed function
+    result := addFiveAndMultiplyByTwo(3) // (3 + 5) * 2 = 16
+
+    fmt.Println(result) // Output: 16
+}
+```
+
+### Explanation
+
+1. **Returning Functions:** The `adder` function returns a function that adds a fixed value, and the `multiplier` function returns a function that multiplies by a fixed value.
+2. **Composing Functions:** In the `main` function, `addFive` and `multiplyByTwo` are created. These functions are then composed to create `addFiveAndMultiplyByTwo`, which first adds `5` and then multiplies the result by `2`.
+3. **Using the Composed Function:** The composed function is used to process the input `3`, resulting in `16`.
+
+### Advanced Example: Currying with Returned Functions
+
+You can also implement currying by returning functions that successively capture arguments.
+
+```go
+package main
+
+import "fmt"
+
+// A function that returns a curried function for three arguments
+func curriedAdd(a int) func(int) func(int) int {
+    return func(b int) func(int) int {
+        return func(c int) int {
+            return a + b + c
+        }
+    }
+}
+
+func main() {
+    // Create a curried function by partially applying the first argument
+    addOne := curriedAdd(1)
+
+    // Further curry the function by applying the second argument
+    addOneAndTwo := addOne(2)
+
+    // Apply the third argument to get the final result
+    result := addOneAndTwo(3) // 1 + 2 + 3 = 6
+
+    fmt.Println(result) // Output: 6
+}
+```
+
+### Explanation
+
+1. **Curried Function:** The `curriedAdd` function returns a series of nested functions that each capture one argument.
+2. **Partial Application:** In the `main` function, `addOne` is created by partially applying the first argument (`1`). Then, `addOneAndTwo` is created by applying the second argument (`2`). Finally, the third argument (`3`) is applied to get the result (`6`).
+
+### Summary
+
+- **Returning Functions:** Go allows functions to be returned from other functions, enabling higher-order programming patterns.
+- **Function Composition:** Combine simple functions to create more complex behaviors.
+- **Currying:** Implement currying by successively returning functions that capture arguments.
+
+By returning functions from other functions, you can write more modular, reusable, and expressive code in Go. This technique is particularly useful in functional programming patterns and for creating flexible APIs.

@@ -1,1 +1,99 @@
 \\ Reflection — get type members
+
+In Go, reflection can be used to inspect the type members of a struct, such as fields and methods. The `reflect` package provides the necessary tools to get detailed information about the type, its fields, and its methods.
+
+### Key Concepts in Reflection
+
+1. **Type and Value**: The `reflect` package provides two main types: `Type` and `Value`. `Type` represents the type of a variable, and `Value` represents the value of a variable.
+2. **StructField**: Contains information about a single field of a struct.
+3. **Method**: Contains information about a single method of a type.
+
+### Example: Inspecting Type Members
+
+Let's create an example where we define a struct with some fields and methods, and then use reflection to inspect its members.
+
+#### Defining the Struct
+
+```go
+package main
+
+import (
+    "fmt"
+    "reflect"
+)
+
+type Person struct {
+    Name string
+    Age  int
+}
+
+func (p Person) Greet() {
+    fmt.Printf("Hello, my name is %s.\n", p.Name)
+}
+
+func (p Person) GetAge() int {
+    return p.Age
+}
+```
+
+#### Using Reflection to Inspect Type Members
+
+```go
+package main
+
+func main() {
+    // Create an instance of Person
+    person := Person{Name: "Alice", Age: 30}
+
+    // Get the reflection Type object
+    personType := reflect.TypeOf(person)
+
+    // Get and print the struct fields
+    fmt.Println("Fields:")
+    for i := 0; i < personType.NumField(); i++ {
+        field := personType.Field(i)
+        fmt.Printf("Name: %s, Type: %s, Tag: %s\n", field.Name, field.Type, field.Tag)
+    }
+
+    // Get and print the struct methods
+    fmt.Println("\nMethods:")
+    for i := 0; i < personType.NumMethod(); i++ {
+        method := personType.Method(i)
+        fmt.Printf("Name: %s, Type: %s\n", method.Name, method.Type)
+    }
+}
+```
+
+### Explanation
+
+1. **Creating an Instance**: We create an instance of `Person`.
+2. **Getting Reflection Type Object**: We use `reflect.TypeOf(person)` to get the reflection `Type` object for the instance.
+3. **Getting Struct Fields**:
+   - `NumField()` returns the number of fields in the struct.
+   - `Field(i)` returns the `i`-th field of the struct as a `StructField` object.
+   - We print the field's name, type, and tag.
+4. **Getting Struct Methods**:
+   - `NumMethod()` returns the number of methods in the struct.
+   - `Method(i)` returns the `i`-th method of the struct as a `Method` object.
+   - We print the method's name and type.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Fields:
+Name: Name, Type: string, Tag: 
+Name: Age, Type: int, Tag: 
+
+Methods:
+Name: GetAge, Type: func(main.Person) int
+Name: Greet, Type: func(main.Person)
+```
+
+### Notes on Reflection
+
+- **Field Information**: The `StructField` object provides detailed information about a struct field, including its name, type, and tag.
+- **Method Information**: The `Method` object provides detailed information about a method, including its name and type.
+- **Method Ordering**: The methods are sorted lexicographically by method name.
+
+By using reflection to inspect type members, you can dynamically explore the structure of types at runtime. This is particularly useful for tasks such as serialization, deserialization, and building generic frameworks.

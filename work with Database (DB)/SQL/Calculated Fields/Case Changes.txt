@@ -1,1 +1,193 @@
 \\ work with database(DB) — SQL — Calculated Fields — Case Changes
+
+
+To work with calculated fields in SQL, including changing the case of text data, you can use SQL functions such as `UPPER`, `LOWER`, and `INITCAP` (or their equivalents depending on the database system) in your queries. Let's look at how to perform case changes using these functions in different SQL database systems.
+
+### Example: Using Calculated Fields for Case Changes in SQL
+
+We'll use examples for different database systems, including MySQL, PostgreSQL, SQL Server, and SQLite.
+
+#### MySQL
+
+In MySQL, you can use the `UPPER` and `LOWER` functions to change the case of text.
+
+```sql
+SELECT 
+    id, 
+    name, 
+    UPPER(name) AS name_upper, 
+    LOWER(name) AS name_lower 
+FROM 
+    example;
+```
+
+#### PostgreSQL
+
+In PostgreSQL, you can use the `UPPER`, `LOWER`, and `INITCAP` functions to change the case of text.
+
+```sql
+SELECT 
+    id, 
+    name, 
+    UPPER(name) AS name_upper, 
+    LOWER(name) AS name_lower, 
+    INITCAP(name) AS name_initcap 
+FROM 
+    example;
+```
+
+#### SQL Server
+
+In SQL Server, you can use the `UPPER` and `LOWER` functions to change the case of text.
+
+```sql
+SELECT 
+    id, 
+    name, 
+    UPPER(name) AS name_upper, 
+    LOWER(name) AS name_lower 
+FROM 
+    example;
+```
+
+#### SQLite
+
+In SQLite, you can use the `UPPER` and `LOWER` functions to change the case of text.
+
+```sql
+SELECT 
+    id, 
+    name, 
+    UPPER(name) AS name_upper, 
+    LOWER(name) AS name_lower 
+FROM 
+    example;
+```
+
+### Integrating with Go
+
+Let's create a Go application that connects to an SQLite database, executes a query to retrieve data with calculated fields for case changes, and prints the results.
+
+#### Step 1: Set Up the SQLite Database
+
+First, create the SQLite database and populate it with some example data.
+
+```sql
+CREATE TABLE example (
+    id INTEGER PRIMARY KEY,
+    name TEXT
+);
+
+INSERT INTO example (name) VALUES ('Alice'), ('Bob'), ('Charlie');
+```
+
+#### Step 2: Install the SQLite Driver
+
+Install the SQLite driver package using `go get`.
+
+```sh
+go get github.com/mattn/go-sqlite3
+```
+
+#### Step 3: Write the Go Code
+
+Write the Go code to connect to the SQLite database, execute the query, and print the results.
+
+```go
+package main
+
+import (
+    "database/sql"
+    "fmt"
+    _ "github.com/mattn/go-sqlite3" // Import the SQLite driver
+)
+
+// Function to connect to the SQLite database and execute a query
+func connectAndQueryDB(dsn string) error {
+    // Open a connection to the database
+    db, err := sql.Open("sqlite3", dsn)
+    if err != nil {
+        return fmt.Errorf("failed to connect to database: %w", err)
+    }
+    defer db.Close()
+
+    // Test the database connection
+    err = db.Ping()
+    if err != nil {
+        return fmt.Errorf("failed to ping database: %w", err)
+    }
+
+    // Execute a query with calculated fields for case changes
+    query := `
+    SELECT 
+        id, 
+        name, 
+        UPPER(name) AS name_upper, 
+        LOWER(name) AS name_lower 
+    FROM 
+        example;
+    `
+    rows, err := db.Query(query)
+    if err != nil {
+        return fmt.Errorf("failed to execute query: %w", err)
+    }
+    defer rows.Close()
+
+    // Print the retrieved data
+    fmt.Println("Data retrieved from the database:")
+    for rows.Next() {
+        var id int
+        var name, nameUpper, nameLower string
+        err := rows.Scan(&id, &name, &nameUpper, &nameLower)
+        if err != nil {
+            return fmt.Errorf("failed to scan row: %w", err)
+        }
+        fmt.Printf("ID: %d, Name: %s, Name Upper: %s, Name Lower: %s\n", id, name, nameUpper, nameLower)
+    }
+
+    // Check for errors after iterating through the rows
+    if err := rows.Err(); err != nil {
+        return fmt.Errorf("error iterating through rows: %w", err)
+    }
+
+    return nil
+}
+
+func main() {
+    // Data Source Name (DSN) for the SQLite database
+    dsn := "example.db"
+
+    // Connect to the database and execute the query
+    err := connectAndQueryDB(dsn)
+    if err != nil {
+        fmt.Printf("Error: %v\n", err)
+    }
+}
+```
+
+### Explanation
+
+1. **Set Up the SQLite Database**:
+   - Create the `example` table and insert some sample data.
+
+2. **Install the SQLite Driver**:
+   - Use `go get` to install the `github.com/mattn/go-sqlite3` package.
+
+3. **Write the Go Code**:
+   - The `connectAndQueryDB` function connects to the SQLite database, executes a query to retrieve data with calculated fields for case changes, and prints the results.
+   - The `main` function defines the DSN for the SQLite database and calls the `connectAndQueryDB` function.
+
+### Detailed Output
+
+The program will connect to the SQLite database, execute the SQL query to retrieve data with calculated fields for case changes, and print the retrieved data. For example:
+
+```
+Data retrieved from the database:
+ID: 1, Name: Alice, Name Upper: ALICE, Name Lower: alice
+ID: 2, Name: Bob, Name Upper: BOB, Name Lower: bob
+ID: 3, Name: Charlie, Name Upper: CHARLIE, Name Lower: charlie
+```
+
+### Summary
+
+In Go, you can connect to an SQLite database and execute SQL queries that include calculated fields for case changes using the `github.com/mattn/go-sqlite3` package with the `database/sql` package. By defining functions to handle database connections and query execution, you can efficiently manage database operations and retrieve data with calculated fields in your applications. This approach is useful for tasks such as data manipulation, reporting, and presenting data in different formats.

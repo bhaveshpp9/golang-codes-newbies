@@ -1,1 +1,138 @@
 \\ Patterns — Behavioural patterns — state
+
+
+The State pattern is a behavioral design pattern that allows an object to change its behavior when its internal state changes. It appears as if the object has changed its class. This pattern is particularly useful when an object needs to change its behavior dynamically based on its state.
+
+### Key Components
+
+1. **Context**: Maintains an instance of a ConcreteState subclass that defines the current state.
+2. **State Interface**: Declares methods that represent the behavior associated with a particular state.
+3. **Concrete States**: Implement the behavior associated with a state of the Context.
+
+### Example: Document Workflow
+
+Let's create an example where a document can be in different states (Draft, Moderation, Published) and its behavior changes accordingly.
+
+#### State Interface
+
+```go
+package main
+
+// State interface declares the methods for different states
+type State interface {
+    Publish(document *Document)
+    Render(document *Document)
+}
+```
+
+#### Concrete States
+
+```go
+package main
+
+import "fmt"
+
+// DraftState is a Concrete State
+type DraftState struct{}
+
+func (d *DraftState) Publish(document *Document) {
+    fmt.Println("Document is now in Moderation")
+    document.SetState(&ModerationState{})
+}
+
+func (d *DraftState) Render(document *Document) {
+    fmt.Println("Rendering Draft")
+}
+
+// ModerationState is a Concrete State
+type ModerationState struct{}
+
+func (m *ModerationState) Publish(document *Document) {
+    fmt.Println("Document is now Published")
+    document.SetState(&PublishedState{})
+}
+
+func (m *ModerationState) Render(document *Document) {
+    fmt.Println("Rendering Moderation")
+}
+
+// PublishedState is a Concrete State
+type PublishedState struct{}
+
+func (p *PublishedState) Publish(document *Document) {
+    fmt.Println("Document is already Published")
+}
+
+func (p *PublishedState) Render(document *Document) {
+    fmt.Println("Rendering Published")
+}
+```
+
+#### Context
+
+```go
+package main
+
+// Document is the Context that maintains the current state
+type Document struct {
+    state State
+}
+
+func NewDocument() *Document {
+    return &Document{state: &DraftState{}}
+}
+
+func (d *Document) SetState(state State) {
+    d.state = state
+}
+
+func (d *Document) Publish() {
+    d.state.Publish(d)
+}
+
+func (d *Document) Render() {
+    d.state.Render(d)
+}
+```
+
+#### Client
+
+```go
+package main
+
+func main() {
+    document := NewDocument()
+    
+    document.Render() // Rendering Draft
+    document.Publish() // Document is now in Moderation
+    document.Render() // Rendering Moderation
+    document.Publish() // Document is now Published
+    document.Render() // Rendering Published
+    document.Publish() // Document is already Published
+}
+```
+
+### Explanation
+
+1. **State Interface**: The `State` interface declares methods that all concrete states will implement. In this example, the methods are `Publish` and `Render`.
+2. **Concrete States**:
+   - `DraftState`: Implements behavior for the draft state. On publishing, it transitions to `ModerationState`.
+   - `ModerationState`: Implements behavior for the moderation state. On publishing, it transitions to `PublishedState`.
+   - `PublishedState`: Implements behavior for the published state. Once published, the state does not change.
+3. **Context**: The `Document` struct maintains a reference to the current state and delegates behavior to the current state object.
+   - `Publish` method triggers the `Publish` behavior of the current state.
+   - `Render` method triggers the `Render` behavior of the current state.
+4. **Client**: The client code creates a `Document` instance and changes its state by calling the `Publish` and `Render` methods.
+
+### Advantages
+
+- **State-Specific Behavior**: Encapsulates state-specific behavior and transitions, making it easier to add new states without modifying existing code.
+- **Open/Closed Principle**: Follows the Open/Closed Principle by allowing new states to be added without changing the context or other states.
+- **Simplifies State Transitions**: Each state is responsible for its own behavior and transitions, making the state transitions clearer and more manageable.
+
+### Disadvantages
+
+- **Increased Number of Classes**: Can lead to an increase in the number of classes, which can make the system more complex.
+- **State Objects Communication**: May require states to be aware of other states, leading to potential tight coupling between state classes.
+
+By implementing the State pattern, you can achieve a cleaner and more maintainable way to handle an object's state-dependent behavior, allowing the object to change its behavior dynamically as its state changes.

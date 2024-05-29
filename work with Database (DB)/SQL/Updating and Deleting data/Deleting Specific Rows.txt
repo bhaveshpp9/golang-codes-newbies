@@ -1,1 +1,7 @@
 \\ work with database(DB) — SQL — Updating and deleting data — Deleting Specific Rows
+
+
+DELETE FROM customer
+WHERE address_id = 1
+
+DELETE FROM requires that you specify the name of the table from which the data is to be deleted. The WHERE clause filters which rows are to be deleted.

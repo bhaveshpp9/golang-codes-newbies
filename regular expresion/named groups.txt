@@ -1,1 +1,90 @@
 \\ Regular expressions — named groups
+
+In Go, you can use named capturing groups in regular expressions to make the extraction of parts of a match more readable and convenient. Named groups allow you to assign names to specific parts of your regular expression patterns and then refer to those parts by name.
+
+### Using Named Capturing Groups
+
+The syntax for named capturing groups in Go's regular expressions is `(?P<name>pattern)`, where `name` is the name you assign to the group, and `pattern` is the part of the regular expression that you want to capture.
+
+### Example: Extracting Named Groups from a String
+
+Let's create an example where we use named capturing groups to extract parts of a date string.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "regexp"
+)
+
+func main() {
+    // Define the pattern with named capturing groups
+    pattern := `(?P<Year>\d{4})-(?P<Month>\d{2})-(?P<Day>\d{2})`
+
+    // Compile the regular expression
+    re, err := regexp.Compile(pattern)
+    if err != nil {
+        fmt.Println("Error compiling regex:", err)
+        return
+    }
+
+    // Define a test string
+    testString := "2023-05-26"
+
+    // Find the named capturing groups
+    match := re.FindStringSubmatch(testString)
+    if match == nil {
+        fmt.Println("No match found")
+        return
+    }
+
+    // Extract the names of the capturing groups
+    names := re.SubexpNames()
+
+    // Create a map to store the named groups
+    result := make(map[string]string)
+    for i, name := range names {
+        if i != 0 && name != "" {
+            result[name] = match[i]
+        }
+    }
+
+    // Print the named capturing groups
+    for name, value := range result {
+        fmt.Printf("%s: %s\n", name, value)
+    }
+}
+```
+
+### Explanation
+
+1. **Pattern Definition**: We define a regex pattern with named capturing groups:
+   - `(?P<Year>\d{4})`: Captures a four-digit year and names it `Year`.
+   - `(?P<Month>\d{2})`: Captures a two-digit month and names it `Month`.
+   - `(?P<Day>\d{2})`: Captures a two-digit day and names it `Day`.
+2. **Compile**: We compile the regex pattern using `regexp.Compile`. This returns a `Regexp` object or an error if the pattern is invalid.
+3. **Test String**: We define a test string that represents a date.
+4. **FindStringSubmatch**: We use `FindStringSubmatch` to find the match and capture the groups.
+5. **SubexpNames**: We use `SubexpNames` to get the names of the capturing groups.
+6. **Extract Named Groups**: We iterate over the captured groups and store them in a map using the group names as keys.
+7. **Print Named Groups**: We print each named group and its corresponding value.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Year: 2023
+Month: 05
+Day: 26
+```
+
+### Notes on Named Groups
+
+- **Syntax**: The syntax for named groups in Go is `(?P<name>pattern)`.
+- **SubexpNames**: The `SubexpNames` method returns a slice of names for the capturing groups, where the index corresponds to the position of the group in the match.
+- **FindStringSubmatch**: The `FindStringSubmatch` method returns a slice of matched strings, where the first element is the entire match and subsequent elements are the captured groups.
+
+By using named capturing groups, you can make your regular expressions more readable and the extracted data easier to manage. This is particularly useful for complex patterns where identifying groups by their position would be cumbersome.

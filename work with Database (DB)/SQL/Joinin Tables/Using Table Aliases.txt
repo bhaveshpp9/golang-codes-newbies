@@ -1,1 +1,31 @@
 \\ work with database(DB) — SQL — Joining Table — Using Table Aliases
+
+
+SELECT
+    c.Name,
+    cL.Language,
+    city.Name
+FROM country AS c, countrylanguage AS cL, city
+WHERE
+    c.Code = cL.CountryCode AND
+    c.Code = city.CountryCode AND
+    cL.IsOfficial = 'T' AND
+    city.Population > 1000000
+
+Name	Language	Name
+Afghanistan	Dari	Kabul
+Afghanistan	Pashto	Kabul
+Algeria	Arabic	Alger
+Argentina	Spanish	Buenos Aires
+Argentina	Spanish	La Matanza
+Argentina	Spanish	CГѓВіrdoba
+Armenia	Armenian	Yerevan
+Australia	English	Sydney
+Australia	English	Melbourne
+...
+
+In addition to using aliases for column names and calculated fields, SQL also enables you to alias table names. There are two primary reasons to do this:
+✓ To shorten the SQL syntax
+✓ To enable multiple uses of the same table within a single SELECT statement.
+Oracle does not support the AS keyword. To use aliases in Oracle simply specify the alias without AS: 
+FROM country c, countrylanguage cL, city

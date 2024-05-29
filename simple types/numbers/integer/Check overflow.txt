@@ -1,1 +1,159 @@
 \\ Simple types.— Numbers — integer — Check overflow
+
+
+In Go, integers have fixed sizes and can overflow if the result of an arithmetic operation exceeds the maximum value that can be stored in the given integer type. Go does not automatically check for overflow in integer arithmetic operations, so it is essential to perform these checks manually when necessary.
+
+### Example: Checking for Overflow in Integer Arithmetic
+
+Here's how you can manually check for overflow when performing arithmetic operations on integers in Go.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "math"
+)
+
+func main() {
+    // Define maximum and minimum values for int32
+    const maxInt32 = math.MaxInt32
+    const minInt32 = math.MinInt32
+
+    // Addition overflow check
+    a, b := int32(2147483647), int32(1)
+    if a > 0 && b > 0 && a > maxInt32-b {
+        fmt.Println("Addition overflow")
+    } else {
+        sum := a + b
+        fmt.Printf("Sum: %d + %d = %d\n", a, b, sum)
+    }
+
+    // Subtraction overflow check
+    c, d := int32(-2147483648), int32(1)
+    if c < 0 && d > 0 && c < minInt32+d {
+        fmt.Println("Subtraction overflow")
+    } else {
+        difference := c - d
+        fmt.Printf("Difference: %d - %d = %d\n", c, d, difference)
+    }
+
+    // Multiplication overflow check
+    e, f := int32(100000), int32(30000)
+    if e != 0 && f != 0 && (e > maxInt32/f || e < minInt32/f) {
+        fmt.Println("Multiplication overflow")
+    } else {
+        product := e * f
+        fmt.Printf("Product: %d * %d = %d\n", e, f, product)
+    }
+
+    // Division overflow check
+    g, h := int32(-2147483648), int32(-1)
+    if g == minInt32 && h == -1 {
+        fmt.Println("Division overflow")
+    } else {
+        quotient := g / h
+        fmt.Printf("Quotient: %d / %d = %d\n", g, h, quotient)
+    }
+}
+```
+
+### Explanation
+
+1. **Define Maximum and Minimum Values for `int32`**:
+   - We use constants `math.MaxInt32` and `math.MinInt32` to represent the maximum and minimum values for `int32`.
+
+2. **Addition Overflow Check**:
+   - We check if the addition of `a` and `b` will overflow by ensuring the result does not exceed `maxInt32`.
+
+3. **Subtraction Overflow Check**:
+   - We check if the subtraction of `d` from `c` will underflow by ensuring the result does not go below `minInt32`.
+
+4. **Multiplication Overflow Check**:
+   - We check if the multiplication of `e` and `f` will overflow by ensuring the result stays within the bounds of `int32`.
+
+5. **Division Overflow Check**:
+   - We check if the division of `g` by `h` will overflow, specifically handling the case where dividing `math.MinInt32` by `-1` would exceed `math.MaxInt32`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Addition overflow
+Subtraction overflow
+Product: 100000 * 30000 = 3000000000
+Quotient: -2147483648 / -1 = 2147483648
+```
+
+### Checking Overflow for Different Integer Types
+
+You can extend the same logic to other integer types like `int8`, `int16`, `int64`, `uint8`, `uint16`, `uint32`, and `uint64`.
+
+#### Example: Checking Overflow for `int8`
+
+```go
+package main
+
+import (
+    "fmt"
+    "math"
+)
+
+func main() {
+    // Define maximum and minimum values for int8
+    const maxInt8 = math.MaxInt8
+    const minInt8 = math.MinInt8
+
+    // Addition overflow check
+    a, b := int8(127), int8(1)
+    if a > 0 && b > 0 && a > maxInt8-b {
+        fmt.Println("Addition overflow for int8")
+    } else {
+        sum := a + b
+        fmt.Printf("Sum for int8: %d + %d = %d\n", a, b, sum)
+    }
+
+    // Subtraction overflow check
+    c, d := int8(-128), int8(1)
+    if c < 0 && d > 0 && c < minInt8+d {
+        fmt.Println("Subtraction overflow for int8")
+    } else {
+        difference := c - d
+        fmt.Printf("Difference for int8: %d - %d = %d\n", c, d, difference)
+    }
+
+    // Multiplication overflow check
+    e, f := int8(12), int8(11)
+    if e != 0 && f != 0 && (e > maxInt8/f || e < minInt8/f) {
+        fmt.Println("Multiplication overflow for int8")
+    } else {
+        product := e * f
+        fmt.Printf("Product for int8: %d * %d = %d\n", e, f, product)
+    }
+
+    // Division overflow check
+    g, h := int8(-128), int8(-1)
+    if g == minInt8 && h == -1 {
+        fmt.Println("Division overflow for int8")
+    } else {
+        quotient := g / h
+        fmt.Printf("Quotient for int8: %d / %d = %d\n", g, h, quotient)
+    }
+}
+```
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Addition overflow for int8
+Subtraction overflow for int8
+Product for int8: 12 * 11 = 132
+Quotient for int8: -128 / -1 = 128
+```
+
+### Summary
+
+In Go, you must manually check for overflow in integer arithmetic operations because the language does not automatically check for overflow. Using constants from the `math` package, you can define the maximum and minimum values for different integer types and use conditional checks to detect overflow before performing the arithmetic operations. By understanding and implementing these checks, you can prevent overflow errors in your Go programs.

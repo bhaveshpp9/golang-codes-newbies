@@ -1,1 +1,141 @@
 \\ Patterns — Behavioural patterns — memento
+
+
+The Memento pattern is a behavioral design pattern that provides a way to capture and store an object's internal state so that it can be restored later, without violating encapsulation. This pattern is particularly useful for implementing undo mechanisms.
+
+### Key Components
+
+1. **Memento**: Stores the internal state of the originator object.
+2. **Originator**: Creates a memento containing a snapshot of its current internal state and uses the memento to restore its state.
+3. **Caretaker**: Manages mementos and is responsible for the memento's safekeeping but never modifies it.
+
+### Example: Simple Text Editor with Undo
+
+Let's create an example of a simple text editor where we can undo the last text changes using the Memento pattern.
+
+#### Memento
+
+```go
+package main
+
+// Memento stores the state of the editor
+type Memento struct {
+    state string
+}
+
+// GetState returns the saved state
+func (m *Memento) GetState() string {
+    return m.state
+}
+```
+
+#### Originator
+
+```go
+package main
+
+// Editor is the Originator that creates and restores mementos
+type Editor struct {
+    state string
+}
+
+// SetState sets the current state of the editor
+func (e *Editor) SetState(state string) {
+    e.state = state
+}
+
+// GetState returns the current state of the editor
+func (e *Editor) GetState() string {
+    return e.state
+}
+
+// Save creates a new memento with the current state
+func (e *Editor) Save() *Memento {
+    return &Memento{state: e.state}
+}
+
+// Restore restores the editor's state from a memento
+func (e *Editor) Restore(m *Memento) {
+    e.state = m.GetState()
+}
+```
+
+#### Caretaker
+
+```go
+package main
+
+// History is the Caretaker that manages the mementos
+type History struct {
+    mementos []*Memento
+}
+
+// Add adds a new memento to the history
+func (h *History) Add(m *Memento) {
+    h.mementos = append(h.mementos, m)
+}
+
+// Get returns the last saved memento and removes it from history
+func (h *History) Get() *Memento {
+    if len(h.mementos) == 0 {
+        return nil
+    }
+    m := h.mementos[len(h.mementos)-1]
+    h.mementos = h.mementos[:len(h.mementos)-1]
+    return m
+}
+```
+
+#### Client
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    editor := &Editor{}
+    history := &History{}
+
+    editor.SetState("State1")
+    history.Add(editor.Save())
+
+    editor.SetState("State2")
+    history.Add(editor.Save())
+
+    editor.SetState("State3")
+    fmt.Println("Current State:", editor.GetState())
+
+    editor.Restore(history.Get())
+    fmt.Println("Restored State:", editor.GetState())
+
+    editor.Restore(history.Get())
+    fmt.Println("Restored State:", editor.GetState())
+}
+```
+
+### Explanation
+
+1. **Memento**: The `Memento` struct stores the state of the `Editor`.
+2. **Originator**: The `Editor` struct creates and restores its state using `Memento` objects.
+   - `SetState` sets the current state.
+   - `GetState` returns the current state.
+   - `Save` creates a new `Memento` with the current state.
+   - `Restore` sets the state from a given `Memento`.
+3. **Caretaker**: The `History` struct manages the `Memento` objects.
+   - `Add` adds a new `Memento` to the history.
+   - `Get` returns the last saved `Memento` and removes it from history.
+4. **Client**: The client code simulates the text editor functionality by changing states, saving them to history, and then restoring the previous states.
+
+### Advantages
+
+- **Encapsulation**: The internal state of the `Originator` is saved and restored without exposing the state to other objects.
+- **Undo/Redo**: This pattern is useful for implementing undo and redo functionality.
+- **Simplified State Management**: It allows for easy saving and restoring of an object's state.
+
+### Disadvantages
+
+- **Memory Consumption**: Storing many mementos can consume a lot of memory.
+- **Complexity**: Managing mementos and ensuring that they are used correctly can add complexity to the system.
+
+By implementing the Memento pattern, you can provide a way to save and restore an object's state, making it useful for applications requiring undo and redo functionality. This pattern ensures that the internal state of an object is kept private, maintaining encapsulation while allowing state restoration.

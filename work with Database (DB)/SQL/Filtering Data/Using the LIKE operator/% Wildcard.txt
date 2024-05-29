@@ -1,1 +1,14 @@
 \\ work with database(DB) — SQL — Filtering Data — Using the LIKE operator — % Wildcard
+
+
+SELECT Code, Name
+FROM country
+WHERE Name LIKE '%State%'
+
+Code	Name
+FSM	Micronesia, Federated States of
+UMI	United States Minor Outlying Islands
+USA	United States
+VAT	Holy See (Vatican City State)
+
+Within a search string, % means, match any number of occurrences of any character. The % tells the DBMS to accept any characters before and after the word State, regardless of how many characters there are.

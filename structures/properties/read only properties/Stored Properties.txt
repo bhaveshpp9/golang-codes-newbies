@@ -1,1 +1,191 @@
 \\ Structures — Properties — Read-only properties — Stored Properties
+
+
+In Go, you can simulate read-only properties by encapsulating the fields of a struct and providing getter methods. These getter methods allow access to the values of the fields without allowing direct modification, thereby making the properties read-only. The stored properties themselves remain private to the struct.
+
+### Example: Read-only Stored Properties
+
+Let's create an example using a `Person` struct that has read-only stored properties for the first name, last name, and age. We'll provide getter methods to access these properties.
+
+#### Step 1: Define the Struct
+
+First, define the `Person` struct with private fields.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define the Person struct with private fields
+type Person struct {
+    firstName string
+    lastName  string
+    age       int
+}
+```
+
+#### Step 2: Define Getter Methods
+
+Create getter methods for the `Person` struct to access the private fields.
+
+```go
+// Getter method for firstName
+func (p Person) FirstName() string {
+    return p.firstName
+}
+
+// Getter method for lastName
+func (p Person) LastName() string {
+    return p.lastName
+}
+
+// Getter method for age
+func (p Person) Age() int {
+    return p.age
+}
+```
+
+#### Step 3: Use the Getter Methods
+
+Finally, use the getter methods in the `main` function.
+
+```go
+func main() {
+    // Create an instance of Person
+    person := Person{
+        firstName: "John",
+        lastName:  "Doe",
+        age:       30,
+    }
+
+    // Access the read-only properties using getter methods
+    fmt.Printf("First Name: %s\n", person.FirstName())
+    fmt.Printf("Last Name: %s\n", person.LastName())
+    fmt.Printf("Age: %d\n", person.Age())
+}
+```
+
+### Explanation
+
+1. **Define the `Person` Struct**:
+   - The `Person` struct has three private fields: `firstName`, `lastName`, and `age`. These fields are private because their names start with a lowercase letter.
+
+2. **Define the Getter Methods**:
+   - The `FirstName` method returns the value of the `firstName` field.
+   - The `LastName` method returns the value of the `lastName` field.
+   - The `Age` method returns the value of the `age` field.
+   - These methods provide read-only access to the private fields.
+
+3. **Use the Getter Methods**:
+   - In `main`, an instance of the `Person` struct is created and initialized.
+   - The getter methods are called to access the values of the private fields, demonstrating the read-only properties.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+First Name: John
+Last Name: Doe
+Age: 30
+```
+
+### Example: Read-only Stored Properties with Nested Structs
+
+Let's create a `Book` struct with read-only stored properties, including a nested `Author` struct.
+
+#### Step 1: Define the Structs
+
+Define the `Author` and `Book` structs with private fields and provide getter methods.
+
+```go
+// Define the Author struct with private fields
+type Author struct {
+    firstName string
+    lastName  string
+}
+
+// Define the Book struct with private fields
+type Book struct {
+    title  string
+    author Author
+    pages  int
+}
+
+// Getter method for author's firstName
+func (a Author) FirstName() string {
+    return a.firstName
+}
+
+// Getter method for author's lastName
+func (a Author) LastName() string {
+    return a.lastName
+}
+
+// Getter method for book's title
+func (b Book) Title() string {
+    return b.title
+}
+
+// Getter method for book's author
+func (b Book) Author() Author {
+    return b.author
+}
+
+// Getter method for book's pages
+func (b Book) Pages() int {
+    return b.pages
+}
+```
+
+#### Step 2: Use the Getter Methods
+
+Finally, use the getter methods in the `main` function.
+
+```go
+func main() {
+    // Create an instance of Book
+    book := Book{
+        title: "Go Programming",
+        author: Author{
+            firstName: "John",
+            lastName:  "Doe",
+        },
+        pages: 300,
+    }
+
+    // Access the read-only properties using getter methods
+    fmt.Printf("Title: %s\n", book.Title())
+    fmt.Printf("Author: %s %s\n", book.Author().FirstName(), book.Author().LastName())
+    fmt.Printf("Pages: %d\n", book.Pages())
+}
+```
+
+### Explanation
+
+1. **Define the `Author` and `Book` Structs**:
+   - The `Author` struct has two private fields: `firstName` and `lastName`.
+   - The `Book` struct has three private fields: `title`, `author`, and `pages`. The `author` field is of type `Author`.
+
+2. **Define the Getter Methods**:
+   - The getter methods for the `Author` struct return the values of the `firstName` and `lastName` fields.
+   - The getter methods for the `Book` struct return the values of the `title`, `author`, and `pages` fields.
+   - These methods provide read-only access to the private fields.
+
+3. **Use the Getter Methods**:
+   - In `main`, an instance of the `Book` struct is created and initialized, including the nested `Author` struct.
+   - The getter methods are called to access the values of the private fields, demonstrating the read-only properties.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Title: Go Programming
+Author: John Doe
+Pages: 300
+```
+
+### Summary
+
+In Go, you can simulate read-only properties by encapsulating the fields of a struct and providing getter methods. These getter methods allow access to the values of the fields without allowing direct modification, thereby making the properties read-only. This approach is useful for maintaining encapsulation and ensuring that certain fields cannot be modified directly from outside the struct. By using getter methods, you can provide a clear and consistent interface for accessing the stored properties of your structs.

@@ -1,1 +1,18 @@
 \\ work with database(DB) — SQL — Filtering Data — Checking for a Range of Values
+
+
+SELECT Name, Population
+FROM country
+WHERE Population BETWEEN 100000000 AND 1000000000
+
+Name	Population
+Bangladesh	129,155,000
+Brazil	170,115,000
+Indonesia	212,107,000
+Japan	126,714,000
+Nigeria	111,506,000
+Pakistan	156,483,000
+Russian Federation	146,934,000
+United States	278,357,000
+
+When BETWEEN is used, two values must be specified: the low end and high end of the desired range. The two values must also be separated by the AND keyword. BETWEEN matches all the values in the range, including the specified start and end values.

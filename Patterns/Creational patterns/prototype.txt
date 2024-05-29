@@ -1,1 +1,176 @@
 \\ Patterns — creational patterns — prototype
+
+
+The Prototype pattern is a creational design pattern that allows you to copy existing objects without making your code dependent on their classes. This pattern is particularly useful when the cost of creating a new object is more expensive than copying an existing one.
+
+### Key Components
+
+1. **Prototype Interface**: Declares the cloning method.
+2. **Concrete Prototypes**: Implements the cloning method.
+3. **Client**: Creates new objects by asking a prototype to clone itself.
+
+### Example: Cloning Shapes
+
+Let's create an example where we clone different types of shapes (Circle and Rectangle) using the Prototype pattern.
+
+#### Prototype Interface
+
+```go
+package main
+
+// Shape is the prototype interface that declares the clone method
+type Shape interface {
+    Clone() Shape
+    GetInfo() string
+}
+```
+
+#### Concrete Prototypes
+
+```go
+package main
+
+import "fmt"
+
+// Circle is a concrete prototype that implements the Shape interface
+type Circle struct {
+    Radius int
+}
+
+func (c *Circle) Clone() Shape {
+    // Return a copy of the Circle
+    return &Circle{Radius: c.Radius}
+}
+
+func (c *Circle) GetInfo() string {
+    return fmt.Sprintf("Circle with radius %d", c.Radius)
+}
+
+// Rectangle is a concrete prototype that implements the Shape interface
+type Rectangle struct {
+    Width, Height int
+}
+
+func (r *Rectangle) Clone() Shape {
+    // Return a copy of the Rectangle
+    return &Rectangle{Width: r.Width, Height: r.Height}
+}
+
+func (r *Rectangle) GetInfo() string {
+    return fmt.Sprintf("Rectangle with width %d and height %d", r.Width, r.Height)
+}
+```
+
+#### Client
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    // Create a Circle and a Rectangle
+    circle := &Circle{Radius: 5}
+    rectangle := &Rectangle{Width: 10, Height: 20}
+
+    // Clone the shapes
+    anotherCircle := circle.Clone()
+    anotherRectangle := rectangle.Clone()
+
+    // Print the information of the original and cloned shapes
+    fmt.Println(circle.GetInfo())        // Output: Circle with radius 5
+    fmt.Println(anotherCircle.GetInfo()) // Output: Circle with radius 5
+    fmt.Println(rectangle.GetInfo())     // Output: Rectangle with width 10 and height 20
+    fmt.Println(anotherRectangle.GetInfo()) // Output: Rectangle with width 10 and height 20
+}
+```
+
+### Explanation
+
+1. **Prototype Interface**: The `Shape` interface declares the `Clone` method for cloning objects and `GetInfo` method for printing object details.
+2. **Concrete Prototypes**:
+   - `Circle` implements the `Shape` interface and provides the `Clone` method to return a copy of itself.
+   - `Rectangle` implements the `Shape` interface and provides the `Clone` method to return a copy of itself.
+3. **Client**: The client code creates instances of `Circle` and `Rectangle`, clones them, and prints information about the original and cloned shapes.
+
+### Advantages
+
+- **Performance**: Creating a clone is typically faster than creating a new object from scratch.
+- **Less Initialization**: Copying an object can bypass the need for complex initialization code.
+- **Avoids Subclassing**: Cloning an object does not require subclassing, which makes it flexible for creating new objects.
+
+### Disadvantages
+
+- **Complexity**: Cloning complex objects that have references to other objects can be tricky.
+- **Copying Issues**: If an object contains references to other objects, deep cloning (copying everything) can be difficult to implement correctly.
+
+### Deep Copy vs. Shallow Copy
+
+In the Prototype pattern, it is important to distinguish between shallow copying and deep copying:
+- **Shallow Copy**: Copies the object's fields as is, which can be problematic if the object contains references to mutable objects.
+- **Deep Copy**: Recursively copies all objects referenced by the fields, which ensures that the clone is fully independent of the original.
+
+Here’s an example of how to implement deep copying in Go:
+
+```go
+package main
+
+import (
+    "fmt"
+    "reflect"
+)
+
+// Shape is the prototype interface that declares the clone method
+type Shape interface {
+    Clone() Shape
+    GetInfo() string
+}
+
+// Circle is a concrete prototype that implements the Shape interface
+type Circle struct {
+    Radius int
+}
+
+func (c *Circle) Clone() Shape {
+    // Deep copy the Circle
+    copy := *c
+    return &copy
+}
+
+func (c *Circle) GetInfo() string {
+    return fmt.Sprintf("Circle with radius %d", c.Radius)
+}
+
+// Rectangle is a concrete prototype that implements the Shape interface
+type Rectangle struct {
+    Width, Height int
+}
+
+func (r *Rectangle) Clone() Shape {
+    // Deep copy the Rectangle
+    copy := *r
+    return &copy
+}
+
+func (r *Rectangle) GetInfo() string {
+    return fmt.Sprintf("Rectangle with width %d and height %d", r.Width, r.Height)
+}
+
+func main() {
+    // Create a Circle and a Rectangle
+    circle := &Circle{Radius: 5}
+    rectangle := &Rectangle{Width: 10, Height: 20}
+
+    // Clone the shapes
+    anotherCircle := circle.Clone()
+    anotherRectangle := rectangle.Clone()
+
+    // Print the information of the original and cloned shapes
+    fmt.Println(circle.GetInfo())           // Output: Circle with radius 5
+    fmt.Println(anotherCircle.GetInfo())    // Output: Circle with radius 5
+    fmt.Println(rectangle.GetInfo())        // Output: Rectangle with width 10 and height 20
+    fmt.Println(anotherRectangle.GetInfo()) // Output: Rectangle with width 10 and height 20
+}
+```
+
+By implementing the Prototype pattern, you can create new objects by cloning existing ones, making it easier to work with complex objects and ensuring that your code remains flexible and maintainable. This pattern is especially useful when the cost of creating a new object is more expensive than copying an existing one.

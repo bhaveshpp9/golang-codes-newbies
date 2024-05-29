@@ -1,1 +1,18 @@
 \\ work with database(DB) — SQL — Data Manipulation Functions — Numeric Manipulation
+
+
+SELECT
+    Population,
+    SQRT(Population)
+FROM country
+
+Commonly Used Functions:
+
+Function	Description
+ABS()	Return a number's absolute value
+COS()	Returns the trigonometric cosine of specified angle
+EXP()	Returns the exponential value of a specific number
+PI()	Returns the value of PI
+SIN()	Returns the trigonometric sine of a specified angle
+SQRT()	Returns the square root of a specified number
+TAN()	Returns the trigonometric tangent of a specified angle

@@ -1,1 +1,76 @@
 \\ work with database(DB) — SQL — Creating table — Basic Table Creation — Ms SQL Server
+
+
+Creating a table in Microsoft SQL Server is straightforward and can be done using SQL commands. Below, I'll provide a step-by-step guide to creating a basic table in SQL Server, including the SQL command you need to use.
+
+### Scenario
+We will create a table called `employees` with the following columns:
+- `id`: A unique identifier for each employee (integer, primary key, auto-increment).
+- `first_name`: The first name of the employee (variable character string).
+- `last_name`: The last name of the employee (variable character string).
+- `email`: The email address of the employee (variable character string, unique).
+- `hire_date`: The date the employee was hired (date).
+
+### SQL Commands to Create the Table
+Here's the SQL command to create the table in SQL Server:
+
+```sql
+CREATE TABLE employees (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    hire_date DATE NOT NULL
+);
+```
+
+### Explanation
+1. **Table Name**: `employees` is the name of the table.
+2. **Columns and Data Types**:
+    - `id INT IDENTITY(1,1) PRIMARY KEY`: This creates an `id` column that auto-increments starting at 1, incrementing by 1 for each new record. It is also defined as the primary key.
+    - `first_name VARCHAR(50) NOT NULL`: This creates a `first_name` column that can store up to 50 characters and must have a value (NOT NULL).
+    - `last_name VARCHAR(50) NOT NULL`: Similar to `first_name`, this creates a `last_name` column with up to 50 characters and requires a value (NOT NULL).
+    - `email VARCHAR(100) UNIQUE NOT NULL`: This creates an `email` column that can store up to 100 characters, must be unique across all rows, and cannot be `NULL`.
+    - `hire_date DATE NOT NULL`: This creates a `hire_date` column that stores date values and must have a value (NOT NULL).
+
+### Connecting to a Database and Executing the Command
+To execute the SQL command, you need to connect to your SQL Server database. Here are the steps to do this using SQL Server Management Studio (SSMS):
+
+1. **Open SQL Server Management Studio**: Launch SSMS and connect to your SQL Server instance.
+2. **Connect to the Database**: In the Object Explorer, expand the server, then expand the Databases node, and select the database where you want to create the table.
+3. **Open a New Query Window**: Right-click the database, and select `New Query`.
+4. **Enter the SQL Command**: Copy and paste the SQL command into the query window.
+
+```sql
+CREATE TABLE employees (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    hire_date DATE NOT NULL
+);
+```
+
+5. **Execute the Query**: Click the `Execute` button on the toolbar or press `F5` to run the query. This will create the table in the selected database.
+
+6. **Verify Creation**: To verify that the table has been created, you can use the following command to list the tables in your database:
+   ```sql
+   SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'employees';
+   ```
+
+### Using an SQL GUI Tool
+In addition to SSMS, you can use other GUI tools like Azure Data Studio to connect to your SQL Server database and execute SQL commands.
+
+### Accessing the Table in SQL Server
+Once the table is created, you can insert data into it and perform queries as needed. Here’s an example of how to insert a record into the `employees` table:
+
+```sql
+INSERT INTO employees (first_name, last_name, email, hire_date)
+VALUES ('John', 'Doe', 'john.doe@example.com', '2023-01-01');
+```
+
+### Explanation of Insert Command
+- `INSERT INTO employees (first_name, last_name, email, hire_date)`: Specifies the table and the columns to insert data into.
+- `VALUES ('John', 'Doe', 'john.doe@example.com', '2023-01-01')`: Provides the values for each column in the specified order.
+
+By following these steps and using the appropriate SQL syntax for SQL Server, you can create basic tables and manage your data effectively. If you have more specific questions or need further assistance with advanced SQL features, feel free to ask!

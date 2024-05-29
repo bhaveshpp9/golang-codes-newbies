@@ -1,1 +1,115 @@
 \\ Lambda Expressions —  recursion
+
+In Go, you can use lambda expressions (anonymous functions) to create recursive functions. However, since anonymous functions are not named, setting up recursion requires a bit of an indirect approach. This typically involves defining the anonymous function within another function and then using a variable to refer to itself recursively.
+
+### Example: Recursive Factorial Function
+
+Here's an example demonstrating how to implement a recursive factorial function using a lambda expression in Go:
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    // Define an anonymous recursive factorial function
+    var factorial func(n int) int
+    factorial = func(n int) int {
+        if n <= 1 {
+            return 1
+        }
+        return n * factorial(n-1)
+    }
+
+    // Test the factorial function
+    fmt.Println(factorial(5)) // Output: 120
+    fmt.Println(factorial(6)) // Output: 720
+}
+```
+
+### Explanation
+
+1. **Variable Declaration:** The `factorial` variable is declared with the type `func(int) int`.
+2. **Anonymous Function Definition:** The anonymous function is assigned to `factorial` and uses `factorial` to refer to itself recursively.
+3. **Recursion:** The function calls itself with `n-1` until `n` is less than or equal to 1, at which point it returns 1.
+
+### Practical Example: Recursive Fibonacci Function
+
+Let's create a practical example where an anonymous function is used to compute Fibonacci numbers recursively.
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    // Define an anonymous recursive Fibonacci function
+    var fibonacci func(n int) int
+    fibonacci = func(n int) int {
+        if n <= 1 {
+            return n
+        }
+        return fibonacci(n-1) + fibonacci(n-2)
+    }
+
+    // Test the Fibonacci function
+    fmt.Println(fibonacci(10)) // Output: 55
+    fmt.Println(fibonacci(15)) // Output: 610
+}
+```
+
+### Explanation
+
+1. **Variable Declaration:** The `fibonacci` variable is declared with the type `func(int) int`.
+2. **Anonymous Function Definition:** The anonymous function is assigned to `fibonacci` and uses `fibonacci` to refer to itself recursively.
+3. **Recursion:** The function calls itself with `n-1` and `n-2` until `n` is less than or equal to 1, at which point it returns `n`.
+
+### Advanced Example: Memoized Recursive Fibonacci Function
+
+To optimize the recursive Fibonacci function, we can implement memoization to store previously computed results.
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    // Define a memoized anonymous recursive Fibonacci function
+    fibonacci := func() func(int) int {
+        cache := make(map[int]int)
+        var fib func(n int) int
+        fib = func(n int) int {
+            if result, found := cache[n]; found {
+                return result
+            }
+            if n <= 1 {
+                cache[n] = n
+            } else {
+                cache[n] = fib(n-1) + fib(n-2)
+            }
+            return cache[n]
+        }
+        return fib
+    }()
+
+    // Test the memoized Fibonacci function
+    fmt.Println(fibonacci(10)) // Output: 55
+    fmt.Println(fibonacci(15)) // Output: 610
+    fmt.Println(fibonacci(20)) // Output: 6765
+}
+```
+
+### Explanation
+
+1. **Memoization Function:** The `fibonacci` function is defined as a memoized closure that captures a cache map.
+2. **Cache Lookup:** Before computing, the function checks if the result is already in the cache and returns it if found.
+3. **Recursive Calculation:** If the result is not in the cache, the function computes it recursively and stores the result in the cache.
+4. **Returning the Closure:** The memoized function is immediately invoked and assigned to `fibonacci`.
+
+### Summary
+
+- **Anonymous Recursion:** You can create recursive lambda expressions in Go by using a variable to refer to the function itself.
+- **Practical Usage:** Recursive lambda expressions are useful for defining functions like factorial and Fibonacci.
+- **Memoization:** Optimize recursive functions by using memoization to cache previously computed results.
+
+By leveraging anonymous functions and closures, you can write concise and efficient recursive functions in Go, enabling powerful functional programming techniques.

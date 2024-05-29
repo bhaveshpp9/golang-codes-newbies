@@ -1,1 +1,13 @@
 \\ work with database(DB) — SQL — Retrieving Data — Limiting Results — Oracle
+
+
+SELECT Name
+FROM country
+WHERE ROWNUM <= 5
+
+Name
+Andorra
+Netherlands Antilles
+United Arab Emirates
+Argentina
+Armenia

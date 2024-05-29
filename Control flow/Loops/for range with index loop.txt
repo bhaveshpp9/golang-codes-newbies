@@ -1,1 +1,35 @@
 \\ Control flow — Loops — "for range" with index loop
+
+
+Sure, let’s delve into another example of using the `for range` loop with index in Go. This time, we’ll use a slightly more complex scenario involving a slice of numbers, where we'll perform some operation based on the index of each element.
+
+### Scenario
+Let's say we want to compute the squares of numbers in a slice, but only for the even indices. This demonstrates how to selectively process elements based on their position.
+
+### Go Code Example
+```go
+package main
+
+import "fmt"
+
+func main() {
+    // Define a slice of integers
+    numbers := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+
+    // Iterate over the slice using a for range loop
+    for index, number := range numbers {
+        if index%2 == 0 {  // Check if the index is even
+            square := number * number
+            fmt.Printf("Square of %d at index %d is %d\n", number, index, square)
+        }
+    }
+}
+```
+
+### Explanation
+1. **Slice of Integers**: We start with a slice `numbers` containing integers from 1 to 10.
+2. **For Range Loop**: We loop through each element in the slice using the `range` keyword, which provides both the index and the value of each element.
+3. **Conditional Check**: Inside the loop, we check if the index is even using `index%2 == 0`. This is a common technique to determine the parity of a number.
+4. **Calculation and Output**: For even indices, we calculate the square of the number at that index and print both the original number, its index, and the computed square.
+
+This loop illustrates how you can leverage indices in `for range` loops to apply logic conditionally based on element positions. It’s a powerful feature for handling more intricate data processing scenarios in Go. If you have any more questions or need further elaboration on Go loops or any other topic, feel free to ask! 🔨🤖🔧

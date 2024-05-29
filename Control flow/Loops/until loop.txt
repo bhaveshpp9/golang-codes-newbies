@@ -1,1 +1,38 @@
 \\ Control flow — Loops — "until" loop
+
+
+Like with the `while` loop, Go does not have an explicit `until` loop construct. In other languages, an `until` loop continues execution until a certain condition becomes true. In Go, you can emulate this behavior using a `for` loop with a negated condition, effectively mirroring the functionality of an `until` loop.
+
+### Scenario
+Let's say we want to simulate a scenario where a countdown continues until it reaches zero. This is a straightforward example where you would typically use an `until` loop in other languages.
+
+### Go Code Example
+```go
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func main() {
+    // Start the countdown at 10
+    countdown := 10
+
+    // Simulate 'until' loop using a 'for' loop
+    for countdown > 0 {
+        fmt.Println(countdown)
+        countdown--
+        time.Sleep(1 * time.Second) // Pause for a second between counts
+    }
+    fmt.Println("Liftoff!")
+}
+```
+
+### Explanation
+1. **Initialization**: We start with the `countdown` variable set to 10.
+2. **For Loop**: The loop is set up with the condition `countdown > 0`. This means the loop will continue as long as the countdown is greater than 0, effectively emulating `until countdown equals 0`.
+3. **Countdown Operation**: Inside the loop, we print the current value of `countdown`, then decrement it by 1, and pause for one second using `time.Sleep` to create a real-time countdown effect.
+4. **Completion**: Once the loop exits (when `countdown` reaches 0), we print "Liftoff!"
+
+This approach shows how you can use Go's `for` loop to mimic the behavior of an `until` loop, executing a block of code repeatedly until a specific condition is met. Go's single looping construct (`for`) is versatile enough to handle various looping requirements with simplicity and clarity. If you're curious about more loop variations or other topics, just let me know! 🔨🤖🔧

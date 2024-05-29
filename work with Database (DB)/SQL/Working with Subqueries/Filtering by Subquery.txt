@@ -1,1 +1,29 @@
 \\ work with database(DB) — SQL — Working with Subqueries — Filtering by Subquery
+
+
+SELECT
+    Name
+FROM country
+WHERE Code IN (
+    SELECT CountryCode
+    FROM countrylanguage
+    WHERE Language = 'Russian'
+)
+
+Name
+Azerbaijan
+Belarus
+Estonia
+Finland
+Georgia
+Israel
+Kazakstan
+Kyrgyzstan
+Lithuania
+...
+
+When processing this query, first it runs the subquery:
+    SELECT CountryCode
+    FROM countrylanguage
+    WHERE Language = 'Russian'
+Its result is passed to the WHERE clause of the outer query in the comma-delimited format required by the IN operator.

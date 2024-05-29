@@ -1,1 +1,7 @@
 \\ work with database(DB) — SQL — Updating Tables — Adding a column
+
+
+ALTER TABLE Orders 
+ADD customer_id INTEGER NOT NULL
+
+DBMSs support ALTER TABLE, what they allow you to alter varies dramatically from one to another. To add a column, use the ADD clause, which specifies the name and type of the column.

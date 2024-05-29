@@ -1,1 +1,141 @@
 \\ Simple types.— Pointers — memory allocation
+
+In Go, memory allocation for pointers can be done using the `new` and `make` functions. These functions serve different purposes and are used for different types of memory allocation.
+
+### Using `new`
+
+The `new` function allocates memory for a variable of a given type and returns a pointer to it. This is useful for allocating memory for basic types, structs, and arrays.
+
+#### Example: Using `new` for Memory Allocation
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Allocate memory for an integer using new
+    intPointer := new(int)
+    *intPointer = 42
+
+    // Print the allocated value and its address
+    fmt.Printf("Value: %d, Address: %p\n", *intPointer, intPointer)
+
+    // Allocate memory for a struct using new
+    type Person struct {
+        name string
+        age  int
+    }
+
+    personPointer := new(Person)
+    personPointer.name = "Alice"
+    personPointer.age = 30
+
+    // Print the allocated struct values
+    fmt.Printf("Name: %s, Age: %d\n", personPointer.name, personPointer.age)
+}
+```
+
+### Explanation
+
+1. **Allocate Memory for an Integer Using `new`**:
+   - We use `new(int)` to allocate memory for an integer and get a pointer to it.
+   - We then assign a value to the allocated memory.
+
+2. **Print the Allocated Value and Its Address**:
+   - We print the value pointed to by `intPointer` and the address stored in `intPointer`.
+
+3. **Allocate Memory for a Struct Using `new`**:
+   - We define a struct type `Person` with fields `name` and `age`.
+   - We use `new(Person)` to allocate memory for a `Person` struct and get a pointer to it.
+   - We then assign values to the fields of the allocated struct.
+
+4. **Print the Allocated Struct Values**:
+   - We print the values of the fields in the struct pointed to by `personPointer`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Value: 42, Address: 0xc0000180a0
+Name: Alice, Age: 30
+```
+
+### Using `make`
+
+The `make` function is used to allocate and initialize slices, maps, and channels. It returns an initialized (not zeroed) value of the specified type.
+
+#### Example: Using `make` for Memory Allocation
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    // Allocate memory for a slice using make
+    slice := make([]int, 5)
+    for i := 0; i < len(slice); i++ {
+        slice[i] = i * 2
+    }
+
+    // Print the allocated slice values
+    fmt.Printf("Slice: %v\n", slice)
+
+    // Allocate memory for a map using make
+    myMap := make(map[string]int)
+    myMap["Alice"] = 30
+    myMap["Bob"] = 25
+
+    // Print the allocated map values
+    fmt.Printf("Map: %v\n", myMap)
+
+    // Allocate memory for a channel using make
+    myChan := make(chan int, 2)
+    myChan <- 1
+    myChan <- 2
+
+    // Print the allocated channel values
+    fmt.Printf("Channel: %d, %d\n", <-myChan, <-myChan)
+}
+```
+
+### Explanation
+
+1. **Allocate Memory for a Slice Using `make`**:
+   - We use `make([]int, 5)` to allocate memory for a slice of integers with length 5.
+   - We then initialize the elements of the slice.
+
+2. **Print the Allocated Slice Values**:
+   - We print the values of the elements in the allocated slice.
+
+3. **Allocate Memory for a Map Using `make`**:
+   - We use `make(map[string]int)` to allocate memory for a map with string keys and integer values.
+   - We then assign values to the map.
+
+4. **Print the Allocated Map Values**:
+   - We print the key-value pairs in the allocated map.
+
+5. **Allocate Memory for a Channel Using `make`**:
+   - We use `make(chan int, 2)` to allocate memory for a channel with a buffer size of 2.
+   - We then send values into the channel.
+
+6. **Print the Allocated Channel Values**:
+   - We receive and print the values from the channel.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Slice: [0 2 4 6 8]
+Map: map[Alice:30 Bob:25]
+Channel: 1, 2
+```
+
+### Summary
+
+In Go, memory allocation can be done using the `new` and `make` functions. The `new` function allocates memory for basic types, structs, and arrays and returns a pointer to the allocated memory. The `make` function is used to allocate and initialize slices, maps, and channels. Understanding how to use these functions is essential for efficient memory management in Go programs.

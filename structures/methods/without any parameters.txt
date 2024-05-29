@@ -1,1 +1,222 @@
 \\ Structures — Methods —  without any parameters
+
+
+In Go, methods can be defined on structs without taking any parameters. These methods can perform actions or computations using the struct's fields. This is useful for operations that are intrinsic to the struct and do not require additional input.
+
+### Example: Method Without Parameters
+
+Let's create an example where a method calculates a value based on the struct's fields without requiring any additional parameters. We'll use a `Rectangle` struct and create a method that calculates the perimeter of the rectangle.
+
+#### Step 1: Define the Struct
+
+First, define a `Rectangle` struct.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define the Rectangle struct
+type Rectangle struct {
+    Width  float64
+    Height float64
+}
+```
+
+#### Step 2: Define the Method Without Parameters
+
+Create a method for the `Rectangle` struct that calculates the perimeter.
+
+```go
+// Method to calculate the perimeter of the rectangle
+func (r Rectangle) Perimeter() float64 {
+    return 2 * (r.Width + r.Height)
+}
+```
+
+#### Step 3: Use the Method
+
+Finally, use the method in the `main` function.
+
+```go
+func main() {
+    // Create an instance of Rectangle
+    rect := Rectangle{
+        Width:  10.5,
+        Height: 5.5,
+    }
+
+    // Call the Perimeter method and capture the return value
+    perimeter := rect.Perimeter()
+
+    // Print the result
+    fmt.Printf("Perimeter: %.2f\n", perimeter)
+}
+```
+
+### Explanation
+
+1. **Define the `Rectangle` Struct**:
+   - The `Rectangle` struct has two fields: `Width` and `Height`.
+
+2. **Define the `Perimeter` Method**:
+   - The `Perimeter` method is defined on the `Rectangle` struct. It calculates and returns the perimeter of the rectangle using the struct's `Width` and `Height` fields.
+
+3. **Use the Method**:
+   - In `main`, an instance of the `Rectangle` struct is created and initialized.
+   - The `Perimeter` method is called, and its return value is captured in the `perimeter` variable.
+   - The result is printed.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Perimeter: 32.00
+```
+
+### Example: Method Without Parameters Modifying Struct Fields
+
+Let's create a `Person` struct with a method that modifies the struct's fields without taking any parameters.
+
+#### Step 1: Define the Struct
+
+First, define a `Person` struct.
+
+```go
+// Define the Person struct
+type Person struct {
+    FirstName string
+    LastName  string
+    Age       int
+}
+```
+
+#### Step 2: Define the Method Without Parameters
+
+Create a method for the `Person` struct that increments the age of the person.
+
+```go
+// Method to increment the age of the person
+func (p *Person) IncrementAge() {
+    p.Age++
+}
+```
+
+#### Step 3: Use the Method
+
+Finally, use the method in the `main` function.
+
+```go
+func main() {
+    // Create an instance of Person
+    person := Person{
+        FirstName: "John",
+        LastName:  "Doe",
+        Age:       30,
+    }
+
+    // Call the IncrementAge method
+    person.IncrementAge()
+
+    // Print the updated person
+    fmt.Printf("Updated Person: %+v\n", person)
+}
+```
+
+### Explanation
+
+1. **Define the `Person` Struct**:
+   - The `Person` struct has three fields: `FirstName`, `LastName`, and `Age`.
+
+2. **Define the `IncrementAge` Method**:
+   - The `IncrementAge` method is defined on the `Person` struct. It increments the `Age` field of the `Person` struct by 1.
+
+3. **Use the Method**:
+   - In `main`, an instance of the `Person` struct is created and initialized.
+   - The `IncrementAge` method is called to modify the `Age` field.
+   - The updated `Person` struct is printed to demonstrate the change.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Updated Person: {FirstName:John LastName:Doe Age:31}
+```
+
+### Example: Method Without Parameters Returning a Value
+
+Let's create a `Circle` struct with a method that returns the circumference of the circle without taking any parameters.
+
+#### Step 1: Define the Struct
+
+First, define a `Circle` struct.
+
+```go
+package main
+
+import (
+    "fmt"
+    "math"
+)
+
+// Define the Circle struct
+type Circle struct {
+    Radius float64
+}
+```
+
+#### Step 2: Define the Method Without Parameters
+
+Create a method for the `Circle` struct that returns the circumference.
+
+```go
+// Method to calculate the circumference of the circle
+func (c Circle) Circumference() float64 {
+    return 2 * math.Pi * c.Radius
+}
+```
+
+#### Step 3: Use the Method
+
+Finally, use the method in the `main` function.
+
+```go
+func main() {
+    // Create an instance of Circle
+    circle := Circle{
+        Radius: 5.0,
+    }
+
+    // Call the Circumference method and capture the return value
+    circumference := circle.Circumference()
+
+    // Print the result
+    fmt.Printf("Circumference: %.2f\n", circumference)
+}
+```
+
+### Explanation
+
+1. **Define the `Circle` Struct**:
+   - The `Circle` struct has one field: `Radius`.
+
+2. **Define the `Circumference` Method**:
+   - The `Circumference` method is defined on the `Circle` struct. It calculates and returns the circumference of the circle using the struct's `Radius` field.
+
+3. **Use the Method**:
+   - In `main`, an instance of the `Circle` struct is created and initialized.
+   - The `Circumference` method is called, and its return value is captured in the `circumference` variable.
+   - The result is printed.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Circumference: 31.42
+```
+
+### Summary
+
+In Go, methods on structures can be defined without taking any parameters. These methods can perform actions or computations based on the struct's fields. This is useful for operations that are intrinsic to the struct and do not require additional input. By defining methods without parameters, you can encapsulate behavior within your structs and provide computed results or modify struct fields directly.

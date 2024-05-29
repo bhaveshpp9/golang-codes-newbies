@@ -1,1 +1,112 @@
 \\ Structures — Inheritance — Interface inheritance
+
+In Go, interfaces provide a way to define behavior by specifying a set of method signatures that implementing types must have. Go does not support traditional class-based inheritance, but it allows for a form of "interface inheritance" by embedding interfaces within other interfaces. This allows you to build complex interfaces by combining simpler ones.
+
+### Example: Interface Inheritance
+
+Let's create a simple example to demonstrate interface inheritance. We will define a base interface and then create a derived interface that extends the base interface.
+
+#### Step 1: Define the Base Interface
+
+First, define a `Named` interface that specifies a method for getting a name.
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+// Define the Named interface
+type Named interface {
+    GetName() string
+}
+```
+
+#### Step 2: Define the Derived Interface
+
+Next, define an `Employee` interface that embeds the `Named` interface and adds additional methods.
+
+```go
+// Define the Employee interface that embeds Named
+type Employee interface {
+    Named            // Embedding the Named interface
+    GetEmployeeID() int
+    GetPosition() string
+}
+```
+
+#### Step 3: Implement the Interfaces
+
+Now, create a struct that implements both interfaces.
+
+```go
+// Define the Person struct
+type Person struct {
+    Name       string
+    EmployeeID int
+    Position   string
+}
+
+// Implement the GetName method from the Named interface
+func (p Person) GetName() string {
+    return p.Name
+}
+
+// Implement the GetEmployeeID method from the Employee interface
+func (p Person) GetEmployeeID() int {
+    return p.EmployeeID
+}
+
+// Implement the GetPosition method from the Employee interface
+func (p Person) GetPosition() string {
+    return p.Position
+}
+```
+
+#### Step 4: Use the Implementations
+
+Finally, use the implemented interfaces in the `main` function.
+
+```go
+func main() {
+    // Create an instance of Person
+    person := Person{
+        Name:       "Alice Johnson",
+        EmployeeID: 1234,
+        Position:   "Software Engineer",
+    }
+
+    // Use the methods from the interfaces
+    fmt.Printf("Name: %s\n", person.GetName())
+    fmt.Printf("Employee ID: %d\n", person.GetEmployeeID())
+    fmt.Printf("Position: %s\n", person.GetPosition())
+}
+```
+
+### Explanation
+
+1. **Define the `Named` Interface**:
+   - The `Named` interface specifies a `GetName` method.
+
+2. **Define the `Employee` Interface**:
+   - The `Employee` interface embeds the `Named` interface and adds `GetEmployeeID` and `GetPosition` methods.
+
+3. **Implement the Interfaces**:
+   - The `Person` struct implements the `Named` and `Employee` interfaces by defining the required methods: `GetName`, `GetEmployeeID`, and `GetPosition`.
+
+4. **Use the Implementations**:
+   - In `main`, we create an instance of `Person` and call the methods defined by the `Named` and `Employee` interfaces.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Name: Alice Johnson
+Employee ID: 1234
+Position: Software Engineer
+```
+
+### Summary
+
+In Go, you can achieve interface inheritance by embedding interfaces within other interfaces. This allows you to build complex interfaces by combining simpler ones. Types that implement the methods specified by these interfaces can then be used polymorphically, providing a flexible and powerful way to define and use behavior in your Go programs. By embedding interfaces and implementing their methods, you can create robust and reusable code that adheres to the principles of composition over inheritance.

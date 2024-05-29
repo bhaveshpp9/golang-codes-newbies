@@ -1,1 +1,203 @@
 \\ Simple types.— Strings — Removing spaces
+
+In Go, you can remove spaces from a string using various functions from the `strings` package. The `strings` package provides functions like `strings.TrimSpace`, `strings.Trim`, `strings.ReplaceAll`, and more, to manipulate and clean up strings.
+
+### Removing Leading and Trailing Spaces
+
+To remove leading and trailing spaces from a string, you can use the `strings.TrimSpace` function.
+
+#### Example: Removing Leading and Trailing Spaces
+
+```go
+package main
+
+import (
+    "fmt"
+    "strings"
+)
+
+func main() {
+    // Define a string with leading and trailing spaces
+    str := "   Hello, World!   "
+
+    // Remove leading and trailing spaces
+    trimmedStr := strings.TrimSpace(str)
+
+    // Print the original and trimmed strings
+    fmt.Printf("Original string: '%s'\n", str)
+    fmt.Printf("Trimmed string: '%s'\n", trimmedStr)
+}
+```
+
+### Explanation
+
+1. **Define a String with Leading and Trailing Spaces**:
+   - We define a string `str` with leading and trailing spaces.
+
+2. **Remove Leading and Trailing Spaces**:
+   - We use `strings.TrimSpace(str)` to remove the leading and trailing spaces from the string.
+
+3. **Print the Original and Trimmed Strings**:
+   - We print the original and trimmed strings using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Original string: '   Hello, World!   '
+Trimmed string: 'Hello, World!'
+```
+
+### Removing All Spaces
+
+To remove all spaces from a string, you can use the `strings.ReplaceAll` function.
+
+#### Example: Removing All Spaces
+
+```go
+package main
+
+import (
+    "fmt"
+    "strings"
+)
+
+func main() {
+    // Define a string with spaces
+    str := "H e l l o ,   W o r l d !"
+
+    // Remove all spaces
+    noSpacesStr := strings.ReplaceAll(str, " ", "")
+
+    // Print the original and modified strings
+    fmt.Printf("Original string: '%s'\n", str)
+    fmt.Printf("String with no spaces: '%s'\n", noSpacesStr)
+}
+```
+
+### Explanation
+
+1. **Define a String with Spaces**:
+   - We define a string `str` with spaces between characters.
+
+2. **Remove All Spaces**:
+   - We use `strings.ReplaceAll(str, " ", "")` to replace all spaces in the string with an empty string, effectively removing all spaces.
+
+3. **Print the Original and Modified Strings**:
+   - We print the original and modified strings using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Original string: 'H e l l o ,   W o r l d !'
+String with no spaces: 'Hello,World!'
+```
+
+### Removing Specific Leading and Trailing Characters
+
+To remove specific characters (including spaces) from the start and end of a string, you can use the `strings.Trim` function.
+
+#### Example: Removing Specific Characters
+
+```go
+package main
+
+import (
+    "fmt"
+    "strings"
+)
+
+func main() {
+    // Define a string with specific leading and trailing characters
+    str := "!!!Hello, World!!!"
+
+    // Remove specific characters from the start and end
+    trimmedStr := strings.Trim(str, "!")
+
+    // Print the original and trimmed strings
+    fmt.Printf("Original string: '%s'\n", str)
+    fmt.Printf("Trimmed string: '%s'\n", trimmedStr)
+}
+```
+
+### Explanation
+
+1. **Define a String with Specific Leading and Trailing Characters**:
+   - We define a string `str` with leading and trailing exclamation marks.
+
+2. **Remove Specific Characters from the Start and End**:
+   - We use `strings.Trim(str, "!")` to remove the exclamation marks from the start and end of the string.
+
+3. **Print the Original and Trimmed Strings**:
+   - We print the original and trimmed strings using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Original string: '!!!Hello, World!!!'
+Trimmed string: 'Hello, World'
+```
+
+### Removing All Whitespace Characters
+
+To remove all types of whitespace characters (spaces, tabs, newlines) from a string, you can use the `strings.Fields` function combined with `strings.Join`.
+
+#### Example: Removing All Whitespace Characters
+
+```go
+package main
+
+import (
+    "fmt"
+    "strings"
+)
+
+func main() {
+    // Define a string with various whitespace characters
+    str := "H\te\nl l\no \n, \tW\to r\nl\td!"
+
+    // Remove all whitespace characters
+    fields := strings.Fields(str)
+    noWhitespaceStr := strings.Join(fields, "")
+
+    // Print the original and modified strings
+    fmt.Printf("Original string: '%s'\n", str)
+    fmt.Printf("String with no whitespace: '%s'\n", noWhitespaceStr)
+}
+```
+
+### Explanation
+
+1. **Define a String with Various Whitespace Characters**:
+   - We define a string `str` with spaces, tabs, and newlines between characters.
+
+2. **Remove All Whitespace Characters**:
+   - We use `strings.Fields(str)` to split the string into a slice of substrings, removing all whitespace characters.
+   - We then use `strings.Join(fields, "")` to join the substrings into a single string without any whitespace characters.
+
+3. **Print the Original and Modified Strings**:
+   - We print the original and modified strings using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Original string: 'H	e
+l l
+o 
+, 	W	o r
+l	d!'
+String with no whitespace: 'Hello,World!'
+```
+
+### Summary
+
+In Go, you can remove spaces from a string using functions from the `strings` package:
+- `strings.TrimSpace` removes leading and trailing spaces.
+- `strings.ReplaceAll` removes all spaces.
+- `strings.Trim` removes specific characters from the start and end of a string.
+- `strings.Fields` combined with `strings.Join` removes all types of whitespace characters.
+
+These methods provide flexible options for cleaning up and manipulating strings in your Go programs.

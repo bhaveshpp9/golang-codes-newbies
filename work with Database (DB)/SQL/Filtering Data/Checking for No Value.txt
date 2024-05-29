@@ -1,1 +1,27 @@
 \\ work with database(DB) — SQL — Filtering Data — Checking for No Value
+
+
+/* Check the IndepYear field for an empty value. */
+SELECT Name
+FROM country
+WHERE IndepYear IS NULL
+
+/* Select the records for which the 
+IndepYear field contains the value. */
+SELECT Name
+FROM country
+WHERE IndepYear IS NOT NULL
+
+Name
+Aruba
+Anguilla
+Netherlands Antilles
+American Samoa
+Antarctica
+French Southern territories
+Bermuda
+Bouvet Island
+Cocos (Keeling) Islands
+...
+
+To determine if a value is NULL, you cannot simply check to see if = NULL. Instead, the SELECT statement has a special WHERE clause that can be used to check for columns with NULL value: the IS NULL clause.

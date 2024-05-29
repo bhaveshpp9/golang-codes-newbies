@@ -1,1 +1,130 @@
 \\ Simple types.— Date and time — getting of the current date
+
+
+In Go, you can easily get the current date and time using the `time.Now()` function from the `time` package. The `time.Now()` function returns the current local time as a `time.Time` value. You can then format or manipulate this `time.Time` value to get the current date in various formats.
+
+### Getting the Current Date and Time
+
+Here’s a simple example demonstrating how to get the current date and time using `time.Now()`.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func main() {
+    // Get the current date and time
+    currentTime := time.Now()
+
+    // Print the current date and time
+    fmt.Println("Current date and time:", currentTime)
+}
+```
+
+### Detailed Output
+
+The output of the above code will look something like this (the exact output will vary based on the current date and time):
+```
+Current date and time: 2023-05-26 15:30:45.123456789 -0700 MST
+```
+
+### Formatting the Current Date and Time
+
+You can format the current date and time using the `Format` method of the `time.Time` type. The `Format` method takes a layout string that defines the format of the output string.
+
+#### Example: Formatting the Current Date and Time
+
+```go
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func main() {
+    // Get the current date and time
+    currentTime := time.Now()
+
+    // Define different layouts for formatting
+    layout1 := "2006-01-02"
+    layout2 := "15:04:05"
+    layout3 := "Monday, 02-Jan-06 15:04:05 MST"
+
+    // Format the current date and time
+    formattedDate1 := currentTime.Format(layout1)
+    formattedTime := currentTime.Format(layout2)
+    formattedDateTime := currentTime.Format(layout3)
+
+    // Print the formatted date and time
+    fmt.Println("Formatted date:", formattedDate1)
+    fmt.Println("Formatted time:", formattedTime)
+    fmt.Println("Formatted date and time:", formattedDateTime)
+}
+```
+
+### Detailed Output
+
+The output of the above code will look something like this (the exact output will vary based on the current date and time):
+```
+Formatted date: 2023-05-26
+Formatted time: 15:30:45
+Formatted date and time: Friday, 26-May-23 15:30:45 MST
+```
+
+### Extracting Specific Components
+
+You can extract specific components of the current date and time, such as the year, month, day, hour, minute, and second, using the methods provided by the `time.Time` type.
+
+#### Example: Extracting Specific Components
+
+```go
+package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func main() {
+    // Get the current date and time
+    currentTime := time.Now()
+
+    // Extract specific components
+    year := currentTime.Year()
+    month := currentTime.Month()
+    day := currentTime.Day()
+    hour := currentTime.Hour()
+    minute := currentTime.Minute()
+    second := currentTime.Second()
+
+    // Print the extracted components
+    fmt.Printf("Year: %d\n", year)
+    fmt.Printf("Month: %s\n", month)
+    fmt.Printf("Day: %d\n", day)
+    fmt.Printf("Hour: %d\n", hour)
+    fmt.Printf("Minute: %d\n", minute)
+    fmt.Printf("Second: %d\n", second)
+}
+```
+
+### Detailed Output
+
+The output of the above code will look something like this (the exact output will vary based on the current date and time):
+```
+Year: 2023
+Month: May
+Day: 26
+Hour: 15
+Minute: 30
+Second: 45
+```
+
+### Summary
+
+Getting the current date and time in Go is straightforward using the `time.Now()` function. You can format the current date and time using the `Format` method, and you can extract specific components using methods provided by the `time.Time` type. These capabilities allow you to handle and manipulate date and time values effectively in your Go programs.

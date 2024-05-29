@@ -1,1 +1,79 @@
 \\ work with files — Basic Operations — Delete a file
+
+
+To delete a file in Go, you can use the `os.Remove` function from the `os` package. This function removes a single file or directory specified by the path.
+
+### Example: Deleting a File
+
+Let's create an example where we define a function to delete a file using `os.Remove`.
+
+#### Step 1: Import Necessary Packages
+
+First, import the necessary package.
+
+```go
+package main
+
+import (
+    "fmt"
+    "os"
+)
+```
+
+#### Step 2: Define the Function to Delete a File
+
+Create a function that takes a file path as input and deletes the file.
+
+```go
+// Function to delete a file
+func deleteFile(filePath string) error {
+    err := os.Remove(filePath)
+    if err != nil {
+        return err
+    }
+    fmt.Printf("Successfully deleted file: %s\n", filePath)
+    return nil
+}
+```
+
+#### Step 3: Use the Function
+
+Finally, use the `deleteFile` function in the `main` function to delete a file.
+
+```go
+func main() {
+    // Path for the file to delete
+    fileToDelete := "example_file.txt"
+
+    // Delete the file
+    if err := deleteFile(fileToDelete); err != nil {
+        fmt.Printf("Failed to delete file: %v\n", err)
+    }
+}
+```
+
+### Explanation
+
+1. **Import Necessary Packages**:
+   - The `os` package is used for file operations.
+
+2. **Define the `deleteFile` Function**:
+   - This function takes a file path as input.
+   - It uses `os.Remove` to delete the file specified by the path.
+   - It prints a success message if the file is deleted.
+
+3. **Use the Function in `main`**:
+   - In `main`, the path for the file to delete is defined.
+   - The `deleteFile` function is called to delete the file, and the result is printed.
+
+### Detailed Output
+
+The program will delete the specified file and print the result. For example:
+
+```
+Successfully deleted file: example_file.txt
+```
+
+### Summary
+
+In Go, you can delete a file using the `os.Remove` function. This function removes a single file or directory specified by the path. By defining a function to handle file deletion, you can efficiently manage your file system structure in your applications. This approach is useful for cleaning up files, removing temporary files, or managing resources that are no longer needed.

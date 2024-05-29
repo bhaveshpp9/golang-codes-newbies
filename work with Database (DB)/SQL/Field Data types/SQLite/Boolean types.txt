@@ -1,0 +1,7 @@
+\\ work with database(DB) — SQL — Field data types — SQLite — Boolean Types
+
+
+Type list
+
+Type	Bytes	Values
+INTEGER	1	0 / 1

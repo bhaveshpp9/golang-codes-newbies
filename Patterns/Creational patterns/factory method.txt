@@ -1,1 +1,123 @@
 \\ Patterns — creational patterns — factory method
+
+
+The Factory Method pattern is a creational design pattern that provides an interface for creating objects in a superclass, but allows subclasses to alter the type of objects that will be created. The Factory Method pattern promotes loose coupling by eliminating the need to bind application-specific classes into the code, making it easier to introduce new classes without modifying existing code.
+
+### Key Components
+
+1. **Product Interface**: Declares the interface for objects the factory method creates.
+2. **Concrete Products**: Implements the `Product` interface.
+3. **Creator (Factory Interface)**: Declares the factory method, which returns an object of type `Product`.
+4. **Concrete Creators**: Overrides the factory method to return instances of `ConcreteProduct`.
+
+### Example: Logistics
+
+Let's create an example where different types of logistics (Road and Sea) use the Factory Method pattern to create different types of transport.
+
+#### Product Interface
+
+```go
+package main
+
+// Transport is the product interface
+type Transport interface {
+    Deliver() string
+}
+```
+
+#### Concrete Products
+
+```go
+package main
+
+// Truck is a concrete product that implements Transport
+type Truck struct{}
+
+func (t *Truck) Deliver() string {
+    return "Deliver by land in a truck"
+}
+
+// Ship is a concrete product that implements Transport
+type Ship struct{}
+
+func (s *Ship) Deliver() string {
+    return "Deliver by sea in a container"
+}
+```
+
+#### Creator (Factory Interface)
+
+```go
+package main
+
+// Logistics is the creator interface that declares the factory method
+type Logistics interface {
+    CreateTransport() Transport
+}
+```
+
+#### Concrete Creators
+
+```go
+package main
+
+// RoadLogistics is a concrete creator that implements Logistics
+type RoadLogistics struct{}
+
+func (r *RoadLogistics) CreateTransport() Transport {
+    return &Truck{}
+}
+
+// SeaLogistics is a concrete creator that implements Logistics
+type SeaLogistics struct{}
+
+func (s *SeaLogistics) CreateTransport() Transport {
+    return &Ship{}
+}
+```
+
+#### Client
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    // Create Road Logistics and use it to deliver
+    var logistics Logistics
+    logistics = &RoadLogistics{}
+    transport := logistics.CreateTransport()
+    fmt.Println(transport.Deliver()) // Output: Deliver by land in a truck
+
+    // Create Sea Logistics and use it to deliver
+    logistics = &SeaLogistics{}
+    transport = logistics.CreateTransport()
+    fmt.Println(transport.Deliver()) // Output: Deliver by sea in a container
+}
+```
+
+### Explanation
+
+1. **Product Interface**: The `Transport` interface declares the `Deliver` method.
+2. **Concrete Products**:
+   - `Truck` implements the `Transport` interface and provides the `Deliver` method for land transport.
+   - `Ship` implements the `Transport` interface and provides the `Deliver` method for sea transport.
+3. **Creator Interface**: The `Logistics` interface declares the `CreateTransport` factory method.
+4. **Concrete Creators**:
+   - `RoadLogistics` implements the `Logistics` interface and overrides the `CreateTransport` method to return a `Truck` instance.
+   - `SeaLogistics` implements the `Logistics` interface and overrides the `CreateTransport` method to return a `Ship` instance.
+5. **Client**: The client code uses different logistics (road and sea) to create transport instances and calls the `Deliver` method on them.
+
+### Advantages
+
+- **Single Responsibility Principle**: The factory method pattern adheres to the Single Responsibility Principle as it encapsulates the code needed to create an object.
+- **Open/Closed Principle**: New types of products can be introduced without changing the existing code.
+- **Flexibility**: The client code works with interfaces, making it flexible to work with any concrete implementation of the product.
+
+### Disadvantages
+
+- **Complexity**: Introduces additional classes and interfaces, which can make the design more complex.
+- **Overhead**: For simple objects, the use of a factory method might be unnecessary and can introduce overhead.
+
+By implementing the Factory Method pattern, you can delegate the instantiation of objects to subclasses, making your code more flexible and easier to maintain. This pattern is especially useful when a class cannot anticipate the type of objects it needs to create or when a class wants its subclasses to specify the objects it creates.

@@ -1,1 +1,217 @@
 \\ Simple types.— Strings — Substring searching
+
+In Go, you can search for substrings within a string using functions from the `strings` package. These functions include `strings.Contains`, `strings.Index`, `strings.LastIndex`, `strings.HasPrefix`, and `strings.HasSuffix`, among others. These functions allow you to check for the presence of a substring, find its position, and determine if a string starts or ends with a specific substring.
+
+### Checking for Substring Presence
+
+The `strings.Contains` function checks if a string contains a specified substring and returns a boolean value.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "strings"
+)
+
+func main() {
+    // Define a string
+    str := "Hello, World!"
+
+    // Define the substring to check
+    substr := "World"
+
+    // Check if the string contains the substring
+    contains := strings.Contains(str, substr)
+
+    // Print the result
+    fmt.Printf("Does '%s' contain '%s'? %t\n", str, substr, contains)
+}
+```
+
+### Explanation
+
+1. **Import the `strings` Package**:
+   - The `strings` package provides the `Contains` function.
+
+2. **Define a String and Substring**:
+   - We define a string `str` with the value "Hello, World!".
+   - We define a substring `substr` with the value "World".
+
+3. **Check if the String Contains the Substring**:
+   - We use `strings.Contains(str, substr)` to check if `str` contains `substr`.
+
+4. **Print the Result**:
+   - We print the result using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Does 'Hello, World!' contain 'World'? true
+```
+
+### Finding the First Index of a Substring
+
+The `strings.Index` function returns the index of the first instance of the substring in the string, or `-1` if the substring is not present.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "strings"
+)
+
+func main() {
+    // Define a string
+    str := "Hello, World! World!"
+
+    // Define the substring to find
+    substr := "World"
+
+    // Find the first index of the substring
+    index := strings.Index(str, substr)
+
+    // Print the index
+    fmt.Printf("The index of the first '%s' in '%s' is: %d\n", substr, str, index)
+}
+```
+
+### Explanation
+
+1. **Define a String and Substring**:
+   - We define a string `str` with the value "Hello, World! World!".
+   - We define a substring `substr` with the value "World".
+
+2. **Find the First Index of the Substring**:
+   - We use `strings.Index(str, substr)` to find the first index of `substr` in `str`.
+
+3. **Print the Index**:
+   - We print the index using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+The index of the first 'World' in 'Hello, World! World!' is: 7
+```
+
+### Finding the Last Index of a Substring
+
+The `strings.LastIndex` function returns the index of the last instance of the substring in the string, or `-1` if the substring is not present.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "strings"
+)
+
+func main() {
+    // Define a string
+    str := "Hello, World! World!"
+
+    // Define the substring to find
+    substr := "World"
+
+    // Find the last index of the substring
+    index := strings.LastIndex(str, substr)
+
+    // Print the index
+    fmt.Printf("The index of the last '%s' in '%s' is: %d\n", substr, str, index)
+}
+```
+
+### Explanation
+
+1. **Define a String and Substring**:
+   - We define a string `str` with the value "Hello, World! World!".
+   - We define a substring `substr` with the value "World".
+
+2. **Find the Last Index of the Substring**:
+   - We use `strings.LastIndex(str, substr)` to find the last index of `substr` in `str`.
+
+3. **Print the Index**:
+   - We print the index using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+The index of the last 'World' in 'Hello, World! World!' is: 14
+```
+
+### Checking for Prefix and Suffix
+
+The `strings.HasPrefix` and `strings.HasSuffix` functions check if a string starts or ends with a specified substring, respectively.
+
+#### Example Code
+
+```go
+package main
+
+import (
+    "fmt"
+    "strings"
+)
+
+func main() {
+    // Define a string
+    str := "Hello, World!"
+
+    // Define the prefix and suffix to check
+    prefix := "Hello"
+    suffix := "World!"
+
+    // Check if the string has the specified prefix
+    hasPrefix := strings.HasPrefix(str, prefix)
+    fmt.Printf("Does '%s' start with '%s'? %t\n", str, prefix, hasPrefix)
+
+    // Check if the string has the specified suffix
+    hasSuffix := strings.HasSuffix(str, suffix)
+    fmt.Printf("Does '%s' end with '%s'? %t\n", str, suffix, hasSuffix)
+}
+```
+
+### Explanation
+
+1. **Define a String, Prefix, and Suffix**:
+   - We define a string `str` with the value "Hello, World!".
+   - We define a prefix `prefix` with the value "Hello".
+   - We define a suffix `suffix` with the value "World!".
+
+2. **Check if the String has the Specified Prefix**:
+   - We use `strings.HasPrefix(str, prefix)` to check if `str` starts with `prefix`.
+
+3. **Check if the String has the Specified Suffix**:
+   - We use `strings.HasSuffix(str, suffix)` to check if `str` ends with `suffix`.
+
+4. **Print the Results**:
+   - We print the results using `fmt.Printf`.
+
+### Detailed Output
+
+The output of the above code will be:
+```
+Does 'Hello, World!' start with 'Hello'? true
+Does 'Hello, World!' end with 'World!'? true
+```
+
+### Summary
+
+In Go, you can search for substrings within a string using various functions from the `strings` package:
+- **`strings.Contains`**: Checks if a string contains a substring.
+- **`strings.Index`**: Finds the first index of a substring.
+- **`strings.LastIndex`**: Finds the last index of a substring.
+- **`strings.HasPrefix`**: Checks if a string starts with a substring.
+- **`strings.HasSuffix`**: Checks if a string ends with a substring.
+
+These functions provide powerful tools for substring searching and analysis in your Go programs.

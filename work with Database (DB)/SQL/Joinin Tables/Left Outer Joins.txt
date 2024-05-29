@@ -1,1 +1,25 @@
 \\ work with database(DB) — SQL — Joining Table — Left Outer Joins
+
+
+SELECT
+    c.Name,
+    ct.Name AS NameCity,
+    ct.Population
+FROM country AS c
+LEFT JOIN city AS ct ON
+    ct.CountryCode = c.Code AND
+    ct.Population > 1000000
+
+Name	NameCity	Population
+Aruba	NULL	NULL
+Afghanistan	Kabul	1,780,000
+Angola	Luanda	2,022,000
+Anguilla	NULL	NULL
+Albania	NULL	NULL
+Andorra	NULL	NULL
+Netherlands Antilles	NULL	NULL
+United Arab Emirates	NULL	NULL
+Argentina	Buenos Aires	2,982,146
+...
+
+Example uses LEFT OUTER JOIN to select all the rows from the table on the left in the FROM clause. If there are no records in the right table that meet the join conditions, then the columns of the right table will be NULL.
