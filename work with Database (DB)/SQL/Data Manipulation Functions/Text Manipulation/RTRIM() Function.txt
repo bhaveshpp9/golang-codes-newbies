@@ -1,20 +1,157 @@
 \\ work with database(DB) — SQL — Data Manipulation Functions — Text Manipulation — RTRIM() Function
 
+The `RTRIM()` function in SQL is used to remove trailing spaces from the right side of a text string. This function is supported by many SQL databases, including MySQL, SQL Server, PostgreSQL, and SQLite. Here’s a detailed guide on how to use the `RTRIM()` function across various SQL databases.
 
-SELECT
-    RTRIM(Name)
-FROM country
+### Usage of `RTRIM()` Function
 
-rtrim(Name)
-Aruba
-Afghanistan
-Angola
-Anguilla
-Albania
-Andorra
-Netherlands Antilles
-United Arab Emirates
-Argentina
-...
+The basic syntax of the `RTRIM()` function is:
 
-RTRIM() function is used to trim white space from the end of a column value.
+```sql
+RTRIM(text)
+```
+
+- `text`: The text string from which to remove the trailing spaces.
+
+### Examples in Different SQL Databases
+
+#### MySQL
+
+In MySQL, the `RTRIM()` function removes trailing spaces from the right side of the string:
+
+```sql
+SELECT RTRIM('Hello World   ') AS TrimmedString;  -- Returns 'Hello World'
+```
+
+#### SQL Server
+
+In SQL Server, the `RTRIM()` function works similarly to MySQL:
+
+```sql
+SELECT RTRIM('Hello World   ') AS TrimmedString;  -- Returns 'Hello World'
+```
+
+#### PostgreSQL
+
+In PostgreSQL, the `RTRIM()` function performs the same task:
+
+```sql
+SELECT RTRIM('Hello World   ') AS TrimmedString;  -- Returns 'Hello World'
+```
+
+#### SQLite
+
+In SQLite, the `RTRIM()` function also removes trailing spaces from the right side of the string:
+
+```sql
+SELECT RTRIM('Hello World   ') AS TrimmedString;  -- Returns 'Hello World'
+```
+
+### Additional Examples and Use Cases
+
+#### Removing Trailing Spaces from a Column
+
+Consider a table `Employees` with a column `FullName`. To remove trailing spaces from the `FullName` column:
+
+##### MySQL
+
+```sql
+SELECT FullName, RTRIM(FullName) AS TrimmedFullName
+FROM Employees;
+```
+
+##### SQL Server
+
+```sql
+SELECT FullName, RTRIM(FullName) AS TrimmedFullName
+FROM Employees;
+```
+
+##### PostgreSQL
+
+```sql
+SELECT FullName, RTRIM(FullName) AS TrimmedFullName
+FROM Employees;
+```
+
+##### SQLite
+
+```sql
+SELECT FullName, RTRIM(FullName) AS TrimmedFullName
+FROM Employees;
+```
+
+#### Combining with Other Functions
+
+You can combine the `RTRIM()` function with other string functions to perform more complex text manipulations. For example, to trim both leading and trailing spaces:
+
+##### MySQL
+
+```sql
+SELECT FullName, TRIM(BOTH FROM FullName) AS FullyTrimmedFullName
+FROM Employees;
+```
+
+##### SQL Server
+
+In SQL Server, you need to use `LTRIM()` and `RTRIM()` together:
+
+```sql
+SELECT FullName, LTRIM(RTRIM(FullName)) AS FullyTrimmedFullName
+FROM Employees;
+```
+
+##### PostgreSQL
+
+```sql
+SELECT FullName, BTRIM(FullName) AS FullyTrimmedFullName
+FROM Employees;
+```
+
+##### SQLite
+
+```sql
+SELECT FullName, TRIM(FullName) AS FullyTrimmedFullName
+FROM Employees;
+```
+
+### Using `RTRIM()` in a WHERE Clause
+
+You can use the `RTRIM()` function in a `WHERE` clause to filter records based on trimmed text. For example, to find employees whose trimmed `FullName` is 'John Doe':
+
+##### MySQL
+
+```sql
+SELECT FullName
+FROM Employees
+WHERE RTRIM(FullName) = 'John Doe';
+```
+
+##### SQL Server
+
+```sql
+SELECT FullName
+FROM Employees
+WHERE RTRIM(FullName) = 'John Doe';
+```
+
+##### PostgreSQL
+
+```sql
+SELECT FullName
+FROM Employees
+WHERE RTRIM(FullName) = 'John Doe';
+```
+
+##### SQLite
+
+```sql
+SELECT FullName
+FROM Employees
+WHERE RTRIM(FullName) = 'John Doe';
+```
+
+### Summary
+
+The `RTRIM()` function is used to remove trailing spaces from the right side of a string in SQL. This function is supported across various SQL databases and is useful for cleaning up text data, ensuring consistency, and performing more complex text manipulations by combining with other functions.
+
+These examples demonstrate how to use the `RTRIM()` function across different SQL databases, ensuring you can handle text manipulation tasks effectively regardless of the SQL dialect you are working with. If you have more specific queries or need further examples, feel free to ask! ✔️
