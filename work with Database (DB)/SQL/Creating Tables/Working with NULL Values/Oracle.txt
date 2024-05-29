@@ -1,1 +1,123 @@
 \\ work with database(DB) — SQL — Creating table — Working with NULL Values — Oracle
+
+
+Working with Oracle SQL to create tables and manage NULL values involves specific SQL syntax and functions. Here’s a detailed guide to help you with these tasks.
+
+### Creating a Table in Oracle
+
+To create a table in Oracle, use the `CREATE TABLE` statement. Here is an example of creating an `Employees` table with various columns that can handle NULL values:
+
+```sql
+CREATE TABLE Employees (
+    EmployeeID NUMBER PRIMARY KEY,
+    FirstName VARCHAR2(50) NOT NULL,
+    LastName VARCHAR2(50) NOT NULL,
+    Email VARCHAR2(100),
+    PhoneNumber VARCHAR2(15),
+    HireDate DATE NOT NULL,
+    Salary NUMBER(10, 2)
+);
+```
+
+In this table:
+- `EmployeeID`, `FirstName`, `LastName`, and `HireDate` are required fields (`NOT NULL`).
+- `Email`, `PhoneNumber`, and `Salary` can accept NULL values (default behavior, as `NULL` is implicit).
+
+### Inserting Data with NULL Values
+
+When inserting data into the `Employees` table, you can omit columns that allow NULL values:
+
+```sql
+INSERT INTO Employees (EmployeeID, FirstName, LastName, HireDate)
+VALUES (1, 'John', 'Doe', TO_DATE('2022-01-01', 'YYYY-MM-DD'));
+
+INSERT INTO Employees (EmployeeID, FirstName, LastName, Email, PhoneNumber, HireDate, Salary)
+VALUES (2, 'Jane', 'Smith', 'jane.smith@example.com', '555-1234', TO_DATE('2022-02-15', 'YYYY-MM-DD'), 60000.00);
+```
+
+In the first insert statement, `Email`, `PhoneNumber`, and `Salary` are omitted and will default to NULL.
+
+### Selecting Data and Handling NULL Values
+
+To select data from the table and handle NULL values, you can use functions like `IS NULL` and `IS NOT NULL`. For example, to find all employees without an email address:
+
+```sql
+SELECT * FROM Employees
+WHERE Email IS NULL;
+```
+
+To find all employees who have a salary specified:
+
+```sql
+SELECT * FROM Employees
+WHERE Salary IS NOT NULL;
+```
+
+### Using `NVL` to Handle NULL Values
+
+The `NVL` function can be used to provide a default value for NULL columns:
+
+```sql
+SELECT EmployeeID, FirstName, LastName, NVL(Email, 'No Email') AS Email, NVL(PhoneNumber, 'No Phone') AS PhoneNumber, HireDate, NVL(Salary, 0.00) AS Salary
+FROM Employees;
+```
+
+This query will replace NULL `Email` values with 'No Email', NULL `PhoneNumber` values with 'No Phone', and NULL `Salary` values with 0.00.
+
+### Updating NULL Values
+
+To update NULL values in existing records, use the `UPDATE` statement:
+
+```sql
+UPDATE Employees
+SET Email = 'unknown@example.com'
+WHERE Email IS NULL;
+```
+
+This updates all records with a NULL `Email` to 'unknown@example.com'.
+
+### Deleting Rows with NULL Values
+
+To delete rows where certain columns are NULL, use the `DELETE` statement:
+
+```sql
+DELETE FROM Employees
+WHERE Email IS NULL;
+```
+
+This deletes all rows where the `Email` is NULL.
+
+### Handling NULL Values in Queries
+
+You can handle NULL values directly in queries using `IS NULL`, `IS NOT NULL`, `NVL`, and other Oracle SQL functions:
+
+1. **Filtering NULL values**:
+
+    ```sql
+    SELECT * FROM Employees WHERE PhoneNumber IS NULL;
+    ```
+
+2. **Replacing NULL values**:
+
+    ```sql
+    SELECT EmployeeID, FirstName, LastName, NVL(PhoneNumber, 'N/A') AS PhoneNumber FROM Employees;
+    ```
+
+3. **Using `NVL2` function** (returns different values based on whether the specified column is NULL or not):
+
+    ```sql
+    SELECT EmployeeID, FirstName, LastName, NVL2(PhoneNumber, PhoneNumber, 'N/A') AS PhoneNumber FROM Employees;
+    ```
+
+### Summary
+
+Handling NULL values in Oracle involves:
+
+1. **Creating Tables**: Define columns with `NOT NULL` where necessary; other columns implicitly allow NULLs unless specified otherwise.
+2. **Inserting Data**: Omit columns in the `INSERT` statement to insert NULL values.
+3. **Selecting Data**: Use `IS NULL` and `IS NOT NULL` predicates to filter NULL values in `SELECT` queries.
+4. **Using `NVL` and `NVL2`**: Provide default values for NULLs in query results.
+5. **Updating Data**: Use `UPDATE` statements to change NULL values.
+6. **Deleting Data**: Use `DELETE` statements to remove rows with NULL values.
+
+These operations ensure flexible data management while maintaining data integrity in Oracle databases. If you have more specific queries or need further examples, feel free to ask! ✔️
