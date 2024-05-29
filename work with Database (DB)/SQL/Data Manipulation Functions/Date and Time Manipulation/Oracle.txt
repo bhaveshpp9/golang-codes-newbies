@@ -1,22 +1,144 @@
 \\ work with database(DB) — SQL — Data Manipulation Functions — Date and Time Manipulation — Oracle
 
+Date and time manipulation in Oracle SQL involves using a variety of functions to handle and format date and time values. Here’s a comprehensive guide to help you with these operations.
 
-SELECT
-    from_date,
-    to_char(from_date, 'YYYY') AS year,
-    to_char(from_date, 'MM') AS month,
-    to_char(from_date, 'DD') AS day,
-    to_char(from_date, 'DD.MM.YYYY') AS ru_format
-FROM dept_emp
+### Common Date and Time Manipulation Functions
 
-from_date	year	month	day	ru_format
-1986-06-26	1986	6	26	26.06.1986
-1996-08-03	1996	8	3	03.08.1996
-1995-12-03	1995	12	3	03.12.1995
-1986-12-01	1986	12	1	01.12.1986
-1989-09-12	1989	9	12	12.09.1989
-1990-08-05	1990	8	5	05.08.1990
-1989-02-10	1989	2	10	10.02.1989
-1998-03-11	1998	3	11	11.03.1998
-1985-02-18	1985	2	18	18.02.1985
-...
+1. **SYSDATE**: Retrieves the current date and time.
+2. **CURRENT_DATE, CURRENT_TIMESTAMP**: Retrieves the current date and timestamp in the session time zone.
+3. **EXTRACT()**: Extracts parts of a date.
+4. **TO_CHAR()**: Converts a date or timestamp to a string with a specified format.
+5. **TO_DATE()**: Converts a string to a date.
+6. **TO_TIMESTAMP()**: Converts a string to a timestamp.
+7. **ADD_MONTHS()**: Adds a specified number of months to a date.
+8. **MONTHS_BETWEEN()**: Returns the number of months between two dates.
+9. **LAST_DAY()**: Returns the last day of the month for a given date.
+10. **NEXT_DAY()**: Returns the next occurrence of a specified day of the week after a given date.
+11. **ROUND() and **TRUNC()**: Rounds or truncates a date to the specified unit.
+
+### Examples of Date and Time Manipulation Functions
+
+#### Retrieving Current Date and Time
+
+```sql
+SELECT SYSDATE AS CurrentDateTime FROM dual;                 -- Retrieves the current date and time
+SELECT CURRENT_DATE AS CurrentDate FROM dual;                -- Retrieves the current date in the session time zone
+SELECT CURRENT_TIMESTAMP AS CurrentTimestamp FROM dual;      -- Retrieves the current timestamp in the session time zone
+```
+
+#### Extracting Date and Time Parts
+
+```sql
+SELECT EXTRACT(YEAR FROM SYSDATE) AS YearPart FROM dual;     -- Extracts the year part
+SELECT EXTRACT(MONTH FROM SYSDATE) AS MonthPart FROM dual;   -- Extracts the month part
+SELECT EXTRACT(DAY FROM SYSDATE) AS DayPart FROM dual;       -- Extracts the day part
+SELECT EXTRACT(HOUR FROM CURRENT_TIMESTAMP) AS HourPart FROM dual;     -- Extracts the hour part
+SELECT EXTRACT(MINUTE FROM CURRENT_TIMESTAMP) AS MinutePart FROM dual; -- Extracts the minute part
+SELECT EXTRACT(SECOND FROM CURRENT_TIMESTAMP) AS SecondPart FROM dual; -- Extracts the second part
+```
+
+#### Formatting Date and Time Values
+
+```sql
+SELECT TO_CHAR(SYSDATE, 'YYYY-MM-DD') AS FormattedDate FROM dual;           -- Formats date to 'YYYY-MM-DD'
+SELECT TO_CHAR(SYSDATE, 'MM/DD/YYYY HH24:MI:SS') AS FormattedDateTime FROM dual; -- Formats date and time
+SELECT TO_CHAR(SYSDATE, 'Day, DD Month YYYY') AS LongFormattedDate FROM dual;     -- Long formatted date
+```
+
+#### Converting Strings to Dates and Timestamps
+
+```sql
+SELECT TO_DATE('2024-01-01', 'YYYY-MM-DD') AS DateValue FROM dual;                 -- Converts string to date
+SELECT TO_TIMESTAMP('2024-01-01 10:00:00', 'YYYY-MM-DD HH24:MI:SS') AS TimestampValue FROM dual; -- Converts string to timestamp
+```
+
+#### Adding and Subtracting Intervals to Dates
+
+```sql
+SELECT SYSDATE + 1 AS Tomorrow FROM dual;                     -- Adds 1 day to the current date
+SELECT SYSDATE + INTERVAL '1' HOUR AS NextHour FROM dual;     -- Adds 1 hour to the current date
+SELECT ADD_MONTHS(SYSDATE, 1) AS NextMonth FROM dual;         -- Adds 1 month to the current date
+SELECT ADD_MONTHS(SYSDATE, 12) AS NextYear FROM dual;         -- Adds 1 year to the current date
+```
+
+#### Calculating Differences Between Dates
+
+```sql
+SELECT MONTHS_BETWEEN('2024-01-01', '2023-01-01') AS MonthDiff FROM dual;  -- Difference in months
+SELECT SYSDATE - TO_DATE('2023-01-01', 'YYYY-MM-DD') AS DayDiff FROM dual; -- Difference in days
+```
+
+#### Finding the Last Day and Next Day
+
+```sql
+SELECT LAST_DAY(SYSDATE) AS LastDayOfMonth FROM dual;       -- Last day of the current month
+SELECT NEXT_DAY(SYSDATE, 'MONDAY') AS NextMonday FROM dual; -- Next Monday after the current date
+```
+
+#### Rounding and Truncating Dates
+
+```sql
+SELECT ROUND(SYSDATE, 'MONTH') AS RoundToMonth FROM dual;   -- Rounds date to the nearest month
+SELECT TRUNC(SYSDATE, 'MONTH') AS TruncToMonth FROM dual;   -- Truncates date to the first day of the month
+SELECT ROUND(SYSDATE, 'YEAR') AS RoundToYear FROM dual;     -- Rounds date to the nearest year
+SELECT TRUNC(SYSDATE, 'YEAR') AS TruncToYear FROM dual;     -- Truncates date to the first day of the year
+```
+
+### Detailed Explanation of Each Function
+
+1. **SYSDATE, CURRENT_DATE, CURRENT_TIMESTAMP**
+   - **Usage**: `SYSDATE`, `CURRENT_DATE`, `CURRENT_TIMESTAMP`
+   - **Example**: `SELECT SYSDATE FROM dual;`
+
+2. **EXTRACT()**
+   - **Usage**: `EXTRACT(part FROM date)`
+   - **Parts**: YEAR, MONTH, DAY, HOUR, MINUTE, SECOND
+   - **Example**: `SELECT EXTRACT(YEAR FROM SYSDATE) FROM dual;`
+
+3. **TO_CHAR()**
+   - **Usage**: `TO_CHAR(date, format)`
+   - **Example**: `SELECT TO_CHAR(SYSDATE, 'YYYY-MM-DD') FROM dual;`
+
+4. **TO_DATE()**
+   - **Usage**: `TO_DATE(string, format)`
+   - **Example**: `SELECT TO_DATE('2024-01-01', 'YYYY-MM-DD') FROM dual;`
+
+5. **TO_TIMESTAMP()**
+   - **Usage**: `TO_TIMESTAMP(string, format)`
+   - **Example**: `SELECT TO_TIMESTAMP('2024-01-01 10:00:00', 'YYYY-MM-DD HH24:MI:SS') FROM dual;`
+
+6. **ADD_MONTHS()**
+   - **Usage**: `ADD_MONTHS(date, n)`
+   - **Example**: `SELECT ADD_MONTHS(SYSDATE, 1) FROM dual;`
+
+7. **MONTHS_BETWEEN()**
+   - **Usage**: `MONTHS_BETWEEN(date1, date2)`
+   - **Example**: `SELECT MONTHS_BETWEEN('2024-01-01', '2023-01-01') FROM dual;`
+
+8. **LAST_DAY()**
+   - **Usage**: `LAST_DAY(date)`
+   - **Example**: `SELECT LAST_DAY(SYSDATE) FROM dual;`
+
+9. **NEXT_DAY()**
+   - **Usage**: `NEXT_DAY(date, 'day')`
+   - **Example**: `SELECT NEXT_DAY(SYSDATE, 'MONDAY') FROM dual;`
+
+10. **ROUND() and TRUNC()**
+    - **Usage**: `ROUND(date, 'unit')`, `TRUNC(date, 'unit')`
+    - **Units**: YEAR, MONTH, DAY, HOUR, MINUTE, SECOND
+    - **Example**: `SELECT ROUND(SYSDATE, 'MONTH') FROM dual;`
+
+### Summary
+
+Date and time manipulation in Oracle SQL involves:
+
+1. **Retrieving Current Date and Time**: Use `SYSDATE`, `CURRENT_DATE`, and `CURRENT_TIMESTAMP` for current date and time values.
+2. **Extracting Date and Time Parts**: Use the `EXTRACT()` function to get parts like year, month, day, hour, minute, and second.
+3. **Formatting Date and Time Values**: Use the `TO_CHAR()` function to format dates and times into various string representations.
+4. **Converting Strings to Dates and Timestamps**: Use `TO_DATE()` and `TO_TIMESTAMP()` to convert strings to date and timestamp values.
+5. **Adding and Subtracting Intervals**: Use `SYSDATE + INTERVAL`, `ADD_MONTHS()`, and other interval functions to add or subtract time intervals from dates.
+6. **Calculating Differences Between Dates**: Use `MONTHS_BETWEEN()` and subtraction to find the difference between two dates.
+7. **Finding the Last and Next Day**: Use `LAST_DAY()` and `NEXT_DAY()` to get specific day values.
+8. **Rounding and Truncating Dates**: Use `ROUND()` and `TRUNC()` to round or truncate dates to specified units.
+
+These functions provide powerful tools for handling and manipulating date and time data in Oracle databases. If you have more specific queries or need further examples, feel free to ask! ✔️
