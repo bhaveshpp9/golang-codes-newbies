@@ -1,10 +1,150 @@
 \\ work with database(DB) — SQL — Field data types — Access — Integer Types
 
+In Microsoft Access, integer types are used to store whole numbers. Access provides several data types for storing integers, each suitable for different ranges of values. Here’s a detailed guide on how to work with integer types in Microsoft Access.
 
-Type list
+### Integer Data Types
 
-Type	Bytes	Min Value	Max Value
-Byte	1	0	255
-Integer	2	-32,768	32,767
-Long	4	-2,147,483,648	2,147,483,647
-AutoNumber	4	1	4,294,967,295
+1. **Byte**: Stores integers from 0 to 255.
+2. **Integer**: Stores integers from -32,768 to 32,767.
+3. **Long Integer**: Stores integers from -2,147,483,648 to 2,147,483,647.
+4. **Replication ID**: A special type for unique identifiers.
+
+### Creating a Table with Integer Fields
+
+To create a table with integer fields in Microsoft Access, you can use the `Byte`, `Integer`, and `Long` data types.
+
+#### Using SQL
+
+```sql
+CREATE TABLE Products (
+    ProductID AUTOINCREMENT PRIMARY KEY,
+    ProductName TEXT(100),
+    QuantityInStock INTEGER,
+    ReorderLevel BYTE,
+    SupplierID LONG
+);
+```
+
+#### Using Access GUI
+
+1. Open Microsoft Access.
+2. Create a new table in Design View.
+3. Define the fields, and set the data type for integer fields:
+   - Field Name: `QuantityInStock`, Data Type: `Number`, Field Size: `Integer`
+   - Field Name: `ReorderLevel`, Data Type: `Number`, Field Size: `Byte`
+   - Field Name: `SupplierID`, Data Type: `Number`, Field Size: `Long Integer`
+
+### Inserting Data into Integer Fields
+
+You can insert integer data into the table using appropriate SQL syntax.
+
+```sql
+INSERT INTO Products (ProductName, QuantityInStock, ReorderLevel, SupplierID)
+VALUES ('Widget', 100, 10, 1);
+
+INSERT INTO Products (ProductName, QuantityInStock, ReorderLevel, SupplierID)
+VALUES ('Gadget', 50, 5, 2);
+```
+
+### Querying Data with Integer Fields
+
+You can query integer fields using various functions and operators.
+
+#### Selecting Records Based on Integer Values
+
+```sql
+SELECT * FROM Products
+WHERE QuantityInStock > 50;
+```
+
+#### Calculating Totals and Averages
+
+You can calculate the total and average values of an integer field using the `SUM()` and `AVG()` functions.
+
+```sql
+SELECT SUM(QuantityInStock) AS TotalStock,
+       AVG(QuantityInStock) AS AverageStock
+FROM Products;
+```
+
+### Updating Integer Fields
+
+You can update integer fields using the `UPDATE` statement.
+
+```sql
+UPDATE Products
+SET QuantityInStock = 120
+WHERE ProductName = 'Widget';
+```
+
+### Deleting Data Based on Integer Fields
+
+You can delete records based on integer conditions.
+
+```sql
+DELETE FROM Products
+WHERE QuantityInStock < 10;
+```
+
+### Practical Examples and Use Cases
+
+#### Calculating Stock Levels
+
+You can calculate different stock levels using integer fields.
+
+##### Example: Finding Products Below Reorder Level
+
+```sql
+SELECT ProductName, QuantityInStock, ReorderLevel
+FROM Products
+WHERE QuantityInStock < ReorderLevel;
+```
+
+#### Grouping Data and Calculating Summaries
+
+You can group data by a field and calculate summaries like total, average, maximum, and minimum values.
+
+##### Example: Grouping by Supplier and Calculating Totals
+
+```sql
+SELECT SupplierID, 
+       SUM(QuantityInStock) AS TotalStock,
+       AVG(QuantityInStock) AS AverageStock
+FROM Products
+GROUP BY SupplierID;
+```
+
+### Handling NULL Values
+
+Integer fields can be `NULL` if no value is provided. You can check for `NULL` values using the `IS NULL` or `IS NOT NULL` operators.
+
+##### Example: Inserting and Checking for NULL Values
+
+```sql
+INSERT INTO Products (ProductName, QuantityInStock, ReorderLevel, SupplierID)
+VALUES ('Widget', NULL, 10, 1);
+
+SELECT * FROM Products
+WHERE QuantityInStock IS NULL;
+```
+
+### Using Integer Fields in Calculations
+
+You can use integer fields in mathematical calculations to perform complex queries.
+
+##### Example: Calculating Reorder Quantity
+
+You can calculate the reorder quantity based on the reorder level and current stock.
+
+```sql
+SELECT ProductName, 
+       ReorderLevel - QuantityInStock AS ReorderQuantity
+FROM Products
+WHERE QuantityInStock < ReorderLevel;
+```
+
+### Summary
+
+In Microsoft Access, integer types are managed using the `Byte`, `Integer`, and `Long` data types. You can create tables with integer fields, insert and query data, update and delete records based on integer values, and perform various calculations and summaries using aggregate functions. These operations are essential for managing and analyzing numeric data in Microsoft Access.
+
+These examples demonstrate how to effectively use integer types in Microsoft Access. If you have more specific queries or need further examples, feel free to ask! ✔️
