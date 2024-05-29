@@ -1,1 +1,126 @@
 \\ work with database(DB) — SQL — Field data types — MS SQL Server — Boolean Types
+
+In Microsoft SQL Server, there is no direct `BOOLEAN` data type like in some other SQL databases. Instead, SQL Server uses the `BIT` data type to store Boolean values. The `BIT` data type can store 0, 1, or NULL, where 0 represents `FALSE`, and 1 represents `TRUE`.
+
+Here’s a detailed guide on how to work with Boolean types using the `BIT` data type in Microsoft SQL Server.
+
+### Creating a Table with Boolean Fields
+
+To create a table with Boolean fields in SQL Server, you use the `BIT` data type.
+
+#### Example
+
+```sql
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    FirstName NVARCHAR(50),
+    LastName NVARCHAR(50),
+    IsActive BIT
+);
+```
+
+### Inserting Data into Boolean Fields
+
+You can insert data into the `BIT` field using 0 and 1 to represent `FALSE` and `TRUE`, respectively.
+
+```sql
+INSERT INTO Employees (EmployeeID, FirstName, LastName, IsActive)
+VALUES (1, 'John', 'Doe', 1);  -- 1 for TRUE
+
+INSERT INTO Employees (EmployeeID, FirstName, LastName, IsActive)
+VALUES (2, 'Jane', 'Smith', 0);  -- 0 for FALSE
+```
+
+### Querying Data with Boolean Fields
+
+You can query data based on the `BIT` field.
+
+#### Selecting Active Employees
+
+```sql
+SELECT * FROM Employees
+WHERE IsActive = 1;  -- TRUE
+```
+
+#### Selecting Inactive Employees
+
+```sql
+SELECT * FROM Employees
+WHERE IsActive = 0;  -- FALSE
+```
+
+### Updating Boolean Fields
+
+You can update the `BIT` fields using the `UPDATE` statement.
+
+```sql
+UPDATE Employees
+SET IsActive = 1
+WHERE EmployeeID = 2;  -- Set IsActive to TRUE
+```
+
+### Deleting Data Based on Boolean Fields
+
+You can delete records based on the `BIT` field.
+
+```sql
+DELETE FROM Employees
+WHERE IsActive = 0;  -- Delete Inactive Employees
+```
+
+### Practical Examples and Use Cases
+
+#### Counting Active and Inactive Employees
+
+You can count the number of active and inactive employees using aggregate functions.
+
+```sql
+SELECT 
+    SUM(CASE WHEN IsActive = 1 THEN 1 ELSE 0 END) AS ActiveEmployees,
+    SUM(CASE WHEN IsActive = 0 THEN 1 ELSE 0 END) AS InactiveEmployees
+FROM Employees;
+```
+
+#### Setting Default Values for Boolean Fields
+
+You can set default values for the `BIT` fields during table creation.
+
+```sql
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    FirstName NVARCHAR(50),
+    LastName NVARCHAR(50),
+    IsActive BIT DEFAULT 1  -- Default to TRUE
+);
+```
+
+### Handling NULL Values
+
+The `BIT` field can be `NULL` if no value is provided. You can check for `NULL` values using the `IS NULL` or `IS NOT NULL` operators.
+
+##### Example: Inserting and Checking for NULL Values
+
+```sql
+INSERT INTO Employees (EmployeeID, FirstName, LastName, IsActive)
+VALUES (3, 'Emily', 'Johnson', NULL);  -- NULL value for IsActive
+
+SELECT * FROM Employees
+WHERE IsActive IS NULL;  -- Select employees where IsActive is NULL
+```
+
+### Using Boolean Fields in Complex Queries
+
+You can use Boolean fields in complex queries to perform advanced data analysis.
+
+##### Example: Finding Employees Who Are Either Active or Have No Active Status
+
+```sql
+SELECT * FROM Employees
+WHERE IsActive = 1 OR IsActive IS NULL;
+```
+
+### Summary
+
+In Microsoft SQL Server, Boolean types are managed using the `BIT` data type. You can create tables with Boolean fields, insert and query data, update and delete records based on Boolean values, and perform various calculations and summaries using aggregate functions. These operations are essential for managing and analyzing Boolean logic in SQL Server.
+
+These examples demonstrate how to effectively use Boolean types in SQL Server. If you have more specific queries or need further examples, feel free to ask! ✔️
