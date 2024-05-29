@@ -1,1 +1,190 @@
 \\ work with database(DB) — SQL — Field data types — MS SQL Server — Date and Time Types
+
+
+In Microsoft SQL Server, several data types are available for storing date and time information. Each data type serves different needs, providing various levels of precision and storage requirements. Here’s a detailed guide on how to work with date and time types in SQL Server.
+
+### Date and Time Data Types
+
+1. **DATE**: Stores date only (year, month, day).
+2. **TIME**: Stores time only (hour, minute, second, fractional seconds).
+3. **DATETIME**: Stores date and time (accuracy to 1/300th of a second).
+4. **SMALLDATETIME**: Stores date and time (accuracy to the minute).
+5. **DATETIME2**: Stores date and time with higher accuracy (up to 7 fractional seconds).
+6. **DATETIMEOFFSET**: Stores date and time with time zone awareness.
+7. **TIMESTAMP**: Used for row versioning (not a true date and time data type, but included for completeness).
+
+### Creating a Table with Date and Time Fields
+
+To create a table with various date and time fields in SQL Server, you can use the appropriate data types.
+
+#### Example
+
+```sql
+CREATE TABLE Events (
+    EventID INT PRIMARY KEY,
+    EventName NVARCHAR(100),
+    EventDate DATE,
+    EventTime TIME,
+    EventDateTime DATETIME,
+    EventSmallDateTime SMALLDATETIME,
+    EventDateTime2 DATETIME2(7),
+    EventDateTimeOffset DATETIMEOFFSET
+);
+```
+
+### Inserting Data into Date and Time Fields
+
+You can insert date and time data into the table using appropriate SQL syntax.
+
+```sql
+INSERT INTO Events (EventID, EventName, EventDate, EventTime, EventDateTime, EventSmallDateTime, EventDateTime2, EventDateTimeOffset)
+VALUES (1, 'Conference', '2024-06-15', '09:00:00', '2024-06-15 09:00:00', '2024-06-15 09:00', '2024-06-15 09:00:00.1234567', '2024-06-15 09:00:00 -07:00');
+
+INSERT INTO Events (EventID, EventName, EventDate, EventTime, EventDateTime, EventSmallDateTime, EventDateTime2, EventDateTimeOffset)
+VALUES (2, 'Meeting', '2024-07-01', '14:30:00', '2024-07-01 14:30:00', '2024-07-01 14:30', '2024-07-01 14:30:00.1234567', '2024-07-01 14:30:00 +02:00');
+```
+
+### Querying Data with Date and Time Fields
+
+You can query date and time fields using various functions and operators.
+
+#### Selecting Records Based on Date
+
+```sql
+SELECT * FROM Events
+WHERE EventDate = '2024-06-15';
+```
+
+#### Selecting Records in a Date Range
+
+```sql
+SELECT * FROM Events
+WHERE EventDate BETWEEN '2024-06-01' AND '2024-06-30';
+```
+
+#### Selecting Records Based on Time
+
+```sql
+SELECT * FROM Events
+WHERE EventTime = '09:00:00';
+```
+
+#### Selecting Records Based on DateTime
+
+```sql
+SELECT * FROM Events
+WHERE EventDateTime >= '2024-06-15 00:00:00' AND EventDateTime < '2024-06-16 00:00:00';
+```
+
+### Updating Date and Time Fields
+
+You can update date and time fields using the `UPDATE` statement.
+
+```sql
+UPDATE Events
+SET EventDate = '2024-08-01',
+    EventTime = '10:00:00',
+    EventDateTime = '2024-08-01 10:00:00',
+    EventSmallDateTime = '2024-08-01 10:00',
+    EventDateTime2 = '2024-08-01 10:00:00.1234567',
+    EventDateTimeOffset = '2024-08-01 10:00:00 -07:00'
+WHERE EventID = 1;
+```
+
+### Deleting Data Based on Date and Time Fields
+
+You can delete records based on date and time conditions.
+
+```sql
+DELETE FROM Events
+WHERE EventDate < '2024-07-01';
+```
+
+### Practical Examples and Use Cases
+
+#### Extracting Parts of Date and Time
+
+You can extract specific parts of date and time using functions like `YEAR`, `MONTH`, `DAY`, `HOUR`, `MINUTE`, and `SECOND`.
+
+##### Extracting Year and Month
+
+```sql
+SELECT EventID, 
+       YEAR(EventDate) AS EventYear,
+       MONTH(EventDate) AS EventMonth
+FROM Events;
+```
+
+##### Extracting Hour and Minute
+
+```sql
+SELECT EventID, 
+       HOUR(EventTime) AS EventHour,
+       MINUTE(EventTime) AS EventMinute
+FROM Events;
+```
+
+#### Formatting Date and Time
+
+You can format date and time fields using the `FORMAT` function.
+
+##### Formatting as 'YYYY-MM-DD'
+
+```sql
+SELECT EventID, 
+       FORMAT(EventDate, 'yyyy-MM-dd') AS FormattedDate
+FROM Events;
+```
+
+#### Adding/Subtracting Time Intervals
+
+You can add or subtract time intervals using the `DATEADD` function.
+
+##### Adding 1 Month to Event Date
+
+```sql
+UPDATE Events
+SET EventDate = DATEADD(MONTH, 1, EventDate)
+WHERE EventID = 1;
+```
+
+##### Subtracting 1 Hour from Event Time
+
+```sql
+UPDATE Events
+SET EventTime = DATEADD(HOUR, -1, EventTime)
+WHERE EventID = 1;
+```
+
+### Handling NULL Values
+
+Date and time fields can be `NULL` if no value is provided. You can check for `NULL` values using the `IS NULL` or `IS NOT NULL` operators.
+
+##### Example: Inserting and Checking for NULL Values
+
+```sql
+INSERT INTO Events (EventID, EventName, EventDate, EventTime, EventDateTime, EventSmallDateTime, EventDateTime2, EventDateTimeOffset)
+VALUES (3, 'Webinar', NULL, NULL, NULL, NULL, NULL, NULL);
+
+SELECT * FROM Events
+WHERE EventDate IS NULL;
+```
+
+### Using Date and Time Fields in Calculations
+
+You can use date and time fields in calculations to perform complex queries.
+
+##### Example: Calculating Duration Between Two DateTimes
+
+```sql
+SELECT EventID, 
+       EventName, 
+       DATEDIFF(MINUTE, EventDateTime, EventSmallDateTime) AS DurationInMinutes
+FROM Events;
+```
+
+### Summary
+
+In Microsoft SQL Server, date and time fields are managed using the `DATE`, `TIME`, `DATETIME`, `SMALLDATETIME`, `DATETIME2`, and `DATETIMEOFFSET` data types. You can create tables with date and time fields, insert and query data, update and delete records based on date and time, and perform various date and time calculations and formatting. These operations are essential for managing and analyzing date and time data in SQL Server.
+
+These examples demonstrate how to effectively use date and time fields in SQL Server. If you have more specific queries or need further examples, feel free to ask! ✔️
