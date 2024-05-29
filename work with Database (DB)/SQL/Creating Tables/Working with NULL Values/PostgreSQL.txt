@@ -1,1 +1,124 @@
 \\ work with database(DB) — SQL — Creating table — Working with NULL Values — PostgreSQL
+
+
+Working with PostgreSQL to create tables and manage NULL values involves specific SQL syntax and functions. Here’s a detailed guide to help you with these tasks.
+
+### Creating a Table in PostgreSQL
+
+To create a table in PostgreSQL, use the `CREATE TABLE` statement. Below is an example of creating an `Employees` table with various columns that can handle NULL values:
+
+```sql
+CREATE TABLE Employees (
+    EmployeeID SERIAL PRIMARY KEY,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    Email VARCHAR(100),
+    PhoneNumber VARCHAR(15),
+    HireDate DATE NOT NULL,
+    Salary NUMERIC(10, 2)
+);
+```
+
+In this table:
+- `EmployeeID` is a serial column which automatically generates unique identifiers.
+- `FirstName`, `LastName`, and `HireDate` are required fields (`NOT NULL`).
+- `Email`, `PhoneNumber`, and `Salary` can accept NULL values (default behavior, as `NULL` is implicit).
+
+### Inserting Data with NULL Values
+
+When inserting data into the `Employees` table, you can omit columns that allow NULL values:
+
+```sql
+INSERT INTO Employees (FirstName, LastName, HireDate)
+VALUES ('John', 'Doe', '2022-01-01');
+
+INSERT INTO Employees (FirstName, LastName, Email, PhoneNumber, HireDate, Salary)
+VALUES ('Jane', 'Smith', 'jane.smith@example.com', '555-1234', '2022-02-15', 60000.00);
+```
+
+In the first insert statement, `Email`, `PhoneNumber`, and `Salary` are omitted and will default to NULL.
+
+### Selecting Data and Handling NULL Values
+
+To select data from the table and handle NULL values, you can use functions like `IS NULL` and `IS NOT NULL`. For example, to find all employees without an email address:
+
+```sql
+SELECT * FROM Employees
+WHERE Email IS NULL;
+```
+
+To find all employees who have a salary specified:
+
+```sql
+SELECT * FROM Employees
+WHERE Salary IS NOT NULL;
+```
+
+### Using `COALESCE` to Handle NULL Values
+
+The `COALESCE` function can be used to provide a default value for NULL columns:
+
+```sql
+SELECT EmployeeID, FirstName, LastName, COALESCE(Email, 'No Email') AS Email, COALESCE(PhoneNumber, 'No Phone') AS PhoneNumber, HireDate, COALESCE(Salary, 0.00) AS Salary
+FROM Employees;
+```
+
+This query will replace NULL `Email` values with 'No Email', NULL `PhoneNumber` values with 'No Phone', and NULL `Salary` values with 0.00.
+
+### Updating NULL Values
+
+To update NULL values in existing records, use the `UPDATE` statement:
+
+```sql
+UPDATE Employees
+SET Email = 'unknown@example.com'
+WHERE Email IS NULL;
+```
+
+This updates all records with a NULL `Email` to 'unknown@example.com'.
+
+### Deleting Rows with NULL Values
+
+To delete rows where certain columns are NULL, use the `DELETE` statement:
+
+```sql
+DELETE FROM Employees
+WHERE Email IS NULL;
+```
+
+This deletes all rows where the `Email` is NULL.
+
+### Handling NULL Values in Queries
+
+You can handle NULL values directly in queries using `IS NULL`, `IS NOT NULL`, `COALESCE`, and other PostgreSQL functions:
+
+1. **Filtering NULL values**:
+
+    ```sql
+    SELECT * FROM Employees WHERE PhoneNumber IS NULL;
+    ```
+
+2. **Replacing NULL values**:
+
+    ```sql
+    SELECT EmployeeID, FirstName, LastName, COALESCE(PhoneNumber, 'N/A') AS PhoneNumber FROM Employees;
+    ```
+
+3. **Using `NULLIF` function** (returns NULL if the two arguments are equal):
+
+    ```sql
+    SELECT EmployeeID, FirstName, LastName, NULLIF(PhoneNumber, '') AS PhoneNumber FROM Employees;
+    ```
+
+### Summary
+
+Handling NULL values in PostgreSQL involves:
+
+1. **Creating Tables**: Define columns with `NOT NULL` where necessary; other columns implicitly allow NULLs unless specified otherwise.
+2. **Inserting Data**: Omit columns in the `INSERT` statement to insert NULL values.
+3. **Selecting Data**: Use `IS NULL` and `IS NOT NULL` predicates to filter NULL values in `SELECT` queries.
+4. **Using `COALESCE` and `NULLIF`**: Provide default values for NULLs in query results.
+5. **Updating Data**: Use `UPDATE` statements to change NULL values.
+6. **Deleting Data**: Use `DELETE` statements to remove rows with NULL values.
+
+These operations ensure flexible data management while maintaining data integrity in PostgreSQL databases. If you have more specific queries or need further examples, feel free to ask! ✔️
