@@ -1,1 +1,198 @@
 \\ work with database(DB) — SQL — Field data types — FireBird, Interbase — Boolean Types
+
+
+In Firebird and Interbase, handling Boolean types can be a bit different compared to other SQL databases as they don't have a native Boolean data type in some versions. However, you can simulate Boolean behavior using other data types. Typically, `CHAR(1)` or `SMALLINT` is used to represent Boolean values, where 'T'/'F', 'Y'/'N', 1/0, or similar conventions are applied.
+
+### Creating a Table with Boolean Fields
+
+You can simulate Boolean fields using `CHAR(1)` or `SMALLINT`.
+
+#### Using `CHAR(1)`
+
+```sql
+CREATE TABLE Employees (
+    EmployeeID INTEGER PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    IsActive CHAR(1) -- 'T' for True, 'F' for False
+);
+```
+
+#### Using `SMALLINT`
+
+```sql
+CREATE TABLE Employees (
+    EmployeeID INTEGER PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    IsActive SMALLINT -- 1 for True, 0 for False
+);
+```
+
+### Inserting Data into Boolean Fields
+
+You can insert data into the simulated Boolean fields using the conventions you've established.
+
+#### Using `CHAR(1)`
+
+```sql
+INSERT INTO Employees (EmployeeID, FirstName, LastName, IsActive)
+VALUES (1, 'John', 'Doe', 'T');
+
+INSERT INTO Employees (EmployeeID, FirstName, LastName, IsActive)
+VALUES (2, 'Jane', 'Smith', 'F');
+```
+
+#### Using `SMALLINT`
+
+```sql
+INSERT INTO Employees (EmployeeID, FirstName, LastName, IsActive)
+VALUES (1, 'John', 'Doe', 1);
+
+INSERT INTO Employees (EmployeeID, FirstName, LastName, IsActive)
+VALUES (2, 'Jane', 'Smith', 0);
+```
+
+### Querying Data with Boolean Fields
+
+You can query data based on the simulated Boolean fields.
+
+#### Using `CHAR(1)`
+
+```sql
+SELECT * FROM Employees
+WHERE IsActive = 'T';
+
+SELECT * FROM Employees
+WHERE IsActive = 'F';
+```
+
+#### Using `SMALLINT`
+
+```sql
+SELECT * FROM Employees
+WHERE IsActive = 1;
+
+SELECT * FROM Employees
+WHERE IsActive = 0;
+```
+
+### Updating Boolean Fields
+
+You can update the simulated Boolean fields using the `UPDATE` statement.
+
+#### Using `CHAR(1)`
+
+```sql
+UPDATE Employees
+SET IsActive = 'T'
+WHERE EmployeeID = 2;
+```
+
+#### Using `SMALLINT`
+
+```sql
+UPDATE Employees
+SET IsActive = 1
+WHERE EmployeeID = 2;
+```
+
+### Deleting Data Based on Boolean Fields
+
+You can delete records based on the simulated Boolean fields.
+
+#### Using `CHAR(1)`
+
+```sql
+DELETE FROM Employees
+WHERE IsActive = 'F';
+```
+
+#### Using `SMALLINT`
+
+```sql
+DELETE FROM Employees
+WHERE IsActive = 0;
+```
+
+### Practical Examples and Use Cases
+
+#### Counting Active and Inactive Employees
+
+You can count the number of active and inactive employees using aggregate functions.
+
+#### Using `CHAR(1)`
+
+```sql
+SELECT 
+    SUM(CASE WHEN IsActive = 'T' THEN 1 ELSE 0 END) AS ActiveEmployees,
+    SUM(CASE WHEN IsActive = 'F' THEN 1 ELSE 0 END) AS InactiveEmployees
+FROM Employees;
+```
+
+#### Using `SMALLINT`
+
+```sql
+SELECT 
+    SUM(CASE WHEN IsActive = 1 THEN 1 ELSE 0 END) AS ActiveEmployees,
+    SUM(CASE WHEN IsActive = 0 THEN 1 ELSE 0 END) AS InactiveEmployees
+FROM Employees;
+```
+
+#### Setting Default Values for Boolean Fields
+
+You can set default values for the simulated Boolean fields during table creation.
+
+#### Using `CHAR(1)`
+
+```sql
+CREATE TABLE Employees (
+    EmployeeID INTEGER PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    IsActive CHAR(1) DEFAULT 'T'
+);
+```
+
+#### Using `SMALLINT`
+
+```sql
+CREATE TABLE Employees (
+    EmployeeID INTEGER PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    IsActive SMALLINT DEFAULT 1
+);
+```
+
+### Handling NULL Values
+
+Boolean fields can be `NULL` if no value is provided. You can check for `NULL` values using the `IS NULL` or `IS NOT NULL` operators.
+
+#### Example: Inserting and Checking for NULL Values
+
+#### Using `CHAR(1)`
+
+```sql
+INSERT INTO Employees (EmployeeID, FirstName, LastName, IsActive)
+VALUES (3, 'Emily', 'Johnson', NULL);
+
+SELECT * FROM Employees
+WHERE IsActive IS NULL;
+```
+
+#### Using `SMALLINT`
+
+```sql
+INSERT INTO Employees (EmployeeID, FirstName, LastName, IsActive)
+VALUES (3, 'Emily', 'Johnson', NULL);
+
+SELECT * FROM Employees
+WHERE IsActive IS NULL;
+```
+
+### Summary
+
+In Firebird and Interbase, Boolean types can be simulated using `CHAR(1)` or `SMALLINT`. You can create tables with simulated Boolean fields, insert and query data, update and delete records based on Boolean values, and perform various calculations and summaries using aggregate functions. These operations are essential for managing and analyzing Boolean logic in Firebird and Interbase.
+
+These examples demonstrate how to effectively use simulated Boolean types in Firebird and Interbase. If you have more specific queries or need further examples, feel free to ask! ✔️
