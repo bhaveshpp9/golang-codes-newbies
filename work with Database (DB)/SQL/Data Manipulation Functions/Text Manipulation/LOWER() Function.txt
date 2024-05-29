@@ -1,22 +1,155 @@
 \\ work with database(DB) — SQL — Data Manipulation Functions — Text Manipulation — LOWER() Function
 
+The `LOWER()` function in SQL is used to convert all characters in a string to lowercase. This function is supported by many SQL databases, including MySQL, SQL Server, PostgreSQL, and SQLite. Here’s a detailed guide on how to use the `LOWER()` function across various SQL databases.
 
-SELECT
-    Name, 
-    LOWER(Name) AS NameLowerCase
-    -- or lcase()
-FROM country
+### Usage of `LOWER()` Function
 
-Name	NameLowerCase
-Aruba	aruba
-Afghanistan	afghanistan
-Angola	angola
-Anguilla	anguilla
-Albania	albania
-Andorra	andorra
-Netherlands Antilles	netherlands antilles
-United Arab Emirates	united arab emirates
-Argentina	argentina
-...
+The basic syntax of the `LOWER()` function is:
 
-LOWER() converts text to lower case
+```sql
+LOWER(text)
+```
+
+- `text`: The text string that you want to convert to lowercase.
+
+### Examples in Different SQL Databases
+
+#### MySQL
+
+In MySQL, the `LOWER()` function converts the input string to lowercase:
+
+```sql
+SELECT LOWER('Hello World') AS LowercaseString;  -- Returns 'hello world'
+```
+
+#### SQL Server
+
+In SQL Server, the `LOWER()` function works similarly to MySQL:
+
+```sql
+SELECT LOWER('Hello World') AS LowercaseString;  -- Returns 'hello world'
+```
+
+#### SQLite
+
+In SQLite, the `LOWER()` function also converts the input string to lowercase:
+
+```sql
+SELECT LOWER('Hello World') AS LowercaseString;  -- Returns 'hello world'
+```
+
+#### PostgreSQL
+
+In PostgreSQL, the `LOWER()` function performs the same task:
+
+```sql
+SELECT LOWER('Hello World') AS LowercaseString;  -- Returns 'hello world'
+```
+
+### Additional Examples and Use Cases
+
+#### Converting Column Values to Lowercase
+
+Consider a table `Employees` with a column `FullName`. To convert the `FullName` column values to lowercase:
+
+##### MySQL
+
+```sql
+SELECT FullName, LOWER(FullName) AS LowercaseName
+FROM Employees;
+```
+
+##### SQL Server
+
+```sql
+SELECT FullName, LOWER(FullName) AS LowercaseName
+FROM Employees;
+```
+
+##### SQLite
+
+```sql
+SELECT FullName, LOWER(FullName) AS LowercaseName
+FROM Employees;
+```
+
+##### PostgreSQL
+
+```sql
+SELECT FullName, LOWER(FullName) AS LowercaseName
+FROM Employees;
+```
+
+#### Filtering Data Case-Insensitively
+
+You can use the `LOWER()` function to perform case-insensitive filtering. For example, to find employees whose names contain 'john', regardless of the case:
+
+##### MySQL
+
+```sql
+SELECT FullName
+FROM Employees
+WHERE LOWER(FullName) LIKE '%john%';
+```
+
+##### SQL Server
+
+```sql
+SELECT FullName
+FROM Employees
+WHERE LOWER(FullName) LIKE '%john%';
+```
+
+##### SQLite
+
+```sql
+SELECT FullName
+FROM Employees
+WHERE LOWER(FullName) LIKE '%john%';
+```
+
+##### PostgreSQL
+
+```sql
+SELECT FullName
+FROM Employees
+WHERE LOWER(FullName) LIKE '%john%';
+```
+
+### Combining with Other Functions
+
+You can combine the `LOWER()` function with other string functions to perform more complex text manipulations. For example, to trim and then convert to lowercase:
+
+##### MySQL
+
+```sql
+SELECT FullName, LOWER(TRIM(FullName)) AS TrimmedLowercaseName
+FROM Employees;
+```
+
+##### SQL Server
+
+```sql
+SELECT FullName, LOWER(LTRIM(RTRIM(FullName))) AS TrimmedLowercaseName
+FROM Employees;
+```
+
+##### SQLite
+
+```sql
+SELECT FullName, LOWER(TRIM(FullName)) AS TrimmedLowercaseName
+FROM Employees;
+```
+
+##### PostgreSQL
+
+```sql
+SELECT FullName, LOWER(TRIM(FullName)) AS TrimmedLowercaseName
+FROM Employees;
+```
+
+### Summary
+
+The `LOWER()` function is used to convert a string to lowercase in SQL. This function is supported across various SQL databases, making it a versatile tool for text manipulation tasks. It can be used to convert column values to lowercase, perform case-insensitive filtering, and combine with other string functions for complex manipulations.
+
+These examples demonstrate how to use the `LOWER()` function in different SQL databases, ensuring you can handle text manipulation effectively regardless of the SQL dialect you are working with. If you have more specific queries or need further examples, feel free to ask! ✔️
