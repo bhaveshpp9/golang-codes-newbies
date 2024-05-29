@@ -1,174 +1,93 @@
 \\ work with database(DB) — SQL — Creating table — Working with NULL Values — Access
 
-Working with databases in Go involves using packages like `database/sql` and specific database drivers such as `github.com/lib/pq` for PostgreSQL or `github.com/go-sql-driver/mysql` for MySQL. Here's a detailed guide on creating tables and handling NULL values in SQL using Go:
+Working with SQL databases often involves creating tables and managing NULL values appropriately. Here is a detailed guide on how to create tables and handle NULL values in SQL, particularly using Microsoft Access SQL syntax.
 
-1. **Setting Up the Environment:**
+### Creating a Table in SQL
 
-   Make sure you have the necessary packages installed. You can do this using:
-   ```sh
-   go get -u github.com/lib/pq
-   go get -u github.com/go-sql-driver/mysql
-   ```
+To create a table, you use the `CREATE TABLE` statement. In this example, let's create a table called `Employees` with various columns that can hold NULL values:
 
-2. **Connecting to the Database:**
+```sql
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    Email VARCHAR(100) NULL,
+    PhoneNumber VARCHAR(15) NULL,
+    HireDate DATE NOT NULL,
+    Salary DECIMAL(10, 2) NULL
+);
+```
 
-   Here’s an example of how to connect to a PostgreSQL database:
+In this table:
+- `EmployeeID`, `FirstName`, `LastName`, and `HireDate` are required fields (`NOT NULL`).
+- `Email`, `PhoneNumber`, and `Salary` can accept NULL values (`NULL`).
 
-   ```go
-   package main
+### Inserting Data with NULL Values
 
-   import (
-       "database/sql"
-       "fmt"
-       _ "github.com/lib/pq" // PostgreSQL driver
-   )
+When inserting data into the `Employees` table, you can omit columns that allow NULL values:
 
-   func main() {
-       // Replace with your own connection details
-       connStr := "user=username dbname=mydb sslmode=disable password=mypassword"
-       db, err := sql.Open("postgres", connStr)
-       if err != nil {
-           panic(err)
-       }
-       defer db.Close()
+```sql
+INSERT INTO Employees (EmployeeID, FirstName, LastName, HireDate)
+VALUES (1, 'John', 'Doe', '2022-01-01');
 
-       // Test the connection
-       err = db.Ping()
-       if err != nil {
-           panic(err)
-       }
+INSERT INTO Employees (EmployeeID, FirstName, LastName, Email, PhoneNumber, HireDate, Salary)
+VALUES (2, 'Jane', 'Smith', 'jane.smith@example.com', '555-1234', '2022-02-15', 60000.00);
+```
 
-       fmt.Println("Successfully connected to the database!")
-   }
-   ```
+In the first insert statement, `Email`, `PhoneNumber`, and `Salary` are omitted and will default to NULL.
 
-3. **Creating a Table:**
+### Selecting Data and Handling NULL Values
 
-   To create a table that can handle NULL values, you need to define the columns accordingly in your SQL statement. Here’s an example of creating a `users` table:
+To select data from the table and handle NULL values, you can use functions like `IS NULL` and `IS NOT NULL`. For example, to find all employees without an email address:
 
-   ```go
-   package main
+```sql
+SELECT * FROM Employees
+WHERE Email IS NULL;
+```
 
-   import (
-       "database/sql"
-       "fmt"
-       _ "github.com/lib/pq" // PostgreSQL driver
-   )
+To find all employees who have a salary specified:
 
-   func main() {
-       connStr := "user=username dbname=mydb sslmode=disable password=mypassword"
-       db, err := sql.Open("postgres", connStr)
-       if err != nil {
-           panic(err)
-       }
-       defer db.Close()
+```sql
+SELECT * FROM Employees
+WHERE Salary IS NOT NULL;
+```
 
-       // Create the table
-       createTableSQL := `
-       CREATE TABLE IF NOT EXISTS users (
-           id SERIAL PRIMARY KEY,
-           name TEXT,
-           age INT,
-           email TEXT
-       );
-       `
+### Using `COALESCE` to Handle NULL Values
 
-       _, err = db.Exec(createTableSQL)
-       if err != nil {
-           panic(err)
-       }
+The `COALESCE` function can be used to provide a default value for NULL columns:
 
-       fmt.Println("Table created successfully!")
-   }
-   ```
+```sql
+SELECT EmployeeID, FirstName, LastName, COALESCE(Email, 'No Email') AS Email, COALESCE(PhoneNumber, 'No Phone') AS PhoneNumber, HireDate, COALESCE(Salary, 0.00) AS Salary
+FROM Employees;
+```
 
-4. **Inserting NULL Values:**
+This query will replace NULL `Email` values with 'No Email', NULL `PhoneNumber` values with 'No Phone', and NULL `Salary` values with 0.00.
 
-   When inserting data into the table, you can use `NULL` for columns where no value is provided. Here’s an example:
+### Updating NULL Values
 
-   ```go
-   package main
+To update NULL values in existing records, use the `UPDATE` statement:
 
-   import (
-       "database/sql"
-       "fmt"
-       _ "github.com/lib/pq" // PostgreSQL driver
-   )
+```sql
+UPDATE Employees
+SET Email = 'unknown@example.com'
+WHERE Email IS NULL;
+```
 
-   func main() {
-       connStr := "user=username dbname=mydb sslmode=disable password=mypassword"
-       db, err := sql.Open("postgres", connStr)
-       if err != nil {
-           panic(err)
-       }
-       defer db.Close()
+This updates all records with a NULL `Email` to 'unknown@example.com'.
 
-       // Insert data with NULL values
-       insertUserSQL := `
-       INSERT INTO users (name, age, email)
-       VALUES ($1, $2, $3);
-       `
-       _, err = db.Exec(insertUserSQL, "John Doe", nil, nil)
-       if err != nil {
-           panic(err)
-       }
+### Deleting Rows with NULL Values
 
-       fmt.Println("Inserted data with NULL values successfully!")
-   }
-   ```
+To delete rows where certain columns are NULL, use the `DELETE` statement:
 
-5. **Querying Data with NULL Values:**
+```sql
+DELETE FROM Employees
+WHERE Email IS NULL;
+```
 
-   To query data and handle NULL values, you can use the `sql.NullString`, `sql.NullInt64`, etc. types in Go:
+This deletes all rows where the `Email` is NULL.
 
-   ```go
-   package main
+### Summary
 
-   import (
-       "database/sql"
-       "fmt"
-       _ "github.com/lib/pq" // PostgreSQL driver
-   )
+Handling NULL values in SQL requires understanding how to define columns that allow NULLs, inserting NULL values, and managing those values with appropriate SQL functions and statements. The examples provided are specifically tailored for Microsoft Access SQL, but the concepts are applicable to other SQL databases with slight syntax variations.
 
-   type User struct {
-       ID    int
-       Name  sql.NullString
-       Age   sql.NullInt64
-       Email sql.NullString
-   }
-
-   func main() {
-       connStr := "user=username dbname=mydb sslmode=disable password=mypassword"
-       db, err := sql.Open("postgres", connStr)
-       if err != nil {
-           panic(err)
-       }
-       defer db.Close()
-
-       // Query data
-       rows, err := db.Query("SELECT id, name, age, email FROM users")
-       if err != nil {
-           panic(err)
-       }
-       defer rows.Close()
-
-       for rows.Next() {
-           var user User
-           err := rows.Scan(&user.ID, &user.Name, &user.Age, &user.Email)
-           if err != nil {
-               panic(err)
-           }
-
-           fmt.Printf("ID: %d, Name: %s, Age: %d, Email: %s\n", user.ID, user.Name.String, user.Age.Int64, user.Email.String)
-       }
-
-       err = rows.Err()
-       if err != nil {
-           panic(err)
-       }
-   }
-   ```
-
-In this example, the `sql.NullString` and `sql.NullInt64` types handle potential NULL values in the query results.
-
-This covers the basic operations for creating tables, inserting data with NULL values, and querying data while handling NULL values in a Go application using SQL. If you need further assistance or have specific requirements, feel free to ask! ✔️
+Feel free to ask if you have more specific questions or need further examples! ✔️
