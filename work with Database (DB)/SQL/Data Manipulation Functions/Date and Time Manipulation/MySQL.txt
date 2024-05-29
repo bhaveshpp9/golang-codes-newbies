@@ -1,22 +1,123 @@
 \\ work with database(DB) — SQL — Data Manipulation Functions — Date and Time Manipulation — MySQL
 
 
-SELECT
-    from_date,
-    YEAR(from_date) AS year,
-    MONTH(from_date) AS month,
-    DAY(from_date) AS day,
-    DATE_FORMAT(from_date, '%d.%m.%Y') AS ru_format
-FROM dept_emp
+Date and time manipulation is an essential part of working with databases in MySQL. This guide covers the most common functions and methods used for handling date and time data.
 
-from_date	year	month	day	ru_format
-1986-06-26	1986	6	26	26.06.1986
-1996-08-03	1996	8	3	03.08.1996
-1995-12-03	1995	12	3	03.12.1995
-1986-12-01	1986	12	1	01.12.1986
-1989-09-12	1989	9	12	12.09.1989
-1990-08-05	1990	8	5	05.08.1990
-1989-02-10	1989	2	10	10.02.1989
-1998-03-11	1998	3	11	11.03.1998
-1985-02-18	1985	2	18	18.02.1985
-...
+### Common Date and Time Manipulation Functions
+
+1. **CURDATE()**: Retrieves the current date.
+2. **CURTIME()**: Retrieves the current time.
+3. **NOW()**: Retrieves the current date and time.
+4. **DATE()**: Extracts the date part from a date or datetime expression.
+5. **TIME()**: Extracts the time part from a time or datetime expression.
+6. **YEAR(), MONTH(), DAY()**: Extracts the year, month, or day part from a date.
+7. **HOUR(), MINUTE(), SECOND()**: Extracts the hour, minute, or second part from a time.
+8. **DATE_ADD()**: Adds a specified time interval to a date.
+9. **DATE_SUB()**: Subtracts a specified time interval from a date.
+10. **DATEDIFF()**: Calculates the difference in days between two dates.
+11. **TIMESTAMPDIFF()**: Calculates the difference between two dates.
+12. **DATE_FORMAT()**: Formats a date as a string.
+
+### Examples of Date and Time Manipulation Functions
+
+#### Retrieving Current Date and Time
+
+```sql
+SELECT CURDATE() AS CurrentDate;                -- Retrieves the current date
+SELECT CURTIME() AS CurrentTime;                -- Retrieves the current time
+SELECT NOW() AS CurrentDateTime;                -- Retrieves the current date and time
+```
+
+#### Extracting Date and Time Parts
+
+```sql
+SELECT DATE(NOW()) AS DatePart;                 -- Extracts the date part from the current datetime
+SELECT TIME(NOW()) AS TimePart;                 -- Extracts the time part from the current datetime
+SELECT YEAR(NOW()) AS YearPart;                 -- Extracts the year part
+SELECT MONTH(NOW()) AS MonthPart;               -- Extracts the month part
+SELECT DAY(NOW()) AS DayPart;                   -- Extracts the day part
+SELECT HOUR(NOW()) AS HourPart;                 -- Extracts the hour part
+SELECT MINUTE(NOW()) AS MinutePart;             -- Extracts the minute part
+SELECT SECOND(NOW()) AS SecondPart;             -- Extracts the second part
+```
+
+#### Adding and Subtracting Intervals to Dates
+
+```sql
+SELECT DATE_ADD(NOW(), INTERVAL 1 YEAR) AS NextYear;       -- Adds 1 year to the current date
+SELECT DATE_ADD(NOW(), INTERVAL 1 MONTH) AS NextMonth;     -- Adds 1 month to the current date
+SELECT DATE_ADD(NOW(), INTERVAL 1 DAY) AS Tomorrow;        -- Adds 1 day to the current date
+SELECT DATE_ADD(NOW(), INTERVAL 1 HOUR) AS NextHour;       -- Adds 1 hour to the current date
+SELECT DATE_ADD(NOW(), INTERVAL 1 MINUTE) AS NextMinute;   -- Adds 1 minute to the current date
+SELECT DATE_ADD(NOW(), INTERVAL 1 SECOND) AS NextSecond;   -- Adds 1 second to the current date
+
+SELECT DATE_SUB(NOW(), INTERVAL 1 YEAR) AS LastYear;       -- Subtracts 1 year from the current date
+SELECT DATE_SUB(NOW(), INTERVAL 1 MONTH) AS LastMonth;     -- Subtracts 1 month from the current date
+SELECT DATE_SUB(NOW(), INTERVAL 1 DAY) AS Yesterday;       -- Subtracts 1 day from the current date
+SELECT DATE_SUB(NOW(), INTERVAL 1 HOUR) AS LastHour;       -- Subtracts 1 hour from the current date
+SELECT DATE_SUB(NOW(), INTERVAL 1 MINUTE) AS LastMinute;   -- Subtracts 1 minute from the current date
+SELECT DATE_SUB(NOW(), INTERVAL 1 SECOND) AS LastSecond;   -- Subtracts 1 second from the current date
+```
+
+#### Calculating Differences Between Dates
+
+```sql
+SELECT DATEDIFF('2024-01-15', '2024-01-01') AS DayDiff;                -- Difference in days
+SELECT TIMESTAMPDIFF(MONTH, '2024-01-01', '2024-03-01') AS MonthDiff;  -- Difference in months
+SELECT TIMESTAMPDIFF(YEAR, '2022-01-01', '2024-01-01') AS YearDiff;    -- Difference in years
+SELECT TIMESTAMPDIFF(HOUR, '2024-01-01 10:00:00', '2024-01-01 12:00:00') AS HourDiff; -- Difference in hours
+SELECT TIMESTAMPDIFF(MINUTE, '2024-01-01 10:00:00', '2024-01-01 10:30:00') AS MinuteDiff; -- Difference in minutes
+SELECT TIMESTAMPDIFF(SECOND, '2024-01-01 10:00:00', '2024-01-01 10:00:30') AS SecondDiff; -- Difference in seconds
+```
+
+#### Formatting Date and Time Values
+
+```sql
+SELECT DATE_FORMAT(NOW(), '%Y-%m-%d') AS FormattedDate;                 -- Formats date to 'YYYY-MM-DD'
+SELECT DATE_FORMAT(NOW(), '%d/%m/%Y %H:%i:%s') AS FormattedDateTime;    -- Formats date and time
+SELECT DATE_FORMAT(NOW(), '%W, %M %d, %Y') AS LongFormattedDate;        -- Long formatted date
+```
+
+### Detailed Explanation of Each Function
+
+1. **CURDATE(), CURTIME(), NOW()**
+   - **Usage**: `CURDATE()`, `CURTIME()`, `NOW()`
+   - **Example**: `SELECT CURDATE();`
+
+2. **DATE(), TIME()**
+   - **Usage**: `DATE(expression)`, `TIME(expression)`
+   - **Example**: `SELECT DATE(NOW());`
+
+3. **YEAR(), MONTH(), DAY(), HOUR(), MINUTE(), SECOND()**
+   - **Usage**: `YEAR(date)`, `MONTH(date)`, `DAY(date)`, `HOUR(time)`, `MINUTE(time)`, `SECOND(time)`
+   - **Example**: `SELECT YEAR(NOW());`
+
+4. **DATE_ADD(), DATE_SUB()**
+   - **Usage**: `DATE_ADD(date, INTERVAL expr unit)`, `DATE_SUB(date, INTERVAL expr unit)`
+   - **Intervals**: YEAR, MONTH, DAY, HOUR, MINUTE, SECOND
+   - **Example**: `SELECT DATE_ADD(NOW(), INTERVAL 1 DAY);`
+
+5. **DATEDIFF()**
+   - **Usage**: `DATEDIFF(date1, date2)`
+   - **Example**: `SELECT DATEDIFF('2024-01-15', '2024-01-01');`
+
+6. **TIMESTAMPDIFF()**
+   - **Usage**: `TIMESTAMPDIFF(unit, datetime_expr1, datetime_expr2)`
+   - **Units**: YEAR, MONTH, DAY, HOUR, MINUTE, SECOND
+   - **Example**: `SELECT TIMESTAMPDIFF(MONTH, '2024-01-01', '2024-03-01');`
+
+7. **DATE_FORMAT()**
+   - **Usage**: `DATE_FORMAT(date, format)`
+   - **Example**: `SELECT DATE_FORMAT(NOW(), '%Y-%m-%d');`
+
+### Summary
+
+Date and time manipulation in MySQL involves:
+
+1. **Retrieving Current Date and Time**: Use `CURDATE()`, `CURTIME()`, and `NOW()` for current date, time, and datetime.
+2. **Extracting Date and Time Parts**: Use `DATE()`, `TIME()`, `YEAR()`, `MONTH()`, `DAY()`, `HOUR()`, `MINUTE()`, and `SECOND()` to get specific parts.
+3. **Adding and Subtracting Intervals**: Use `DATE_ADD()` and `DATE_SUB()` to add or subtract intervals from a date.
+4. **Calculating Differences Between Dates**: Use `DATEDIFF()` and `TIMESTAMPDIFF()` to find differences in days, months, years, hours, minutes, or seconds.
+5. **Formatting Date and Time Values**: Use `DATE_FORMAT()` to format date and time into various string representations.
+
+These functions provide powerful tools for handling and manipulating date and time data in MySQL databases. If you have more specific queries or need further examples, feel free to ask! ✔️
