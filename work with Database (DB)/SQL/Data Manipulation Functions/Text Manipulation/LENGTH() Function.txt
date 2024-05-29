@@ -1,1 +1,156 @@
 \\ work with database(DB) — SQL — Data Manipulation Functions — Text Manipulation — LENGTH() Function
+
+
+The `LENGTH()` function in SQL is used to return the length of a string, measured in characters. This function is supported by many SQL databases, including MySQL, SQL Server, PostgreSQL, and SQLite. Here's a detailed guide on how to use the `LENGTH()` function across different SQL databases.
+
+### Usage of `LENGTH()` Function
+
+The basic syntax of the `LENGTH()` function is:
+
+```sql
+LENGTH(text)
+```
+
+- `text`: The text string whose length you want to determine.
+
+### Examples in Different SQL Databases
+
+#### MySQL
+
+In MySQL, the `LENGTH()` function returns the length of the string:
+
+```sql
+SELECT LENGTH('Hello World') AS StringLength;  -- Returns 11
+```
+
+#### SQL Server
+
+In SQL Server, the equivalent function is `LEN()`:
+
+```sql
+SELECT LEN('Hello World') AS StringLength;  -- Returns 11
+```
+
+#### SQLite
+
+In SQLite, the `LENGTH()` function works similarly to MySQL:
+
+```sql
+SELECT LENGTH('Hello World') AS StringLength;  -- Returns 11
+```
+
+#### PostgreSQL
+
+In PostgreSQL, the `LENGTH()` function is also available:
+
+```sql
+SELECT LENGTH('Hello World') AS StringLength;  -- Returns 11
+```
+
+### Additional Examples and Use Cases
+
+#### Determining the Length of a Column Value
+
+Consider a table `Employees` with a column `FullName`. To find the length of each `FullName`:
+
+##### MySQL
+
+```sql
+SELECT FullName, LENGTH(FullName) AS NameLength
+FROM Employees;
+```
+
+##### SQL Server
+
+```sql
+SELECT FullName, LEN(FullName) AS NameLength
+FROM Employees;
+```
+
+##### SQLite
+
+```sql
+SELECT FullName, LENGTH(FullName) AS NameLength
+FROM Employees;
+```
+
+##### PostgreSQL
+
+```sql
+SELECT FullName, LENGTH(FullName) AS NameLength
+FROM Employees;
+```
+
+#### Filtering Based on String Length
+
+You can use the `LENGTH()` function in a `WHERE` clause to filter records based on the length of a string. For example, to find employees with names longer than 10 characters:
+
+##### MySQL
+
+```sql
+SELECT FullName
+FROM Employees
+WHERE LENGTH(FullName) > 10;
+```
+
+##### SQL Server
+
+```sql
+SELECT FullName
+FROM Employees
+WHERE LEN(FullName) > 10;
+```
+
+##### SQLite
+
+```sql
+SELECT FullName
+FROM Employees
+WHERE LENGTH(FullName) > 10;
+```
+
+##### PostgreSQL
+
+```sql
+SELECT FullName
+FROM Employees
+WHERE LENGTH(FullName) > 10;
+```
+
+#### Combining with Other Functions
+
+You can combine the `LENGTH()` function with other string functions for more complex text manipulations. For example, to find the length of the trimmed `FullName`:
+
+##### MySQL
+
+```sql
+SELECT FullName, LENGTH(TRIM(FullName)) AS TrimmedNameLength
+FROM Employees;
+```
+
+##### SQL Server
+
+```sql
+SELECT FullName, LEN(LTRIM(RTRIM(FullName))) AS TrimmedNameLength
+FROM Employees;
+```
+
+##### SQLite
+
+```sql
+SELECT FullName, LENGTH(TRIM(FullName)) AS TrimmedNameLength
+FROM Employees;
+```
+
+##### PostgreSQL
+
+```sql
+SELECT FullName, LENGTH(TRIM(FullName)) AS TrimmedNameLength
+FROM Employees;
+```
+
+### Summary
+
+The `LENGTH()` function is used to return the length of a string in SQL. This function is supported across various SQL databases, though SQL Server uses `LEN()` instead of `LENGTH()`. This function is useful for a variety of tasks, such as determining the length of text in columns, filtering records based on string length, and combining with other string functions for complex text manipulations.
+
+These examples show how to use the `LENGTH()` function in different SQL databases, ensuring you can measure string lengths effectively regardless of the SQL dialect you are working with. If you have more specific queries or need further examples, feel free to ask! ✔️
