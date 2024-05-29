@@ -1,1 +1,122 @@
 \\ work with database(DB) — SQL — Data Manipulation Functions — Date and Time Manipulation —  Ms SQL
+
+
+Working with date and time in Microsoft SQL Server involves using a variety of functions to manipulate and format date and time values. Here’s a detailed guide on how to perform common date and time manipulations in SQL Server.
+
+### Common Date and Time Manipulation Functions
+
+1. **GETDATE()**: Retrieves the current date and time.
+2. **SYSDATETIME()**: Retrieves the current date and time with higher precision.
+3. **DATEPART()**: Extracts parts of a date.
+4. **DATENAME()**: Extracts the name of a part of a date.
+5. **DATEADD()**: Adds a specified interval to a date.
+6. **DATEDIFF()**: Calculates the difference between two dates.
+7. **FORMAT()**: Formats a date into a specified format.
+8. **CONVERT()**: Converts between date/time types and strings.
+
+### Examples of Date and Time Manipulation Functions
+
+#### Retrieving Current Date and Time
+
+```sql
+SELECT GETDATE() AS CurrentDateTime;           -- Retrieves the current date and time
+SELECT SYSDATETIME() AS CurrentDateTimeHighPrecision; -- Retrieves the current date and time with higher precision
+```
+
+#### Extracting Date and Time Parts
+
+```sql
+SELECT DATEPART(YEAR, GETDATE()) AS YearPart;           -- Extracts the year part
+SELECT DATEPART(MONTH, GETDATE()) AS MonthPart;         -- Extracts the month part
+SELECT DATEPART(DAY, GETDATE()) AS DayPart;             -- Extracts the day part
+SELECT DATEPART(HOUR, GETDATE()) AS HourPart;           -- Extracts the hour part
+SELECT DATEPART(MINUTE, GETDATE()) AS MinutePart;       -- Extracts the minute part
+SELECT DATEPART(SECOND, GETDATE()) AS SecondPart;       -- Extracts the second part
+
+SELECT DATENAME(YEAR, GETDATE()) AS YearName;           -- Extracts the year name
+SELECT DATENAME(MONTH, GETDATE()) AS MonthName;         -- Extracts the month name
+SELECT DATENAME(DAY, GETDATE()) AS DayName;             -- Extracts the day name
+SELECT DATENAME(WEEKDAY, GETDATE()) AS WeekdayName;     -- Extracts the weekday name
+```
+
+#### Adding Intervals to Dates
+
+```sql
+SELECT DATEADD(YEAR, 1, GETDATE()) AS NextYear;         -- Adds 1 year to the current date
+SELECT DATEADD(MONTH, 1, GETDATE()) AS NextMonth;       -- Adds 1 month to the current date
+SELECT DATEADD(DAY, 1, GETDATE()) AS Tomorrow;          -- Adds 1 day to the current date
+SELECT DATEADD(HOUR, 1, GETDATE()) AS NextHour;         -- Adds 1 hour to the current date
+SELECT DATEADD(MINUTE, 1, GETDATE()) AS NextMinute;     -- Adds 1 minute to the current date
+SELECT DATEADD(SECOND, 1, GETDATE()) AS NextSecond;     -- Adds 1 second to the current date
+```
+
+#### Calculating Differences Between Dates
+
+```sql
+SELECT DATEDIFF(YEAR, '2022-01-01', '2024-01-01') AS YearDiff;       -- Difference in years
+SELECT DATEDIFF(MONTH, '2022-01-01', '2024-01-01') AS MonthDiff;     -- Difference in months
+SELECT DATEDIFF(DAY, '2022-01-01', '2022-01-15') AS DayDiff;         -- Difference in days
+SELECT DATEDIFF(HOUR, '2022-01-01 10:00:00', '2022-01-01 12:00:00') AS HourDiff; -- Difference in hours
+SELECT DATEDIFF(MINUTE, '2022-01-01 10:00:00', '2022-01-01 10:30:00') AS MinuteDiff; -- Difference in minutes
+SELECT DATEDIFF(SECOND, '2022-01-01 10:00:00', '2022-01-01 10:00:30') AS SecondDiff; -- Difference in seconds
+```
+
+#### Formatting Date and Time Values
+
+```sql
+SELECT FORMAT(GETDATE(), 'yyyy-MM-dd') AS FormattedDate;              -- Formats date to 'yyyy-MM-dd'
+SELECT FORMAT(GETDATE(), 'MM/dd/yyyy HH:mm:ss') AS FormattedDateTime; -- Formats date and time
+SELECT FORMAT(GETDATE(), 'dddd, MMMM dd, yyyy') AS LongFormattedDate; -- Long formatted date
+```
+
+#### Converting Date and Time Values
+
+```sql
+SELECT CONVERT(VARCHAR, GETDATE(), 101) AS FormattedDate;             -- Converts date to 'mm/dd/yyyy'
+SELECT CONVERT(VARCHAR, GETDATE(), 120) AS FormattedDateTime;         -- Converts date and time to 'yyyy-mm-dd hh:mi:ss'
+SELECT CAST(GETDATE() AS DATE) AS DateOnly;                           -- Casts to date only (no time)
+SELECT CAST(GETDATE() AS TIME) AS TimeOnly;                           -- Casts to time only (no date)
+```
+
+### Detailed Explanation of Each Function
+
+1. **GETDATE() and SYSDATETIME()**
+   - **Usage**: `GETDATE()`, `SYSDATETIME()`
+   - **Example**: `SELECT GETDATE();`
+
+2. **DATEPART() and DATENAME()**
+   - **Usage**: `DATEPART(part, date)`, `DATENAME(part, date)`
+   - **Parts**: YEAR, MONTH, DAY, HOUR, MINUTE, SECOND, WEEKDAY, etc.
+   - **Example**: `SELECT DATEPART(YEAR, GETDATE());`, `SELECT DATENAME(MONTH, GETDATE());`
+
+3. **DATEADD()**
+   - **Usage**: `DATEADD(interval, number, date)`
+   - **Intervals**: YEAR, MONTH, DAY, HOUR, MINUTE, SECOND
+   - **Example**: `SELECT DATEADD(DAY, 1, GETDATE());`
+
+4. **DATEDIFF()**
+   - **Usage**: `DATEDIFF(interval, start_date, end_date)`
+   - **Intervals**: YEAR, MONTH, DAY, HOUR, MINUTE, SECOND
+   - **Example**: `SELECT DATEDIFF(DAY, '2022-01-01', '2022-01-15');`
+
+5. **FORMAT()**
+   - **Usage**: `FORMAT(value, format)`
+   - **Example**: `SELECT FORMAT(GETDATE(), 'yyyy-MM-dd');`
+
+6. **CONVERT()**
+   - **Usage**: `CONVERT(data_type, value, style)`
+   - **Styles**: 101 (mm/dd/yyyy), 120 (yyyy-mm-dd hh:mi:ss), etc.
+   - **Example**: `SELECT CONVERT(VARCHAR, GETDATE(), 101);`
+
+### Summary
+
+Date and time manipulation in SQL Server involves:
+
+1. **Retrieving Current Date and Time**: Use `GETDATE()` for current date and time, and `SYSDATETIME()` for higher precision.
+2. **Extracting Date and Time Parts**: Use `DATEPART()` to get numeric parts like year, month, day, etc., and `DATENAME()` to get named parts like month name, day name, etc.
+3. **Adding Intervals to Dates**: Use `DATEADD()` to add years, months, days, hours, minutes, or seconds to a date.
+4. **Calculating Differences Between Dates**: Use `DATEDIFF()` to find the difference between two dates in terms of years, months, days, hours, minutes, or seconds.
+5. **Formatting Date and Time Values**: Use `FORMAT()` to format dates and times into different string representations.
+6. **Converting Date and Time Values**: Use `CONVERT()` to change date and time data types and formats.
+
+These operations allow for flexible and powerful manipulation of date and time values in SQL Server databases. If you have more specific queries or need further examples, feel free to ask! ✔️
