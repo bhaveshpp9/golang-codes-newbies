@@ -1,7 +1,133 @@
 \\ work with database(DB) — SQL — Field data types — MySQL — Boolean Types
 
 
-Type list
+In MySQL, there isn't a specific `BOOLEAN` data type. However, MySQL provides the `TINYINT(1)` type to simulate Boolean values, where `0` represents `FALSE` and `1` represents `TRUE`. This approach is widely used for handling Boolean data in MySQL databases.
 
-Type	Bytes	Values
-BOOLEAN (aliases of TINYINT(1))	1	0 (false) or 1 (true)
+### Creating a Table with Boolean Fields
+
+To create a table with Boolean fields in MySQL, you use the `TINYINT(1)` data type.
+
+#### Example
+
+```sql
+CREATE TABLE Users (
+    UserID INT PRIMARY KEY AUTO_INCREMENT,
+    UserName VARCHAR(50),
+    IsActive TINYINT(1)
+);
+```
+
+### Inserting Data into Boolean Fields
+
+You can insert Boolean values into the table using `0` and `1` to represent `FALSE` and `TRUE`, respectively.
+
+#### Example
+
+```sql
+INSERT INTO Users (UserName, IsActive)
+VALUES ('Alice', 1);  -- 1 for TRUE
+
+INSERT INTO Users (UserName, IsActive)
+VALUES ('Bob', 0);  -- 0 for FALSE
+```
+
+### Querying Data with Boolean Fields
+
+You can query data based on the `TINYINT(1)` field.
+
+#### Selecting Active Users
+
+```sql
+SELECT * FROM Users
+WHERE IsActive = 1;  -- TRUE
+```
+
+#### Selecting Inactive Users
+
+```sql
+SELECT * FROM Users
+WHERE IsActive = 0;  -- FALSE
+```
+
+### Updating Boolean Fields
+
+You can update the `TINYINT(1)` fields using the `UPDATE` statement.
+
+#### Example
+
+```sql
+UPDATE Users
+SET IsActive = 0
+WHERE UserName = 'Alice';  -- Set IsActive to FALSE
+
+UPDATE Users
+SET IsActive = 1
+WHERE UserName = 'Bob';  -- Set IsActive to TRUE
+```
+
+### Deleting Data Based on Boolean Fields
+
+You can delete records based on the `TINYINT(1)` field.
+
+#### Example
+
+```sql
+DELETE FROM Users
+WHERE IsActive = 0;  -- Delete Inactive Users
+```
+
+### Practical Examples and Use Cases
+
+#### Counting Active and Inactive Users
+
+You can count the number of active and inactive users using aggregate functions.
+
+```sql
+SELECT 
+    SUM(CASE WHEN IsActive = 1 THEN 1 ELSE 0 END) AS ActiveUsers,
+    SUM(CASE WHEN IsActive = 0 THEN 1 ELSE 0 END) AS InactiveUsers
+FROM Users;
+```
+
+#### Setting Default Values for Boolean Fields
+
+You can set default values for the `TINYINT(1)` fields during table creation.
+
+```sql
+CREATE TABLE Users (
+    UserID INT PRIMARY KEY AUTO_INCREMENT,
+    UserName VARCHAR(50),
+    IsActive TINYINT(1) DEFAULT 1  -- Default to TRUE
+);
+```
+
+### Handling NULL Values
+
+The `TINYINT(1)` field can be `NULL` if no value is provided. You can check for `NULL` values using the `IS NULL` or `IS NOT NULL` operators.
+
+#### Example: Inserting and Checking for NULL Values
+
+```sql
+INSERT INTO Users (UserName, IsActive)
+VALUES ('Charlie', NULL);  -- NULL value for IsActive
+
+SELECT * FROM Users
+WHERE IsActive IS NULL;  -- Select users where IsActive is NULL
+```
+
+### Using Boolean Fields in Complex Queries
+
+You can use Boolean fields in complex queries to perform advanced data analysis.
+
+#### Example: Finding Users Who Are Either Active or Have No Active Status
+
+```sql
+SELECT * FROM Users
+WHERE IsActive = 1 OR IsActive IS NULL;
+```
+
+### Summary
+
+In MySQL, Boolean types are managed using the `TINYINT(1)` data type. You can create tables with Boolean fields, insert and query data, update and delete records based on Boolean values, and perform various calculations and summaries using aggregate functions. These operations are essential for managing and analyzing Boolean logic in MySQL.
+
+These examples demonstrate how to effectively use Boolean types in MySQL. If you have more specific queries or need further examples, feel free to ask! ✔️
