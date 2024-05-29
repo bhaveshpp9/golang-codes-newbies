@@ -1,1 +1,101 @@
 \\ work with database(DB) — SQL — Data Manipulation Functions — Date and Time Manipulation — FireBird, Interbase
+
+
+Date and time manipulation is a common requirement in SQL for Firebird and InterBase databases. These operations include extracting date parts, adding or subtracting intervals, and formatting date and time values. Here’s a comprehensive guide on how to perform these operations in Firebird and InterBase.
+
+### Common Date and Time Manipulation Functions
+
+1. **CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP**: Retrieve the current date, time, or timestamp.
+2. **EXTRACT**: Extract parts of a date or time (year, month, day, hour, minute, second).
+3. **DATEADD**: Add a specified interval to a date.
+4. **DATEDIFF**: Calculate the difference between two dates.
+5. **CAST**: Convert between date/time types and string types for formatting.
+
+### Examples in Firebird and InterBase
+
+#### Retrieving Current Date and Time
+
+```sql
+SELECT CURRENT_DATE FROM RDB$DATABASE;        -- Retrieves the current date
+SELECT CURRENT_TIME FROM RDB$DATABASE;        -- Retrieves the current time
+SELECT CURRENT_TIMESTAMP FROM RDB$DATABASE;   -- Retrieves the current timestamp
+```
+
+#### Extracting Date and Time Parts
+
+```sql
+SELECT EXTRACT(YEAR FROM CURRENT_DATE) AS YearPart FROM RDB$DATABASE;       -- Extracts the year part
+SELECT EXTRACT(MONTH FROM CURRENT_DATE) AS MonthPart FROM RDB$DATABASE;     -- Extracts the month part
+SELECT EXTRACT(DAY FROM CURRENT_DATE) AS DayPart FROM RDB$DATABASE;         -- Extracts the day part
+SELECT EXTRACT(HOUR FROM CURRENT_TIME) AS HourPart FROM RDB$DATABASE;       -- Extracts the hour part
+SELECT EXTRACT(MINUTE FROM CURRENT_TIME) AS MinutePart FROM RDB$DATABASE;   -- Extracts the minute part
+SELECT EXTRACT(SECOND FROM CURRENT_TIME) AS SecondPart FROM RDB$DATABASE;   -- Extracts the second part
+```
+
+#### Adding Intervals to Dates
+
+```sql
+SELECT DATEADD(1 YEAR TO CURRENT_DATE) AS NextYear FROM RDB$DATABASE;       -- Adds 1 year to the current date
+SELECT DATEADD(1 MONTH TO CURRENT_DATE) AS NextMonth FROM RDB$DATABASE;     -- Adds 1 month to the current date
+SELECT DATEADD(1 DAY TO CURRENT_DATE) AS Tomorrow FROM RDB$DATABASE;        -- Adds 1 day to the current date
+SELECT DATEADD(1 HOUR TO CURRENT_TIMESTAMP) AS NextHour FROM RDB$DATABASE;  -- Adds 1 hour to the current timestamp
+SELECT DATEADD(1 MINUTE TO CURRENT_TIMESTAMP) AS NextMinute FROM RDB$DATABASE; -- Adds 1 minute to the current timestamp
+SELECT DATEADD(1 SECOND TO CURRENT_TIMESTAMP) AS NextSecond FROM RDB$DATABASE; -- Adds 1 second to the current timestamp
+```
+
+#### Calculating Differences Between Dates
+
+```sql
+SELECT DATEDIFF(YEAR FROM '2024-01-01' TO '2025-01-01') AS YearDiff FROM RDB$DATABASE;  -- Difference in years
+SELECT DATEDIFF(MONTH FROM '2024-01-01' TO '2024-03-01') AS MonthDiff FROM RDB$DATABASE; -- Difference in months
+SELECT DATEDIFF(DAY FROM '2024-01-01' TO '2024-01-15') AS DayDiff FROM RDB$DATABASE;    -- Difference in days
+SELECT DATEDIFF(HOUR FROM '2024-01-01 10:00:00' TO '2024-01-01 12:00:00') AS HourDiff FROM RDB$DATABASE; -- Difference in hours
+SELECT DATEDIFF(MINUTE FROM '2024-01-01 10:00:00' TO '2024-01-01 10:30:00') AS MinuteDiff FROM RDB$DATABASE; -- Difference in minutes
+SELECT DATEDIFF(SECOND FROM '2024-01-01 10:00:00' TO '2024-01-01 10:00:30') AS SecondDiff FROM RDB$DATABASE; -- Difference in seconds
+```
+
+#### Formatting Date and Time Values
+
+```sql
+SELECT CAST(CURRENT_TIMESTAMP AS VARCHAR(20)) AS DateString FROM RDB$DATABASE; -- Converts timestamp to string
+SELECT CAST('2024-01-01' AS DATE) AS DateValue FROM RDB$DATABASE;              -- Converts string to date
+SELECT CAST('10:00:00' AS TIME) AS TimeValue FROM RDB$DATABASE;                -- Converts string to time
+```
+
+### Detailed Explanation of Each Function
+
+1. **CURRENT_DATE, CURRENT_TIME, CURRENT_TIMESTAMP**
+   - **Usage**: These functions do not take any arguments.
+   - **Example**: `SELECT CURRENT_DATE FROM RDB$DATABASE;`
+
+2. **EXTRACT**
+   - **Usage**: `EXTRACT(part FROM date)`
+   - **Parts**: YEAR, MONTH, DAY, HOUR, MINUTE, SECOND
+   - **Example**: `SELECT EXTRACT(YEAR FROM CURRENT_DATE) FROM RDB$DATABASE;`
+
+3. **DATEADD**
+   - **Usage**: `DATEADD(interval TO date)`
+   - **Intervals**: YEAR, MONTH, DAY, HOUR, MINUTE, SECOND
+   - **Example**: `SELECT DATEADD(1 YEAR TO CURRENT_DATE) FROM RDB$DATABASE;`
+
+4. **DATEDIFF**
+   - **Usage**: `DATEDIFF(part FROM date1 TO date2)`
+   - **Parts**: YEAR, MONTH, DAY, HOUR, MINUTE, SECOND
+   - **Example**: `SELECT DATEDIFF(DAY FROM '2024-01-01' TO '2024-01-15') FROM RDB$DATABASE;`
+
+5. **CAST**
+   - **Usage**: `CAST(value AS type)`
+   - **Types**: DATE, TIME, TIMESTAMP, VARCHAR
+   - **Example**: `SELECT CAST(CURRENT_TIMESTAMP AS VARCHAR(20)) FROM RDB$DATABASE;`
+
+### Summary
+
+Date and time manipulation in Firebird and InterBase involves:
+
+1. **Retrieving Current Date and Time**: Use `CURRENT_DATE`, `CURRENT_TIME`, and `CURRENT_TIMESTAMP`.
+2. **Extracting Date and Time Parts**: Use the `EXTRACT` function to get parts like year, month, day, hour, minute, and second.
+3. **Adding Intervals to Dates**: Use the `DATEADD` function to add years, months, days, hours, minutes, or seconds to a date.
+4. **Calculating Differences Between Dates**: Use the `DATEDIFF` function to find the difference between two dates in terms of years, months, days, hours, minutes, or seconds.
+5. **Formatting Date and Time Values**: Use the `CAST` function to convert dates and times to strings and vice versa.
+
+These operations ensure flexible date and time management while maintaining data integrity in Firebird and InterBase databases. If you have more specific queries or need further examples, feel free to ask! ✔️
