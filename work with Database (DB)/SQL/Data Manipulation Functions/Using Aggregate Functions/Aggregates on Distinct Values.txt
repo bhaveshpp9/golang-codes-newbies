@@ -1,1 +1,182 @@
 \\ work with database(DB) — SQL — Data Manipulation Functions — Using Aggregate Functions — Aggregates on Distinct Values
+
+In SQL, aggregate functions can be used to perform calculations on a set of values, returning a single value. Using aggregate functions on distinct values allows you to perform these calculations while considering only unique values within a column. This can be useful in scenarios where you want to eliminate duplicate values from your aggregate calculations.
+
+### Common Aggregate Functions on Distinct Values
+
+The most common aggregate functions that can be used with the `DISTINCT` keyword include:
+- `COUNT()`
+- `SUM()`
+- `AVG()`
+- `MIN()`
+- `MAX()`
+
+Here’s how to use these functions with the `DISTINCT` keyword across various SQL databases.
+
+### Usage Examples
+
+#### MySQL
+
+In MySQL, you can use the `DISTINCT` keyword within aggregate functions like this:
+
+1. **Counting distinct values:**
+   ```sql
+   SELECT COUNT(DISTINCT column_name) AS DistinctCount
+   FROM table_name;
+   ```
+
+2. **Summing distinct values:**
+   ```sql
+   SELECT SUM(DISTINCT column_name) AS DistinctSum
+   FROM table_name;
+   ```
+
+3. **Averaging distinct values:**
+   ```sql
+   SELECT AVG(DISTINCT column_name) AS DistinctAverage
+   FROM table_name;
+   ```
+
+4. **Minimum of distinct values:**
+   ```sql
+   SELECT MIN(DISTINCT column_name) AS DistinctMinimum
+   FROM table_name;
+   ```
+
+5. **Maximum of distinct values:**
+   ```sql
+   SELECT MAX(DISTINCT column_name) AS DistinctMaximum
+   FROM table_name;
+   ```
+
+#### SQL Server
+
+In SQL Server, the syntax is the same as in MySQL:
+
+1. **Counting distinct values:**
+   ```sql
+   SELECT COUNT(DISTINCT column_name) AS DistinctCount
+   FROM table_name;
+   ```
+
+2. **Summing distinct values:**
+   ```sql
+   SELECT SUM(DISTINCT column_name) AS DistinctSum
+   FROM table_name;
+   ```
+
+3. **Averaging distinct values:**
+   ```sql
+   SELECT AVG(DISTINCT column_name) AS DistinctAverage
+   FROM table_name;
+   ```
+
+4. **Minimum of distinct values:**
+   ```sql
+   SELECT MIN(DISTINCT column_name) AS DistinctMinimum
+   FROM table_name;
+   ```
+
+5. **Maximum of distinct values:**
+   ```sql
+   SELECT MAX(DISTINCT column_name) AS DistinctMaximum
+   FROM table_name;
+   ```
+
+#### PostgreSQL
+
+PostgreSQL also uses similar syntax for aggregate functions with `DISTINCT`:
+
+1. **Counting distinct values:**
+   ```sql
+   SELECT COUNT(DISTINCT column_name) AS DistinctCount
+   FROM table_name;
+   ```
+
+2. **Summing distinct values:**
+   ```sql
+   SELECT SUM(DISTINCT column_name) AS DistinctSum
+   FROM table_name;
+   ```
+
+3. **Averaging distinct values:**
+   ```sql
+   SELECT AVG(DISTINCT column_name) AS DistinctAverage
+   FROM table_name;
+   ```
+
+4. **Minimum of distinct values:**
+   ```sql
+   SELECT MIN(DISTINCT column_name) AS DistinctMinimum
+   FROM table_name;
+   ```
+
+5. **Maximum of distinct values:**
+   ```sql
+   SELECT MAX(DISTINCT column_name) AS DistinctMaximum
+   FROM table_name;
+   ```
+
+#### SQLite
+
+In SQLite, you can use the same syntax to apply aggregate functions to distinct values:
+
+1. **Counting distinct values:**
+   ```sql
+   SELECT COUNT(DISTINCT column_name) AS DistinctCount
+   FROM table_name;
+   ```
+
+2. **Summing distinct values:**
+   ```sql
+   SELECT SUM(DISTINCT column_name) AS DistinctSum
+   FROM table_name;
+   ```
+
+3. **Averaging distinct values:**
+   ```sql
+   SELECT AVG(DISTINCT column_name) AS DistinctAverage
+   FROM table_name;
+   ```
+
+4. **Minimum of distinct values:**
+   ```sql
+   SELECT MIN(DISTINCT column_name) AS DistinctMinimum
+   FROM table_name;
+   ```
+
+5. **Maximum of distinct values:**
+   ```sql
+   SELECT MAX(DISTINCT column_name) AS DistinctMaximum
+   FROM table_name;
+   ```
+
+### Practical Example
+
+Assume you have a table named `Sales` with the following columns: `SaleID`, `CustomerID`, and `Amount`. You want to find the distinct count of customers, the sum of distinct sale amounts, and the average of distinct sale amounts.
+
+##### MySQL, SQL Server, PostgreSQL, SQLite
+
+1. **Counting distinct customers:**
+   ```sql
+   SELECT COUNT(DISTINCT CustomerID) AS DistinctCustomerCount
+   FROM Sales;
+   ```
+
+2. **Summing distinct sale amounts:**
+   ```sql
+   SELECT SUM(DISTINCT Amount) AS DistinctTotalSales
+   FROM Sales;
+   ```
+
+3. **Averaging distinct sale amounts:**
+   ```sql
+   SELECT AVG(DISTINCT Amount) AS DistinctAverageSales
+   FROM Sales;
+   ```
+
+### Summary
+
+Using the `DISTINCT` keyword with aggregate functions allows you to perform calculations on unique values in a column, ensuring that duplicates are excluded from the results. This functionality is supported across various SQL databases, and the syntax remains consistent, making it easy to apply these concepts regardless of the SQL dialect you are working with. 
+
+These examples demonstrate how to use the `DISTINCT` keyword with aggregate functions to handle unique data effectively. If you have more specific queries or need further examples, feel free to ask! ✔️
