@@ -1,2 +1,128 @@
 \\ work with database(DB) — SQL — Data Manipulation Functions — Text Manipulation — RIGHT() Function
 
+The `RIGHT()` function in SQL is used to extract a specified number of characters from the right side of a text string. This function is supported in many SQL databases, including MySQL, SQL Server, and PostgreSQL. However, the exact implementation can vary slightly between different SQL dialects. Here’s a detailed guide on how to use the `RIGHT()` function across various SQL databases.
+
+### Usage of `RIGHT()` Function
+
+The basic syntax of the `RIGHT()` function is:
+
+```sql
+RIGHT(text, number_of_characters)
+```
+
+- `text`: The text string from which to extract the characters.
+- `number_of_characters`: The number of characters to extract from the right side of the text string.
+
+### Examples in Different SQL Databases
+
+#### MySQL
+
+In MySQL, the `RIGHT()` function is straightforward to use:
+
+```sql
+SELECT RIGHT('Hello World', 5) AS RightPart;  -- Returns 'World'
+```
+
+#### SQL Server
+
+In SQL Server, the `RIGHT()` function works similarly to MySQL:
+
+```sql
+SELECT RIGHT('Hello World', 5) AS RightPart;  -- Returns 'World'
+```
+
+#### PostgreSQL
+
+In PostgreSQL, there is no direct `RIGHT()` function, but you can achieve the same result using the `SUBSTRING()` function:
+
+```sql
+SELECT RIGHT('Hello World', 5) AS RightPart;  -- Returns 'World'
+-- or using SUBSTRING()
+SELECT SUBSTRING('Hello World' FROM CHAR_LENGTH('Hello World') - 4 FOR 5) AS RightPart;  -- Returns 'World'
+```
+
+#### SQLite
+
+In SQLite, the `RIGHT()` function is not directly available, but you can use a combination of `SUBSTR()` and `LENGTH()` functions to achieve the same result:
+
+```sql
+SELECT SUBSTR('Hello World', -5) AS RightPart;  -- Returns 'World'
+```
+
+### Additional Examples and Use Cases
+
+#### Extracting Last N Characters from a Column
+
+Consider a table `Employees` with a column `FullName`. To extract the last 3 characters from the `FullName` column:
+
+##### MySQL
+
+```sql
+SELECT FullName, RIGHT(FullName, 3) AS LastThreeChars
+FROM Employees;
+```
+
+##### SQL Server
+
+```sql
+SELECT FullName, RIGHT(FullName, 3) AS LastThreeChars
+FROM Employees;
+```
+
+##### PostgreSQL
+
+```sql
+SELECT FullName, RIGHT(FullName, 3) AS LastThreeChars
+FROM Employees;
+-- or using SUBSTRING()
+SELECT FullName, SUBSTRING(FullName FROM CHAR_LENGTH(FullName) - 2 FOR 3) AS LastThreeChars
+FROM Employees;
+```
+
+##### SQLite
+
+```sql
+SELECT FullName, SUBSTR(FullName, -3) AS LastThreeChars
+FROM Employees;
+```
+
+#### Combining with Other Functions
+
+You can combine the `RIGHT()` function with other string functions to perform more complex text manipulations. For example, to extract the last 3 characters and convert them to uppercase:
+
+##### MySQL
+
+```sql
+SELECT FullName, UPPER(RIGHT(FullName, 3)) AS LastThreeUpper
+FROM Employees;
+```
+
+##### SQL Server
+
+```sql
+SELECT FullName, UPPER(RIGHT(FullName, 3)) AS LastThreeUpper
+FROM Employees;
+```
+
+##### PostgreSQL
+
+```sql
+SELECT FullName, UPPER(RIGHT(FullName, 3)) AS LastThreeUpper
+FROM Employees;
+-- or using SUBSTRING()
+SELECT FullName, UPPER(SUBSTRING(FullName FROM CHAR_LENGTH(FullName) - 2 FOR 3)) AS LastThreeUpper
+FROM Employees;
+```
+
+##### SQLite
+
+```sql
+SELECT FullName, UPPER(SUBSTR(FullName, -3)) AS LastThreeUpper
+FROM Employees;
+```
+
+### Summary
+
+The `RIGHT()` function is used to extract a specified number of characters from the right side of a string in SQL. This function is supported across various SQL databases, though SQLite and PostgreSQL require alternative functions like `SUBSTR()` and `SUBSTRING()` to achieve the same result. This function is useful for various text manipulation tasks, such as extracting suffixes, truncating strings from the right, and more.
+
+These examples demonstrate how to use the `RIGHT()` function across different SQL databases, ensuring you can perform text manipulation tasks effectively regardless of the SQL dialect you are working with. If you have more specific queries or need further examples, feel free to ask! ✔️
