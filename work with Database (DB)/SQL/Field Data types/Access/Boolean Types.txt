@@ -1,1 +1,165 @@
 \\ work with database(DB) — SQL — Field data types — Access — Boolean Types
+
+In Microsoft Access, Boolean data types are used to store True/False values. Access uses the `Yes/No` data type for Boolean fields. Here's a detailed guide on how to work with Boolean types in Microsoft Access.
+
+### Creating a Table with Boolean Field
+
+To create a table with a Boolean field in Microsoft Access, you can use the `CREATE TABLE` statement with the `YESNO` data type for Boolean fields.
+
+#### Using SQL
+
+```sql
+CREATE TABLE Employees (
+    EmployeeID AUTOINCREMENT PRIMARY KEY,
+    FirstName TEXT(50),
+    LastName TEXT(50),
+    IsActive YESNO
+);
+```
+
+#### Using Access GUI
+
+1. Open Microsoft Access.
+2. Create a new table in Design View.
+3. Define the fields, and set the data type for the Boolean field to `Yes/No`.
+   - Field Name: `IsActive`
+   - Data Type: `Yes/No`
+
+### Inserting Data into a Table with Boolean Field
+
+When inserting data into a table with a Boolean field, you can use `TRUE`/`FALSE`, `1`/`0`, or `YES`/`NO`.
+
+```sql
+INSERT INTO Employees (FirstName, LastName, IsActive)
+VALUES ('John', 'Doe', TRUE);
+
+INSERT INTO Employees (FirstName, LastName, IsActive)
+VALUES ('Jane', 'Smith', 1);
+
+INSERT INTO Employees (FirstName, LastName, IsActive)
+VALUES ('Jim', 'Brown', 'YES');
+```
+
+### Querying Data with Boolean Field
+
+You can query data based on the Boolean field using `TRUE`/`FALSE`, `1`/`0`, or `YES`/`NO`.
+
+#### Selecting Active Employees
+
+```sql
+SELECT * FROM Employees
+WHERE IsActive = TRUE;
+
+SELECT * FROM Employees
+WHERE IsActive = 1;
+
+SELECT * FROM Employees
+WHERE IsActive = 'YES';
+```
+
+#### Selecting Inactive Employees
+
+```sql
+SELECT * FROM Employees
+WHERE IsActive = FALSE;
+
+SELECT * FROM Employees
+WHERE IsActive = 0;
+
+SELECT * FROM Employees
+WHERE IsActive = 'NO';
+```
+
+### Updating Boolean Fields
+
+You can update Boolean fields to change their values.
+
+```sql
+UPDATE Employees
+SET IsActive = TRUE
+WHERE EmployeeID = 1;
+
+UPDATE Employees
+SET IsActive = 0
+WHERE EmployeeID = 2;
+
+UPDATE Employees
+SET IsActive = 'NO'
+WHERE EmployeeID = 3;
+```
+
+### Deleting Data Based on Boolean Field
+
+You can delete records based on the Boolean field.
+
+```sql
+DELETE FROM Employees
+WHERE IsActive = FALSE;
+
+DELETE FROM Employees
+WHERE IsActive = 0;
+
+DELETE FROM Employees
+WHERE IsActive = 'NO';
+```
+
+### Practical Example
+
+Here’s a complete example to illustrate creating a table, inserting data, querying, updating, and deleting data with Boolean fields in Microsoft Access.
+
+#### Creating the Table
+
+```sql
+CREATE TABLE Employees (
+    EmployeeID AUTOINCREMENT PRIMARY KEY,
+    FirstName TEXT(50),
+    LastName TEXT(50),
+    IsActive YESNO
+);
+```
+
+#### Inserting Data
+
+```sql
+INSERT INTO Employees (FirstName, LastName, IsActive)
+VALUES ('John', 'Doe', TRUE);
+
+INSERT INTO Employees (FirstName, LastName, IsActive)
+VALUES ('Jane', 'Smith', 1);
+
+INSERT INTO Employees (FirstName, LastName, IsActive)
+VALUES ('Jim', 'Brown', 'YES');
+
+INSERT INTO Employees (FirstName, LastName, IsActive)
+VALUES ('Sue', 'Jones', FALSE);
+
+INSERT INTO Employees (FirstName, LastName, IsActive)
+VALUES ('Tom', 'Clark', 0);
+
+INSERT INTO Employees (FirstName, LastName, IsActive)
+VALUES ('Ann', 'Taylor', 'NO');
+```
+
+#### Querying Data
+
+```sql
+SELECT * FROM Employees WHERE IsActive = TRUE;   -- Active employees
+SELECT * FROM Employees WHERE IsActive = FALSE;  -- Inactive employees
+```
+
+#### Updating Data
+
+```sql
+UPDATE Employees SET IsActive = TRUE WHERE LastName = 'Jones';
+UPDATE Employees SET IsActive = FALSE WHERE LastName = 'Doe';
+```
+
+#### Deleting Data
+
+```sql
+DELETE FROM Employees WHERE IsActive = FALSE;
+```
+
+### Summary
+
+Boolean fields in Microsoft Access are managed using the `YESNO` data type. You can create tables with Boolean fields, insert and update data using `TRUE`/`FALSE`, `1`/`0`, or `YES`/`NO`, and query data based on Boolean conditions. These operations are fundamental for managing data that includes Boolean logic in Microsoft Access. If you have more specific queries or need further examples, feel free to ask! ✔️
