@@ -1,13 +1,94 @@
 \\ work with database(DB) — SQL — Filtering Data — Using the LIKE operator — [] Wildcard
 
 
---Ms SQL, Access
-SELECT Code, Name
-FROM country
-WHERE Code LIKE 'B[GH]R'
+In SQL, the `LIKE` operator can be used with various wildcards to filter data based on patterns. One of these wildcards is the `[]` wildcard, which allows you to specify a set of characters to match. This wildcard is supported in SQL Server and Sybase but not in other SQL databases like MySQL, PostgreSQL, Oracle, or SQLite. 
 
-Code	Name
-BGR	Bulgaria
-BHR	Bahrain
+### Syntax
 
-The brackets ([]) wildcard is used to specify a set of characters, any one of which must match a character in the specified position (the location of the wildcard).
+The basic syntax for using the `LIKE` operator with the `[]` wildcard is:
+
+```sql
+SELECT column1, column2, ...
+FROM table_name
+WHERE column_name LIKE pattern;
+```
+
+The `[]` wildcard is used to match any single character within the brackets. You can specify a range of characters (e.g., `[a-z]`) or a specific set of characters (e.g., `[abc]`).
+
+### Examples in SQL Server
+
+#### Matching a Specific Set of Characters
+
+```sql
+-- Find all employees whose first names start with 'A', 'B', or 'C'
+SELECT * FROM Employees
+WHERE FirstName LIKE '[ABC]%';
+```
+
+#### Matching a Range of Characters
+
+```sql
+-- Find all employees whose first names start with any letter from 'A' to 'F'
+SELECT * FROM Employees
+WHERE FirstName LIKE '[A-F]%';
+```
+
+#### Combining Multiple Sets and Ranges
+
+```sql
+-- Find all products whose names start with 'X', 'Y', 'Z', or any letter from 'A' to 'C'
+SELECT * FROM Products
+WHERE ProductName LIKE '[XYZA-C]%';
+```
+
+#### Excluding Characters
+
+You can also use `[^]` to exclude characters within the brackets.
+
+```sql
+-- Find all employees whose first names do not start with 'A', 'B', or 'C'
+SELECT * FROM Employees
+WHERE FirstName LIKE '[^ABC]%';
+```
+
+### Practical Examples and Use Cases
+
+#### Finding Records with Specific Initials
+
+You can use the `[]` wildcard to find records where a column's value starts with specific initials.
+
+```sql
+-- Find all customers whose last names start with 'S', 'M', or 'B'
+SELECT * FROM Customers
+WHERE LastName LIKE '[SMB]%';
+```
+
+#### Finding Records with Character Ranges
+
+You can use the `[]` wildcard to find records where a column's value starts with a character in a specific range.
+
+```sql
+-- Find all products whose names start with a letter from 'P' to 'T'
+SELECT * FROM Products
+WHERE ProductName LIKE '[P-T]%';
+```
+
+#### Finding Records with Mixed Criteria
+
+You can combine different sets and ranges to create more complex patterns.
+
+```sql
+-- Find all employees whose first names start with 'D', 'E', 'F', or any digit
+SELECT * FROM Employees
+WHERE FirstName LIKE '[DEF0-9]%';
+```
+
+### Case Sensitivity
+
+The case sensitivity of the `LIKE` operator with the `[]` wildcard depends on the database's collation settings. In SQL Server, it is typically case-insensitive by default.
+
+### Summary
+
+The `LIKE` operator with the `[]` wildcard is a powerful tool for filtering data based on specific character sets and ranges. It allows for flexible pattern matching in text fields and is particularly useful in SQL Server and Sybase. 
+
+These examples demonstrate how to effectively use the `LIKE` operator with the `[]` wildcard in various scenarios. If you have more specific queries or need further examples, feel free to ask! ✔️
