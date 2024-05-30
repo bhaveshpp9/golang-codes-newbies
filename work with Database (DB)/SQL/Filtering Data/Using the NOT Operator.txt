@@ -1,20 +1,191 @@
 \\ work with database(DB) — SQL — Filtering Data — Using the NOT Operator
 
 
-SELECT Code, Name
-FROM country
-WHERE NOT Code in ('RUS', 'USA')
+The `NOT` operator in SQL is used to negate a condition in a `WHERE` clause, effectively filtering out data that meets certain criteria. It can be combined with various other operators, such as `IN`, `LIKE`, `BETWEEN`, `IS NULL`, and basic comparison operators, to create precise and flexible filtering conditions. Here’s a detailed guide on how to use the `NOT` operator across different SQL databases with practical examples.
 
-Code	Name
-ABW	Aruba
-AFG	Afghanistan
-AGO	Angola
-AIA	Anguilla
-ALB	Albania
-AND	Andorra
-ANT	Netherlands Antilles
-ARE	United Arab Emirates
-ARG	Argentina
-...
+### Basic Syntax
 
-Select all countries, except for Russia and the USA. NOT keyword used in a WHERE clause to negate a condition.
+```sql
+SELECT column1, column2, ...
+FROM table_name
+WHERE NOT condition;
+```
+
+### Examples in Different Databases
+
+#### MySQL
+
+```sql
+-- Find all customers who are not from 'New York'
+SELECT * FROM Customers
+WHERE NOT City = 'New York';
+
+-- Find all products that do not have a price greater than 100
+SELECT * FROM Products
+WHERE NOT Price > 100;
+```
+
+#### PostgreSQL
+
+```sql
+-- Find all employees who are not in the 'HR' department
+SELECT * FROM Employees
+WHERE NOT Department = 'HR';
+
+-- Find all orders that are not shipped
+SELECT * FROM Orders
+WHERE NOT Status = 'Shipped';
+```
+
+#### Oracle
+
+```sql
+-- Find all students who do not have a grade 'A'
+SELECT * FROM Students
+WHERE NOT Grade = 'A';
+
+-- Find all books that are not published by 'Penguin'
+SELECT * FROM Books
+WHERE NOT Publisher = 'Penguin';
+```
+
+#### SQLite
+
+```sql
+-- Find all movies that are not rated 'PG'
+SELECT * FROM Movies
+WHERE NOT Rating = 'PG';
+
+-- Find all articles that are not written by 'John Doe'
+SELECT * FROM Articles
+WHERE NOT Author = 'John Doe';
+```
+
+#### SQL Server
+
+```sql
+-- Find all projects that are not completed
+SELECT * FROM Projects
+WHERE NOT Status = 'Completed';
+
+-- Find all employees who do not work in the 'IT' department
+SELECT * FROM Employees
+WHERE NOT Department = 'IT';
+```
+
+### Practical Examples and Use Cases
+
+#### Using NOT with Comparison Operators
+
+You can use `NOT` with basic comparison operators to negate their conditions.
+
+```sql
+-- Find all products that do not have a price of 50
+SELECT * FROM Products
+WHERE NOT Price = 50;
+
+-- Find all orders that do not have a total amount less than 1000
+SELECT * FROM Orders
+WHERE NOT TotalAmount < 1000;
+```
+
+#### Using NOT IN
+
+The `NOT IN` operator is used to exclude records that match any value in a list.
+
+```sql
+-- Find all customers who are not from 'New York', 'Los Angeles', or 'Chicago'
+SELECT * FROM Customers
+WHERE City NOT IN ('New York', 'Los Angeles', 'Chicago');
+
+-- Find all products that do not have category IDs 1, 2, or 3
+SELECT * FROM Products
+WHERE CategoryID NOT IN (1, 2, 3);
+```
+
+#### Using NOT LIKE
+
+The `NOT LIKE` operator is used to exclude records that match a specified pattern.
+
+```sql
+-- Find all customers whose names do not start with 'Jo'
+SELECT * FROM Customers
+WHERE CustomerName NOT LIKE 'Jo%';
+
+-- Find all products that do not contain 'phone'
+SELECT * FROM Products
+WHERE ProductName NOT LIKE '%phone%';
+```
+
+#### Using NOT BETWEEN
+
+The `NOT BETWEEN` operator is used to exclude records that fall within a specified range.
+
+```sql
+-- Find all products that are not priced between 10 and 50
+SELECT * FROM Products
+WHERE Price NOT BETWEEN 10 AND 50;
+
+-- Find all orders that were not placed between '2023-01-01' and '2023-12-31'
+SELECT * FROM Orders
+WHERE OrderDate NOT BETWEEN '2023-01-01' AND '2023-12-31';
+```
+
+#### Using NOT IS NULL
+
+The `NOT IS NULL` operator is used to exclude records that have `NULL` values.
+
+```sql
+-- Find all customers who have an email address
+SELECT * FROM Customers
+WHERE Email IS NOT NULL;
+
+-- Find all products that have a description
+SELECT * FROM Products
+WHERE Description IS NOT NULL;
+```
+
+### Combining NOT with Other Conditions
+
+You can combine `NOT` with other logical operators like `AND` and `OR` to create more complex queries.
+
+```sql
+-- Find all employees who are not in the 'HR' department and do not have a salary greater than 60000
+SELECT * FROM Employees
+WHERE NOT Department = 'HR' AND NOT Salary > 60000;
+
+-- Find all products that are not in the 'Electronics' category and do not have a price greater than 500
+SELECT * FROM Products
+WHERE NOT Category = 'Electronics' AND NOT Price > 500;
+```
+
+### Using Subqueries with NOT
+
+You can use subqueries with `NOT` to exclude records based on another query.
+
+```sql
+-- Find all customers who have not placed any orders
+SELECT * FROM Customers
+WHERE CustomerID NOT IN (
+    SELECT CustomerID
+    FROM Orders
+);
+
+-- Find all products that are not in any orders with total amounts greater than 1000
+SELECT * FROM Products
+WHERE ProductID NOT IN (
+    SELECT ProductID
+    FROM OrderDetails
+    WHERE OrderID IN (
+        SELECT OrderID
+        FROM Orders
+        WHERE TotalAmount > 1000
+    )
+);
+```
+
+### Summary
+
+The `NOT` operator in SQL is a powerful tool for excluding records that meet specific criteria. It can be combined with various other operators to create precise and flexible filtering conditions. Using `NOT`, `NOT IN`, `NOT LIKE`, `NOT BETWEEN`, and `IS NOT NULL`, you can effectively filter data to exclude unwanted records.
+
+These examples demonstrate how to effectively use the `NOT` operator in various scenarios. If you have more specific queries or need further examples, feel free to ask! ✔️
