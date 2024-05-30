@@ -1,1 +1,124 @@
 \\ work with database(DB) — SQL — Grouping data —Grouping by Column Number
+
+
+Grouping data by column number in SQL involves using the column's positional index instead of its name in the `GROUP BY` clause. This approach can simplify queries, especially when dealing with long column names or complex calculations. Here’s how to use column numbers in the `GROUP BY` clause across different SQL databases with practical examples.
+
+### Basic Syntax
+
+```sql
+SELECT column1, column2, aggregate_function(column3)
+FROM table_name
+GROUP BY 1, 2;  -- Here, 1 and 2 represent the first and second columns in the SELECT list
+```
+
+### Examples in Different Databases
+
+#### MySQL
+
+```sql
+-- Find the total sales for each product and region, grouping by column numbers
+SELECT ProductID, RegionID, SUM(Sales) AS TotalSales
+FROM Sales
+GROUP BY 1, 2;
+```
+
+#### PostgreSQL
+
+```sql
+-- Find the average salary for each department and job title, grouping by column numbers
+SELECT Department, JobTitle, AVG(Salary) AS AvgSalary
+FROM Employees
+GROUP BY 1, 2;
+```
+
+#### Oracle
+
+```sql
+-- Find the count of students in each grade and class, grouping by column numbers
+SELECT Grade, Class, COUNT(*) AS StudentCount
+FROM Students
+GROUP BY 1, 2;
+```
+
+#### SQLite
+
+```sql
+-- Find the total revenue for each year and quarter, grouping by column numbers
+SELECT Year, Quarter, SUM(Revenue) AS TotalRevenue
+FROM Financials
+GROUP BY 1, 2;
+```
+
+#### SQL Server
+
+```sql
+-- Find the maximum budget for each project type and manager, grouping by column numbers
+SELECT ProjectType, ManagerID, MAX(Budget) AS MaxBudget
+FROM Projects
+GROUP BY 1, 2;
+```
+
+### Practical Examples and Use Cases
+
+#### Grouping by Multiple Columns Using Column Numbers
+
+```sql
+-- Find the total sales for each product category and region, grouping by column numbers
+SELECT CategoryID, RegionID, SUM(Sales) AS TotalSales
+FROM Sales
+GROUP BY 1, 2;
+```
+
+#### Combining WHERE, GROUP BY, and HAVING with Column Numbers
+
+```sql
+-- Find the total sales for each product in the last year, filter by sales greater than 2000, and group by column numbers
+SELECT ProductID, SUM(Sales) AS TotalSales
+FROM Sales
+WHERE SaleDate >= '2023-01-01'
+GROUP BY 1
+HAVING SUM(Sales) > 2000;
+```
+
+### Using Aggregate Functions with Grouping by Column Numbers
+
+```sql
+-- Find the average order amount for each customer and group by column numbers
+SELECT CustomerID, AVG(OrderAmount) AS AvgOrderAmount
+FROM Orders
+GROUP BY 1;
+```
+
+### Using Column Numbers with ORDER BY
+
+You can also use column numbers in the `ORDER BY` clause for sorting the grouped data.
+
+```sql
+-- Find the total sales for each product and region, group by column numbers, and sort by total sales
+SELECT ProductID, RegionID, SUM(Sales) AS TotalSales
+FROM Sales
+GROUP BY 1, 2
+ORDER BY 3 DESC;
+```
+
+### Using Column Numbers with Subqueries
+
+You can use column numbers in subqueries for more complex queries.
+
+```sql
+-- Find the total sales for each product and sort by the number of regions in which the product is sold, grouping by column numbers
+SELECT ProductID, SUM(Sales) AS TotalSales
+FROM Sales
+GROUP BY 1
+ORDER BY (
+    SELECT COUNT(DISTINCT RegionID)
+    FROM Sales s2
+    WHERE s2.ProductID = Sales.ProductID
+) DESC;
+```
+
+### Summary
+
+Grouping data by column number in SQL provides a concise way to reference columns in the `GROUP BY` clause, especially useful when dealing with complex queries. This method is supported across various SQL databases, including MySQL, PostgreSQL, Oracle, SQLite, and SQL Server. Using column numbers can simplify your SQL queries and make them more readable.
+
+These examples demonstrate how to effectively group data by column numbers in various scenarios. If you have more specific queries or need further examples, feel free to ask! ✔️
