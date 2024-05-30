@@ -1,12 +1,165 @@
 \\ work with database(DB) — SQL — Filtering Data — Using the In Operator
 
 
-SELECT Code, Name
-FROM country
-WHERE Code IN ('RUS', 'USA')
+The `IN` operator in SQL is used to filter data by specifying multiple values in a `WHERE` clause. This operator simplifies queries that require checking if a column's value matches any value in a list of specified values. It is supported across all major SQL databases, including MySQL, PostgreSQL, Oracle, SQLite, and SQL Server.
 
-Code	Name
-RUS	Russian Federation
-USA	United States
+### Basic Syntax
 
-The SELECT statement retrieves countryes with code 'RUS' and 'USA'. The IN operator is followed by a comma-delimited list of valid values, and the entire list must be enclosed within parentheses. IN operators almost always execute more quickly than lists of OR operators.
+```sql
+SELECT column1, column2, ...
+FROM table_name
+WHERE column_name IN (value1, value2, ...);
+```
+
+### Examples in Different Databases
+
+#### MySQL
+
+```sql
+-- Find all customers from 'New York', 'Los Angeles', or 'Chicago'
+SELECT * FROM Customers
+WHERE City IN ('New York', 'Los Angeles', 'Chicago');
+
+-- Find all products with category IDs 1, 2, or 3
+SELECT * FROM Products
+WHERE CategoryID IN (1, 2, 3);
+```
+
+#### PostgreSQL
+
+```sql
+-- Find all employees in the 'HR', 'IT', or 'Sales' departments
+SELECT * FROM Employees
+WHERE Department IN ('HR', 'IT', 'Sales');
+
+-- Find all orders with statuses 'Pending', 'Processing', or 'Shipped'
+SELECT * FROM Orders
+WHERE Status IN ('Pending', 'Processing', 'Shipped');
+```
+
+#### Oracle
+
+```sql
+-- Find all students in grades 'A', 'B', or 'C'
+SELECT * FROM Students
+WHERE Grade IN ('A', 'B', 'C');
+
+-- Find all books published by 'Penguin', 'HarperCollins', or 'Random House'
+SELECT * FROM Books
+WHERE Publisher IN ('Penguin', 'HarperCollins', 'Random House');
+```
+
+#### SQLite
+
+```sql
+-- Find all movies released in the years 2000, 2005, or 2010
+SELECT * FROM Movies
+WHERE ReleaseYear IN (2000, 2005, 2010);
+
+-- Find all reviews with ratings 1, 2, or 3
+SELECT * FROM Reviews
+WHERE Rating IN (1, 2, 3);
+```
+
+#### SQL Server
+
+```sql
+-- Find all projects with statuses 'Completed', 'In Progress', or 'Not Started'
+SELECT * FROM Projects
+WHERE Status IN ('Completed', 'In Progress', 'Not Started');
+
+-- Find all employees who have job titles 'Manager', 'Developer', or 'Analyst'
+SELECT * FROM Employees
+WHERE JobTitle IN ('Manager', 'Developer', 'Analyst');
+```
+
+### Practical Examples and Use Cases
+
+#### Filtering with Specific Values
+
+```sql
+-- Find all customers who live in 'New York', 'Los Angeles', or 'Chicago'
+SELECT * FROM Customers
+WHERE City IN ('New York', 'Los Angeles', 'Chicago');
+```
+
+#### Using IN with Numeric Values
+
+```sql
+-- Find all products with category IDs 1, 2, or 3
+SELECT * FROM Products
+WHERE CategoryID IN (1, 2, 3);
+```
+
+#### Combining IN with Other Conditions
+
+You can combine the `IN` operator with other conditions using `AND` and `OR`.
+
+```sql
+-- Find all employees in the 'IT' department with salaries greater than 60000
+SELECT * FROM Employees
+WHERE Department = 'IT' AND Salary > 60000;
+
+-- Find all orders from customers in cities 'New York', 'Los Angeles', or 'Chicago' with total amounts greater than 1000
+SELECT * FROM Orders
+WHERE City IN ('New York', 'Los Angeles', 'Chicago') AND TotalAmount > 1000;
+```
+
+### Using NOT IN
+
+The `NOT IN` operator is used to exclude records that match any value in a list.
+
+#### Example
+
+```sql
+-- Find all customers who do not live in 'New York', 'Los Angeles', or 'Chicago'
+SELECT * FROM Customers
+WHERE City NOT IN ('New York', 'Los Angeles', 'Chicago');
+
+-- Find all products that do not have category IDs 1, 2, or 3
+SELECT * FROM Products
+WHERE CategoryID NOT IN (1, 2, 3);
+```
+
+### Using IN with Subqueries
+
+The `IN` operator can be used with subqueries to filter data based on the results of another query.
+
+#### Example
+
+```sql
+-- Find all customers who have placed an order
+SELECT * FROM Customers
+WHERE CustomerID IN (
+    SELECT CustomerID
+    FROM Orders
+);
+
+-- Find all products that are in orders with total amounts greater than 1000
+SELECT * FROM Products
+WHERE ProductID IN (
+    SELECT ProductID
+    FROM OrderDetails
+    WHERE OrderID IN (
+        SELECT OrderID
+        FROM Orders
+        WHERE TotalAmount > 1000
+    )
+);
+```
+
+### Case Sensitivity
+
+The case sensitivity of the `IN` operator depends on the database and its collation settings:
+
+- **MySQL**: Case-insensitive by default for `VARCHAR` and `CHAR` types.
+- **PostgreSQL**: Case-sensitive by default. Use `ILIKE` for case-insensitive matches.
+- **Oracle**: Case-sensitive by default.
+- **SQLite**: Case-insensitive by default for ASCII characters.
+- **SQL Server**: Case-insensitive by default based on collation settings.
+
+### Summary
+
+The `IN` operator in SQL is a powerful tool for filtering data based on multiple values. It simplifies queries that require checking if a column's value matches any value in a list. Using `IN`, `NOT IN`, and combining them with other conditions or subqueries allows for precise and flexible data filtering.
+
+These examples demonstrate how to effectively use the `IN` operator in various scenarios. If you have more specific queries or need further examples, feel free to ask! ✔️
