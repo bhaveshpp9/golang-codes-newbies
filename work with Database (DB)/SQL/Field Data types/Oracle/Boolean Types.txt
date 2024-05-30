@@ -1,1 +1,165 @@
 \\ work with database(DB) — SQL — Field data types — Oracle — Boolean Types
+
+
+In Oracle Database, there is no direct `BOOLEAN` data type available in the SQL schema for table columns. However, you can simulate Boolean behavior using other data types. Typically, `CHAR(1)`, `NUMBER(1)`, or even `VARCHAR2` with values such as 'Y'/'N', 'T'/'F', or 1/0 are used to represent Boolean values.
+
+### Using CHAR(1) to Simulate Boolean Type
+
+#### Creating a Table with CHAR(1) for Boolean Fields
+
+```sql
+CREATE TABLE Employees (
+    EmployeeID NUMBER PRIMARY KEY,
+    FirstName VARCHAR2(50),
+    LastName VARCHAR2(50),
+    IsActive CHAR(1) -- 'Y' for True, 'N' for False
+);
+```
+
+#### Inserting Data into the CHAR(1) Field
+
+```sql
+INSERT INTO Employees (EmployeeID, FirstName, LastName, IsActive)
+VALUES (1, 'John', 'Doe', 'Y');  -- 'Y' for TRUE
+
+INSERT INTO Employees (EmployeeID, FirstName, LastName, IsActive)
+VALUES (2, 'Jane', 'Smith', 'N');  -- 'N' for FALSE
+```
+
+#### Querying Data with CHAR(1) Field
+
+```sql
+SELECT * FROM Employees
+WHERE IsActive = 'Y';  -- TRUE
+
+SELECT * FROM Employees
+WHERE IsActive = 'N';  -- FALSE
+```
+
+#### Updating CHAR(1) Field
+
+```sql
+UPDATE Employees
+SET IsActive = 'N'
+WHERE EmployeeID = 1;  -- Set IsActive to FALSE
+
+UPDATE Employees
+SET IsActive = 'Y'
+WHERE EmployeeID = 2;  -- Set IsActive to TRUE
+```
+
+#### Deleting Data Based on CHAR(1) Field
+
+```sql
+DELETE FROM Employees
+WHERE IsActive = 'N';  -- Delete Inactive Employees
+```
+
+### Using NUMBER(1) to Simulate Boolean Type
+
+#### Creating a Table with NUMBER(1) for Boolean Fields
+
+```sql
+CREATE TABLE Employees (
+    EmployeeID NUMBER PRIMARY KEY,
+    FirstName VARCHAR2(50),
+    LastName VARCHAR2(50),
+    IsActive NUMBER(1) -- 1 for True, 0 for False
+);
+```
+
+#### Inserting Data into the NUMBER(1) Field
+
+```sql
+INSERT INTO Employees (EmployeeID, FirstName, LastName, IsActive)
+VALUES (1, 'John', 'Doe', 1);  -- 1 for TRUE
+
+INSERT INTO Employees (EmployeeID, FirstName, LastName, IsActive)
+VALUES (2, 'Jane', 'Smith', 0);  -- 0 for FALSE
+```
+
+#### Querying Data with NUMBER(1) Field
+
+```sql
+SELECT * FROM Employees
+WHERE IsActive = 1;  -- TRUE
+
+SELECT * FROM Employees
+WHERE IsActive = 0;  -- FALSE
+```
+
+#### Updating NUMBER(1) Field
+
+```sql
+UPDATE Employees
+SET IsActive = 0
+WHERE EmployeeID = 1;  -- Set IsActive to FALSE
+
+UPDATE Employees
+SET IsActive = 1
+WHERE EmployeeID = 2;  -- Set IsActive to TRUE
+```
+
+#### Deleting Data Based on NUMBER(1) Field
+
+```sql
+DELETE FROM Employees
+WHERE IsActive = 0;  -- Delete Inactive Employees
+```
+
+### Practical Examples and Use Cases
+
+#### Counting Active and Inactive Employees
+
+You can count the number of active and inactive employees using aggregate functions.
+
+```sql
+SELECT 
+    SUM(CASE WHEN IsActive = 1 THEN 1 ELSE 0 END) AS ActiveEmployees,
+    SUM(CASE WHEN IsActive = 0 THEN 1 ELSE 0 END) AS InactiveEmployees
+FROM Employees;
+```
+
+#### Setting Default Values for Boolean Fields
+
+You can set default values for the simulated Boolean fields during table creation.
+
+```sql
+CREATE TABLE Employees (
+    EmployeeID NUMBER PRIMARY KEY,
+    FirstName VARCHAR2(50),
+    LastName VARCHAR2(50),
+    IsActive NUMBER(1) DEFAULT 1  -- Default to TRUE
+);
+```
+
+### Handling NULL Values
+
+Boolean fields can be `NULL` if no value is provided. You can check for `NULL` values using the `IS NULL` or `IS NOT NULL` operators.
+
+#### Inserting and Checking for NULL Values
+
+```sql
+INSERT INTO Employees (EmployeeID, FirstName, LastName, IsActive)
+VALUES (3, 'Emily', 'Johnson', NULL);  -- NULL value for IsActive
+
+SELECT * FROM Employees
+WHERE IsActive IS NULL;  -- Select employees where IsActive is NULL
+```
+
+### Using Boolean Fields in Complex Queries
+
+You can use Boolean fields in complex queries to perform advanced data analysis.
+
+#### Example: Finding Employees Who Are Either Active or Have No Active Status
+
+```sql
+SELECT * FROM Employees
+WHERE IsActive = 1 OR IsActive IS NULL;
+```
+
+### Summary
+
+In Oracle Database, Boolean types can be simulated using `CHAR(1)` or `NUMBER(1)`. You can create tables with simulated Boolean fields, insert and query data, update and delete records based on Boolean values, and perform various calculations and summaries using aggregate functions. These operations are essential for managing and analyzing Boolean logic in Oracle.
+
+These examples demonstrate how to effectively use simulated Boolean types in Oracle. If you have more specific queries or need further examples, feel free to ask! ✔️
