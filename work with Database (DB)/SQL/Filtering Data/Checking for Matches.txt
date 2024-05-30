@@ -1,20 +1,164 @@
 \\ work with database(DB) — SQL — Filtering Data — Checking for Matches
 
 
-SELECT Name, Population
-FROM country
-WHERE Continent = 'Asia'
+In SQL, filtering data by checking for matches involves using various comparison operators, pattern matching, and specific SQL functions to compare values and determine if they meet certain criteria. Below are detailed explanations and examples of different methods for checking for matches in SQL across different database systems.
 
-Name	Population
-Afghanistan	22,720,000
-United Arab Emirates	2,441,000
-Armenia	3,520,000
-Azerbaijan	7,734,000
-Bangladesh	129,155,000
-Bahrain	617,000
-Brunei	328,000
-Bhutan	2,124,000
-China	1,277,558,000
-...
+### Comparison Operators
 
-This statement retrieves two columns from the country table, but instead of returning all rows, only rows with a Continent value of 'Asia' are returned.
+Comparison operators are used to compare two values. Common comparison operators include `=`, `!=`, `<>`, `>`, `<`, `>=`, and `<=`.
+
+#### Example
+
+```sql
+-- Find all customers whose age is equal to 30
+SELECT * FROM Customers
+WHERE Age = 30;
+
+-- Find all products whose price is not equal to 100
+SELECT * FROM Products
+WHERE Price <> 100;
+
+-- Find all employees whose salary is greater than 50000
+SELECT * FROM Employees
+WHERE Salary > 50000;
+```
+
+### Pattern Matching with LIKE and Wildcards
+
+The `LIKE` operator is used to search for a specified pattern in a column. Wildcards such as `%` (matches zero or more characters) and `_` (matches exactly one character) are used with `LIKE`.
+
+#### Example
+
+```sql
+-- Find all customers whose names start with 'Jo'
+SELECT * FROM Customers
+WHERE CustomerName LIKE 'Jo%';
+
+-- Find all products that contain 'phone'
+SELECT * FROM Products
+WHERE ProductName LIKE '%phone%';
+
+-- Find all employees whose last names end with 'son'
+SELECT * FROM Employees
+WHERE LastName LIKE '%son';
+
+-- Find all products whose names start with 'A' followed by any single character and then 'd'
+SELECT * FROM Products
+WHERE ProductName LIKE 'A_d';
+```
+
+### IN Operator
+
+The `IN` operator allows you to specify multiple values in a `WHERE` clause.
+
+#### Example
+
+```sql
+-- Find all customers who are in the cities 'New York', 'Los Angeles', or 'Chicago'
+SELECT * FROM Customers
+WHERE City IN ('New York', 'Los Angeles', 'Chicago');
+
+-- Find all products that belong to categories 1, 2, or 3
+SELECT * FROM Products
+WHERE CategoryID IN (1, 2, 3);
+```
+
+### BETWEEN Operator
+
+The `BETWEEN` operator selects values within a given range. The values can be numbers, text, or dates.
+
+#### Example
+
+```sql
+-- Find all employees whose salaries are between 40000 and 60000
+SELECT * FROM Employees
+WHERE Salary BETWEEN 40000 AND 60000;
+
+-- Find all orders placed between '2024-01-01' and '2024-12-31'
+SELECT * FROM Orders
+WHERE OrderDate BETWEEN '2024-01-01' AND '2024-12-31';
+```
+
+### EXISTS Operator
+
+The `EXISTS` operator is used to test for the existence of any record in a subquery.
+
+#### Example
+
+```sql
+-- Find all customers who have placed an order
+SELECT * FROM Customers
+WHERE EXISTS (
+    SELECT 1
+    FROM Orders
+    WHERE Orders.CustomerID = Customers.CustomerID
+);
+```
+
+### Combining Conditions with AND and OR
+
+You can combine multiple conditions using the `AND` and `OR` operators to create complex filtering criteria.
+
+#### Example
+
+```sql
+-- Find all employees who are in the 'Sales' department and have a salary greater than 50000
+SELECT * FROM Employees
+WHERE Department = 'Sales' AND Salary > 50000;
+
+-- Find all products that are either in category 'Electronics' or have a price less than 100
+SELECT * FROM Products
+WHERE Category = 'Electronics' OR Price < 100;
+```
+
+### Practical Examples
+
+#### Checking for Exact Matches
+
+```sql
+-- Find all orders placed by customer with CustomerID 123
+SELECT * FROM Orders
+WHERE CustomerID = 123;
+```
+
+#### Checking for Partial Matches
+
+```sql
+-- Find all employees whose email addresses contain 'example'
+SELECT * FROM Employees
+WHERE Email LIKE '%example%';
+```
+
+#### Checking for a List of Matches
+
+```sql
+-- Find all customers who live in either 'New York' or 'Los Angeles'
+SELECT * FROM Customers
+WHERE City IN ('New York', 'Los Angeles');
+```
+
+#### Checking for a Range of Matches
+
+```sql
+-- Find all products with prices between 50 and 150
+SELECT * FROM Products
+WHERE Price BETWEEN 50 AND 150;
+```
+
+#### Using Subqueries to Check for Matches
+
+```sql
+-- Find all customers who have placed an order with a total amount greater than 1000
+SELECT * FROM Customers
+WHERE CustomerID IN (
+    SELECT CustomerID
+    FROM Orders
+    WHERE TotalAmount > 1000
+);
+```
+
+### Summary
+
+Filtering data by checking for matches is a fundamental part of SQL queries. You can use comparison operators, pattern matching with `LIKE` and wildcards, the `IN` operator, the `BETWEEN` operator, the `EXISTS` operator, and combine conditions with `AND` and `OR` to create complex and precise filtering criteria.
+
+These examples demonstrate various ways to effectively filter data in SQL. If you have more specific queries or need further examples, feel free to ask! ✔️
