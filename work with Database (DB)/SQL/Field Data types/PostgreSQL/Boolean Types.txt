@@ -1,1 +1,135 @@
 \\ work with database(DB) — SQL — Field data types — PostgreSQL —  Boolean Types
+
+
+In PostgreSQL, the `BOOLEAN` data type is used to store Boolean values. This type can store one of three states: `TRUE`, `FALSE`, or `NULL`. PostgreSQL also supports various shorthand notations for representing Boolean values.
+
+### Creating a Table with Boolean Fields
+
+To create a table with Boolean fields in PostgreSQL, you can use the `BOOLEAN` data type.
+
+#### Example
+
+```sql
+CREATE TABLE Employees (
+    EmployeeID SERIAL PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    IsActive BOOLEAN
+);
+```
+
+### Inserting Data into Boolean Fields
+
+You can insert Boolean values into the table using `TRUE` and `FALSE`.
+
+#### Example
+
+```sql
+INSERT INTO Employees (FirstName, LastName, IsActive)
+VALUES ('John', 'Doe', TRUE);
+
+INSERT INTO Employees (FirstName, LastName, IsActive)
+VALUES ('Jane', 'Smith', FALSE);
+```
+
+### Querying Data with Boolean Fields
+
+You can query data based on the Boolean field using `TRUE` and `FALSE`.
+
+#### Selecting Active Employees
+
+```sql
+SELECT * FROM Employees
+WHERE IsActive = TRUE;
+```
+
+#### Selecting Inactive Employees
+
+```sql
+SELECT * FROM Employees
+WHERE IsActive = FALSE;
+```
+
+### Updating Boolean Fields
+
+You can update Boolean fields using the `UPDATE` statement.
+
+#### Example
+
+```sql
+UPDATE Employees
+SET IsActive = FALSE
+WHERE EmployeeID = 1;  -- Set IsActive to FALSE
+
+UPDATE Employees
+SET IsActive = TRUE
+WHERE EmployeeID = 2;  -- Set IsActive to TRUE
+```
+
+### Deleting Data Based on Boolean Fields
+
+You can delete records based on the Boolean field.
+
+#### Example
+
+```sql
+DELETE FROM Employees
+WHERE IsActive = FALSE;  -- Delete Inactive Employees
+```
+
+### Practical Examples and Use Cases
+
+#### Counting Active and Inactive Employees
+
+You can count the number of active and inactive employees using aggregate functions.
+
+```sql
+SELECT 
+    COUNT(*) FILTER (WHERE IsActive = TRUE) AS ActiveEmployees,
+    COUNT(*) FILTER (WHERE IsActive = FALSE) AS InactiveEmployees
+FROM Employees;
+```
+
+#### Setting Default Values for Boolean Fields
+
+You can set default values for the Boolean fields during table creation.
+
+```sql
+CREATE TABLE Employees (
+    EmployeeID SERIAL PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    IsActive BOOLEAN DEFAULT TRUE  -- Default to TRUE
+);
+```
+
+### Handling NULL Values
+
+Boolean fields can be `NULL` if no value is provided. You can check for `NULL` values using the `IS NULL` or `IS NOT NULL` operators.
+
+#### Example: Inserting and Checking for NULL Values
+
+```sql
+INSERT INTO Employees (FirstName, LastName, IsActive)
+VALUES ('Emily', 'Johnson', NULL);  -- NULL value for IsActive
+
+SELECT * FROM Employees
+WHERE IsActive IS NULL;  -- Select employees where IsActive is NULL
+```
+
+### Using Boolean Fields in Complex Queries
+
+You can use Boolean fields in complex queries to perform advanced data analysis.
+
+#### Example: Finding Employees Who Are Either Active or Have No Active Status
+
+```sql
+SELECT * FROM Employees
+WHERE IsActive = TRUE OR IsActive IS NULL;
+```
+
+### Summary
+
+In PostgreSQL, Boolean types are managed using the `BOOLEAN` data type. You can create tables with Boolean fields, insert and query data, update and delete records based on Boolean values, and perform various calculations and summaries using aggregate functions. These operations are essential for managing and analyzing Boolean logic in PostgreSQL.
+
+These examples demonstrate how to effectively use Boolean types in PostgreSQL. If you have more specific queries or need further examples, feel free to ask! ✔️
