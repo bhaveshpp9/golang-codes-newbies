@@ -1,20 +1,178 @@
 \\ work with database(DB) — SQL — Filtering Data — Checking for Non matches
 
 
-SELECT Name, Population
-FROM country
-WHERE Continent <> 'Europe'
+In SQL, filtering data to check for non-matches involves using comparison operators and logical conditions to exclude specific values or patterns. This can be done using the `<>`, `!=`, `NOT LIKE`, `NOT IN`, and `IS NOT NULL` operators. Here's a detailed guide on how to filter data for non-matches across different SQL databases.
 
-Name	Population
-Aruba	103,000
-Afghanistan	22,720,000
-Angola	12,878,000
-Anguilla	8,000
-Netherlands Antilles	217,000
-United Arab Emirates	2,441,000
-Argentina	37,032,000
-Armenia	3,520,000
-American Samoa	68,000
-...
+### Syntax
 
-All countries that are not in Europe are selected.
+The basic syntax for checking for non-matches includes:
+
+- `<>` or `!=` for inequality.
+- `NOT LIKE` for pattern mismatch.
+- `NOT IN` for excluding a set of values.
+- `IS NOT NULL` for checking non-null values.
+
+### Examples in Different Databases
+
+#### MySQL
+
+```sql
+-- Find all customers whose city is not 'New York'
+SELECT * FROM Customers
+WHERE City <> 'New York';
+
+-- Find all products whose names do not contain 'phone'
+SELECT * FROM Products
+WHERE ProductName NOT LIKE '%phone%';
+
+-- Find all employees who are not in departments 1, 2, or 3
+SELECT * FROM Employees
+WHERE DepartmentID NOT IN (1, 2, 3);
+
+-- Find all orders that have a shipping date
+SELECT * FROM Orders
+WHERE ShippingDate IS NOT NULL;
+```
+
+#### PostgreSQL
+
+```sql
+-- Find all students whose grade is not 'A'
+SELECT * FROM Students
+WHERE Grade != 'A';
+
+-- Find all books whose titles do not start with 'The'
+SELECT * FROM Books
+WHERE Title NOT LIKE 'The%';
+
+-- Find all orders that are not from customers with IDs 1, 2, or 3
+SELECT * FROM Orders
+WHERE CustomerID NOT IN (1, 2, 3);
+
+-- Find all employees who have a manager assigned
+SELECT * FROM Employees
+WHERE ManagerID IS NOT NULL;
+```
+
+#### Oracle
+
+```sql
+-- Find all products whose price is not 100
+SELECT * FROM Products
+WHERE Price <> 100;
+
+-- Find all customers whose last names do not end with 'son'
+SELECT * FROM Customers
+WHERE LastName NOT LIKE '%son';
+
+-- Find all employees who are not in roles 1, 2, or 3
+SELECT * FROM Employees
+WHERE RoleID NOT IN (1, 2, 3);
+
+-- Find all articles that have an author assigned
+SELECT * FROM Articles
+WHERE Author IS NOT NULL;
+```
+
+#### SQLite
+
+```sql
+-- Find all movies whose rating is not 'PG'
+SELECT * FROM Movies
+WHERE Rating != 'PG';
+
+-- Find all orders where the order code does not start with 'A'
+SELECT * FROM Orders
+WHERE OrderCode NOT LIKE 'A%';
+
+-- Find all employees who are not in positions 1, 2, or 3
+SELECT * FROM Employees
+WHERE PositionID NOT IN (1, 2, 3);
+
+-- Find all reviews that have a comment
+SELECT * FROM Reviews
+WHERE Comment IS NOT NULL;
+```
+
+#### SQL Server
+
+```sql
+-- Find all projects whose status is not 'Completed'
+SELECT * FROM Projects
+WHERE Status <> 'Completed';
+
+-- Find all employees whose first names do not start with 'A'
+SELECT * FROM Employees
+WHERE FirstName NOT LIKE 'A%';
+
+-- Find all customers who are not from cities 'New York', 'Los Angeles', or 'Chicago'
+SELECT * FROM Customers
+WHERE City NOT IN ('New York', 'Los Angeles', 'Chicago');
+
+-- Find all tasks that have a due date
+SELECT * FROM Tasks
+WHERE DueDate IS NOT NULL;
+```
+
+### Practical Examples and Use Cases
+
+#### Excluding Specific Values
+
+```sql
+-- Find all customers who are not from 'New York'
+SELECT * FROM Customers
+WHERE City <> 'New York';
+```
+
+#### Excluding Based on Patterns
+
+```sql
+-- Find all products that do not contain 'phone'
+SELECT * FROM Products
+WHERE ProductName NOT LIKE '%phone%';
+```
+
+#### Excluding Multiple Values
+
+```sql
+-- Find all employees who are not in departments 1, 2, or 3
+SELECT * FROM Employees
+WHERE DepartmentID NOT IN (1, 2, 3);
+```
+
+#### Checking for Non-Null Values
+
+```sql
+-- Find all orders that have a shipping date
+SELECT * FROM Orders
+WHERE ShippingDate IS NOT NULL;
+```
+
+### Combining Conditions
+
+You can combine `AND`, `OR`, and `NOT` operators to create complex conditions.
+
+```sql
+-- Find all customers who are not from 'New York' and do not have a NULL email
+SELECT * FROM Customers
+WHERE City <> 'New York' AND Email IS NOT NULL;
+```
+
+### Using Subqueries to Exclude Matches
+
+You can use subqueries to exclude values based on another query.
+
+```sql
+-- Find all customers who have not placed any orders
+SELECT * FROM Customers
+WHERE CustomerID NOT IN (
+    SELECT CustomerID
+    FROM Orders
+);
+```
+
+### Summary
+
+Filtering data to check for non-matches involves using comparison operators, pattern matching with `NOT LIKE`, and set exclusion with `NOT IN`. These methods allow you to exclude specific values or patterns and handle non-null checks effectively. The examples provided demonstrate how to use these techniques across different SQL databases, including MySQL, PostgreSQL, Oracle, SQLite, and SQL Server.
+
+These examples illustrate how to effectively filter data for non-matches in various scenarios. If you have more specific queries or need further examples, feel free to ask! ✔️
