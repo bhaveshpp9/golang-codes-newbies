@@ -1,14 +1,162 @@
 \\ work with database(DB) — SQL — Filtering Data — Using the LIKE operator — % Wildcard
 
 
-SELECT Code, Name
-FROM country
-WHERE Name LIKE '%State%'
+The `LIKE` operator is used in SQL to search for a specified pattern in a column. It is commonly used with the `%` wildcard to match zero or more characters. This allows for flexible filtering of data based on partial matches. Here’s a detailed guide on how to use the `LIKE` operator with the `%` wildcard across different databases.
 
-Code	Name
-FSM	Micronesia, Federated States of
-UMI	United States Minor Outlying Islands
-USA	United States
-VAT	Holy See (Vatican City State)
+### Syntax
 
-Within a search string, % means, match any number of occurrences of any character. The % tells the DBMS to accept any characters before and after the word State, regardless of how many characters there are.
+The basic syntax for using the `LIKE` operator with the `%` wildcard is:
+
+```sql
+SELECT column1, column2, ...
+FROM table_name
+WHERE column_name LIKE pattern;
+```
+
+### Examples in Different Databases
+
+#### MySQL
+
+```sql
+-- Find all customers whose names start with 'Jo'
+SELECT * FROM Customers
+WHERE CustomerName LIKE 'Jo%';
+
+-- Find all products that contain 'phone'
+SELECT * FROM Products
+WHERE ProductName LIKE '%phone%';
+
+-- Find all employees whose last names end with 'son'
+SELECT * FROM Employees
+WHERE LastName LIKE '%son';
+```
+
+#### PostgreSQL
+
+```sql
+-- Find all customers whose names start with 'Jo'
+SELECT * FROM Customers
+WHERE CustomerName LIKE 'Jo%';
+
+-- Find all products that contain 'phone'
+SELECT * FROM Products
+WHERE ProductName LIKE '%phone%';
+
+-- Find all employees whose last names end with 'son'
+SELECT * FROM Employees
+WHERE LastName LIKE '%son';
+```
+
+#### Oracle
+
+```sql
+-- Find all customers whose names start with 'Jo'
+SELECT * FROM Customers
+WHERE CustomerName LIKE 'Jo%';
+
+-- Find all products that contain 'phone'
+SELECT * FROM Products
+WHERE ProductName LIKE '%phone%';
+
+-- Find all employees whose last names end with 'son'
+SELECT * FROM Employees
+WHERE LastName LIKE '%son';
+```
+
+#### SQLite
+
+```sql
+-- Find all customers whose names start with 'Jo'
+SELECT * FROM Customers
+WHERE CustomerName LIKE 'Jo%';
+
+-- Find all products that contain 'phone'
+SELECT * FROM Products
+WHERE ProductName LIKE '%phone%';
+
+-- Find all employees whose last names end with 'son'
+SELECT * FROM Employees
+WHERE LastName LIKE '%son';
+```
+
+#### SQL Server
+
+```sql
+-- Find all customers whose names start with 'Jo'
+SELECT * FROM Customers
+WHERE CustomerName LIKE 'Jo%';
+
+-- Find all products that contain 'phone'
+SELECT * FROM Products
+WHERE ProductName LIKE '%phone%';
+
+-- Find all employees whose last names end with 'son'
+SELECT * FROM Employees
+WHERE LastName LIKE '%son';
+```
+
+### Practical Examples and Use Cases
+
+#### Finding Records with Specific Prefix
+
+You can use the `LIKE` operator to find records where a column's value starts with a specific prefix.
+
+```sql
+-- Find all employees whose first names start with 'A'
+SELECT * FROM Employees
+WHERE FirstName LIKE 'A%';
+```
+
+#### Finding Records with Specific Suffix
+
+You can use the `LIKE` operator to find records where a column's value ends with a specific suffix.
+
+```sql
+-- Find all products whose names end with 'Pro'
+SELECT * FROM Products
+WHERE ProductName LIKE '%Pro';
+```
+
+#### Finding Records Containing a Substring
+
+You can use the `LIKE` operator to find records where a column's value contains a specific substring.
+
+```sql
+-- Find all customers whose email addresses contain 'example'
+SELECT * FROM Customers
+WHERE Email LIKE '%example%';
+```
+
+#### Finding Records with Multiple Patterns
+
+You can combine multiple `LIKE` conditions with `OR` to search for multiple patterns.
+
+```sql
+-- Find all employees whose first names start with 'A' or 'B'
+SELECT * FROM Employees
+WHERE FirstName LIKE 'A%' OR FirstName LIKE 'B%';
+```
+
+### Case Sensitivity
+
+The case sensitivity of the `LIKE` operator depends on the database and its configuration:
+
+- **MySQL**: Case-insensitive by default for `LIKE` operations on non-binary string types.
+- **PostgreSQL**: Case-sensitive by default. Use `ILIKE` for case-insensitive matches.
+- **Oracle**: Case-sensitive by default.
+- **SQLite**: Case-insensitive by default for ASCII characters.
+- **SQL Server**: Case-insensitive by default based on the default collation.
+
+#### Example for Case-Insensitive Search in PostgreSQL
+
+```sql
+-- Find all customers whose names start with 'jo', case-insensitive
+SELECT * FROM Customers
+WHERE CustomerName ILIKE 'jo%';
+```
+
+### Summary
+
+The `LIKE` operator combined with the `%` wildcard is a powerful tool for filtering data based on patterns. It is supported across different SQL databases, including MySQL, PostgreSQL, Oracle, SQLite, and SQL Server. Using `%` allows you to match zero or more characters, providing flexibility in searching for partial matches in text fields.
+
+These examples demonstrate how to effectively use the `LIKE` operator with the `%` wildcard in various scenarios. If you have more specific queries or need further examples, feel free to ask! ✔️
