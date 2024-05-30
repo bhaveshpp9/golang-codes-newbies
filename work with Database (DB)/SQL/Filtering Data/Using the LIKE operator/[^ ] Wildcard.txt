@@ -1,10 +1,84 @@
 \\ work with database(DB) — SQL — Filtering Data — Using the LIKE operator — [^ ] Wildcard
 
 
---Ms SQL, Access
-SELECT Code, Name
-FROM country
-WHERE Code LIKE 'B[^GH]R'
+The `[^ ]` wildcard is used with the `LIKE` operator in SQL Server to exclude certain characters from the pattern match. It matches any single character that is not within the brackets. This is a powerful feature for filtering data based on patterns that exclude specific characters.
 
-Code	Name
-BLR	Belarus
+### Syntax
+
+The basic syntax for using the `LIKE` operator with the `[^ ]` wildcard is:
+
+```sql
+SELECT column1, column2, ...
+FROM table_name
+WHERE column_name LIKE pattern;
+```
+
+The `[^ ]` wildcard is used to match any single character that is not within the brackets.
+
+### Examples in SQL Server
+
+#### Excluding Specific Characters
+
+```sql
+-- Find all employees whose first names do not start with 'A', 'B', or 'C'
+SELECT * FROM Employees
+WHERE FirstName LIKE '[^ABC]%';
+```
+
+#### Excluding a Range of Characters
+
+```sql
+-- Find all employees whose first names do not start with any letter from 'A' to 'F'
+SELECT * FROM Employees
+WHERE FirstName LIKE '[^A-F]%';
+```
+
+#### Combining Multiple Sets and Ranges
+
+```sql
+-- Find all products whose names do not start with 'X', 'Y', 'Z', or any letter from 'A' to 'C'
+SELECT * FROM Products
+WHERE ProductName LIKE '[^XYZA-C]%';
+```
+
+### Practical Examples and Use Cases
+
+#### Finding Records with Excluded Initials
+
+You can use the `[^ ]` wildcard to find records where a column's value does not start with specific initials.
+
+```sql
+-- Find all customers whose last names do not start with 'S', 'M', or 'B'
+SELECT * FROM Customers
+WHERE LastName LIKE '[^SMB]%';
+```
+
+#### Finding Records with Excluded Character Ranges
+
+You can use the `[^ ]` wildcard to find records where a column's value does not start with a character in a specific range.
+
+```sql
+-- Find all products whose names do not start with a letter from 'P' to 'T'
+SELECT * FROM Products
+WHERE ProductName LIKE '[^P-T]%';
+```
+
+#### Finding Records with Mixed Criteria
+
+You can combine different sets and ranges to create more complex exclusion patterns.
+
+```sql
+-- Find all employees whose first names do not start with 'D', 'E', 'F', or any digit
+SELECT * FROM Employees
+WHERE FirstName LIKE '[^DEF0-9]%';
+```
+
+### Case Sensitivity
+
+The case sensitivity of the `LIKE` operator with the `[^ ]` wildcard depends on the database's collation settings. In SQL Server, it is typically case-insensitive by default, but this can be changed with collation settings.
+
+### Summary
+
+The `LIKE` operator with the `[^ ]` wildcard is a powerful tool for filtering data based on exclusion patterns. It allows for flexible pattern matching in text fields by excluding specific characters or ranges of characters. This functionality is particularly useful in SQL Server.
+
+These examples demonstrate how to effectively use the `LIKE` operator with the `[^ ]` wildcard in various scenarios. If you have more specific queries or need further examples, feel free to ask! ✔️
