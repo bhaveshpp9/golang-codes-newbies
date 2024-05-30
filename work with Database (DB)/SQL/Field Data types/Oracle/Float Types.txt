@@ -1,1 +1,181 @@
 \\ work with database(DB) — SQL — Field data types — Oracle — Float Types
+
+
+In Oracle Database, float types are used to store approximate numeric values with floating decimal points. Oracle provides several data types for handling floating-point numbers, each suitable for different levels of precision and storage requirements. Here’s a detailed guide on how to work with float types in Oracle.
+
+### Float Data Types
+
+1. **BINARY_FLOAT**: A single-precision floating-point number.
+2. **BINARY_DOUBLE**: A double-precision floating-point number.
+3. **FLOAT**: An ANSI-compliant floating-point number. It is a synonym for `NUMBER`.
+
+### Creating a Table with Float Fields
+
+To create a table with float fields in Oracle, you can use the `BINARY_FLOAT`, `BINARY_DOUBLE`, and `FLOAT` data types.
+
+#### Example
+
+```sql
+CREATE TABLE Measurements (
+    MeasurementID NUMBER PRIMARY KEY,
+    SensorName VARCHAR2(50),
+    Temperature BINARY_FLOAT,    -- Single-precision floating-point
+    Humidity BINARY_DOUBLE,      -- Double-precision floating-point
+    Pressure FLOAT(10)           -- ANSI-compliant floating-point with a precision of 10
+);
+```
+
+### Inserting Data into Float Fields
+
+You can insert floating-point data into the table using appropriate SQL syntax.
+
+#### Example
+
+```sql
+INSERT INTO Measurements (MeasurementID, SensorName, Temperature, Humidity, Pressure)
+VALUES (1, 'Sensor1', 23.5, 45.7, 1012.35);
+
+INSERT INTO Measurements (MeasurementID, SensorName, Temperature, Humidity, Pressure)
+VALUES (2, 'Sensor2', 24.3, 50.1, 1010.25);
+```
+
+### Querying Data with Float Fields
+
+You can query float fields using various functions and operators.
+
+#### Selecting Records Based on Float Values
+
+```sql
+SELECT * FROM Measurements
+WHERE Temperature > 24.0;
+```
+
+#### Calculating Averages
+
+You can calculate the average value of a float field using the `AVG()` function.
+
+```sql
+SELECT AVG(Temperature) AS AvgTemperature,
+       AVG(Humidity) AS AvgHumidity,
+       AVG(Pressure) AS AvgPressure
+FROM Measurements;
+```
+
+### Updating Float Fields
+
+You can update float fields using the `UPDATE` statement.
+
+#### Example
+
+```sql
+UPDATE Measurements
+SET Temperature = 25.0,
+    Humidity = 55.0,
+    Pressure = 1015.00
+WHERE SensorName = 'Sensor1';
+```
+
+### Deleting Data Based on Float Fields
+
+You can delete records based on float conditions.
+
+#### Example
+
+```sql
+DELETE FROM Measurements
+WHERE Humidity < 50.0;
+```
+
+### Practical Examples and Use Cases
+
+#### Calculating Maximum and Minimum Values
+
+You can find the maximum and minimum values of float fields using the `MAX()` and `MIN()` functions.
+
+##### Example: Finding Maximum and Minimum Temperature and Humidity
+
+```sql
+SELECT MAX(Temperature) AS MaxTemperature,
+       MIN(Temperature) AS MinTemperature,
+       MAX(Humidity) AS MaxHumidity,
+       MIN(Humidity) AS MinHumidity
+FROM Measurements;
+```
+
+#### Grouping Data and Calculating Summaries
+
+You can group data by a field and calculate summaries like average, sum, maximum, and minimum values.
+
+##### Example: Grouping by Sensor and Calculating Averages
+
+```sql
+SELECT SensorName, 
+       AVG(Temperature) AS AvgTemperature,
+       AVG(Humidity) AS AvgHumidity,
+       AVG(Pressure) AS AvgPressure
+FROM Measurements
+GROUP BY SensorName;
+```
+
+### Handling Precision and Rounding
+
+Floating-point numbers can have precision issues. You can use functions like `ROUND()` to manage precision and rounding.
+
+##### Example: Rounding Float Values
+
+```sql
+SELECT SensorName, 
+       ROUND(Temperature, 2) AS RoundedTemperature,
+       ROUND(Humidity, 1) AS RoundedHumidity
+FROM Measurements;
+```
+
+### Using Float Fields in Calculations
+
+You can use float fields in mathematical calculations to perform complex queries.
+
+##### Example: Calculating Heat Index
+
+The heat index can be calculated using temperature and humidity values.
+
+```sql
+SELECT SensorName, 
+       Temperature, 
+       Humidity, 
+       0.5 * (Temperature + 61.0 + ((Temperature-68.0)*1.2) + (Humidity*0.094)) AS HeatIndex
+FROM Measurements;
+```
+
+### Handling NULL Values
+
+Float fields can be `NULL` if no value is provided. You can check for `NULL` values using the `IS NULL` or `IS NOT NULL` operators.
+
+##### Example: Inserting and Checking for NULL Values
+
+```sql
+INSERT INTO Measurements (MeasurementID, SensorName, Temperature, Humidity, Pressure)
+VALUES (3, 'Sensor3', NULL, 55.2, 1015.10);
+
+SELECT * FROM Measurements
+WHERE Temperature IS NULL;
+```
+
+### Using Float Fields in Complex Queries
+
+You can use float fields in complex queries to perform advanced data analysis.
+
+##### Example: Calculating the Difference Between Two Float Fields
+
+```sql
+SELECT SensorName, 
+       Temperature, 
+       Humidity, 
+       (Humidity - Temperature) AS HumidityTemperatureDifference
+FROM Measurements;
+```
+
+### Summary
+
+In Oracle Database, float types are managed using the `BINARY_FLOAT`, `BINARY_DOUBLE`, and `FLOAT` data types. You can create tables with float fields, insert and query data, update and delete records based on float values, and perform various calculations and summaries using aggregate functions. These operations are essential for managing and analyzing numeric data with decimal precision in Oracle.
+
+These examples demonstrate how to effectively use float types in Oracle. If you have more specific queries or need further examples, feel free to ask! ✔️
