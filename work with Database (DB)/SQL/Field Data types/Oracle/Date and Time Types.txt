@@ -1,1 +1,198 @@
 \\ work with database(DB) — SQL — Field data types — Oracle — Date and Time Types
+
+
+In Oracle Database, there are several data types available for storing date and time information. Each data type serves different needs, providing various levels of precision and storage requirements. Here’s a detailed guide on how to work with date and time types in Oracle.
+
+### Date and Time Data Types
+
+1. **DATE**: Stores date and time values to the second. Format: `YYYY-MM-DD HH24:MI:SS`. It includes century, year, month, day, hour, minute, and second.
+2. **TIMESTAMP**: An extension of `DATE` that includes fractional seconds. Format: `YYYY-MM-DD HH24:MI:SS.FF`.
+3. **TIMESTAMP WITH TIME ZONE**: A `TIMESTAMP` that includes a time zone offset. Format: `YYYY-MM-DD HH24:MI:SS.FF TZH:TZM`.
+4. **TIMESTAMP WITH LOCAL TIME ZONE**: Similar to `TIMESTAMP WITH TIME ZONE`, but the time zone is normalized to the session time zone.
+5. **INTERVAL YEAR TO MONTH**: Stores a period of time in years and months. Format: `INTERVAL 'n' YEAR TO MONTH`.
+6. **INTERVAL DAY TO SECOND**: Stores a period of time in days, hours, minutes, and seconds. Format: `INTERVAL 'n' DAY TO SECOND`.
+
+### Creating a Table with Date and Time Fields
+
+To create a table with various date and time fields in Oracle, you can use the appropriate data types.
+
+#### Example
+
+```sql
+CREATE TABLE Events (
+    EventID NUMBER PRIMARY KEY,
+    EventName VARCHAR2(100),
+    EventDate DATE,
+    EventTimestamp TIMESTAMP,
+    EventTimestampWithTZ TIMESTAMP WITH TIME ZONE,
+    EventTimestampWithLTZ TIMESTAMP WITH LOCAL TIME ZONE
+);
+```
+
+### Inserting Data into Date and Time Fields
+
+You can insert date and time data into the table using appropriate SQL syntax.
+
+#### Example
+
+```sql
+INSERT INTO Events (EventID, EventName, EventDate, EventTimestamp, EventTimestampWithTZ, EventTimestampWithLTZ)
+VALUES (1, 'Conference', TO_DATE('2024-06-15 09:00:00', 'YYYY-MM-DD HH24:MI:SS'), 
+        TO_TIMESTAMP('2024-06-15 09:00:00.123', 'YYYY-MM-DD HH24:MI:SS.FF'), 
+        TO_TIMESTAMP_TZ('2024-06-15 09:00:00.123 -07:00', 'YYYY-MM-DD HH24:MI:SS.FF TZH:TZM'), 
+        TO_TIMESTAMP('2024-06-15 09:00:00.123', 'YYYY-MM-DD HH24:MI:SS.FF'));
+
+INSERT INTO Events (EventID, EventName, EventDate, EventTimestamp, EventTimestampWithTZ, EventTimestampWithLTZ)
+VALUES (2, 'Meeting', TO_DATE('2024-07-01 14:30:00', 'YYYY-MM-DD HH24:MI:SS'), 
+        TO_TIMESTAMP('2024-07-01 14:30:00.456', 'YYYY-MM-DD HH24:MI:SS.FF'), 
+        TO_TIMESTAMP_TZ('2024-07-01 14:30:00.456 +02:00', 'YYYY-MM-DD HH24:MI:SS.FF TZH:TZM'), 
+        TO_TIMESTAMP('2024-07-01 14:30:00.456', 'YYYY-MM-DD HH24:MI:SS.FF'));
+```
+
+### Querying Data with Date and Time Fields
+
+You can query date and time fields using various functions and operators.
+
+#### Selecting Records Based on Date
+
+```sql
+SELECT * FROM Events
+WHERE EventDate = TO_DATE('2024-06-15', 'YYYY-MM-DD');
+```
+
+#### Selecting Records in a Date Range
+
+```sql
+SELECT * FROM Events
+WHERE EventDate BETWEEN TO_DATE('2024-06-01', 'YYYY-MM-DD') AND TO_DATE('2024-06-30', 'YYYY-MM-DD');
+```
+
+#### Selecting Records Based on Time
+
+```sql
+SELECT * FROM Events
+WHERE TO_CHAR(EventDate, 'HH24:MI:SS') = '09:00:00';
+```
+
+#### Selecting Records Based on DateTime
+
+```sql
+SELECT * FROM Events
+WHERE EventTimestamp >= TO_TIMESTAMP('2024-06-15 00:00:00.000', 'YYYY-MM-DD HH24:MI:SS.FF')
+  AND EventTimestamp < TO_TIMESTAMP('2024-06-16 00:00:00.000', 'YYYY-MM-DD HH24:MI:SS.FF');
+```
+
+### Updating Date and Time Fields
+
+You can update date and time fields using the `UPDATE` statement.
+
+#### Example
+
+```sql
+UPDATE Events
+SET EventDate = TO_DATE('2024-08-01 10:00:00', 'YYYY-MM-DD HH24:MI:SS'),
+    EventTimestamp = TO_TIMESTAMP('2024-08-01 10:00:00.789', 'YYYY-MM-DD HH24:MI:SS.FF'),
+    EventTimestampWithTZ = TO_TIMESTAMP_TZ('2024-08-01 10:00:00.789 -07:00', 'YYYY-MM-DD HH24:MI:SS.FF TZH:TZM'),
+    EventTimestampWithLTZ = TO_TIMESTAMP('2024-08-01 10:00:00.789', 'YYYY-MM-DD HH24:MI:SS.FF')
+WHERE EventID = 1;
+```
+
+### Deleting Data Based on Date and Time Fields
+
+You can delete records based on date and time conditions.
+
+#### Example
+
+```sql
+DELETE FROM Events
+WHERE EventDate < TO_DATE('2024-07-01', 'YYYY-MM-DD');
+```
+
+### Practical Examples and Use Cases
+
+#### Extracting Parts of Date and Time
+
+You can extract specific parts of date and time using functions like `EXTRACT`, `TO_CHAR`, and others.
+
+##### Extracting Year and Month
+
+```sql
+SELECT EventID, 
+       EXTRACT(YEAR FROM EventDate) AS EventYear,
+       EXTRACT(MONTH FROM EventDate) AS EventMonth
+FROM Events;
+```
+
+##### Extracting Hour and Minute
+
+```sql
+SELECT EventID, 
+       EXTRACT(HOUR FROM EventTimestamp) AS EventHour,
+       EXTRACT(MINUTE FROM EventTimestamp) AS EventMinute
+FROM Events;
+```
+
+#### Formatting Date and Time
+
+You can format date and time fields using the `TO_CHAR` function.
+
+##### Formatting as 'YYYY-MM-DD'
+
+```sql
+SELECT EventID, 
+       TO_CHAR(EventDate, 'YYYY-MM-DD') AS FormattedDate
+FROM Events;
+```
+
+#### Adding/Subtracting Time Intervals
+
+You can add or subtract time intervals using functions like `ADD_MONTHS`, `NUMTODSINTERVAL`, `NUMTOYMINTERVAL`, etc.
+
+##### Adding 1 Month to Event Date
+
+```sql
+UPDATE Events
+SET EventDate = ADD_MONTHS(EventDate, 1)
+WHERE EventID = 1;
+```
+
+##### Subtracting 1 Hour from Event Time
+
+```sql
+UPDATE Events
+SET EventTimestamp = EventTimestamp - NUMTODSINTERVAL(1, 'HOUR')
+WHERE EventID = 1;
+```
+
+### Handling NULL Values
+
+Date and time fields can be `NULL` if no value is provided. You can check for `NULL` values using the `IS NULL` or `IS NOT NULL` operators.
+
+#### Example: Inserting and Checking for NULL Values
+
+```sql
+INSERT INTO Events (EventID, EventName, EventDate, EventTimestamp, EventTimestampWithTZ, EventTimestampWithLTZ)
+VALUES (3, 'Webinar', NULL, NULL, NULL, NULL);
+
+SELECT * FROM Events
+WHERE EventDate IS NULL;
+```
+
+### Using Date and Time Fields in Calculations
+
+You can use date and time fields in calculations to perform complex queries.
+
+##### Example: Calculating Duration Between Two DateTimes
+
+```sql
+SELECT EventID, 
+       EventName, 
+       (EventTimestamp - EventDate) * 24 * 60 AS DurationInMinutes
+FROM Events;
+```
+
+### Summary
+
+In Oracle Database, date and time fields are managed using the `DATE`, `TIMESTAMP`, `TIMESTAMP WITH TIME ZONE`, and `TIMESTAMP WITH LOCAL TIME ZONE` data types. You can create tables with date and time fields, insert and query data, update and delete records based on date and time, and perform various date and time calculations and formatting. These operations are essential for managing and analyzing date and time data in Oracle.
+
+These examples demonstrate how to effectively use date and time fields in Oracle. If you have more specific queries or need further examples, feel free to ask! ✔️
