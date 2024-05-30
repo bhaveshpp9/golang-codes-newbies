@@ -1,8 +1,150 @@
 \\ work with database(DB) — SQL — Field data types — SQLite — Integer Types
 
 
-INT, TINYINT, MALLINT, MEDIUMINT, BIGINT, UNSIGNED BIG INT, INT2, INT8 are synonymous with INTEGER.
-Type list:
+In SQLite, integer types are used to store whole numbers. SQLite provides a few different integer types, all of which are ultimately stored as 64-bit signed integers. Here’s a detailed guide on how to work with integer types in SQLite.
 
-Type	Bytes	Min Value	Max Value
-INTEGER	1, 2, 3, 4, 6, or 8	-2^63	2^63-1
+### Integer Data Types
+
+1. **INTEGER**: The primary integer type, which can store any whole number from -2^63 to 2^63-1.
+2. **INT**: Alias for `INTEGER`.
+3. **TINYINT**: Alias for `INTEGER`.
+4. **SMALLINT**: Alias for `INTEGER`.
+5. **MEDIUMINT**: Alias for `INTEGER`.
+6. **BIGINT**: Alias for `INTEGER`.
+
+### Creating a Table with Integer Fields
+
+To create a table with integer fields in SQLite, you can use any of the integer type aliases, but they all map to the `INTEGER` type.
+
+#### Example
+
+```sql
+CREATE TABLE Products (
+    ProductID INTEGER PRIMARY KEY AUTOINCREMENT,
+    ProductName TEXT,
+    QuantityInStock INTEGER,
+    ReorderLevel SMALLINT,
+    SupplierID BIGINT
+);
+```
+
+### Inserting Data into Integer Fields
+
+You can insert integer data into the table using appropriate SQL syntax.
+
+#### Example
+
+```sql
+INSERT INTO Products (ProductName, QuantityInStock, ReorderLevel, SupplierID)
+VALUES ('Widget', 100, 10, 1234567890123456789);
+
+INSERT INTO Products (ProductName, QuantityInStock, ReorderLevel, SupplierID)
+VALUES ('Gadget', 50, 5, 9876543210987654321);
+```
+
+### Querying Data with Integer Fields
+
+You can query integer fields using various functions and operators.
+
+#### Selecting Records Based on Integer Values
+
+```sql
+SELECT * FROM Products
+WHERE QuantityInStock > 50;
+```
+
+#### Calculating Totals and Averages
+
+You can calculate the total and average values of an integer field using the `SUM()` and `AVG()` functions.
+
+```sql
+SELECT SUM(QuantityInStock) AS TotalStock,
+       AVG(QuantityInStock) AS AverageStock
+FROM Products;
+```
+
+### Updating Integer Fields
+
+You can update integer fields using the `UPDATE` statement.
+
+#### Example
+
+```sql
+UPDATE Products
+SET QuantityInStock = 120
+WHERE ProductName = 'Widget';
+```
+
+### Deleting Data Based on Integer Fields
+
+You can delete records based on integer conditions.
+
+#### Example
+
+```sql
+DELETE FROM Products
+WHERE QuantityInStock < 10;
+```
+
+### Practical Examples and Use Cases
+
+#### Calculating Stock Levels
+
+You can calculate different stock levels using integer fields.
+
+##### Example: Finding Products Below Reorder Level
+
+```sql
+SELECT ProductName, QuantityInStock, ReorderLevel
+FROM Products
+WHERE QuantityInStock < ReorderLevel;
+```
+
+#### Grouping Data and Calculating Summaries
+
+You can group data by a field and calculate summaries like total, average, maximum, and minimum values.
+
+##### Example: Grouping by Supplier and Calculating Totals
+
+```sql
+SELECT SupplierID, 
+       SUM(QuantityInStock) AS TotalStock,
+       AVG(QuantityInStock) AS AverageStock
+FROM Products
+GROUP BY SupplierID;
+```
+
+### Handling NULL Values
+
+Integer fields can be `NULL` if no value is provided. You can check for `NULL` values using the `IS NULL` or `IS NOT NULL` operators.
+
+##### Example: Inserting and Checking for NULL Values
+
+```sql
+INSERT INTO Products (ProductName, QuantityInStock, ReorderLevel, SupplierID)
+VALUES ('Widget', NULL, 10, 1234567890123456789);
+
+SELECT * FROM Products
+WHERE QuantityInStock IS NULL;
+```
+
+### Using Integer Fields in Calculations
+
+You can use integer fields in mathematical calculations to perform complex queries.
+
+##### Example: Calculating Reorder Quantity
+
+You can calculate the reorder quantity based on the reorder level and current stock.
+
+```sql
+SELECT ProductName, 
+       ReorderLevel - QuantityInStock AS ReorderQuantity
+FROM Products
+WHERE QuantityInStock < ReorderLevel;
+```
+
+### Summary
+
+In SQLite, integer types are managed using the `INTEGER` data type, with various aliases like `INT`, `TINYINT`, `SMALLINT`, `MEDIUMINT`, and `BIGINT`. You can create tables with integer fields, insert and query data, update and delete records based on integer values, and perform various calculations and summaries using aggregate functions. These operations are essential for managing and analyzing numeric data in SQLite.
+
+These examples demonstrate how to effectively use integer types in SQLite. If you have more specific queries or need further examples, feel free to ask! ✔️
