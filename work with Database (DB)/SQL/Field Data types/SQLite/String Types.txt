@@ -1,8 +1,134 @@
 \\ work with database(DB) — SQL — Field data types — SQLite — Boolean Types
 
+In SQLite, there isn't a dedicated `BOOLEAN` data type like in some other SQL databases. Instead, SQLite uses integer values to represent Boolean values, where `0` represents `FALSE` and `1` represents `TRUE`. This approach is widely used for handling Boolean data in SQLite databases.
 
-CHARACTER(20), VARCHAR(255), VARYING CHARACTER(255), NCHAR(55), NATIVE CHARACTER(70), NVARCHAR(100), CLOB are synonymous with TEXT.
-Type list:
+### Creating a Table with Boolean Fields
 
-Type	Is Fixed Length	Max Size	Encoding
-TEXT	no	macro SQLITE_MAX_LENGTH	UTF-8, UTF-16BE or UTF-16LE
+To create a table with Boolean fields in SQLite, you typically use the `INTEGER` data type and interpret the values `0` and `1` as `FALSE` and `TRUE`, respectively.
+
+#### Example
+
+```sql
+CREATE TABLE Employees (
+    EmployeeID INTEGER PRIMARY KEY AUTOINCREMENT,
+    FirstName TEXT,
+    LastName TEXT,
+    IsActive INTEGER  -- 0 for FALSE, 1 for TRUE
+);
+```
+
+### Inserting Data into Boolean Fields
+
+You can insert Boolean values into the table using `0` and `1` to represent `FALSE` and `TRUE`.
+
+#### Example
+
+```sql
+INSERT INTO Employees (FirstName, LastName, IsActive)
+VALUES ('John', 'Doe', 1);  -- 1 for TRUE
+
+INSERT INTO Employees (FirstName, LastName, IsActive)
+VALUES ('Jane', 'Smith', 0);  -- 0 for FALSE
+```
+
+### Querying Data with Boolean Fields
+
+You can query data based on the `INTEGER` field using `0` and `1`.
+
+#### Selecting Active Employees
+
+```sql
+SELECT * FROM Employees
+WHERE IsActive = 1;  -- TRUE
+```
+
+#### Selecting Inactive Employees
+
+```sql
+SELECT * FROM Employees
+WHERE IsActive = 0;  -- FALSE
+```
+
+### Updating Boolean Fields
+
+You can update the `INTEGER` fields using the `UPDATE` statement.
+
+#### Example
+
+```sql
+UPDATE Employees
+SET IsActive = 0
+WHERE EmployeeID = 1;  -- Set IsActive to FALSE
+
+UPDATE Employees
+SET IsActive = 1
+WHERE EmployeeID = 2;  -- Set IsActive to TRUE
+```
+
+### Deleting Data Based on Boolean Fields
+
+You can delete records based on the `INTEGER` field.
+
+#### Example
+
+```sql
+DELETE FROM Employees
+WHERE IsActive = 0;  -- Delete Inactive Employees
+```
+
+### Practical Examples and Use Cases
+
+#### Counting Active and Inactive Employees
+
+You can count the number of active and inactive employees using aggregate functions.
+
+```sql
+SELECT 
+    SUM(CASE WHEN IsActive = 1 THEN 1 ELSE 0 END) AS ActiveEmployees,
+    SUM(CASE WHEN IsActive = 0 THEN 1 ELSE 0 END) AS InactiveEmployees
+FROM Employees;
+```
+
+#### Setting Default Values for Boolean Fields
+
+You can set default values for the `INTEGER` fields during table creation.
+
+```sql
+CREATE TABLE Employees (
+    EmployeeID INTEGER PRIMARY KEY AUTOINCREMENT,
+    FirstName TEXT,
+    LastName TEXT,
+    IsActive INTEGER DEFAULT 1  -- Default to TRUE
+);
+```
+
+### Handling NULL Values
+
+The `INTEGER` field can be `NULL` if no value is provided. You can check for `NULL` values using the `IS NULL` or `IS NOT NULL` operators.
+
+#### Example: Inserting and Checking for NULL Values
+
+```sql
+INSERT INTO Employees (FirstName, LastName, IsActive)
+VALUES ('Emily', 'Johnson', NULL);  -- NULL value for IsActive
+
+SELECT * FROM Employees
+WHERE IsActive IS NULL;  -- Select employees where IsActive is NULL
+```
+
+### Using Boolean Fields in Complex Queries
+
+You can use Boolean fields in complex queries to perform advanced data analysis.
+
+#### Example: Finding Employees Who Are Either Active or Have No Active Status
+
+```sql
+SELECT * FROM Employees
+WHERE IsActive = 1 OR IsActive IS NULL;
+```
+
+### Summary
+
+In SQLite, Boolean types are managed using the `INTEGER` data type with values `0` and `1` to represent `FALSE` and `TRUE`. You can create tables with Boolean fields, insert and query data, update and delete records based on Boolean values, and perform various calculations and summaries using aggregate functions. These operations are essential for managing and analyzing Boolean logic in SQLite.
+
+These examples demonstrate how to effectively use Boolean types in SQLite. If you have more specific queries or need further examples, feel free to ask! ✔️
