@@ -1,18 +1,156 @@
 \\ work with database(DB) — SQL — Filtering Data — Checking for a Range of Values
 
 
-SELECT Name, Population
-FROM country
-WHERE Population BETWEEN 100000000 AND 1000000000
+Filtering data by checking for a range of values is a common requirement in SQL. This can be done using the `BETWEEN` operator, as well as the `>=` and `<=` operators. Here’s a detailed guide on how to filter data by checking for a range of values across different SQL databases.
 
-Name	Population
-Bangladesh	129,155,000
-Brazil	170,115,000
-Indonesia	212,107,000
-Japan	126,714,000
-Nigeria	111,506,000
-Pakistan	156,483,000
-Russian Federation	146,934,000
-United States	278,357,000
+### Syntax
 
-When BETWEEN is used, two values must be specified: the low end and high end of the desired range. The two values must also be separated by the AND keyword. BETWEEN matches all the values in the range, including the specified start and end values.
+#### Using BETWEEN
+
+The `BETWEEN` operator is used to filter the result set within a certain range. The values can be numbers, text, or dates.
+
+```sql
+SELECT column1, column2, ...
+FROM table_name
+WHERE column_name BETWEEN value1 AND value2;
+```
+
+#### Using >= and <=
+
+You can also use the `>=` and `<=` operators to specify a range.
+
+```sql
+SELECT column1, column2, ...
+FROM table_name
+WHERE column_name >= value1 AND column_name <= value2;
+```
+
+### Examples in Different Databases
+
+#### MySQL
+
+```sql
+-- Find all products with prices between 10 and 50
+SELECT * FROM Products
+WHERE Price BETWEEN 10 AND 50;
+
+-- Find all orders placed between '2023-01-01' and '2023-12-31'
+SELECT * FROM Orders
+WHERE OrderDate BETWEEN '2023-01-01' AND '2023-12-31';
+```
+
+#### PostgreSQL
+
+```sql
+-- Find all employees with salaries between 40000 and 60000
+SELECT * FROM Employees
+WHERE Salary BETWEEN 40000 AND 60000;
+
+-- Find all events occurring between '2023-05-01' and '2023-05-31'
+SELECT * FROM Events
+WHERE EventDate BETWEEN '2023-05-01' AND '2023-05-31';
+```
+
+#### Oracle
+
+```sql
+-- Find all students with grades between 75 and 100
+SELECT * FROM Students
+WHERE Grade BETWEEN 75 AND 100;
+
+-- Find all meetings scheduled between '2023-06-01' and '2023-06-30'
+SELECT * FROM Meetings
+WHERE MeetingDate BETWEEN '2023-06-01' AND '2023-06-30';
+```
+
+#### SQLite
+
+```sql
+-- Find all movies released between 2000 and 2010
+SELECT * FROM Movies
+WHERE ReleaseYear BETWEEN 2000 AND 2010;
+
+-- Find all reviews submitted between '2023-01-01' and '2023-03-31'
+SELECT * FROM Reviews
+WHERE SubmissionDate BETWEEN '2023-01-01' AND '2023-03-31';
+```
+
+#### SQL Server
+
+```sql
+-- Find all projects with budgets between 100000 and 500000
+SELECT * FROM Projects
+WHERE Budget BETWEEN 100000 AND 500000;
+
+-- Find all tasks due between '2023-04-01' and '2023-04-30'
+SELECT * FROM Tasks
+WHERE DueDate BETWEEN '2023-04-01' AND '2023-04-30';
+```
+
+### Practical Examples and Use Cases
+
+#### Checking for a Range of Numeric Values
+
+```sql
+-- Find all products with prices between 20 and 100
+SELECT * FROM Products
+WHERE Price BETWEEN 20 AND 100;
+```
+
+#### Checking for a Range of Dates
+
+```sql
+-- Find all orders placed in the year 2023
+SELECT * FROM Orders
+WHERE OrderDate BETWEEN '2023-01-01' AND '2023-12-31';
+```
+
+#### Using >= and <= for Numeric Ranges
+
+```sql
+-- Find all employees with ages between 25 and 40
+SELECT * FROM Employees
+WHERE Age >= 25 AND Age <= 40;
+```
+
+#### Using >= and <= for Date Ranges
+
+```sql
+-- Find all bookings made in the last month
+SELECT * FROM Bookings
+WHERE BookingDate >= DATEADD(month, -1, GETDATE()) AND BookingDate <= GETDATE();
+```
+
+### Combining Range Checks with Other Conditions
+
+You can combine range checks with other conditions using `AND` and `OR`.
+
+```sql
+-- Find all products with prices between 20 and 100 and category 'Electronics'
+SELECT * FROM Products
+WHERE Price BETWEEN 20 AND 100 AND Category = 'Electronics';
+```
+
+```sql
+-- Find all employees who are in the 'HR' department and have salaries between 50000 and 70000
+SELECT * FROM Employees
+WHERE Department = 'HR' AND Salary BETWEEN 50000 AND 70000;
+```
+
+### Handling NULL Values in Range Queries
+
+When dealing with ranges, it's important to consider `NULL` values, which can affect your results. If a column value is `NULL`, it will not be included in the results of a range query.
+
+#### Example
+
+```sql
+-- Find all products with prices between 20 and 100, excluding NULL prices
+SELECT * FROM Products
+WHERE Price BETWEEN 20 AND 100 AND Price IS NOT NULL;
+```
+
+### Summary
+
+Filtering data by checking for a range of values is an essential operation in SQL. The `BETWEEN` operator and the `>=` and `<=` operators are commonly used for this purpose. These methods allow you to filter results based on numeric, text, and date ranges. Combining these range checks with other conditions can help create more precise and useful queries.
+
+These examples demonstrate how to effectively filter data for ranges in various scenarios. If you have more specific queries or need further examples, feel free to ask! ✔️
