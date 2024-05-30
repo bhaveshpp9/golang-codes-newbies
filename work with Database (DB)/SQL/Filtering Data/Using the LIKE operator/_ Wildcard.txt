@@ -1,13 +1,122 @@
 \\ work with database(DB) — SQL — Filtering Data — Using the LIKE operator — _ Wildcard
 
 
-SELECT Code, Name
-FROM country
-WHERE Code LIKE 'B_R'
+The `_` wildcard in SQL is used with the `LIKE` operator to match any single character. This is different from the `%` wildcard, which matches zero or more characters. The `_` wildcard is particularly useful when you need to filter data based on patterns where a single character can vary.
 
-Code	Name
-BGR	Bulgaria
-BHR	Bahrain
-BLR	Belarus
+### Syntax
 
-The underscore is used just like %, but instead of matching multiple characters the underscore matches just a single character.
+The basic syntax for using the `LIKE` operator with the `_` wildcard is:
+
+```sql
+SELECT column1, column2, ...
+FROM table_name
+WHERE column_name LIKE pattern;
+```
+
+The `_` wildcard is used to match any single character in the specified position.
+
+### Examples in Different Databases
+
+#### MySQL
+
+```sql
+-- Find all customers whose names have 'Jo' followed by any single character and then 'n'
+SELECT * FROM Customers
+WHERE CustomerName LIKE 'Jo_n';
+```
+
+#### PostgreSQL
+
+```sql
+-- Find all products that have 'S_m' in their name
+SELECT * FROM Products
+WHERE ProductName LIKE 'S_m';
+```
+
+#### Oracle
+
+```sql
+-- Find all employees whose last names have 'Sm_th'
+SELECT * FROM Employees
+WHERE LastName LIKE 'Sm_th';
+```
+
+#### SQLite
+
+```sql
+-- Find all orders where the order code starts with 'A' followed by any character and ends with '5'
+SELECT * FROM Orders
+WHERE OrderCode LIKE 'A_5';
+```
+
+#### SQL Server
+
+```sql
+-- Find all employees whose first names have 'A_a' in them
+SELECT * FROM Employees
+WHERE FirstName LIKE 'A_a';
+```
+
+### Practical Examples and Use Cases
+
+#### Matching Specific Character Positions
+
+You can use the `_` wildcard to match specific character positions in a string.
+
+```sql
+-- Find all employees whose first names are 4 characters long and start with 'A'
+SELECT * FROM Employees
+WHERE FirstName LIKE 'A___';
+```
+
+#### Matching Patterns with Mixed Wildcards
+
+You can combine the `_` wildcard with other wildcards like `%` to create more flexible patterns.
+
+```sql
+-- Find all products that start with 'Pro', have any single character, and then 'uct'
+SELECT * FROM Products
+WHERE ProductName LIKE 'Pro_uct';
+
+-- Find all customers whose names start with 'M', have any two characters, and then 'a'
+SELECT * FROM Customers
+WHERE CustomerName LIKE 'M__a';
+```
+
+#### Filtering Data with Specific Patterns
+
+You can filter data based on specific patterns, such as postal codes, serial numbers, or other formatted strings.
+
+```sql
+-- Find all orders where the order code follows the pattern 'A1234'
+SELECT * FROM Orders
+WHERE OrderCode LIKE 'A____';
+
+-- Find all employees with a phone number format '123-456-7890'
+SELECT * FROM Employees
+WHERE PhoneNumber LIKE '___-___-____';
+```
+
+### Case Sensitivity
+
+The case sensitivity of the `LIKE` operator with the `_` wildcard depends on the database's collation settings:
+
+- **MySQL**: Case-insensitive by default for `LIKE` operations on non-binary string types.
+- **PostgreSQL**: Case-sensitive by default. Use `ILIKE` for case-insensitive matches.
+- **Oracle**: Case-sensitive by default.
+- **SQLite**: Case-insensitive by default for ASCII characters.
+- **SQL Server**: Case-insensitive by default based on the default collation.
+
+#### Example for Case-Insensitive Search in PostgreSQL
+
+```sql
+-- Find all customers whose names have 'jo_' pattern, case-insensitive
+SELECT * FROM Customers
+WHERE CustomerName ILIKE 'jo_';
+```
+
+### Summary
+
+The `LIKE` operator with the `_` wildcard is a powerful tool for filtering data based on patterns where a single character can vary. It is supported across different SQL databases, including MySQL, PostgreSQL, Oracle, SQLite, and SQL Server. Using `_` allows you to match exactly one character, providing flexibility in searching for specific patterns in text fields.
+
+These examples demonstrate how to effectively use the `LIKE` operator with the `_` wildcard in various scenarios. If you have more specific queries or need further examples, feel free to ask! ✔️
