@@ -1,1 +1,144 @@
 \\ work with database(DB) — SQL — Grouping data —Having and Where in One Statement
+
+
+Using both `HAVING` and `WHERE` clauses in a single SQL statement allows you to filter rows before and after grouping. The `WHERE` clause filters rows before any groupings are made, and the `HAVING` clause filters groups after the `GROUP BY` clause has been applied.
+
+### Basic Syntax
+
+```sql
+SELECT column1, aggregate_function(column2)
+FROM table_name
+WHERE condition
+GROUP BY column1
+HAVING aggregate_function(column2) condition;
+```
+
+### Examples in Different Databases
+
+#### MySQL
+
+```sql
+-- Find the total sales for each product in the last year, and show only products with total sales greater than 2000
+SELECT ProductID, SUM(Sales) AS TotalSales
+FROM Sales
+WHERE SaleDate >= '2023-01-01'
+GROUP BY ProductID
+HAVING SUM(Sales) > 2000;
+```
+
+#### PostgreSQL
+
+```sql
+-- Find the average salary for each department where department ID is greater than 2, and show only departments with an average salary greater than 50000
+SELECT DepartmentID, AVG(Salary) AS AvgSalary
+FROM Employees
+WHERE DepartmentID > 2
+GROUP BY DepartmentID
+HAVING AVG(Salary) > 50000;
+```
+
+#### Oracle
+
+```sql
+-- Find the count of students in each grade where the grade is not null, and show only grades with more than 10 students
+SELECT Grade, COUNT(*) AS StudentCount
+FROM Students
+WHERE Grade IS NOT NULL
+GROUP BY Grade
+HAVING COUNT(*) > 10;
+```
+
+#### SQLite
+
+```sql
+-- Find the total revenue for each year where the revenue is not null, and show only years with total revenue greater than 1000000
+SELECT Year, SUM(Revenue) AS TotalRevenue
+FROM Financials
+WHERE Revenue IS NOT NULL
+GROUP BY Year
+HAVING SUM(Revenue) > 1000000;
+```
+
+#### SQL Server
+
+```sql
+-- Find the maximum budget for each project type where the project status is 'Completed', and show only project types with a maximum budget greater than 50000
+SELECT ProjectType, MAX(Budget) AS MaxBudget
+FROM Projects
+WHERE Status = 'Completed'
+GROUP BY ProjectType
+HAVING MAX(Budget) > 50000;
+```
+
+### Practical Examples and Use Cases
+
+#### Filtering Rows Before and After Grouping
+
+You can use the `WHERE` clause to filter individual rows and the `HAVING` clause to filter aggregated results.
+
+```sql
+-- Find the total sales for each product in the last year, and show only products with sales greater than 2000
+SELECT ProductID, SUM(Sales) AS TotalSales
+FROM Sales
+WHERE SaleDate >= '2023-01-01'
+GROUP BY ProductID
+HAVING SUM(Sales) > 2000;
+```
+
+#### Combining Conditions
+
+You can combine multiple conditions in both `WHERE` and `HAVING` clauses to refine your query.
+
+```sql
+-- Find the average salary for each department where department ID is greater than 2 and the department is active, and show only departments with an average salary greater than 50000
+SELECT DepartmentID, AVG(Salary) AS AvgSalary
+FROM Employees
+WHERE DepartmentID > 2 AND Status = 'Active'
+GROUP BY DepartmentID
+HAVING AVG(Salary) > 50000;
+```
+
+### Using Aggregate Functions with HAVING
+
+The `HAVING` clause is used to filter groups based on aggregate functions.
+
+```sql
+-- Find the number of orders for each customer where the order date is within the last year, and show only customers with more than 10 orders
+SELECT CustomerID, COUNT(*) AS OrderCount
+FROM Orders
+WHERE OrderDate >= '2023-01-01'
+GROUP BY CustomerID
+HAVING COUNT(*) > 10;
+```
+
+### Using Subqueries with WHERE and HAVING
+
+Subqueries can be used to further refine the data.
+
+```sql
+-- Find the total sales for each product, and show only products that are sold in more than one region where the product price is greater than 100
+SELECT ProductID, SUM(Sales) AS TotalSales
+FROM Sales
+WHERE ProductID IN (SELECT ProductID FROM Products WHERE Price > 100)
+GROUP BY ProductID
+HAVING COUNT(DISTINCT RegionID) > 1;
+```
+
+### Filtering Data with Multiple Aggregates
+
+You can filter groups based on multiple aggregate functions using the `HAVING` clause.
+
+```sql
+-- Find the average salary and the total number of employees for each department where the department is active, and show only departments with an average salary greater than 50000 and more than 10 employees
+SELECT DepartmentID, AVG(Salary) AS AvgSalary, COUNT(*) AS EmployeeCount
+FROM Employees
+WHERE Status = 'Active'
+GROUP BY DepartmentID
+HAVING AVG(Salary) > 50000 AND COUNT(*) > 10;
+```
+
+### Summary
+
+Using both `HAVING` and `WHERE` clauses in a single SQL statement allows for comprehensive data filtering. The `WHERE` clause filters rows before grouping, and the `HAVING` clause filters groups after aggregation. This combination provides powerful capabilities for data analysis and reporting across different SQL databases.
+
+These examples demonstrate how to effectively use both `HAVING` and `WHERE` clauses in various scenarios. If you have more specific queries or need further examples, feel free to ask! ✔️
