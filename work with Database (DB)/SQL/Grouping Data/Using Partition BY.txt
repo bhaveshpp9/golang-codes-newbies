@@ -1,1 +1,163 @@
 \\ work with database(DB) — SQL — Grouping data —Using Partition BY
+
+
+The `PARTITION BY` clause in SQL is used with window functions to divide the result set into partitions and perform calculations across these partitions, similar to the `GROUP BY` clause but without collapsing rows into a single output row for each group. This allows for more complex and granular data analysis within the partitions. Below is a detailed guide on how to use the `PARTITION BY` clause across different SQL databases with practical examples.
+
+### Basic Syntax
+
+```sql
+SELECT column1, 
+       column2, 
+       aggregate_function() OVER (PARTITION BY column1)
+FROM table_name;
+```
+
+### Examples in Different Databases
+
+#### MySQL (starting from version 8.0)
+
+```sql
+-- Calculate the total sales for each product and partition by ProductID
+SELECT ProductID, 
+       RegionID, 
+       Sales, 
+       SUM(Sales) OVER (PARTITION BY ProductID) AS TotalSales
+FROM Sales;
+```
+
+#### PostgreSQL
+
+```sql
+-- Calculate the average salary for each department and partition by Department
+SELECT Department, 
+       EmployeeID, 
+       Salary, 
+       AVG(Salary) OVER (PARTITION BY Department) AS AvgSalary
+FROM Employees;
+```
+
+#### Oracle
+
+```sql
+-- Calculate the count of students in each grade and partition by Grade
+SELECT Grade, 
+       StudentID, 
+       COUNT(StudentID) OVER (PARTITION BY Grade) AS StudentCount
+FROM Students;
+```
+
+#### SQLite (starting from version 3.25.0)
+
+```sql
+-- Calculate the total revenue for each year and partition by Year
+SELECT Year, 
+       Quarter, 
+       Revenue, 
+       SUM(Revenue) OVER (PARTITION BY Year) AS TotalRevenue
+FROM Financials;
+```
+
+#### SQL Server
+
+```sql
+-- Calculate the maximum budget for each project type and partition by ProjectType
+SELECT ProjectType, 
+       ProjectID, 
+       Budget, 
+       MAX(Budget) OVER (PARTITION BY ProjectType) AS MaxBudget
+FROM Projects;
+```
+
+### Practical Examples and Use Cases
+
+#### Using Aggregate Functions with PARTITION BY
+
+```sql
+-- Calculate the total sales for each product category and partition by CategoryID
+SELECT CategoryID, 
+       ProductID, 
+       Sales, 
+       SUM(Sales) OVER (PARTITION BY CategoryID) AS TotalSalesByCategory
+FROM Sales;
+```
+
+#### Combining PARTITION BY with ORDER BY
+
+You can combine `PARTITION BY` with `ORDER BY` to calculate running totals, ranks, and other cumulative statistics.
+
+```sql
+-- Calculate the running total sales for each product and partition by ProductID, ordered by SalesDate
+SELECT ProductID, 
+       SalesDate, 
+       Sales, 
+       SUM(Sales) OVER (PARTITION BY ProductID ORDER BY SalesDate) AS RunningTotalSales
+FROM Sales;
+```
+
+#### Using ROW_NUMBER() with PARTITION BY
+
+The `ROW_NUMBER()` function assigns a unique number to each row within a partition of a result set.
+
+```sql
+-- Assign a row number to each employee within their department
+SELECT Department, 
+       EmployeeID, 
+       ROW_NUMBER() OVER (PARTITION BY Department ORDER BY EmployeeID) AS RowNum
+FROM Employees;
+```
+
+#### Using RANK() with PARTITION BY
+
+The `RANK()` function assigns a rank to each row within a partition of a result set.
+
+```sql
+-- Rank employees by salary within each department
+SELECT Department, 
+       EmployeeID, 
+       Salary, 
+       RANK() OVER (PARTITION BY Department ORDER BY Salary DESC) AS SalaryRank
+FROM Employees;
+```
+
+### Using Multiple Columns in PARTITION BY
+
+You can partition by multiple columns for more granular analysis.
+
+```sql
+-- Calculate the average order amount for each customer and region, partitioned by CustomerID and RegionID
+SELECT CustomerID, 
+       RegionID, 
+       OrderAmount, 
+       AVG(OrderAmount) OVER (PARTITION BY CustomerID, RegionID) AS AvgOrderAmount
+FROM Orders;
+```
+
+### Practical Scenario: Sales Analysis
+
+Suppose you are analyzing sales data and want to generate a report that shows total sales for each product within each region.
+
+```sql
+SELECT ProductID, 
+       RegionID, 
+       Sales, 
+       SUM(Sales) OVER (PARTITION BY ProductID, RegionID) AS TotalSalesByProductRegion
+FROM Sales;
+```
+
+### Using PARTITION BY with Subqueries
+
+Subqueries can be used to refine data before applying `PARTITION BY`.
+
+```sql
+-- Calculate the total sales for each product where the product price is greater than 100, partitioned by ProductID
+SELECT ProductID, 
+       Sales, 
+       SUM(Sales) OVER (PARTITION BY ProductID) AS TotalSales
+FROM (SELECT ProductID, Sales FROM Sales WHERE Price > 100) AS FilteredSales;
+```
+
+### Summary
+
+The `PARTITION BY` clause in SQL is a powerful tool for performing calculations across partitions of data without collapsing the rows. This allows for more detailed and nuanced data analysis, such as calculating running totals, ranks, and averages within specific partitions. The use of `PARTITION BY` is supported in major SQL databases like MySQL (starting from version 8.0), PostgreSQL, Oracle, SQLite (starting from version 3.25.0), and SQL Server.
+
+These examples demonstrate how to effectively use the `PARTITION BY` clause in various scenarios. If you have more specific queries or need further examples, feel free to ask! ✔️
