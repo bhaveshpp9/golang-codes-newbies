@@ -1,9 +1,147 @@
 \\ work with database(DB) — SQL —  Field data types — Oracle — Integer Types
 
 
-Type list
+In Oracle Database, integer types are used to store whole numbers. Oracle provides several data types for storing integers, each suitable for different ranges and purposes. Here’s a detailed guide on how to work with integer types in Oracle.
 
-Type	Min Value	Max Value
-NUMBER(2)	-99	99
-NUMBER(7)	-9999999	9999999
-NUMBER(n)	n = 1	n = 38
+### Integer Data Types
+
+1. **NUMBER**: The most commonly used data type for storing integers and floating-point numbers. You can specify precision and scale.
+2. **INTEGER**: Synonym for `NUMBER(38)`, which means it can store up to 38 digits of precision.
+3. **PLS_INTEGER**: Used in PL/SQL for better performance with integer arithmetic.
+
+### Creating a Table with Integer Fields
+
+To create a table with integer fields in Oracle, you can use the `NUMBER` or `INTEGER` data types.
+
+#### Example
+
+```sql
+CREATE TABLE Products (
+    ProductID NUMBER PRIMARY KEY,
+    ProductName VARCHAR2(100),
+    QuantityInStock NUMBER(10),  -- Up to 10 digits
+    ReorderLevel NUMBER(5),      -- Up to 5 digits
+    SupplierID INTEGER           -- Synonym for NUMBER(38)
+);
+```
+
+### Inserting Data into Integer Fields
+
+You can insert integer data into the table using appropriate SQL syntax.
+
+#### Example
+
+```sql
+INSERT INTO Products (ProductID, ProductName, QuantityInStock, ReorderLevel, SupplierID)
+VALUES (1, 'Widget', 100, 10, 1234567890);
+
+INSERT INTO Products (ProductID, ProductName, QuantityInStock, ReorderLevel, SupplierID)
+VALUES (2, 'Gadget', 50, 5, 987654321);
+```
+
+### Querying Data with Integer Fields
+
+You can query integer fields using various functions and operators.
+
+#### Selecting Records Based on Integer Values
+
+```sql
+SELECT * FROM Products
+WHERE QuantityInStock > 50;
+```
+
+#### Calculating Totals and Averages
+
+You can calculate the total and average values of an integer field using the `SUM()` and `AVG()` functions.
+
+```sql
+SELECT SUM(QuantityInStock) AS TotalStock,
+       AVG(QuantityInStock) AS AverageStock
+FROM Products;
+```
+
+### Updating Integer Fields
+
+You can update integer fields using the `UPDATE` statement.
+
+#### Example
+
+```sql
+UPDATE Products
+SET QuantityInStock = 120
+WHERE ProductName = 'Widget';
+```
+
+### Deleting Data Based on Integer Fields
+
+You can delete records based on integer conditions.
+
+#### Example
+
+```sql
+DELETE FROM Products
+WHERE QuantityInStock < 10;
+```
+
+### Practical Examples and Use Cases
+
+#### Calculating Stock Levels
+
+You can calculate different stock levels using integer fields.
+
+##### Example: Finding Products Below Reorder Level
+
+```sql
+SELECT ProductName, QuantityInStock, ReorderLevel
+FROM Products
+WHERE QuantityInStock < ReorderLevel;
+```
+
+#### Grouping Data and Calculating Summaries
+
+You can group data by a field and calculate summaries like total, average, maximum, and minimum values.
+
+##### Example: Grouping by Supplier and Calculating Totals
+
+```sql
+SELECT SupplierID, 
+       SUM(QuantityInStock) AS TotalStock,
+       AVG(QuantityInStock) AS AverageStock
+FROM Products
+GROUP BY SupplierID;
+```
+
+### Handling NULL Values
+
+Integer fields can be `NULL` if no value is provided. You can check for `NULL` values using the `IS NULL` or `IS NOT NULL` operators.
+
+##### Example: Inserting and Checking for NULL Values
+
+```sql
+INSERT INTO Products (ProductID, ProductName, QuantityInStock, ReorderLevel, SupplierID)
+VALUES (3, 'Widget', NULL, 10, 1234567890);
+
+SELECT * FROM Products
+WHERE QuantityInStock IS NULL;
+```
+
+### Using Integer Fields in Calculations
+
+You can use integer fields in mathematical calculations to perform complex queries.
+
+##### Example: Calculating Reorder Quantity
+
+You can calculate the reorder quantity based on the reorder level and current stock.
+
+```sql
+SELECT ProductName, 
+       ReorderLevel - QuantityInStock AS ReorderQuantity
+FROM Products
+WHERE QuantityInStock < ReorderLevel;
+```
+
+### Summary
+
+In Oracle Database, integer types are managed using the `NUMBER`, `INTEGER`, and `PLS_INTEGER` data types. You can create tables with integer fields, insert and query data, update and delete records based on integer values, and perform various calculations and summaries using aggregate functions. These operations are essential for managing and analyzing numeric data in Oracle.
+
+These examples demonstrate how to effectively use integer types in Oracle. If you have more specific queries or need further examples, feel free to ask! ✔️
