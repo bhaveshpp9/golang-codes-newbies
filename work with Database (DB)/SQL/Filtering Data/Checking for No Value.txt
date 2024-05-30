@@ -1,27 +1,161 @@
 \\ work with database(DB) — SQL — Filtering Data — Checking for No Value
 
 
-/* Check the IndepYear field for an empty value. */
-SELECT Name
-FROM country
-WHERE IndepYear IS NULL
+Filtering data to check for no value (i.e., `NULL`) is a common requirement in SQL. `NULL` represents missing or unknown data, and it is different from an empty string or zero. Here’s how you can filter data to check for `NULL` values across different SQL databases.
 
-/* Select the records for which the 
-IndepYear field contains the value. */
-SELECT Name
-FROM country
-WHERE IndepYear IS NOT NULL
+### Syntax
 
-Name
-Aruba
-Anguilla
-Netherlands Antilles
-American Samoa
-Antarctica
-French Southern territories
-Bermuda
-Bouvet Island
-Cocos (Keeling) Islands
-...
+To check for `NULL` values, use the `IS NULL` and `IS NOT NULL` operators.
 
-To determine if a value is NULL, you cannot simply check to see if = NULL. Instead, the SELECT statement has a special WHERE clause that can be used to check for columns with NULL value: the IS NULL clause.
+```sql
+SELECT column1, column2, ...
+FROM table_name
+WHERE column_name IS NULL;
+
+SELECT column1, column2, ...
+FROM table_name
+WHERE column_name IS NOT NULL;
+```
+
+### Examples in Different Databases
+
+#### MySQL
+
+```sql
+-- Find all customers who do not have an email address
+SELECT * FROM Customers
+WHERE Email IS NULL;
+
+-- Find all products that have a price
+SELECT * FROM Products
+WHERE Price IS NOT NULL;
+```
+
+#### PostgreSQL
+
+```sql
+-- Find all employees who do not have a department assigned
+SELECT * FROM Employees
+WHERE Department IS NULL;
+
+-- Find all orders that have a shipping date
+SELECT * FROM Orders
+WHERE ShippingDate IS NOT NULL;
+```
+
+#### Oracle
+
+```sql
+-- Find all students who do not have a grade assigned
+SELECT * FROM Students
+WHERE Grade IS NULL;
+
+-- Find all books that have an ISBN number
+SELECT * FROM Books
+WHERE ISBN IS NOT NULL;
+```
+
+#### SQLite
+
+```sql
+-- Find all movies that do not have a release date
+SELECT * FROM Movies
+WHERE ReleaseDate IS NULL;
+
+-- Find all articles that have an author
+SELECT * FROM Articles
+WHERE Author IS NOT NULL;
+```
+
+#### SQL Server
+
+```sql
+-- Find all projects that do not have a budget assigned
+SELECT * FROM Projects
+WHERE Budget IS NULL;
+
+-- Find all employees who have a manager assigned
+SELECT * FROM Employees
+WHERE ManagerID IS NOT NULL;
+```
+
+### Practical Examples and Use Cases
+
+#### Filtering Records with NULL Values
+
+You can filter records to find rows where a column has no value (is `NULL`).
+
+```sql
+-- Find all customers who do not have a phone number
+SELECT * FROM Customers
+WHERE PhoneNumber IS NULL;
+```
+
+#### Filtering Records without NULL Values
+
+You can filter records to find rows where a column has a value (is not `NULL`).
+
+```sql
+-- Find all products that have a description
+SELECT * FROM Products
+WHERE Description IS NOT NULL;
+```
+
+### Using NULL in Complex Queries
+
+You can use `IS NULL` and `IS NOT NULL` in combination with other conditions using `AND` and `OR`.
+
+#### Example: Combining Conditions
+
+```sql
+-- Find all orders that have a total amount greater than 1000 and do not have a shipping date
+SELECT * FROM Orders
+WHERE TotalAmount > 1000 AND ShippingDate IS NULL;
+```
+
+#### Example: Using OR with NULL
+
+```sql
+-- Find all employees who are in the 'HR' department or do not have a department assigned
+SELECT * FROM Employees
+WHERE Department = 'HR' OR Department IS NULL;
+```
+
+### Handling NULL with Aggregates
+
+When using aggregate functions, `NULL` values are ignored. However, you can count the number of `NULL` values using the `COUNT` function.
+
+#### Example: Counting NULL Values
+
+```sql
+-- Count the number of customers without an email address
+SELECT COUNT(*) AS CustomersWithoutEmail
+FROM Customers
+WHERE Email IS NULL;
+```
+
+#### Example: Counting Non-NULL Values
+
+```sql
+-- Count the number of products that have a price
+SELECT COUNT(Price) AS ProductsWithPrice
+FROM Products;
+```
+
+### Using COALESCE to Handle NULL
+
+The `COALESCE` function returns the first non-NULL value in a list of arguments. It can be useful for providing default values.
+
+#### Example: Using COALESCE
+
+```sql
+-- Select the customer name and their email, or 'No Email' if the email is NULL
+SELECT CustomerName, COALESCE(Email, 'No Email') AS Email
+FROM Customers;
+```
+
+### Summary
+
+Filtering data to check for `NULL` values is essential for handling missing or unknown data in SQL. Using `IS NULL` and `IS NOT NULL` allows you to filter records based on the presence or absence of values. These techniques are supported across all major SQL databases, including MySQL, PostgreSQL, Oracle, SQLite, and SQL Server.
+
+These examples demonstrate how to effectively filter data for `NULL` values in various scenarios. If you have more specific queries or need further examples, feel free to ask! ✔️
