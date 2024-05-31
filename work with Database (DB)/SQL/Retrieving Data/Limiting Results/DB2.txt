@@ -1,13 +1,130 @@
 \\ work with database(DB) — SQL — Retrieving Data — Limiting Results — DB2
 
 
-SELECT Name
-FROM country
-FETCH FIRST 5 ROWS ONLY
+In IBM Db2, you can limit the number of rows returned by a query using the `FETCH FIRST` clause or the `LIMIT` clause. The `FETCH FIRST` clause is ANSI SQL compliant and is recommended for use in Db2.
 
-Name
-Andorra
-Netherlands Antilles
-United Arab Emirates
-Argentina
-Armenia
+### Example Table
+
+Assume we have a table named `Employees` with the following structure and data:
+
+```sql
+CREATE TABLE Employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100),
+    dept_id INT,
+    salary INT
+);
+
+INSERT INTO Employees (emp_id, emp_name, dept_id, salary) VALUES
+(1, 'Alice', 1, 50000),
+(2, 'Bob', 2, 60000),
+(3, 'Charlie', 1, 55000),
+(4, 'David', 3, 45000),
+(5, 'Eva', 2, 70000);
+```
+
+### Limiting Results with `FETCH FIRST`
+
+#### Basic Syntax
+
+```sql
+SELECT column1, column2, ...
+FROM table_name
+FETCH FIRST n ROWS ONLY;
+```
+
+#### Practical Examples
+
+#### Retrieve the First 3 Employees
+
+```sql
+-- Retrieve the first 3 employees
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+FETCH FIRST 3 ROWS ONLY;
+```
+
+#### Retrieve Employees with the Highest Salaries (Top N)
+
+You can combine the `ORDER BY` clause with `FETCH FIRST` to get the top N records.
+
+```sql
+-- Retrieve the top 3 highest paid employees
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY salary DESC
+FETCH FIRST 3 ROWS ONLY;
+```
+
+#### Retrieve Employees Ordered by Department and Limited
+
+```sql
+-- Retrieve the first 3 employees ordered by department
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY dept_id
+FETCH FIRST 3 ROWS ONLY;
+```
+
+### Using `LIMIT` Clause
+
+While the `FETCH FIRST` clause is recommended and more portable across different SQL databases, Db2 also supports the `LIMIT` clause for compatibility with other SQL dialects.
+
+#### Basic Syntax
+
+```sql
+SELECT column1, column2, ...
+FROM table_name
+LIMIT n;
+```
+
+#### Practical Examples
+
+#### Retrieve the First 3 Employees Using `LIMIT`
+
+```sql
+-- Retrieve the first 3 employees using LIMIT
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+LIMIT 3;
+```
+
+#### Retrieve Employees with the Highest Salaries Using `LIMIT`
+
+```sql
+-- Retrieve the top 3 highest paid employees using LIMIT
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY salary DESC
+LIMIT 3;
+```
+
+### Practical Scenario: Retrieving Top N Employees
+
+Retrieve a list of the top 3 highest paid employees using both `FETCH FIRST` and `LIMIT` clauses for demonstration.
+
+#### Using `FETCH FIRST`
+
+```sql
+-- Retrieve the top 3 highest paid employees using FETCH FIRST
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY salary DESC
+FETCH FIRST 3 ROWS ONLY;
+```
+
+#### Using `LIMIT`
+
+```sql
+-- Retrieve the top 3 highest paid employees using LIMIT
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY salary DESC
+LIMIT 3;
+```
+
+### Summary
+
+In Db2, you can limit the number of rows returned by a query using the `FETCH FIRST` clause or the `LIMIT` clause. The `FETCH FIRST` clause is ANSI SQL compliant and is recommended for use in Db2. These examples demonstrate how to retrieve a limited number of rows from a table, including using ordering to get the top N records.
+
+If you have more specific queries or need further examples, feel free to ask! ✔️
