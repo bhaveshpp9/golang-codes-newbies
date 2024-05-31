@@ -1,19 +1,105 @@
 \\ work with database(DB) — SQL — Retrieving Data — Limiting Results — Interbase,FireBird
 
 
-/* first five rows */
-SELECT Name
-FROM country
-ROWS 5
+In Interbase and Firebird, you can limit the number of rows returned by a query using the `FIRST` clause combined with the `SKIP` clause. These clauses are similar to the `LIMIT` clause found in other SQL dialects.
 
-/* from the 6th to the 10th rows */
-SELECT Name
-FROM country
-ROWS 6 TO 10
+### Example Table
 
-Name
-Andorra
-Netherlands Antilles
-United Arab Emirates
-Argentina
-Armenia
+Assume we have a table named `Employees` with the following structure and data:
+
+```sql
+CREATE TABLE Employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100),
+    dept_id INT,
+    salary INT
+);
+
+INSERT INTO Employees (emp_id, emp_name, dept_id, salary) VALUES
+(1, 'Alice', 1, 50000),
+(2, 'Bob', 2, 60000),
+(3, 'Charlie', 1, 55000),
+(4, 'David', 3, 45000),
+(5, 'Eva', 2, 70000);
+```
+
+### Limiting Results with `FIRST` and `SKIP`
+
+#### Basic Syntax
+
+```sql
+SELECT FIRST n [SKIP m] column1, column2, ...
+FROM table_name;
+```
+
+- `FIRST n` limits the result to the first `n` rows.
+- `SKIP m` skips the first `m` rows before starting to return rows.
+
+#### Practical Examples
+
+#### Retrieve the First 3 Employees
+
+```sql
+-- Retrieve the first 3 employees
+SELECT FIRST 3 emp_id, emp_name, dept_id, salary
+FROM Employees;
+```
+
+#### Retrieve Employees with the Highest Salaries (Top N)
+
+You can combine the `ORDER BY` clause with `FIRST` to get the top N records.
+
+```sql
+-- Retrieve the top 3 highest paid employees
+SELECT FIRST 3 emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY salary DESC;
+```
+
+#### Retrieve Employees Ordered by Department and Limited
+
+```sql
+-- Retrieve the first 3 employees ordered by department
+SELECT FIRST 3 emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY dept_id;
+```
+
+#### Retrieve a Range of Employees (Pagination)
+
+To retrieve a specific range of rows, you can use both `FIRST` and `SKIP`.
+
+```sql
+-- Retrieve 3 employees starting from the 2nd employee
+SELECT FIRST 3 SKIP 1 emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY emp_id;
+```
+
+### Practical Scenario: Retrieving Top N Employees
+
+Retrieve a list of the top 3 highest paid employees using the `FIRST` clause.
+
+```sql
+-- Retrieve the top 3 highest paid employees
+SELECT FIRST 3 emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY salary DESC;
+```
+
+### Using `FIRST` with `SKIP` for Pagination
+
+To implement pagination, you can use both `FIRST` and `SKIP` clauses. For example, to get the second page of 3 rows each:
+
+```sql
+-- Retrieve the second set of 3 employees (page 2)
+SELECT FIRST 3 SKIP 3 emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY emp_id;
+```
+
+### Summary
+
+In Interbase and Firebird, you can limit the number of rows returned by a query using the `FIRST` clause combined with the `SKIP` clause. This is useful for retrieving a limited number of rows, such as implementing pagination or retrieving the top N records based on specific criteria. These examples demonstrate how to retrieve a limited number of rows from a table, including using ordering and pagination.
+
+If you have more specific queries or need further examples, feel free to ask! ✔️
