@@ -1,5 +1,118 @@
 \\ work with database(DB) — SQL — Updating Tables — Deleting foreign key — MySql
 
 
-ALTER TABLE Orders
-DROP FOREIGN KEY FK_OrderPerson;
+To delete a foreign key constraint in MySQL, you need to use the `ALTER TABLE` statement combined with the `DROP FOREIGN KEY` clause. Here’s how you can delete a foreign key constraint in MySQL.
+
+### Example Table
+
+Assume we have the following tables:
+
+```sql
+CREATE TABLE Departments (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(100)
+);
+
+CREATE TABLE Employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100),
+    dept_id INT,
+    CONSTRAINT fk_dept FOREIGN KEY (dept_id) REFERENCES Departments(dept_id)
+);
+```
+
+### Steps to Delete a Foreign Key Constraint
+
+1. **Identify the Foreign Key Constraint Name**: The constraint name is needed to drop it. If you don’t know the name, you can find it by querying the information schema.
+
+2. **Drop the Foreign Key Constraint**: Use the `ALTER TABLE` statement to drop the constraint.
+
+#### Step 1: Identify the Foreign Key Constraint Name
+
+If you don’t know the foreign key constraint name, you can find it by querying the `information_schema`:
+
+```sql
+SELECT CONSTRAINT_NAME
+FROM information_schema.KEY_COLUMN_USAGE
+WHERE TABLE_NAME = 'Employees'
+AND CONSTRAINT_SCHEMA = 'your_database_name'
+AND REFERENCED_TABLE_NAME = 'Departments';
+```
+
+Replace `your_database_name` with the name of your database.
+
+#### Step 2: Drop the Foreign Key Constraint
+
+Once you have the foreign key constraint name, you can drop it using the `ALTER TABLE` statement.
+
+#### Syntax
+
+```sql
+ALTER TABLE table_name
+DROP FOREIGN KEY foreign_key_name;
+```
+
+#### Example
+
+Assume the foreign key constraint is named `fk_dept`. To delete the foreign key constraint:
+
+```sql
+ALTER TABLE Employees
+DROP FOREIGN KEY fk_dept;
+```
+
+### Practical Example: Deleting a Foreign Key Constraint
+
+Assume we have the following setup for the tables and the foreign key constraint name is `fk_dept`.
+
+#### Table Definitions
+
+```sql
+CREATE TABLE Departments (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(100)
+);
+
+CREATE TABLE Employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100),
+    dept_id INT,
+    CONSTRAINT fk_dept FOREIGN KEY (dept_id) REFERENCES Departments(dept_id)
+);
+```
+
+#### Deleting the Foreign Key Constraint
+
+```sql
+ALTER TABLE Employees
+DROP FOREIGN KEY fk_dept;
+```
+
+### Finding and Deleting a Foreign Key Constraint
+
+If you don't know the constraint name, find it first:
+
+```sql
+-- Find the foreign key constraint name
+SELECT CONSTRAINT_NAME
+FROM information_schema.KEY_COLUMN_USAGE
+WHERE TABLE_NAME = 'Employees'
+AND CONSTRAINT_SCHEMA = 'your_database_name'
+AND REFERENCED_TABLE_NAME = 'Departments';
+```
+
+Replace `your_database_name` with the actual name of your database.
+
+Once you have the foreign key constraint name, delete it:
+
+```sql
+-- Drop the foreign key constraint
+ALTER TABLE Employees
+DROP FOREIGN KEY fk_dept;
+```
+
+### Summary
+
+Deleting a foreign key constraint in MySQL involves using the `ALTER TABLE` statement combined with the `DROP FOREIGN KEY` clause. You need to know the foreign key constraint name to drop it. If the constraint name is not known, you can query the `information_schema` to find it. The provided examples demonstrate how to delete a foreign key constraint effectively.
+
+If you have more specific queries or need further examples, feel free to ask! ✔️
