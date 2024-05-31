@@ -1,20 +1,203 @@
 \\ work with database(DB) — SQL — Sorting data — Sorting by Multiple Columns
 
 
-SELECT Continent, Region, Name
-FROM country
-ORDER BY Continent, Region, Name
+Sorting data by multiple columns in SQL allows you to refine the order of your results based on multiple criteria. This is useful when you want to first sort by one column and then further sort the results by another column. Below are examples of how to sort data by multiple columns across various SQL databases, including MySQL, PostgreSQL, SQLite, Microsoft SQL Server, Microsoft Access, Interbase, Firebird, and Oracle.
 
-Continent	Region	Name
-Asia	Eastern Asia	China
-Asia	Eastern Asia	Hong Kong
-Asia	Eastern Asia	Japan
-Asia	Eastern Asia	Macao
-Asia	Eastern Asia	Mongolia
-Asia	Eastern Asia	North Korea
-Asia	Eastern Asia	South Korea
-Asia	Eastern Asia	Taiwan
-Asia	Middle East	Armenia
-...
+### Example Table
 
-To sort by multiple columns, simply specify the column names separated by commas in the ORDER BY clause.
+Assume we have a table named `Employees` with the following structure and data:
+
+```sql
+CREATE TABLE Employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100),
+    dept_id INT,
+    salary INT
+);
+
+INSERT INTO Employees (emp_id, emp_name, dept_id, salary) VALUES
+(1, 'Alice', 1, 50000),
+(2, 'Bob', 2, 60000),
+(3, 'Charlie', 1, 55000),
+(4, 'David', 3, 45000),
+(5, 'Eva', 2, 70000);
+```
+
+### Sorting by Multiple Columns
+
+#### MySQL
+
+```sql
+-- Sort by dept_id in ascending order, then by salary in descending order
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY dept_id ASC, salary DESC;
+```
+
+#### PostgreSQL
+
+```sql
+-- Sort by dept_id in ascending order, then by salary in descending order
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY dept_id ASC, salary DESC;
+```
+
+#### SQLite
+
+```sql
+-- Sort by dept_id in ascending order, then by salary in descending order
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY dept_id ASC, salary DESC;
+```
+
+#### Microsoft SQL Server (MS SQL)
+
+```sql
+-- Sort by dept_id in ascending order, then by salary in descending order
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY dept_id ASC, salary DESC;
+```
+
+#### Microsoft Access
+
+```sql
+-- Sort by dept_id in ascending order, then by salary in descending order
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY dept_id ASC, salary DESC;
+```
+
+#### Interbase
+
+```sql
+-- Sort by dept_id in ascending order, then by salary in descending order
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY dept_id ASC, salary DESC;
+```
+
+#### Firebird
+
+```sql
+-- Sort by dept_id in ascending order, then by salary in descending order
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY dept_id ASC, salary DESC;
+```
+
+#### Oracle
+
+```sql
+-- Sort by dept_id in ascending order, then by salary in descending order
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY dept_id ASC, salary DESC;
+```
+
+### Practical Examples
+
+#### Retrieve Employees Ordered by Department and Salary
+
+##### Example
+
+```sql
+-- MySQL
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY dept_id ASC, salary DESC;
+
+-- PostgreSQL
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY dept_id ASC, salary DESC;
+
+-- SQLite
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY dept_id ASC, salary DESC;
+
+-- MS SQL
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY dept_id ASC, salary DESC;
+
+-- Access
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY dept_id ASC, salary DESC;
+
+-- Interbase
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY dept_id ASC, salary DESC;
+
+-- Firebird
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY dept_id ASC, salary DESC;
+
+-- Oracle
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY dept_id ASC, salary DESC;
+```
+
+### Explanation
+
+- **`ORDER BY dept_id ASC`**: Sorts the result set by `dept_id` in ascending order.
+- **`ORDER BY salary DESC`**: Further sorts the result set by `salary` in descending order within each department.
+
+### More Complex Example: Sort by Multiple Criteria
+
+Let's add another level of sorting by employee name within each department and salary level.
+
+```sql
+-- MySQL
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY dept_id ASC, salary DESC, emp_name ASC;
+
+-- PostgreSQL
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY dept_id ASC, salary DESC, emp_name ASC;
+
+-- SQLite
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY dept_id ASC, salary DESC, emp_name ASC;
+
+-- MS SQL
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY dept_id ASC, salary DESC, emp_name ASC;
+
+-- Access
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY dept_id ASC, salary DESC, emp_name ASC;
+
+-- Interbase
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY dept_id ASC, salary DESC, emp_name ASC;
+
+-- Firebird
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY dept_id ASC, salary DESC, emp_name ASC;
+
+-- Oracle
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY dept_id ASC, salary DESC, emp_name ASC;
+```
+
+### Summary
+
+Using the `ORDER BY` clause to sort data by multiple columns allows you to control the order of your result set based on multiple criteria. This is useful for providing more refined and structured output. The provided examples demonstrate how to sort data by multiple columns across various SQL databases.
+
+If you have more specific queries or need further examples, feel free to ask! ✔️
