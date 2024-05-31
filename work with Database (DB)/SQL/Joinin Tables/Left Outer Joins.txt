@@ -1,25 +1,160 @@
 \\ work with database(DB) — SQL — Joining Table — Left Outer Joins
 
 
-SELECT
-    c.Name,
-    ct.Name AS NameCity,
-    ct.Population
-FROM country AS c
-LEFT JOIN city AS ct ON
-    ct.CountryCode = c.Code AND
-    ct.Population > 1000000
+A left outer join (or simply left join) in SQL returns all rows from the left table (table1), and the matched rows from the right table (table2). If there is no match, the result is NULL on the side of the right table. This is useful when you want to retrieve all records from the left table regardless of whether there is a corresponding match in the right table.
 
-Name	NameCity	Population
-Aruba	NULL	NULL
-Afghanistan	Kabul	1,780,000
-Angola	Luanda	2,022,000
-Anguilla	NULL	NULL
-Albania	NULL	NULL
-Andorra	NULL	NULL
-Netherlands Antilles	NULL	NULL
-United Arab Emirates	NULL	NULL
-Argentina	Buenos Aires	2,982,146
-...
+### Basic Syntax
 
-Example uses LEFT OUTER JOIN to select all the rows from the table on the left in the FROM clause. If there are no records in the right table that meet the join conditions, then the columns of the right table will be NULL.
+```sql
+SELECT column1, column2, ...
+FROM table1
+LEFT JOIN table2
+ON table1.common_column = table2.common_column;
+```
+
+### Example Tables
+
+Assume we have two tables, `Employees` and `Departments`, with the following data:
+
+```sql
+CREATE TABLE Employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100),
+    dept_id INT
+);
+
+CREATE TABLE Departments (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(100)
+);
+
+INSERT INTO Employees (emp_id, emp_name, dept_id) VALUES
+(1, 'Alice', 1),
+(2, 'Bob', 2),
+(3, 'Charlie', NULL),
+(4, 'David', 4);
+
+INSERT INTO Departments (dept_id, dept_name) VALUES
+(1, 'HR'),
+(2, 'Engineering'),
+(3, 'Marketing');
+```
+
+### Performing a Left Outer Join
+
+The goal is to retrieve a list of employees along with their department names, including employees who are not assigned to any department.
+
+#### MySQL
+
+```sql
+-- Left outer join in MySQL
+SELECT e.emp_id, e.emp_name, d.dept_name
+FROM Employees e
+LEFT JOIN Departments d ON e.dept_id = d.dept_id;
+```
+
+#### PostgreSQL
+
+```sql
+-- Left outer join in PostgreSQL
+SELECT e.emp_id, e.emp_name, d.dept_name
+FROM Employees e
+LEFT JOIN Departments d ON e.dept_id = d.dept_id;
+```
+
+#### Oracle
+
+```sql
+-- Left outer join in Oracle
+SELECT e.emp_id, e.emp_name, d.dept_name
+FROM Employees e
+LEFT JOIN Departments d ON e.dept_id = d.dept_id;
+```
+
+#### SQLite
+
+```sql
+-- Left outer join in SQLite
+SELECT e.emp_id, e.emp_name, d.dept_name
+FROM Employees e
+LEFT JOIN Departments d ON e.dept_id = d.dept_id;
+```
+
+#### SQL Server
+
+```sql
+-- Left outer join in SQL Server
+SELECT e.emp_id, e.emp_name, d.dept_name
+FROM Employees e
+LEFT JOIN Departments d ON e.dept_id = d.dept_id;
+```
+
+### Practical Examples
+
+#### Handling NULL Values
+
+When performing a left join, it's common to encounter `NULL` values in the result set. You can use SQL functions to handle these `NULL` values.
+
+```sql
+-- Replace NULL department names with 'No Department'
+SELECT e.emp_id, e.emp_name, COALESCE(d.dept_name, 'No Department') AS dept_name
+FROM Employees e
+LEFT JOIN Departments d ON e.dept_id = d.dept_id;
+```
+
+#### Filtering Joined Data
+
+You can apply `WHERE` clauses to filter the joined data. However, be careful with filtering on the right table's columns as it can turn the left join into an inner join unintentionally.
+
+```sql
+-- Get employees with or without departments, but only include Engineering and NULL departments
+SELECT e.emp_id, e.emp_name, d.dept_name
+FROM Employees e
+LEFT JOIN Departments d ON e.dept_id = d.dept_id
+WHERE d.dept_name = 'Engineering' OR d.dept_name IS NULL;
+```
+
+### Practical Scenario: Employee and Department Information
+
+Retrieve a list of all employees along with their department names. Include employees who are not assigned to any department.
+
+#### Data
+
+`Employees`:
+| emp_id | emp_name | dept_id |
+|--------|----------|---------|
+| 1      | Alice    | 1       |
+| 2      | Bob      | 2       |
+| 3      | Charlie  | NULL    |
+| 4      | David    | 4       |
+
+`Departments`:
+| dept_id | dept_name  |
+|---------|------------|
+| 1       | HR         |
+| 2       | Engineering|
+| 3       | Marketing  |
+
+#### Left Outer Join Result
+
+| emp_id | emp_name | dept_name  |
+|--------|----------|------------|
+| 1      | Alice    | HR         |
+| 2      | Bob      | Engineering|
+| 3      | Charlie  | NULL       |
+| 4      | David    | NULL       |
+
+### Performing the Join
+
+```sql
+-- Left outer join Employees and Departments
+SELECT e.emp_id, e.emp_name, d.dept_name
+FROM Employees e
+LEFT JOIN Departments d ON e.dept_id = d.dept_id;
+```
+
+### Summary
+
+A left outer join is used to retrieve all rows from the left table and the matched rows from the right table. It is useful for including all records from the left table, regardless of whether there is a corresponding match in the right table. This guide provides examples of how to perform left outer joins in various SQL databases, including handling `NULL` values and applying filters.
+
+These examples demonstrate how to effectively perform left outer joins across various SQL databases. If you have more specific queries or need further examples, feel free to ask! ✔️
