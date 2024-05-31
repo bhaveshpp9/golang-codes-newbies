@@ -1,26 +1,161 @@
 \\ work with database(DB) — SQL — Inserting data — Inserting Complete Rows 3
 
 
-INSERT INTO customer (
-    first_name,
-    last_name,
-    email,
-    address_id,
-    active,
-    create_date,
-    last_update,
-    customer_id,
-    store_id
-) VALUES (
-    'IVAN',
-    'SIDOROV',
-    'ivan.sidiriv@gmail.com',
-    591,
-    1,
-    '2018-11-07',
-    NULL,
-    602,
-    1
-)
 
-All fields in the customer table are populated, but the order of the columns is different from the table definition.
+Inserting complete rows into a table in SQL involves specifying values for all columns in the table. Let's assume you want to insert multiple complete rows into a table named `Table3`. Here is a detailed guide on how to do this across different SQL databases.
+
+### Example Table Structure
+
+Assume we have a table named `Table3` with the following structure:
+
+```sql
+CREATE TABLE Table3 (
+    id INT PRIMARY KEY,
+    name VARCHAR(100),
+    age INT,
+    city VARCHAR(100)
+);
+```
+
+### Inserting Complete Rows
+
+To insert complete rows into `Table3`, you need to specify values for all columns.
+
+### Examples in Different Databases
+
+#### MySQL
+
+```sql
+-- Insert a complete row into Table3
+INSERT INTO Table3 (id, name, age, city)
+VALUES (1, 'Alice Brown', 28, 'Miami');
+
+-- Insert multiple complete rows into Table3
+INSERT INTO Table3 (id, name, age, city)
+VALUES 
+(2, 'Bob Green', 32, 'Boston'),
+(3, 'Charlie White', 40, 'Houston');
+```
+
+#### PostgreSQL
+
+```sql
+-- Insert a complete row into Table3
+INSERT INTO Table3 (id, name, age, city)
+VALUES (1, 'Alice Brown', 28, 'Miami');
+
+-- Insert multiple complete rows into Table3
+INSERT INTO Table3 (id, name, age, city)
+VALUES 
+(2, 'Bob Green', 32, 'Boston'),
+(3, 'Charlie White', 40, 'Houston');
+```
+
+#### Oracle
+
+```sql
+-- Insert a complete row into Table3
+INSERT INTO Table3 (id, name, age, city)
+VALUES (1, 'Alice Brown', 28, 'Miami');
+
+-- Insert multiple complete rows into Table3
+INSERT INTO Table3 (id, name, age, city)
+VALUES 
+(2, 'Bob Green', 32, 'Boston'),
+(3, 'Charlie White', 40, 'Houston');
+```
+
+#### SQLite
+
+```sql
+-- Insert a complete row into Table3
+INSERT INTO Table3 (id, name, age, city)
+VALUES (1, 'Alice Brown', 28, 'Miami');
+
+-- Insert multiple complete rows into Table3
+INSERT INTO Table3 (id, name, age, city)
+VALUES 
+(2, 'Bob Green', 32, 'Boston'),
+(3, 'Charlie White', 40, 'Houston');
+```
+
+#### SQL Server
+
+```sql
+-- Insert a complete row into Table3
+INSERT INTO Table3 (id, name, age, city)
+VALUES (1, 'Alice Brown', 28, 'Miami');
+
+-- Insert multiple complete rows into Table3
+INSERT INTO Table3 (id, name, age, city)
+VALUES 
+(2, 'Bob Green', 32, 'Boston'),
+(3, 'Charlie White', 40, 'Houston');
+```
+
+### Practical Examples
+
+#### Inserting Multiple Rows
+
+You can insert multiple rows in a single query by separating each set of values with a comma.
+
+```sql
+-- Insert multiple rows into Table3
+INSERT INTO Table3 (id, name, age, city)
+VALUES 
+(1, 'Alice Brown', 28, 'Miami'),
+(2, 'Bob Green', 32, 'Boston'),
+(3, 'Charlie White', 40, 'Houston');
+```
+
+#### Inserting Data into Auto-Increment Columns
+
+If your table has an auto-increment column (e.g., `id`), you can omit this column in the `INSERT` statement.
+
+Assume `id` is an auto-increment column:
+
+```sql
+CREATE TABLE Table3 (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    age INT,
+    city VARCHAR(100)
+);
+
+-- Insert a complete row into Table3, auto-incrementing the id
+INSERT INTO Table3 (name, age, city)
+VALUES ('Alice Brown', 28, 'Miami');
+```
+
+#### Inserting Data with Default Values
+
+If your table has columns with default values, you can omit these columns in the `INSERT` statement as well.
+
+Assume `age` has a default value of `18`:
+
+```sql
+CREATE TABLE Table3 (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    age INT DEFAULT 18,
+    city VARCHAR(100)
+);
+
+-- Insert a row into Table3, omitting the age column which will use the default value
+INSERT INTO Table3 (name, city)
+VALUES ('Alice Brown', 'Miami');
+```
+
+### Error Handling
+
+When inserting data, ensure:
+
+- **Data types match**: The values must match the data types defined for the columns.
+- **Constraints are respected**: Ensure that primary keys, foreign keys, and other constraints are not violated.
+- **Column order**: The order of columns in the `INSERT` statement should match the order of values provided.
+
+### Summary
+
+Inserting complete rows into a table in SQL involves specifying values for all columns. This can be done using the `INSERT INTO` statement, and you can insert multiple rows in a single query. Handling auto-increment columns and default values allows for more flexible data insertion.
+
+These examples demonstrate how to effectively insert complete rows into a table across various SQL databases. If you have more specific queries or need further examples, feel free to ask! ✔️
