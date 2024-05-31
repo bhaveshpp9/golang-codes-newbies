@@ -1,1 +1,215 @@
 \\ work with database(DB) — SQL — Updating Views — Filter Data in Views
+
+
+Filtering data in views involves using the `WHERE` clause within the `SELECT` statement that defines the view. This allows you to create a view that only includes rows that meet specific conditions. Below are examples of how to create views with filtered data in various SQL databases, including MySQL, PostgreSQL, SQLite, Microsoft SQL Server, and Oracle.
+
+### Example Table
+
+Assume we have the following table named `Employees`:
+
+```sql
+CREATE TABLE Employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100),
+    dept_id INT,
+    salary INT,
+    hire_date DATE
+);
+
+INSERT INTO Employees (emp_id, emp_name, dept_id, salary, hire_date) VALUES
+(1, 'Alice', 1, 50000, '2020-01-15'),
+(2, 'Bob', 2, 60000, '2019-03-22'),
+(3, 'Charlie', 1, 55000, '2021-06-10'),
+(4, 'David', 3, 45000, '2018-11-05'),
+(5, 'Eva', 2, 70000, '2017-09-13');
+```
+
+### Scenario: Create a View with Filtered Data
+
+Suppose we want to create a view that only includes employees with a salary greater than 50,000.
+
+### MySQL
+
+In MySQL, you use the `CREATE VIEW` statement with a `WHERE` clause to filter data in the view.
+
+#### Example
+
+```sql
+-- Create a view that shows employee details for those with a salary greater than 50,000
+CREATE VIEW HighSalaryEmployees AS
+SELECT
+    emp_id,
+    emp_name,
+    dept_id,
+    salary,
+    hire_date
+FROM Employees
+WHERE salary > 50000;
+```
+
+### PostgreSQL
+
+In PostgreSQL, you use the `CREATE VIEW` statement with a `WHERE` clause to filter data in the view.
+
+#### Example
+
+```sql
+-- Create a view that shows employee details for those with a salary greater than 50,000
+CREATE VIEW HighSalaryEmployees AS
+SELECT
+    emp_id,
+    emp_name,
+    dept_id,
+    salary,
+    hire_date
+FROM Employees
+WHERE salary > 50000;
+```
+
+### SQLite
+
+In SQLite, you use the `CREATE VIEW` statement with a `WHERE` clause to filter data in the view.
+
+#### Example
+
+```sql
+-- Create a view that shows employee details for those with a salary greater than 50,000
+CREATE VIEW HighSalaryEmployees AS
+SELECT
+    emp_id,
+    emp_name,
+    dept_id,
+    salary,
+    hire_date
+FROM Employees
+WHERE salary > 50000;
+```
+
+### Microsoft SQL Server (MS SQL)
+
+In MS SQL Server, you use the `CREATE VIEW` statement with a `WHERE` clause to filter data in the view.
+
+#### Example
+
+```sql
+-- Create a view that shows employee details for those with a salary greater than 50,000
+CREATE VIEW HighSalaryEmployees AS
+SELECT
+    emp_id,
+    emp_name,
+    dept_id,
+    salary,
+    hire_date
+FROM Employees
+WHERE salary > 50000;
+```
+
+### Oracle
+
+In Oracle, you use the `CREATE VIEW` statement with a `WHERE` clause to filter data in the view.
+
+#### Example
+
+```sql
+-- Create a view that shows employee details for those with a salary greater than 50,000
+CREATE VIEW HighSalaryEmployees AS
+SELECT
+    emp_id,
+    emp_name,
+    dept_id,
+    salary,
+    hire_date
+FROM Employees
+WHERE salary > 50000;
+```
+
+### Practical Examples: Creating Views with Filtered Data
+
+Here are practical examples of creating views with filtered data in the `Employees` table across various SQL databases.
+
+#### MySQL Example
+
+```sql
+-- Create a view that shows employee details for those with a salary greater than 50,000 in MySQL
+CREATE VIEW HighSalaryEmployees AS
+SELECT
+    emp_id,
+    emp_name,
+    dept_id,
+    salary,
+    hire_date
+FROM Employees
+WHERE salary > 50000;
+```
+
+#### PostgreSQL Example
+
+```sql
+-- Create a view that shows employee details for those with a salary greater than 50,000 in PostgreSQL
+CREATE VIEW HighSalaryEmployees AS
+SELECT
+    emp_id,
+    emp_name,
+    dept_id,
+    salary,
+    hire_date
+FROM Employees
+WHERE salary > 50000;
+```
+
+#### SQLite Example
+
+```sql
+-- Create a view that shows employee details for those with a salary greater than 50,000 in SQLite
+CREATE VIEW HighSalaryEmployees AS
+SELECT
+    emp_id,
+    emp_name,
+    dept_id,
+    salary,
+    hire_date
+FROM Employees
+WHERE salary > 50000;
+```
+
+#### MS SQL Server Example
+
+```sql
+-- Create a view that shows employee details for those with a salary greater than 50,000 in MS SQL Server
+CREATE VIEW HighSalaryEmployees AS
+SELECT
+    emp_id,
+    emp_name,
+    dept_id,
+    salary,
+    hire_date
+FROM Employees
+WHERE salary > 50000;
+```
+
+#### Oracle Example
+
+```sql
+-- Create a view that shows employee details for those with a salary greater than 50,000 in Oracle
+CREATE VIEW HighSalaryEmployees AS
+SELECT
+    emp_id,
+    emp_name,
+    dept_id,
+    salary,
+    hire_date
+FROM Employees
+WHERE salary > 50000;
+```
+
+### Considerations
+
+1. **Performance**: Filtering data in views can impact performance if the view is based on large tables or complex queries. Indexes on the columns used in the `WHERE` clause can help improve performance.
+2. **Updatability**: Not all views are updatable. For updatable views, ensure that the view definition supports updates.
+3. **Security**: Views can help restrict access to specific rows based on the filter criteria, enhancing data security.
+
+### Summary
+
+Creating views with filtered data involves using the `CREATE VIEW` statement with a `WHERE` clause to specify the conditions for including rows in the view. This approach is supported across various SQL databases, including MySQL, PostgreSQL, SQLite, MS SQL Server, and Oracle. The provided examples demonstrate how to create views with filtered data effectively.
+
+If you have more specific queries or need further examples, feel free to ask! ✔️
