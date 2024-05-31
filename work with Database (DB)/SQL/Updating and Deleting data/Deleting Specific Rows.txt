@@ -1,7 +1,169 @@
 \\ work with database(DB) — SQL — Updating and deleting data — Deleting Specific Rows
 
 
-DELETE FROM customer
-WHERE address_id = 1
+Deleting specific rows from a table in SQL involves using the `DELETE` statement along with a `WHERE` clause to specify which rows should be removed. Below are examples of how to delete specific rows from a table in various SQL databases, including MySQL, PostgreSQL, SQLite, Microsoft SQL Server, and Oracle.
 
-DELETE FROM requires that you specify the name of the table from which the data is to be deleted. The WHERE clause filters which rows are to be deleted.
+### Example Table
+
+Assume we have the following table named `Employees`:
+
+```sql
+CREATE TABLE Employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100),
+    dept_id INT,
+    salary INT
+);
+
+INSERT INTO Employees (emp_id, emp_name, dept_id, salary) VALUES
+(1, 'Alice', 1, 50000),
+(2, 'Bob', 2, 60000),
+(3, 'Charlie', 1, 55000),
+(4, 'David', 3, 45000),
+(5, 'Eva', 2, 70000);
+```
+
+### Deleting Specific Rows
+
+#### MySQL
+
+In MySQL, you use the `DELETE` statement with the `WHERE` clause to delete specific rows.
+
+#### Example: Delete Rows Where `dept_id` is 2
+
+```sql
+-- Delete rows from the Employees table where dept_id is 2
+DELETE FROM Employees
+WHERE dept_id = 2;
+```
+
+#### PostgreSQL
+
+In PostgreSQL, you use the `DELETE` statement with the `WHERE` clause to delete specific rows.
+
+#### Example: Delete Rows Where `salary` is Less Than 50000
+
+```sql
+-- Delete rows from the Employees table where salary is less than 50000
+DELETE FROM Employees
+WHERE salary < 50000;
+```
+
+#### SQLite
+
+In SQLite, you use the `DELETE` statement with the `WHERE` clause to delete specific rows.
+
+#### Example: Delete Rows Where `emp_name` is 'Alice'
+
+```sql
+-- Delete rows from the Employees table where emp_name is 'Alice'
+DELETE FROM Employees
+WHERE emp_name = 'Alice';
+```
+
+#### Microsoft SQL Server (MS SQL)
+
+In MS SQL Server, you use the `DELETE` statement with the `WHERE` clause to delete specific rows.
+
+#### Example: Delete Rows Where `emp_id` is Greater Than 3
+
+```sql
+-- Delete rows from the Employees table where emp_id is greater than 3
+DELETE FROM Employees
+WHERE emp_id > 3;
+```
+
+#### Oracle
+
+In Oracle, you use the `DELETE` statement with the `WHERE` clause to delete specific rows.
+
+#### Example: Delete Rows Where `dept_id` is 1
+
+```sql
+-- Delete rows from the Employees table where dept_id is 1
+DELETE FROM Employees
+WHERE dept_id = 1;
+```
+
+### Practical Examples: Deleting Specific Rows
+
+Here are practical examples of deleting specific rows from the `Employees` table across various SQL databases.
+
+#### MySQL Example
+
+**Delete Rows Where `dept_id` is 2**:
+
+```sql
+-- Delete rows from the Employees table where dept_id is 2 in MySQL
+DELETE FROM Employees
+WHERE dept_id = 2;
+```
+
+#### PostgreSQL Example
+
+**Delete Rows Where `salary` is Less Than 50000**:
+
+```sql
+-- Delete rows from the Employees table where salary is less than 50000 in PostgreSQL
+DELETE FROM Employees
+WHERE salary < 50000;
+```
+
+#### SQLite Example
+
+**Delete Rows Where `emp_name` is 'Alice'**:
+
+```sql
+-- Delete rows from the Employees table where emp_name is 'Alice' in SQLite
+DELETE FROM Employees
+WHERE emp_name = 'Alice';
+```
+
+#### MS SQL Server Example
+
+**Delete Rows Where `emp_id` is Greater Than 3**:
+
+```sql
+-- Delete rows from the Employees table where emp_id is greater than 3 in MS SQL Server
+DELETE FROM Employees
+WHERE emp_id > 3;
+```
+
+#### Oracle Example
+
+**Delete Rows Where `dept_id` is 1**:
+
+```sql
+-- Delete rows from the Employees table where dept_id is 1 in Oracle
+DELETE FROM Employees
+WHERE dept_id = 1;
+```
+
+### Considerations
+
+1. **WHERE Clause**: The `WHERE` clause is crucial for deleting specific rows. Omitting the `WHERE` clause will result in all rows being deleted.
+2. **Permissions**: Ensure you have the necessary permissions to delete rows from the table.
+3. **Backup**: Always ensure you have a backup of your data before performing delete operations, especially if they are irreversible.
+4. **Transactions**: For databases that support transactions, you can wrap the `DELETE` statement in a transaction to ensure that you can roll back the operation if necessary.
+
+#### Example with Transaction (MS SQL Server)
+
+```sql
+BEGIN TRANSACTION;
+
+-- Delete rows from the Employees table where emp_id is greater than 3
+DELETE FROM Employees
+WHERE emp_id > 3;
+
+-- Rollback the transaction if needed
+-- ROLLBACK TRANSACTION;
+
+-- Commit the transaction
+COMMIT TRANSACTION;
+```
+
+### Summary
+
+Deleting specific rows from a table involves using the `DELETE` statement with a `WHERE` clause to specify the conditions for deletion. The provided examples demonstrate how to delete specific rows effectively in MySQL, PostgreSQL, SQLite, MS SQL Server, and Oracle.
+
+If you have more specific queries or need further examples, feel free to ask! ✔️
