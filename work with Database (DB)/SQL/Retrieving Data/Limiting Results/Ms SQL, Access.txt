@@ -1,6 +1,132 @@
 \\ work with database(DB) — SQL — Retrieving Data — Limiting Results — Ms SQL, Access
 
 
-SELECT TOP 5 Name
-FROM country
+In Microsoft SQL Server (MS SQL) and Microsoft Access, you can limit the number of rows returned by a query using different approaches. In SQL Server, you typically use the `TOP` clause or the `OFFSET FETCH` clause. In Access, you use the `TOP` clause.
 
+### Microsoft SQL Server (MS SQL)
+
+#### Using the `TOP` Clause
+
+The `TOP` clause limits the number of rows returned in the result set.
+
+##### Basic Syntax
+
+```sql
+SELECT TOP (n) column1, column2, ...
+FROM table_name;
+```
+
+##### Practical Examples
+
+**Retrieve the First 3 Employees**
+
+```sql
+-- Retrieve the first 3 employees
+SELECT TOP (3) emp_id, emp_name, dept_id, salary
+FROM Employees;
+```
+
+**Retrieve Employees with the Highest Salaries (Top N)**
+
+```sql
+-- Retrieve the top 3 highest paid employees
+SELECT TOP (3) emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY salary DESC;
+```
+
+#### Using the `OFFSET FETCH` Clause
+
+The `OFFSET FETCH` clause is useful for implementing pagination.
+
+##### Basic Syntax
+
+```sql
+SELECT column1, column2, ...
+FROM table_name
+ORDER BY column_name
+OFFSET n ROWS
+FETCH NEXT m ROWS ONLY;
+```
+
+##### Practical Examples
+
+**Retrieve Employees Ordered by Salary, with Pagination**
+
+```sql
+-- Retrieve the second page of 3 employees, ordered by salary
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY salary DESC
+OFFSET 3 ROWS
+FETCH NEXT 3 ROWS ONLY;
+```
+
+### Microsoft Access
+
+#### Using the `TOP` Clause
+
+The `TOP` clause limits the number of rows returned in the result set.
+
+##### Basic Syntax
+
+```sql
+SELECT TOP n column1, column2, ...
+FROM table_name;
+```
+
+##### Practical Examples
+
+**Retrieve the First 3 Employees**
+
+```sql
+-- Retrieve the first 3 employees
+SELECT TOP 3 emp_id, emp_name, dept_id, salary
+FROM Employees;
+```
+
+**Retrieve Employees with the Highest Salaries (Top N)**
+
+```sql
+-- Retrieve the top 3 highest paid employees
+SELECT TOP 3 emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY salary DESC;
+```
+
+### Practical Scenario: Retrieving Top N Employees
+
+#### Using `TOP` in SQL Server
+
+```sql
+-- Retrieve the top 3 highest paid employees using TOP in SQL Server
+SELECT TOP (3) emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY salary DESC;
+```
+
+#### Using `OFFSET FETCH` in SQL Server
+
+```sql
+-- Retrieve the second page of 3 employees using OFFSET FETCH in SQL Server
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY emp_id
+OFFSET 3 ROWS
+FETCH NEXT 3 ROWS ONLY;
+```
+
+#### Using `TOP` in Access
+
+```sql
+-- Retrieve the top 3 highest paid employees using TOP in Access
+SELECT TOP 3 emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY salary DESC;
+```
+
+### Summary
+
+In Microsoft SQL Server, you can limit the number of rows returned by a query using the `TOP` clause or the `OFFSET FETCH` clause. The `TOP` clause is simple and straightforward, while the `OFFSET FETCH` clause is more suitable for pagination. In Microsoft Access, you can limit the number of rows using the `TOP` clause. These examples demonstrate how to retrieve a limited number of rows from a table in both SQL Server and Access.
+
+If you have more specific queries or need further examples, feel free to ask! ✔️
