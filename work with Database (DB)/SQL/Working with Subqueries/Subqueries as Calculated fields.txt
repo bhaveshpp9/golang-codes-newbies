@@ -1,1 +1,214 @@
 \\ work with database(DB) — SQL — Working with Subqueries — Subqueries as Calculated fields
+
+
+Using subqueries as calculated fields in SQL involves including subqueries within the `SELECT` statement to compute new values based on the results of other queries. This approach allows you to perform complex calculations and present the results as part of your query output.
+
+Below are examples of how to use subqueries as calculated fields in various SQL databases, including MySQL, PostgreSQL, SQLite, Microsoft SQL Server, and Oracle.
+
+### Example Tables
+
+Assume we have the following tables:
+
+#### Employees Table
+
+```sql
+CREATE TABLE Employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100),
+    dept_id INT,
+    salary INT,
+    hire_date DATE
+);
+
+INSERT INTO Employees (emp_id, emp_name, dept_id, salary, hire_date) VALUES
+(1, 'Alice', 1, 50000, '2020-01-15'),
+(2, 'Bob', 2, 60000, '2019-03-22'),
+(3, 'Charlie', 1, 55000, '2021-06-10'),
+(4, 'David', 3, 45000, '2018-11-05'),
+(5, 'Eva', 2, 70000, '2017-09-13');
+```
+
+#### Departments Table
+
+```sql
+CREATE TABLE Departments (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(100),
+    budget INT
+);
+
+INSERT INTO Departments (dept_id, dept_name, budget) VALUES
+(1, 'HR', 200000),
+(2, 'Finance', 300000),
+(3, 'IT', 250000);
+```
+
+### Scenario: Calculate Total Department Budget Per Employee
+
+Suppose we want to create a query that includes the total budget for the department each employee belongs to. We'll use a subquery to calculate this value.
+
+### MySQL
+
+In MySQL, you can use subqueries as calculated fields in the `SELECT` statement.
+
+#### Example
+
+```sql
+-- Calculate total department budget per employee in MySQL
+SELECT
+    e.emp_id,
+    e.emp_name,
+    e.dept_id,
+    e.salary,
+    (SELECT d.budget FROM Departments d WHERE d.dept_id = e.dept_id) AS dept_budget
+FROM Employees e;
+```
+
+### PostgreSQL
+
+In PostgreSQL, you can use subqueries as calculated fields in the `SELECT` statement.
+
+#### Example
+
+```sql
+-- Calculate total department budget per employee in PostgreSQL
+SELECT
+    e.emp_id,
+    e.emp_name,
+    e.dept_id,
+    e.salary,
+    (SELECT d.budget FROM Departments d WHERE d.dept_id = e.dept_id) AS dept_budget
+FROM Employees e;
+```
+
+### SQLite
+
+In SQLite, you can use subqueries as calculated fields in the `SELECT` statement.
+
+#### Example
+
+```sql
+-- Calculate total department budget per employee in SQLite
+SELECT
+    e.emp_id,
+    e.emp_name,
+    e.dept_id,
+    e.salary,
+    (SELECT d.budget FROM Departments d WHERE d.dept_id = e.dept_id) AS dept_budget
+FROM Employees e;
+```
+
+### Microsoft SQL Server (MS SQL)
+
+In MS SQL Server, you can use subqueries as calculated fields in the `SELECT` statement.
+
+#### Example
+
+```sql
+-- Calculate total department budget per employee in MS SQL Server
+SELECT
+    e.emp_id,
+    e.emp_name,
+    e.dept_id,
+    e.salary,
+    (SELECT d.budget FROM Departments d WHERE d.dept_id = e.dept_id) AS dept_budget
+FROM Employees e;
+```
+
+### Oracle
+
+In Oracle, you can use subqueries as calculated fields in the `SELECT` statement.
+
+#### Example
+
+```sql
+-- Calculate total department budget per employee in Oracle
+SELECT
+    e.emp_id,
+    e.emp_name,
+    e.dept_id,
+    e.salary,
+    (SELECT d.budget FROM Departments d WHERE d.dept_id = e.dept_id) AS dept_budget
+FROM Employees e;
+```
+
+### Practical Examples: Using Subqueries as Calculated Fields
+
+Here are practical examples of using subqueries as calculated fields in the `Employees` table across various SQL databases.
+
+#### MySQL Example
+
+```sql
+-- Calculate total department budget per employee in MySQL
+SELECT
+    e.emp_id,
+    e.emp_name,
+    e.dept_id,
+    e.salary,
+    (SELECT d.budget FROM Departments d WHERE d.dept_id = e.dept_id) AS dept_budget
+FROM Employees e;
+```
+
+#### PostgreSQL Example
+
+```sql
+-- Calculate total department budget per employee in PostgreSQL
+SELECT
+    e.emp_id,
+    e.emp_name,
+    e.dept_id,
+    e.salary,
+    (SELECT d.budget FROM Departments d WHERE d.dept_id = e.dept_id) AS dept_budget
+FROM Employees e;
+```
+
+#### SQLite Example
+
+```sql
+-- Calculate total department budget per employee in SQLite
+SELECT
+    e.emp_id,
+    e.emp_name,
+    e.dept_id,
+    e.salary,
+    (SELECT d.budget FROM Departments d WHERE d.dept_id = e.dept_id) AS dept_budget
+FROM Employees e;
+```
+
+#### MS SQL Server Example
+
+```sql
+-- Calculate total department budget per employee in MS SQL Server
+SELECT
+    e.emp_id,
+    e.emp_name,
+    e.dept_id,
+    e.salary,
+    (SELECT d.budget FROM Departments d WHERE d.dept_id = e.dept_id) AS dept_budget
+FROM Employees e;
+```
+
+#### Oracle Example
+
+```sql
+-- Calculate total department budget per employee in Oracle
+SELECT
+    e.emp_id,
+    e.emp_name,
+    e.dept_id,
+    e.salary,
+    (SELECT d.budget FROM Departments d WHERE d.dept_id = e.dept_id) AS dept_budget
+FROM Employees e;
+```
+
+### Considerations
+
+1. **Performance**: Subqueries can affect performance, especially if they are complex or operate on large datasets. Indexing the columns used in the subquery can help improve performance.
+2. **Scalability**: Depending on the database, there might be limits to the depth of nested subqueries. Always test and optimize your queries for scalability.
+3. **Readability**: Subqueries can make queries more difficult to read and maintain. Ensure that the use of subqueries is justified and well-documented.
+
+### Summary
+
+Using subqueries as calculated fields allows you to perform complex calculations and include the results as part of your query output. This approach is supported across various SQL databases, including MySQL, PostgreSQL, SQLite, MS SQL Server, and Oracle. The provided examples demonstrate how to use subqueries as calculated fields effectively.
+
+If you have more specific queries or need further examples, feel free to ask! ✔️
