@@ -1,6 +1,128 @@
 \\ work with database(DB) — SQL — Updating Views — Deleting views
 
 
-DROP VIEW bigCities
+Deleting views in SQL involves using the `DROP VIEW` statement. This command removes the view definition from the database, effectively deleting the view. Below are examples of how to delete views in various SQL databases, including MySQL, PostgreSQL, SQLite, Microsoft SQL Server, and Oracle.
 
-This instruction deletes the view created in the previous example.
+### Example View
+
+Assume we have the following view named `EmployeeDetails`:
+
+```sql
+CREATE VIEW EmployeeDetails AS
+SELECT
+    emp_id,
+    emp_name,
+    dept_id,
+    salary,
+    salary * 12 AS annual_salary,
+    hire_date
+FROM Employees;
+```
+
+### Deleting Views
+
+### MySQL
+
+In MySQL, you use the `DROP VIEW` statement to delete a view.
+
+#### Example
+
+```sql
+-- Delete the view named EmployeeDetails in MySQL
+DROP VIEW IF EXISTS EmployeeDetails;
+```
+
+### PostgreSQL
+
+In PostgreSQL, you use the `DROP VIEW` statement to delete a view.
+
+#### Example
+
+```sql
+-- Delete the view named EmployeeDetails in PostgreSQL
+DROP VIEW IF EXISTS EmployeeDetails;
+```
+
+### SQLite
+
+In SQLite, you use the `DROP VIEW` statement to delete a view.
+
+#### Example
+
+```sql
+-- Delete the view named EmployeeDetails in SQLite
+DROP VIEW IF EXISTS EmployeeDetails;
+```
+
+### Microsoft SQL Server (MS SQL)
+
+In MS SQL Server, you use the `DROP VIEW` statement to delete a view.
+
+#### Example
+
+```sql
+-- Delete the view named EmployeeDetails in MS SQL Server
+DROP VIEW IF EXISTS EmployeeDetails;
+```
+
+### Oracle
+
+In Oracle, you use the `DROP VIEW` statement to delete a view.
+
+#### Example
+
+```sql
+-- Delete the view named EmployeeDetails in Oracle
+DROP VIEW EmployeeDetails;
+```
+
+### Practical Examples: Deleting Views
+
+Here are practical examples of deleting the `EmployeeDetails` view across various SQL databases.
+
+#### MySQL Example
+
+```sql
+-- Delete the view named EmployeeDetails in MySQL
+DROP VIEW IF EXISTS EmployeeDetails;
+```
+
+#### PostgreSQL Example
+
+```sql
+-- Delete the view named EmployeeDetails in PostgreSQL
+DROP VIEW IF EXISTS EmployeeDetails;
+```
+
+#### SQLite Example
+
+```sql
+-- Delete the view named EmployeeDetails in SQLite
+DROP VIEW IF EXISTS EmployeeDetails;
+```
+
+#### MS SQL Server Example
+
+```sql
+-- Delete the view named EmployeeDetails in MS SQL Server
+DROP VIEW IF EXISTS EmployeeDetails;
+```
+
+#### Oracle Example
+
+```sql
+-- Delete the view named EmployeeDetails in Oracle
+DROP VIEW EmployeeDetails;
+```
+
+### Considerations
+
+1. **Dependencies**: Ensure that there are no dependencies on the view (such as other views or stored procedures) before deleting it. Deleting a view that other database objects depend on can cause errors.
+2. **Permissions**: Ensure you have the necessary permissions to delete the view.
+3. **Data Loss**: Deleting a view does not affect the underlying data in the base tables, but the view definition itself is lost.
+
+### Summary
+
+Deleting views in SQL is performed using the `DROP VIEW` statement. This command removes the view definition from the database. The provided examples demonstrate how to delete views effectively in MySQL, PostgreSQL, SQLite, MS SQL Server, and Oracle.
+
+If you have more specific queries or need further examples, feel free to ask! ✔️
