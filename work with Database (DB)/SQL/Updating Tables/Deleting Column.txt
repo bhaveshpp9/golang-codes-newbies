@@ -1,1 +1,210 @@
 \\ work with database(DB) — SQL — Updating Tables — Deleting Column
+
+
+Deleting a column from an existing table in SQL is performed using the `ALTER TABLE` statement with the `DROP COLUMN` clause. Below are examples of how to delete a column in various SQL databases, including MySQL, PostgreSQL, SQLite, Microsoft SQL Server, and Oracle.
+
+### Example Table
+
+Assume we have the following table with a column `hire_date` that we want to delete:
+
+```sql
+CREATE TABLE Employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100),
+    dept_id INT,
+    salary INT,
+    hire_date DATE
+);
+```
+
+### MySQL
+
+In MySQL, you use the `ALTER TABLE` statement with the `DROP COLUMN` clause to delete a column.
+
+#### Syntax
+
+```sql
+ALTER TABLE table_name
+DROP COLUMN column_name;
+```
+
+#### Example
+
+```sql
+-- Delete the column named hire_date from the Employees table
+ALTER TABLE Employees
+DROP COLUMN hire_date;
+```
+
+### PostgreSQL
+
+In PostgreSQL, you use the `ALTER TABLE` statement with the `DROP COLUMN` clause to delete a column.
+
+#### Syntax
+
+```sql
+ALTER TABLE table_name
+DROP COLUMN column_name;
+```
+
+#### Example
+
+```sql
+-- Delete the column named hire_date from the Employees table
+ALTER TABLE Employees
+DROP COLUMN hire_date;
+```
+
+### SQLite
+
+SQLite supports the `ALTER TABLE` statement but does not directly support the `DROP COLUMN` clause. To remove a column, you need to follow these steps:
+1. Create a new table without the column.
+2. Copy data from the old table to the new table.
+3. Drop the old table.
+4. Rename the new table to the original table name.
+
+#### Example
+
+1. **Create a new table without the `hire_date` column**:
+
+```sql
+CREATE TABLE Employees_new (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name TEXT,
+    dept_id INTEGER,
+    salary INTEGER
+);
+```
+
+2. **Copy data from the old table to the new table**:
+
+```sql
+INSERT INTO Employees_new (emp_id, emp_name, dept_id, salary)
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees;
+```
+
+3. **Drop the old table**:
+
+```sql
+DROP TABLE Employees;
+```
+
+4. **Rename the new table to the original table name**:
+
+```sql
+ALTER TABLE Employees_new RENAME TO Employees;
+```
+
+### Microsoft SQL Server (MS SQL)
+
+In MS SQL Server, you use the `ALTER TABLE` statement with the `DROP COLUMN` clause to delete a column.
+
+#### Syntax
+
+```sql
+ALTER TABLE table_name
+DROP COLUMN column_name;
+```
+
+#### Example
+
+```sql
+-- Delete the column named hire_date from the Employees table
+ALTER TABLE Employees
+DROP COLUMN hire_date;
+```
+
+### Oracle
+
+In Oracle, you use the `ALTER TABLE` statement with the `DROP COLUMN` clause to delete a column.
+
+#### Syntax
+
+```sql
+ALTER TABLE table_name
+DROP COLUMN column_name;
+```
+
+#### Example
+
+```sql
+-- Delete the column named hire_date from the Employees table
+ALTER TABLE Employees
+DROP COLUMN hire_date;
+```
+
+### Practical Example: Deleting a Column
+
+Here is a practical example of deleting a column named `hire_date` from the `Employees` table across various SQL databases.
+
+#### MySQL Example
+
+```sql
+-- Delete the column named hire_date from the Employees table in MySQL
+ALTER TABLE Employees
+DROP COLUMN hire_date;
+```
+
+#### PostgreSQL Example
+
+```sql
+-- Delete the column named hire_date from the Employees table in PostgreSQL
+ALTER TABLE Employees
+DROP COLUMN hire_date;
+```
+
+#### SQLite Example
+
+1. **Create a new table without the `hire_date` column**:
+
+```sql
+CREATE TABLE Employees_new (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name TEXT,
+    dept_id INTEGER,
+    salary INTEGER
+);
+```
+
+2. **Copy data from the old table to the new table**:
+
+```sql
+INSERT INTO Employees_new (emp_id, emp_name, dept_id, salary)
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees;
+```
+
+3. **Drop the old table**:
+
+```sql
+DROP TABLE Employees;
+```
+
+4. **Rename the new table to the original table name**:
+
+```sql
+ALTER TABLE Employees_new RENAME TO Employees;
+```
+
+#### MS SQL Server Example
+
+```sql
+-- Delete the column named hire_date from the Employees table in MS SQL Server
+ALTER TABLE Employees
+DROP COLUMN hire_date;
+```
+
+#### Oracle Example
+
+```sql
+-- Delete the column named hire_date from the Employees table in Oracle
+ALTER TABLE Employees
+DROP COLUMN hire_date;
+```
+
+### Summary
+
+Deleting a column from an existing table involves using the `ALTER TABLE` statement with the `DROP COLUMN` clause in most SQL databases. SQLite, however, requires a workaround involving creating a new table without the column, copying data, dropping the old table, and renaming the new table. The provided examples demonstrate how to delete a column effectively in MySQL, PostgreSQL, SQLite, MS SQL Server, and Oracle.
+
+If you have more specific queries or need further examples, feel free to ask! ✔️
