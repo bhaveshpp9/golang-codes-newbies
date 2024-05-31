@@ -1,9 +1,177 @@
 \\ work with database(DB) — SQL — Inserting data — Create a copy of Table 1
 
 
---MsSQL
-SELECT *
-INTO newCustomer
-FROM customer
+Creating a copy of a table in SQL involves creating a new table with the same structure as the existing table and then optionally copying the data from the original table to the new table. Here’s how to do this across different SQL databases:
 
-This SELECT statement creates a new table named newCustomer and copies the entire contents of the customer table into it. Because SELECT * was used, every column in the customer table will be created (and populated) in the newCustomer table. To copy only a subset of the available columns, explicit column names can be specified instead of the * wildcard character.
+### Steps to Create a Copy of a Table
+
+1. **Create a new table with the same structure as the existing table.**
+2. **Optionally, copy the data from the existing table to the new table.**
+
+### Basic Syntax
+
+#### Step 1: Create a New Table with the Same Structure
+
+```sql
+CREATE TABLE new_table_name AS
+SELECT * FROM existing_table_name WHERE 1=0;
+```
+
+#### Step 2: Copy Data from the Existing Table to the New Table
+
+```sql
+INSERT INTO new_table_name
+SELECT * FROM existing_table_name;
+```
+
+### Examples in Different Databases
+
+#### MySQL
+
+```sql
+-- Step 1: Create a new table with the same structure
+CREATE TABLE new_table_name LIKE existing_table_name;
+
+-- Step 2: Copy data from the existing table to the new table
+INSERT INTO new_table_name
+SELECT * FROM existing_table_name;
+```
+
+#### PostgreSQL
+
+```sql
+-- Step 1: Create a new table with the same structure
+CREATE TABLE new_table_name AS
+SELECT *
+FROM existing_table_name
+WHERE 1=0;
+
+-- Step 2: Copy data from the existing table to the new table
+INSERT INTO new_table_name
+SELECT *
+FROM existing_table_name;
+```
+
+#### Oracle
+
+```sql
+-- Step 1: Create a new table with the same structure
+CREATE TABLE new_table_name AS
+SELECT *
+FROM existing_table_name
+WHERE 1=0;
+
+-- Step 2: Copy data from the existing table to the new table
+INSERT INTO new_table_name
+SELECT *
+FROM existing_table_name;
+```
+
+#### SQLite
+
+```sql
+-- Step 1: Create a new table with the same structure
+CREATE TABLE new_table_name AS
+SELECT *
+FROM existing_table_name
+WHERE 0;
+
+-- Step 2: Copy data from the existing table to the new table
+INSERT INTO new_table_name
+SELECT *
+FROM existing_table_name;
+```
+
+#### SQL Server
+
+```sql
+-- Step 1: Create a new table with the same structure
+SELECT *
+INTO new_table_name
+FROM existing_table_name
+WHERE 1=0;
+
+-- Step 2: Copy data from the existing table to the new table
+INSERT INTO new_table_name
+SELECT *
+FROM existing_table_name;
+```
+
+### Detailed Example
+
+Let’s assume you have a table named `Employees` and you want to create a copy of this table named `Employees_Copy`.
+
+#### MySQL
+
+```sql
+-- Step 1: Create a new table with the same structure
+CREATE TABLE Employees_Copy LIKE Employees;
+
+-- Step 2: Copy data from the existing table to the new table
+INSERT INTO Employees_Copy
+SELECT * FROM Employees;
+```
+
+#### PostgreSQL
+
+```sql
+-- Step 1: Create a new table with the same structure
+CREATE TABLE Employees_Copy AS
+SELECT *
+FROM Employees
+WHERE 1=0;
+
+-- Step 2: Copy data from the existing table to the new table
+INSERT INTO Employees_Copy
+SELECT *
+FROM Employees;
+```
+
+#### Oracle
+
+```sql
+-- Step 1: Create a new table with the same structure
+CREATE TABLE Employees_Copy AS
+SELECT *
+FROM Employees
+WHERE 1=0;
+
+-- Step 2: Copy data from the existing table to the new table
+INSERT INTO Employees_Copy
+SELECT *
+FROM Employees;
+```
+
+#### SQLite
+
+```sql
+-- Step 1: Create a new table with the same structure
+CREATE TABLE Employees_Copy AS
+SELECT *
+FROM Employees
+WHERE 0;
+
+-- Step 2: Copy data from the existing table to the new table
+INSERT INTO Employees_Copy
+SELECT *
+FROM Employees;
+```
+
+#### SQL Server
+
+```sql
+-- Step 1: Create a new table with the same structure
+SELECT *
+INTO Employees_Copy
+FROM Employees
+WHERE 1=0;
+
+-- Step 2: Copy data from the existing table to the new table
+INSERT INTO Employees_Copy
+SELECT *
+FROM Employees;
+```
+
+### Summary
+
+Creating a copy of a table involves creating a new table with the same structure and then copying the data from the original table to the new table. The exact syntax can vary slightly between different SQL databases, but the general process remains the same. These examples demonstrate how to effectively create a copy of a table across various SQL databases. If you have more specific queries or need further examples, feel free to ask! ✔️
