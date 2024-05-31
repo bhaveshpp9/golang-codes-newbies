@@ -1,26 +1,161 @@
 \\ work with database(DB) — SQL — Inserting data — Inserting Complete Rows 2
 
 
-INSERT INTO customer (
-    customer_id,
-    store_id,
-    first_name,
-    last_name,
-    email,
-    address_id,
-    active,
-    create_date,
-    last_update
-) VALUES (
-    602,
-    1,
-    'IVAN',
-    'SIDOROV',
-    'ivan.sidiriv@gmail.com',
-    591,
-    1,
-    '2018-11-07',
-    NULL
-)
 
-This example does the exact same thing as the previous INSERT statement, but this time the column names are explicitly stated in parentheses after the table name. When the row is inserted the DBMS will match each item in the columns list with the appropriate value in the VALUES list.
+Inserting complete rows into a SQL table involves providing values for all columns in the table. Let's assume you want to insert multiple complete rows into a table named `Table2`. Here is a detailed guide on how to do this across different SQL databases.
+
+### Example Table Structure
+
+Assume we have a table named `Table2` with the following structure:
+
+```sql
+CREATE TABLE Table2 (
+    id INT PRIMARY KEY,
+    name VARCHAR(100),
+    age INT,
+    city VARCHAR(100)
+);
+```
+
+### Inserting Complete Rows
+
+To insert complete rows into `Table2`, you need to specify values for all columns.
+
+### Examples in Different Databases
+
+#### MySQL
+
+```sql
+-- Insert a complete row into Table2
+INSERT INTO Table2 (id, name, age, city)
+VALUES (1, 'John Doe', 30, 'New York');
+
+-- Insert multiple complete rows into Table2
+INSERT INTO Table2 (id, name, age, city)
+VALUES 
+(2, 'Jane Smith', 25, 'Los Angeles'),
+(3, 'Mike Johnson', 35, 'Chicago');
+```
+
+#### PostgreSQL
+
+```sql
+-- Insert a complete row into Table2
+INSERT INTO Table2 (id, name, age, city)
+VALUES (1, 'John Doe', 30, 'New York');
+
+-- Insert multiple complete rows into Table2
+INSERT INTO Table2 (id, name, age, city)
+VALUES 
+(2, 'Jane Smith', 25, 'Los Angeles'),
+(3, 'Mike Johnson', 35, 'Chicago');
+```
+
+#### Oracle
+
+```sql
+-- Insert a complete row into Table2
+INSERT INTO Table2 (id, name, age, city)
+VALUES (1, 'John Doe', 30, 'New York');
+
+-- Insert multiple complete rows into Table2
+INSERT INTO Table2 (id, name, age, city)
+VALUES 
+(2, 'Jane Smith', 25, 'Los Angeles'),
+(3, 'Mike Johnson', 35, 'Chicago');
+```
+
+#### SQLite
+
+```sql
+-- Insert a complete row into Table2
+INSERT INTO Table2 (id, name, age, city)
+VALUES (1, 'John Doe', 30, 'New York');
+
+-- Insert multiple complete rows into Table2
+INSERT INTO Table2 (id, name, age, city)
+VALUES 
+(2, 'Jane Smith', 25, 'Los Angeles'),
+(3, 'Mike Johnson', 35, 'Chicago');
+```
+
+#### SQL Server
+
+```sql
+-- Insert a complete row into Table2
+INSERT INTO Table2 (id, name, age, city)
+VALUES (1, 'John Doe', 30, 'New York');
+
+-- Insert multiple complete rows into Table2
+INSERT INTO Table2 (id, name, age, city)
+VALUES 
+(2, 'Jane Smith', 25, 'Los Angeles'),
+(3, 'Mike Johnson', 35, 'Chicago');
+```
+
+### Practical Examples
+
+#### Inserting Multiple Rows
+
+You can insert multiple rows in a single query by separating each set of values with a comma.
+
+```sql
+-- Insert multiple rows into Table2
+INSERT INTO Table2 (id, name, age, city)
+VALUES 
+(1, 'John Doe', 30, 'New York'),
+(2, 'Jane Smith', 25, 'Los Angeles'),
+(3, 'Mike Johnson', 35, 'Chicago');
+```
+
+#### Inserting Data into Auto-Increment Columns
+
+If your table has an auto-increment column (e.g., `id`), you can omit this column in the `INSERT` statement.
+
+Assume `id` is an auto-increment column:
+
+```sql
+CREATE TABLE Table2 (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    age INT,
+    city VARCHAR(100)
+);
+
+-- Insert a complete row into Table2, auto-incrementing the id
+INSERT INTO Table2 (name, age, city)
+VALUES ('John Doe', 30, 'New York');
+```
+
+#### Inserting Data with Default Values
+
+If your table has columns with default values, you can omit these columns in the `INSERT` statement as well.
+
+Assume `age` has a default value of `18`:
+
+```sql
+CREATE TABLE Table2 (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    age INT DEFAULT 18,
+    city VARCHAR(100)
+);
+
+-- Insert a row into Table2, omitting the age column which will use the default value
+INSERT INTO Table2 (name, city)
+VALUES ('John Doe', 'New York');
+```
+
+### Error Handling
+
+When inserting data, ensure:
+
+- **Data types match**: The values must match the data types defined for the columns.
+- **Constraints are respected**: Ensure that primary keys, foreign keys, and other constraints are not violated.
+- **Column order**: The order of columns in the `INSERT` statement should match the order of values provided.
+
+### Summary
+
+Inserting complete rows into a table in SQL involves specifying values for all columns. This can be done using the `INSERT INTO` statement, and you can insert multiple rows in a single query. Handling auto-increment columns and default values allows for more flexible data insertion.
+
+These examples demonstrate how to effectively insert complete rows into a table across various SQL databases. If you have more specific queries or need further examples, feel free to ask! ✔️
