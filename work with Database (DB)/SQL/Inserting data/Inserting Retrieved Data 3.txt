@@ -1,1 +1,207 @@
 \\ work with database(DB) — SQL — Inserting data — Inserting Retrieved Data 3
+
+
+Inserting retrieved data into a SQL table can involve more advanced scenarios, such as using subqueries, handling conflicts, or applying complex transformations. Here’s a detailed guide on how to insert retrieved data into a table across different SQL databases with advanced techniques.
+
+### Example Table Structure
+
+Assume we have two tables, `SourceTable` and `TargetTable`, with the following structure:
+
+```sql
+CREATE TABLE SourceTable (
+    id INT PRIMARY KEY,
+    name VARCHAR(100),
+    age INT,
+    city VARCHAR(100)
+);
+
+CREATE TABLE TargetTable (
+    id INT PRIMARY KEY,
+    name VARCHAR(100),
+    age INT,
+    city VARCHAR(100)
+);
+```
+
+### Inserting Retrieved Data
+
+#### Basic Example
+
+Insert data from `SourceTable` into `TargetTable`:
+
+```sql
+INSERT INTO TargetTable (id, name, age, city)
+SELECT id, name, age, city
+FROM SourceTable;
+```
+
+### Advanced Examples
+
+#### Using Subqueries to Retrieve and Insert Data
+
+You can use subqueries to refine the data selection.
+
+```sql
+-- Insert data into TargetTable for people living in cities where the average age is greater than 30
+INSERT INTO TargetTable (id, name, age, city)
+SELECT id, name, age, city
+FROM SourceTable
+WHERE city IN (
+    SELECT city
+    FROM SourceTable
+    GROUP BY city
+    HAVING AVG(age) > 30
+);
+```
+
+#### Inserting Data with Column Transformation
+
+Transform data while copying, such as converting to uppercase, formatting dates, or performing calculations.
+
+```sql
+-- Insert data with the name in uppercase
+INSERT INTO TargetTable (id, name, age, city)
+SELECT id, UPPER(name), age, city
+FROM SourceTable
+WHERE age > 25;
+```
+
+#### Using Joins to Insert Data from Multiple Tables
+
+You can use joins to insert data from multiple tables into one.
+
+```sql
+-- Assume another table named Department
+CREATE TABLE Department (
+    dept_id INT,
+    dept_name VARCHAR(100),
+    employee_id INT
+);
+
+-- Insert data into TargetTable from SourceTable and Department using a join
+INSERT INTO TargetTable (id, name, age, city)
+SELECT s.id, s.name, s.age, d.dept_name AS city
+FROM SourceTable s
+JOIN Department d ON s.id = d.employee_id;
+```
+
+#### Using Aggregate Functions in Data Insertion
+
+You can use aggregate functions to insert summarized data.
+
+```sql
+-- Insert the maximum age for each city into TargetTable
+INSERT INTO TargetTable (id, name, age, city)
+SELECT ROW_NUMBER() OVER (ORDER BY city) AS id, NULL AS name, MAX(age) AS age, city
+FROM SourceTable
+GROUP BY city;
+```
+
+#### Handling Duplicates and Conflicts
+
+If there might be conflicts (e.g., duplicate primary keys), you can handle them using database-specific syntax.
+
+##### MySQL: Using `ON DUPLICATE KEY UPDATE`
+
+```sql
+-- Insert data and update if there's a duplicate key
+INSERT INTO TargetTable (id, name, age, city)
+SELECT id, name, age, city
+FROM SourceTable
+ON DUPLICATE KEY UPDATE
+name = VALUES(name), age = VALUES(age), city = VALUES(city);
+```
+
+##### PostgreSQL: Using `ON CONFLICT`
+
+```sql
+-- Insert data and update if there's a conflict on the primary key
+INSERT INTO TargetTable (id, name, age, city)
+SELECT id, name, age, city
+FROM SourceTable
+ON CONFLICT (id)
+DO UPDATE SET
+name = EXCLUDED.name,
+age = EXCLUDED.age,
+city = EXCLUDED.city;
+```
+
+##### SQL Server: Using `MERGE`
+
+```sql
+-- Insert data and update if there's a conflict
+MERGE TargetTable AS target
+USING (SELECT id, name, age, city FROM SourceTable) AS source
+ON target.id = source.id
+WHEN MATCHED THEN
+    UPDATE SET target.name = source.name, target.age = source.age, target.city = source.city
+WHEN NOT MATCHED BY TARGET THEN
+    INSERT (id, name, age, city) VALUES (source.id, source.name, source.age, source.city);
+```
+
+#### Inserting Data with Calculated Values
+
+You can insert data with calculated values.
+
+```sql
+-- Insert data with a calculated age difference
+INSERT INTO TargetTable (id, name, age, city)
+SELECT id, name, age + 5, city
+FROM SourceTable;
+```
+
+### Examples in Different Databases
+
+#### MySQL
+
+```sql
+-- Insert data from SourceTable into TargetTable where age is greater than 25
+INSERT INTO TargetTable (id, name, age, city)
+SELECT id, name, age, city
+FROM SourceTable
+WHERE age > 25;
+```
+
+#### PostgreSQL
+
+```sql
+-- Insert data from SourceTable into TargetTable where age is greater than 25
+INSERT INTO TargetTable (id, name, age, city)
+SELECT id, name, age, city
+FROM SourceTable
+WHERE age > 25;
+```
+
+#### Oracle
+
+```sql
+-- Insert data from SourceTable into TargetTable where age is greater than 25
+INSERT INTO TargetTable (id, name, age, city)
+SELECT id, name, age, city
+FROM SourceTable
+WHERE age > 25;
+```
+
+#### SQLite
+
+```sql
+-- Insert data from SourceTable into TargetTable where age is greater than 25
+INSERT INTO TargetTable (id, name, age, city)
+SELECT id, name, age, city
+FROM SourceTable
+WHERE age > 25;
+```
+
+#### SQL Server
+
+```sql
+-- Insert data from SourceTable into TargetTable where age is greater than 25
+INSERT INTO TargetTable (id, name, age, city)
+SELECT id, name, age, city
+FROM SourceTable
+WHERE age > 25;
+```
+
+### Summary
+
+Inserting retrieved data into a table in SQL can involve complex queries and transformations. Using the `INSERT INTO` statement with a `SELECT` statement allows you to copy and transform data based on various criteria, handle conflicts, and perform calculations. These examples demonstrate advanced techniques for inserting retrieved data into a table across various SQL databases. If you have more specific queries or need further examples, feel free to ask! ✔️
