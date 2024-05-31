@@ -1,1 +1,176 @@
 \\ work with database(DB) — SQL — Joining Table — Full outer joins
+
+
+In SQL, a full outer join returns all rows when there is a match in either left or right table records. This means that it returns all rows from both tables, with the matching rows from both sides where available. If there is no match, the result is NULL on the side that doesn't have a match.
+
+### Basic Syntax
+
+```sql
+SELECT column1, column2, ...
+FROM table1
+FULL OUTER JOIN table2
+ON table1.common_column = table2.common_column;
+```
+
+### Example Tables
+
+Assume we have two tables, `TableA` and `TableB`, with the following data:
+
+```sql
+CREATE TABLE TableA (
+    id INT PRIMARY KEY,
+    name VARCHAR(100)
+);
+
+CREATE TABLE TableB (
+    id INT PRIMARY KEY,
+    description VARCHAR(100)
+);
+
+INSERT INTO TableA (id, name) VALUES
+(1, 'Alice'),
+(2, 'Bob'),
+(3, 'Charlie');
+
+INSERT INTO TableB (id, description) VALUES
+(2, 'Engineer'),
+(3, 'Doctor'),
+(4, 'Artist');
+```
+
+### Performing a Full Outer Join
+
+#### MySQL
+
+MySQL does not support the `FULL OUTER JOIN` directly. Instead, you can achieve this with a `UNION` of `LEFT JOIN` and `RIGHT JOIN`.
+
+```sql
+-- Full outer join using UNION in MySQL
+SELECT a.id, a.name, b.description
+FROM TableA a
+LEFT JOIN TableB b ON a.id = b.id
+UNION
+SELECT b.id, a.name, b.description
+FROM TableA a
+RIGHT JOIN TableB b ON a.id = b.id;
+```
+
+#### PostgreSQL
+
+PostgreSQL supports the `FULL OUTER JOIN` syntax directly.
+
+```sql
+-- Full outer join in PostgreSQL
+SELECT a.id, a.name, b.description
+FROM TableA a
+FULL OUTER JOIN TableB b ON a.id = b.id;
+```
+
+#### Oracle
+
+Oracle supports the `FULL OUTER JOIN` syntax directly.
+
+```sql
+-- Full outer join in Oracle
+SELECT a.id, a.name, b.description
+FROM TableA a
+FULL OUTER JOIN TableB b ON a.id = b.id;
+```
+
+#### SQLite
+
+SQLite does not support `FULL OUTER JOIN` directly. Similar to MySQL, you can use a `UNION` of `LEFT JOIN` and `RIGHT JOIN`.
+
+```sql
+-- Full outer join using UNION in SQLite
+SELECT a.id, a.name, b.description
+FROM TableA a
+LEFT JOIN TableB b ON a.id = b.id
+UNION
+SELECT b.id, a.name, b.description
+FROM TableA a
+RIGHT JOIN TableB b ON a.id = b.id;
+```
+
+#### SQL Server
+
+SQL Server supports the `FULL OUTER JOIN` syntax directly.
+
+```sql
+-- Full outer join in SQL Server
+SELECT a.id, a.name, b.description
+FROM TableA a
+FULL OUTER JOIN TableB b ON a.id = b.id;
+```
+
+### Practical Example
+
+Assuming we want to combine `TableA` and `TableB` to get all rows from both tables:
+
+#### Data
+
+`TableA`:
+| id | name    |
+|----|---------|
+| 1  | Alice   |
+| 2  | Bob     |
+| 3  | Charlie |
+
+`TableB`:
+| id | description |
+|----|-------------|
+| 2  | Engineer    |
+| 3  | Doctor      |
+| 4  | Artist      |
+
+#### Full Outer Join Result
+
+| id | name    | description |
+|----|---------|-------------|
+| 1  | Alice   | NULL        |
+| 2  | Bob     | Engineer    |
+| 3  | Charlie | Doctor      |
+| 4  | NULL    | Artist      |
+
+### Performing the Join
+
+#### MySQL (Using `UNION`)
+
+```sql
+-- Full outer join using UNION in MySQL
+SELECT a.id, a.name, b.description
+FROM TableA a
+LEFT JOIN TableB b ON a.id = b.id
+UNION
+SELECT b.id, a.name, b.description
+FROM TableA a
+RIGHT JOIN TableB b ON a.id = b.id;
+```
+
+#### PostgreSQL, Oracle, SQL Server (Direct `FULL OUTER JOIN`)
+
+```sql
+-- Full outer join in PostgreSQL, Oracle, SQL Server
+SELECT a.id, a.name, b.description
+FROM TableA a
+FULL OUTER JOIN TableB b ON a.id = b.id;
+```
+
+#### SQLite (Using `UNION`)
+
+```sql
+-- Full outer join using UNION in SQLite
+SELECT a.id, a.name, b.description
+FROM TableA a
+LEFT JOIN TableB b ON a.id = b.id
+UNION
+SELECT b.id, a.name, b.description
+FROM TableA a
+RIGHT JOIN TableB b ON a.id = b.id;
+```
+
+### Summary
+
+A full outer join is useful when you need to combine rows from two tables and include all rows from both tables, filling in `NULL` for missing matches on either side. While some databases like PostgreSQL, Oracle, and SQL Server support `FULL OUTER JOIN` directly, others like MySQL and SQLite require a workaround using `UNION` of `LEFT JOIN` and `RIGHT JOIN`.
+
+These examples demonstrate how to effectively perform a full outer join across various SQL databases. If you have more specific queries or need further examples, feel free to ask! ✔️
