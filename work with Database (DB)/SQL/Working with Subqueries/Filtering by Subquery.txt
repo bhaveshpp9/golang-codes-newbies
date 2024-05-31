@@ -1,29 +1,172 @@
 \\ work with database(DB) — SQL — Working with Subqueries — Filtering by Subquery
 
 
-SELECT
-    Name
-FROM country
-WHERE Code IN (
-    SELECT CountryCode
-    FROM countrylanguage
-    WHERE Language = 'Russian'
-)
+Filtering by subquery involves using subqueries within the `WHERE` clause of a `SELECT`, `UPDATE`, or `DELETE` statement to specify the filtering conditions. Subqueries can return single values, lists of values, or even tables, making them very flexible for complex filtering operations. Below are examples of how to use subqueries to filter data in various SQL databases, including MySQL, PostgreSQL, SQLite, Microsoft SQL Server, and Oracle.
 
-Name
-Azerbaijan
-Belarus
-Estonia
-Finland
-Georgia
-Israel
-Kazakstan
-Kyrgyzstan
-Lithuania
-...
+### Example Tables
 
-When processing this query, first it runs the subquery:
-    SELECT CountryCode
-    FROM countrylanguage
-    WHERE Language = 'Russian'
-Its result is passed to the WHERE clause of the outer query in the comma-delimited format required by the IN operator.
+Assume we have the following tables:
+
+#### Employees Table
+
+```sql
+CREATE TABLE Employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100),
+    dept_id INT,
+    salary INT,
+    hire_date DATE
+);
+
+INSERT INTO Employees (emp_id, emp_name, dept_id, salary, hire_date) VALUES
+(1, 'Alice', 1, 50000, '2020-01-15'),
+(2, 'Bob', 2, 60000, '2019-03-22'),
+(3, 'Charlie', 1, 55000, '2021-06-10'),
+(4, 'David', 3, 45000, '2018-11-05'),
+(5, 'Eva', 2, 70000, '2017-09-13');
+```
+
+#### Departments Table
+
+```sql
+CREATE TABLE Departments (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(100),
+    location VARCHAR(100)
+);
+
+INSERT INTO Departments (dept_id, dept_name, location) VALUES
+(1, 'HR', 'New York'),
+(2, 'Finance', 'Los Angeles'),
+(3, 'IT', 'Chicago');
+```
+
+### Scenario: Filter Employees by Department Location
+
+Suppose we want to retrieve employees who work in departments located in 'New York'.
+
+### MySQL
+
+In MySQL, you can use a subquery in the `WHERE` clause to filter data.
+
+#### Example
+
+```sql
+-- Retrieve employees who work in departments located in 'New York'
+SELECT *
+FROM Employees
+WHERE dept_id IN (SELECT dept_id FROM Departments WHERE location = 'New York');
+```
+
+### PostgreSQL
+
+In PostgreSQL, you can use a subquery in the `WHERE` clause to filter data.
+
+#### Example
+
+```sql
+-- Retrieve employees who work in departments located in 'New York'
+SELECT *
+FROM Employees
+WHERE dept_id IN (SELECT dept_id FROM Departments WHERE location = 'New York');
+```
+
+### SQLite
+
+In SQLite, you can use a subquery in the `WHERE` clause to filter data.
+
+#### Example
+
+```sql
+-- Retrieve employees who work in departments located in 'New York'
+SELECT *
+FROM Employees
+WHERE dept_id IN (SELECT dept_id FROM Departments WHERE location = 'New York');
+```
+
+### Microsoft SQL Server (MS SQL)
+
+In MS SQL Server, you can use a subquery in the `WHERE` clause to filter data.
+
+#### Example
+
+```sql
+-- Retrieve employees who work in departments located in 'New York'
+SELECT *
+FROM Employees
+WHERE dept_id IN (SELECT dept_id FROM Departments WHERE location = 'New York');
+```
+
+### Oracle
+
+In Oracle, you can use a subquery in the `WHERE` clause to filter data.
+
+#### Example
+
+```sql
+-- Retrieve employees who work in departments located in 'New York'
+SELECT *
+FROM Employees
+WHERE dept_id IN (SELECT dept_id FROM Departments WHERE location = 'New York');
+```
+
+### Practical Examples: Using Subqueries to Filter Data
+
+Here are practical examples of using subqueries in the `WHERE` clause to filter data in the `Employees` table across various SQL databases.
+
+#### MySQL Example
+
+```sql
+-- Retrieve employees who work in departments located in 'New York' in MySQL
+SELECT *
+FROM Employees
+WHERE dept_id IN (SELECT dept_id FROM Departments WHERE location = 'New York');
+```
+
+#### PostgreSQL Example
+
+```sql
+-- Retrieve employees who work in departments located in 'New York' in PostgreSQL
+SELECT *
+FROM Employees
+WHERE dept_id IN (SELECT dept_id FROM Departments WHERE location = 'New York');
+```
+
+#### SQLite Example
+
+```sql
+-- Retrieve employees who work in departments located in 'New York' in SQLite
+SELECT *
+FROM Employees
+WHERE dept_id IN (SELECT dept_id FROM Departments WHERE location = 'New York');
+```
+
+#### MS SQL Server Example
+
+```sql
+-- Retrieve employees who work in departments located in 'New York' in MS SQL Server
+SELECT *
+FROM Employees
+WHERE dept_id IN (SELECT dept_id FROM Departments WHERE location = 'New York');
+```
+
+#### Oracle Example
+
+```sql
+-- Retrieve employees who work in departments located in 'New York' in Oracle
+SELECT *
+FROM Employees
+WHERE dept_id IN (SELECT dept_id FROM Departments WHERE location = 'New York');
+```
+
+### Considerations
+
+1. **Performance**: Subqueries can affect performance, especially if they are complex or operate on large datasets. Indexing the columns used in the subquery can help improve performance.
+2. **Scalability**: Depending on the database, there might be limits to the depth of nested subqueries. Always test and optimize your queries for scalability.
+3. **Readability**: Subqueries can make queries more difficult to read and maintain. Ensure that the use of subqueries is justified and well-documented.
+
+### Summary
+
+Using subqueries in the `WHERE` clause allows you to filter data based on conditions specified in another query. This approach is supported across various SQL databases, including MySQL, PostgreSQL, SQLite, MS SQL Server, and Oracle. The provided examples demonstrate how to use subqueries to filter data effectively.
+
+If you have more specific queries or need further examples, feel free to ask! ✔️
