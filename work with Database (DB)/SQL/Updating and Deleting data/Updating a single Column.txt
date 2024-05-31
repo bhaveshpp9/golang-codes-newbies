@@ -1,11 +1,261 @@
 \\ work with database(DB) — SQL — Updating and deleting data — Updating a single Column
 
 
-UPDATE customer
-SET email = 'first.coustomer@mail.ru'
-WHERE customer_id = 1
+Updating a single column in a table in SQL involves using the `UPDATE` statement along with the `SET` clause to specify the new value for the column. You can optionally use a `WHERE` clause to update only specific rows. Below are examples of how to update a single column in various SQL databases, including MySQL, PostgreSQL, SQLite, Microsoft SQL Server, and Oracle.
 
-The basic format of an UPDATE statement is made up of three parts:
-✓ The table to be updated;
-✓ The column names and their new values;
-✓ The filter condition that determines which rows should be updated.
+### Example Table
+
+Assume we have the following table named `Employees`:
+
+```sql
+CREATE TABLE Employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100),
+    dept_id INT,
+    salary INT,
+    hire_date DATE
+);
+
+INSERT INTO Employees (emp_id, emp_name, dept_id, salary, hire_date) VALUES
+(1, 'Alice', 1, 50000, '2020-01-15'),
+(2, 'Bob', 2, 60000, '2019-03-22'),
+(3, 'Charlie', 1, 55000, '2021-06-10'),
+(4, 'David', 3, 45000, '2018-11-05'),
+(5, 'Eva', 2, 70000, '2017-09-13');
+```
+
+### Updating a Single Column
+
+#### MySQL
+
+In MySQL, you use the `UPDATE` statement with the `SET` clause to update a single column.
+
+#### Example: Update Salary of Employee with `emp_id` = 2
+
+```sql
+-- Update the salary of the employee with emp_id = 2
+UPDATE Employees
+SET salary = 65000
+WHERE emp_id = 2;
+```
+
+#### Example: Update Department ID of All Employees
+
+```sql
+-- Update the department ID of all employees to 1
+UPDATE Employees
+SET dept_id = 1;
+```
+
+#### PostgreSQL
+
+In PostgreSQL, you use the `UPDATE` statement with the `SET` clause to update a single column.
+
+#### Example: Update Salary of Employee with `emp_id` = 3
+
+```sql
+-- Update the salary of the employee with emp_id = 3
+UPDATE Employees
+SET salary = 58000
+WHERE emp_id = 3;
+```
+
+#### Example: Update Department ID of All Employees
+
+```sql
+-- Update the department ID of all employees to 2
+UPDATE Employees
+SET dept_id = 2;
+```
+
+#### SQLite
+
+In SQLite, you use the `UPDATE` statement with the `SET` clause to update a single column.
+
+#### Example: Update Salary of Employee with `emp_id` = 4
+
+```sql
+-- Update the salary of the employee with emp_id = 4
+UPDATE Employees
+SET salary = 48000
+WHERE emp_id = 4;
+```
+
+#### Example: Update Department ID of All Employees
+
+```sql
+-- Update the department ID of all employees to 3
+UPDATE Employees
+SET dept_id = 3;
+```
+
+#### Microsoft SQL Server (MS SQL)
+
+In MS SQL Server, you use the `UPDATE` statement with the `SET` clause to update a single column.
+
+#### Example: Update Salary of Employee with `emp_id` = 5
+
+```sql
+-- Update the salary of the employee with emp_id = 5
+UPDATE Employees
+SET salary = 75000
+WHERE emp_id = 5;
+```
+
+#### Example: Update Department ID of All Employees
+
+```sql
+-- Update the department ID of all employees to 4
+UPDATE Employees
+SET dept_id = 4;
+```
+
+#### Oracle
+
+In Oracle, you use the `UPDATE` statement with the `SET` clause to update a single column.
+
+#### Example: Update Salary of Employee with `emp_id` = 1
+
+```sql
+-- Update the salary of the employee with emp_id = 1
+UPDATE Employees
+SET salary = 52000
+WHERE emp_id = 1;
+```
+
+#### Example: Update Department ID of All Employees
+
+```sql
+-- Update the department ID of all employees to 5
+UPDATE Employees
+SET dept_id = 5;
+```
+
+### Practical Examples: Updating a Single Column
+
+Here are practical examples of updating a single column in the `Employees` table across various SQL databases.
+
+#### MySQL Example
+
+**Update Salary of Employee with `emp_id` = 2**:
+
+```sql
+-- Update the salary of the employee with emp_id = 2
+UPDATE Employees
+SET salary = 65000
+WHERE emp_id = 2;
+```
+
+**Update Department ID of All Employees**:
+
+```sql
+-- Update the department ID of all employees to 1
+UPDATE Employees
+SET dept_id = 1;
+```
+
+#### PostgreSQL Example
+
+**Update Salary of Employee with `emp_id` = 3**:
+
+```sql
+-- Update the salary of the employee with emp_id = 3
+UPDATE Employees
+SET salary = 58000
+WHERE emp_id = 3;
+```
+
+**Update Department ID of All Employees**:
+
+```sql
+-- Update the department ID of all employees to 2
+UPDATE Employees
+SET dept_id = 2;
+```
+
+#### SQLite Example
+
+**Update Salary of Employee with `emp_id` = 4**:
+
+```sql
+-- Update the salary of the employee with emp_id = 4
+UPDATE Employees
+SET salary = 48000
+WHERE emp_id = 4;
+```
+
+**Update Department ID of All Employees**:
+
+```sql
+-- Update the department ID of all employees to 3
+UPDATE Employees
+SET dept_id = 3;
+```
+
+#### MS SQL Server Example
+
+**Update Salary of Employee with `emp_id` = 5**:
+
+```sql
+-- Update the salary of the employee with emp_id = 5
+UPDATE Employees
+SET salary = 75000
+WHERE emp_id = 5;
+```
+
+**Update Department ID of All Employees**:
+
+```sql
+-- Update the department ID of all employees to 4
+UPDATE Employees
+SET dept_id = 4;
+```
+
+#### Oracle Example
+
+**Update Salary of Employee with `emp_id` = 1**:
+
+```sql
+-- Update the salary of the employee with emp_id = 1
+UPDATE Employees
+SET salary = 52000
+WHERE emp_id = 1;
+```
+
+**Update Department ID of All Employees**:
+
+```sql
+-- Update the department ID of all employees to 5
+UPDATE Employees
+SET dept_id = 5;
+```
+
+### Considerations
+
+1. **WHERE Clause**: The `WHERE` clause is used to specify which rows should be updated. Omitting the `WHERE` clause will result in all rows being updated.
+2. **Permissions**: Ensure you have the necessary permissions to update data in the table.
+3. **Transactions**: For databases that support transactions, consider wrapping the `UPDATE` statement in a transaction to ensure you can roll back the operation if necessary.
+4. **Backup**: Always ensure you have a backup of your data before performing updates, as these operations can be irreversible without a backup.
+
+#### Example with Transaction (MS SQL Server)
+
+```sql
+BEGIN TRANSACTION;
+
+-- Update the salary of the employee with emp_id = 5
+UPDATE Employees
+SET salary = 75000
+WHERE emp_id = 5;
+
+-- Rollback the transaction if needed
+-- ROLLBACK TRANSACTION;
+
+-- Commit the transaction
+COMMIT TRANSACTION;
+```
+
+### Summary
+
+Updating a single column in a table involves using the `UPDATE` statement with a `SET` clause to specify the new value for the column. The provided examples demonstrate how to update a single column effectively in MySQL, PostgreSQL, SQLite, MS SQL Server, and Oracle.
+
+If you have more specific queries or need further examples, feel free to ask! ✔️
