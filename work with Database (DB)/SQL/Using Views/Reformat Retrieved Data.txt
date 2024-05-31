@@ -1,16 +1,202 @@
 \\ work with database(DB) — SQL — Updating Views — Reformat Retrieved Data
 
 
-# for MySQL
-CREATE VIEW countryNames AS
+Reformatting retrieved data in views involves using SQL functions and expressions to transform the data as needed within the view definition. This can include formatting dates, manipulating strings, calculating new values, and more. Below are examples of how to create views that reformat retrieved data in various SQL databases, including MySQL, PostgreSQL, SQLite, Microsoft SQL Server, and Oracle.
+
+### Example Table
+
+Assume we have the following table named `Employees`:
+
+```sql
+CREATE TABLE Employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100),
+    dept_id INT,
+    salary INT,
+    hire_date DATE
+);
+
+INSERT INTO Employees (emp_id, emp_name, dept_id, salary, hire_date) VALUES
+(1, 'Alice', 1, 50000, '2020-01-15'),
+(2, 'Bob', 2, 60000, '2019-03-22'),
+(3, 'Charlie', 1, 55000, '2021-06-10'),
+(4, 'David', 3, 45000, '2018-11-05'),
+(5, 'Eva', 2, 70000, '2017-09-13');
+```
+
+### Scenario: Create a View to Reformat Data
+
+Suppose we want to create a view that includes:
+- The employee's full name in uppercase.
+- The salary formatted as a currency string.
+- The hire date formatted as 'YYYY-MM-DD'.
+
+### MySQL
+
+In MySQL, you can use SQL functions such as `UPPER`, `FORMAT`, and `DATE_FORMAT` to reformat data.
+
+#### Example
+
+```sql
+-- Create a view that reformats data in MySQL
+CREATE OR REPLACE VIEW FormattedEmployeeDetails AS
 SELECT
-  Name,
-  CONCAT(Name, ' (', RTRIM(LocalName), ')') AS FullName
-FROM country;
+    emp_id,
+    UPPER(emp_name) AS emp_name,
+    dept_id,
+    CONCAT('$', FORMAT(salary, 2)) AS formatted_salary,
+    DATE_FORMAT(hire_date, '%Y-%m-%d') AS formatted_hire_date
+FROM Employees;
+```
 
-SELECT FullName
-FROM countryNames
-WHERE Name = 'Russian Federation'
+### PostgreSQL
 
-FullName
-Russian Federation (Rossija)
+In PostgreSQL, you can use SQL functions such as `UPPER`, `TO_CHAR`, and `TO_DATE` to reformat data.
+
+#### Example
+
+```sql
+-- Create a view that reformats data in PostgreSQL
+CREATE OR REPLACE VIEW FormattedEmployeeDetails AS
+SELECT
+    emp_id,
+    UPPER(emp_name) AS emp_name,
+    dept_id,
+    TO_CHAR(salary, 'FM$999,999.00') AS formatted_salary,
+    TO_CHAR(hire_date, 'YYYY-MM-DD') AS formatted_hire_date
+FROM Employees;
+```
+
+### SQLite
+
+In SQLite, you can use SQL functions such as `UPPER`, and string manipulation functions to reformat data.
+
+#### Example
+
+```sql
+-- Create a view that reformats data in SQLite
+CREATE VIEW IF NOT EXISTS FormattedEmployeeDetails AS
+SELECT
+    emp_id,
+    UPPER(emp_name) AS emp_name,
+    dept_id,
+    printf('$%.2f', salary) AS formatted_salary,
+    strftime('%Y-%m-%d', hire_date) AS formatted_hire_date
+FROM Employees;
+```
+
+### Microsoft SQL Server (MS SQL)
+
+In MS SQL Server, you can use SQL functions such as `UPPER`, `FORMAT`, and `CONVERT` to reformat data.
+
+#### Example
+
+```sql
+-- Create or alter a view that reformats data in MS SQL Server
+CREATE OR ALTER VIEW FormattedEmployeeDetails AS
+SELECT
+    emp_id,
+    UPPER(emp_name) AS emp_name,
+    dept_id,
+    FORMAT(salary, 'C', 'en-US') AS formatted_salary,
+    CONVERT(VARCHAR, hire_date, 23) AS formatted_hire_date
+FROM Employees;
+```
+
+### Oracle
+
+In Oracle, you can use SQL functions such as `UPPER`, `TO_CHAR`, and `TO_DATE` to reformat data.
+
+#### Example
+
+```sql
+-- Create or replace a view that reformats data in Oracle
+CREATE OR REPLACE VIEW FormattedEmployeeDetails AS
+SELECT
+    emp_id,
+    UPPER(emp_name) AS emp_name,
+    dept_id,
+    TO_CHAR(salary, 'FM$999,999.00') AS formatted_salary,
+    TO_CHAR(hire_date, 'YYYY-MM-DD') AS formatted_hire_date
+FROM Employees;
+```
+
+### Practical Examples: Creating Views with Reformatted Data
+
+Here are practical examples of creating views that reformat data in the `Employees` table across various SQL databases.
+
+#### MySQL Example
+
+```sql
+-- Create a view that reformats data in MySQL
+CREATE OR REPLACE VIEW FormattedEmployeeDetails AS
+SELECT
+    emp_id,
+    UPPER(emp_name) AS emp_name,
+    dept_id,
+    CONCAT('$', FORMAT(salary, 2)) AS formatted_salary,
+    DATE_FORMAT(hire_date, '%Y-%m-%d') AS formatted_hire_date
+FROM Employees;
+```
+
+#### PostgreSQL Example
+
+```sql
+-- Create a view that reformats data in PostgreSQL
+CREATE OR REPLACE VIEW FormattedEmployeeDetails AS
+SELECT
+    emp_id,
+    UPPER(emp_name) AS emp_name,
+    dept_id,
+    TO_CHAR(salary, 'FM$999,999.00') AS formatted_salary,
+    TO_CHAR(hire_date, 'YYYY-MM-DD') AS formatted_hire_date
+FROM Employees;
+```
+
+#### SQLite Example
+
+```sql
+-- Create a view that reformats data in SQLite
+CREATE VIEW IF NOT EXISTS FormattedEmployeeDetails AS
+SELECT
+    emp_id,
+    UPPER(emp_name) AS emp_name,
+    dept_id,
+    printf('$%.2f', salary) AS formatted_salary,
+    strftime('%Y-%m-%d', hire_date) AS formatted_hire_date
+FROM Employees;
+```
+
+#### MS SQL Server Example
+
+```sql
+-- Create or alter a view that reformats data in MS SQL Server
+CREATE OR ALTER VIEW FormattedEmployeeDetails AS
+SELECT
+    emp_id,
+    UPPER(emp_name) AS emp_name,
+    dept_id,
+    FORMAT(salary, 'C', 'en-US') AS formatted_salary,
+    CONVERT(VARCHAR, hire_date, 23) AS formatted_hire_date
+FROM Employees;
+```
+
+#### Oracle Example
+
+```sql
+-- Create or replace a view that reformats data in Oracle
+CREATE OR REPLACE VIEW FormattedEmployeeDetails AS
+SELECT
+    emp_id,
+    UPPER(emp_name) AS emp_name,
+    dept_id,
+    TO_CHAR(salary, 'FM$999,999.00') AS formatted_salary,
+    TO_CHAR(hire_date, 'YYYY-MM-DD') AS formatted_hire_date
+FROM Employees;
+```
+
+### Summary
+
+Reformatting data in views involves using SQL functions and expressions within the `SELECT` statement that defines the view. This approach is supported across various SQL databases, including MySQL, PostgreSQL, SQLite, MS SQL Server, and Oracle. The provided examples demonstrate how to create views that reformat data effectively.
+
+If you have more specific queries or need further examples, feel free to ask! ✔️
