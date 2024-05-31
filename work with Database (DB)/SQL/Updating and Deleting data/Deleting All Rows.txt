@@ -1,1 +1,209 @@
 \\ work with database(DB) — SQL — Updating and deleting data — Deleting All Rows
+
+
+Deleting all rows from a table in SQL is done using the `DELETE` statement or the `TRUNCATE` statement. The choice between `DELETE` and `TRUNCATE` depends on whether you need to retain the table structure and whether you need to log individual row deletions. Below are examples of how to delete all rows from a table in various SQL databases, including MySQL, PostgreSQL, SQLite, Microsoft SQL Server, and Oracle.
+
+### General Syntax
+
+#### Using `DELETE`
+
+The `DELETE` statement removes rows from a table and logs individual row deletions, which can be rolled back if used within a transaction.
+
+```sql
+DELETE FROM table_name;
+```
+
+#### Using `TRUNCATE`
+
+The `TRUNCATE` statement removes all rows from a table quickly without logging individual row deletions. This operation cannot be rolled back in most databases.
+
+```sql
+TRUNCATE TABLE table_name;
+```
+
+### Example Table
+
+Assume we have the following table named `Employees`:
+
+```sql
+CREATE TABLE Employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100),
+    dept_id INT,
+    salary INT
+);
+
+INSERT INTO Employees (emp_id, emp_name, dept_id, salary) VALUES
+(1, 'Alice', 1, 50000),
+(2, 'Bob', 2, 60000),
+(3, 'Charlie', 1, 55000),
+(4, 'David', 3, 45000),
+(5, 'Eva', 2, 70000);
+```
+
+### MySQL
+
+#### Using `DELETE`
+
+```sql
+-- Delete all rows from the Employees table in MySQL
+DELETE FROM Employees;
+```
+
+#### Using `TRUNCATE`
+
+```sql
+-- Truncate the Employees table in MySQL
+TRUNCATE TABLE Employees;
+```
+
+### PostgreSQL
+
+#### Using `DELETE`
+
+```sql
+-- Delete all rows from the Employees table in PostgreSQL
+DELETE FROM Employees;
+```
+
+#### Using `TRUNCATE`
+
+```sql
+-- Truncate the Employees table in PostgreSQL
+TRUNCATE TABLE Employees;
+```
+
+### SQLite
+
+SQLite does not support the `TRUNCATE` statement, so you should use the `DELETE` statement.
+
+#### Using `DELETE`
+
+```sql
+-- Delete all rows from the Employees table in SQLite
+DELETE FROM Employees;
+```
+
+### Microsoft SQL Server (MS SQL)
+
+#### Using `DELETE`
+
+```sql
+-- Delete all rows from the Employees table in MS SQL Server
+DELETE FROM Employees;
+```
+
+#### Using `TRUNCATE`
+
+```sql
+-- Truncate the Employees table in MS SQL Server
+TRUNCATE TABLE Employees;
+```
+
+### Oracle
+
+#### Using `DELETE`
+
+```sql
+-- Delete all rows from the Employees table in Oracle
+DELETE FROM Employees;
+```
+
+#### Using `TRUNCATE`
+
+```sql
+-- Truncate the Employees table in Oracle
+TRUNCATE TABLE Employees;
+```
+
+### Practical Examples: Deleting All Rows from a Table
+
+Here are practical examples of deleting all rows from the `Employees` table across various SQL databases.
+
+#### MySQL Examples
+
+**Using `DELETE`**:
+
+```sql
+-- Delete all rows from the Employees table in MySQL
+DELETE FROM Employees;
+```
+
+**Using `TRUNCATE`**:
+
+```sql
+-- Truncate the Employees table in MySQL
+TRUNCATE TABLE Employees;
+```
+
+#### PostgreSQL Examples
+
+**Using `DELETE`**:
+
+```sql
+-- Delete all rows from the Employees table in PostgreSQL
+DELETE FROM Employees;
+```
+
+**Using `TRUNCATE`**:
+
+```sql
+-- Truncate the Employees table in PostgreSQL
+TRUNCATE TABLE Employees;
+```
+
+#### SQLite Example
+
+**Using `DELETE`**:
+
+```sql
+-- Delete all rows from the Employees table in SQLite
+DELETE FROM Employees;
+```
+
+#### MS SQL Server Examples
+
+**Using `DELETE`**:
+
+```sql
+-- Delete all rows from the Employees table in MS SQL Server
+DELETE FROM Employees;
+```
+
+**Using `TRUNCATE`**:
+
+```sql
+-- Truncate the Employees table in MS SQL Server
+TRUNCATE TABLE Employees;
+```
+
+#### Oracle Examples
+
+**Using `DELETE`**:
+
+```sql
+-- Delete all rows from the Employees table in Oracle
+DELETE FROM Employees;
+```
+
+**Using `TRUNCATE`**:
+
+```sql
+-- Truncate the Employees table in Oracle
+TRUNCATE TABLE Employees;
+```
+
+### Considerations
+
+1. **DELETE vs TRUNCATE**:
+    - `DELETE`: Logs individual row deletions and can be rolled back if used within a transaction. It can also activate triggers.
+    - `TRUNCATE`: Does not log individual row deletions and cannot be rolled back in most databases. It is faster and does not activate triggers.
+
+2. **Permissions**: Ensure you have the necessary permissions to delete or truncate data from the table.
+3. **Data Backup**: Ensure you have a backup of the data if necessary before performing these operations, as they are irreversible.
+
+### Summary
+
+Deleting all rows from a table can be performed using either the `DELETE` statement or the `TRUNCATE` statement, depending on your needs. The `DELETE` statement logs individual row deletions and can be rolled back, while the `TRUNCATE` statement is faster and does not log individual deletions. The provided examples demonstrate how to delete all rows effectively in MySQL, PostgreSQL, SQLite, MS SQL Server, and Oracle.
+
+If you have more specific queries or need further examples, feel free to ask! ✔️
