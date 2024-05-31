@@ -1,1 +1,71 @@
 \\ work with database(DB) — SQL — Updating Tables — renaming tables — FireBird, Interbase
+
+
+Renaming tables in SQL for Firebird and Interbase involves using the `ALTER TABLE` statement along with the `RENAME TO` clause. This is a straightforward process and the syntax is quite similar for both Firebird and Interbase.
+
+### Firebird
+
+In Firebird, you can rename a table using the `ALTER TABLE` statement with the `RENAME TO` clause.
+
+#### Syntax
+
+```sql
+ALTER TABLE old_table_name RENAME TO new_table_name;
+```
+
+#### Example
+
+Assume you have a table named `Employees` that you want to rename to `Staff`.
+
+```sql
+-- Rename the Employees table to Staff
+ALTER TABLE Employees RENAME TO Staff;
+```
+
+### Interbase
+
+In Interbase, the syntax for renaming a table is the same as in Firebird. You use the `ALTER TABLE` statement with the `RENAME TO` clause.
+
+#### Syntax
+
+```sql
+ALTER TABLE old_table_name RENAME TO new_table_name;
+```
+
+#### Example
+
+Assume you have a table named `Employees` that you want to rename to `Staff`.
+
+```sql
+-- Rename the Employees table to Staff
+ALTER TABLE Employees RENAME TO Staff;
+```
+
+### Practical Example: Renaming a Table
+
+Here are practical examples for renaming a table from `Employees` to `Staff` in both Firebird and Interbase.
+
+#### Firebird Example
+
+```sql
+-- Rename the Employees table to Staff in Firebird
+ALTER TABLE Employees RENAME TO Staff;
+```
+
+#### Interbase Example
+
+```sql
+-- Rename the Employees table to Staff in Interbase
+ALTER TABLE Employees RENAME TO Staff;
+```
+
+### Considerations
+
+1. **Permissions**: Ensure you have the necessary permissions to alter the table structure.
+2. **Dependencies**: Be aware of any dependencies such as foreign keys, views, or stored procedures that might reference the old table name. These dependencies need to be updated to reflect the new table name.
+
+### Summary
+
+Renaming tables in Firebird and Interbase is done using the `ALTER TABLE` statement with the `RENAME TO` clause. The syntax is identical for both databases, making it straightforward to rename a table. The provided examples demonstrate how to rename a table effectively in both Firebird and Interbase.
+
+If you have more specific queries or need further examples, feel free to ask! ✔️
