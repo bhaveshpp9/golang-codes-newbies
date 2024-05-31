@@ -1,1 +1,174 @@
 \\ work with database(DB) — SQL — Joining Table — Joining Multiple Tables
+
+
+Joining multiple tables in SQL allows you to retrieve related data from more than two tables in a single query. This is useful when you need to combine data from different sources to get a comprehensive view. Here’s how to join multiple tables using inner joins across different SQL databases with practical examples.
+
+### Example Tables
+
+Assume we have three tables, `Employees`, `Departments`, and `Projects`, with the following data:
+
+```sql
+CREATE TABLE Employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100),
+    dept_id INT
+);
+
+CREATE TABLE Departments (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(100)
+);
+
+CREATE TABLE Projects (
+    proj_id INT PRIMARY KEY,
+    proj_name VARCHAR(100),
+    dept_id INT
+);
+
+INSERT INTO Employees (emp_id, emp_name, dept_id) VALUES
+(1, 'Alice', 1),
+(2, 'Bob', 2),
+(3, 'Charlie', 3);
+
+INSERT INTO Departments (dept_id, dept_name) VALUES
+(1, 'HR'),
+(2, 'Engineering'),
+(3, 'Marketing');
+
+INSERT INTO Projects (proj_id, proj_name, dept_id) VALUES
+(1, 'Project A', 1),
+(2, 'Project B', 2),
+(3, 'Project C', 3);
+```
+
+### Performing a Multi-Table Join
+
+The goal is to retrieve a list of employees along with their department names and project names.
+
+#### MySQL
+
+```sql
+-- Inner join Employees, Departments, and Projects in MySQL
+SELECT e.emp_id, e.emp_name, d.dept_name, p.proj_name
+FROM Employees e
+INNER JOIN Departments d ON e.dept_id = d.dept_id
+INNER JOIN Projects p ON d.dept_id = p.dept_id;
+```
+
+#### PostgreSQL
+
+```sql
+-- Inner join Employees, Departments, and Projects in PostgreSQL
+SELECT e.emp_id, e.emp_name, d.dept_name, p.proj_name
+FROM Employees e
+INNER JOIN Departments d ON e.dept_id = d.dept_id
+INNER JOIN Projects p ON d.dept_id = p.dept_id;
+```
+
+#### Oracle
+
+```sql
+-- Inner join Employees, Departments, and Projects in Oracle
+SELECT e.emp_id, e.emp_name, d.dept_name, p.proj_name
+FROM Employees e
+INNER JOIN Departments d ON e.dept_id = d.dept_id
+INNER JOIN Projects p ON d.dept_id = p.dept_id;
+```
+
+#### SQLite
+
+```sql
+-- Inner join Employees, Departments, and Projects in SQLite
+SELECT e.emp_id, e.emp_name, d.dept_name, p.proj_name
+FROM Employees e
+INNER JOIN Departments d ON e.dept_id = d.dept_id
+INNER JOIN Projects p ON d.dept_id = p.dept_id;
+```
+
+#### SQL Server
+
+```sql
+-- Inner join Employees, Departments, and Projects in SQL Server
+SELECT e.emp_id, e.emp_name, d.dept_name, p.proj_name
+FROM Employees e
+INNER JOIN Departments d ON e.dept_id = d.dept_id
+INNER JOIN Projects p ON d.dept_id = p.dept_id;
+```
+
+### Practical Examples
+
+#### Joining Multiple Tables with Filters
+
+You can apply `WHERE` clauses to filter the joined data.
+
+```sql
+-- Get employees working on Project B
+SELECT e.emp_id, e.emp_name, d.dept_name, p.proj_name
+FROM Employees e
+INNER JOIN Departments d ON e.dept_id = d.dept_id
+INNER JOIN Projects p ON d.dept_id = p.dept_id
+WHERE p.proj_name = 'Project B';
+```
+
+#### Using Aliases for Better Readability
+
+Aliases can make your SQL queries more readable.
+
+```sql
+-- Use aliases for tables
+SELECT e.emp_id, e.emp_name, d.dept_name, p.proj_name
+FROM Employees AS e
+INNER JOIN Departments AS d ON e.dept_id = d.dept_id
+INNER JOIN Projects AS p ON d.dept_id = p.dept_id;
+```
+
+### Practical Scenario: Employee, Department, and Project Information
+
+Retrieve a list of employees along with their department names and project names.
+
+#### Data
+
+`Employees`:
+| emp_id | emp_name | dept_id |
+|--------|----------|---------|
+| 1      | Alice    | 1       |
+| 2      | Bob      | 2       |
+| 3      | Charlie  | 3       |
+
+`Departments`:
+| dept_id | dept_name  |
+|---------|------------|
+| 1       | HR         |
+| 2       | Engineering|
+| 3       | Marketing  |
+
+`Projects`:
+| proj_id | proj_name  | dept_id |
+|---------|------------|---------|
+| 1       | Project A  | 1       |
+| 2       | Project B  | 2       |
+| 3       | Project C  | 3       |
+
+#### Inner Join Result
+
+| emp_id | emp_name | dept_name  | proj_name |
+|--------|----------|------------|-----------|
+| 1      | Alice    | HR         | Project A |
+| 2      | Bob      | Engineering| Project B |
+| 3      | Charlie  | Marketing  | Project C |
+
+### Performing the Join
+
+```sql
+-- Inner join Employees, Departments, and Projects
+SELECT e.emp_id, e.emp_name, d.dept_name, p.proj_name
+FROM Employees e
+INNER JOIN Departments d ON e.dept_id = d.dept_id
+INNER JOIN Projects p ON d.dept_id = p.dept_id;
+```
+
+### Summary
+
+Joining multiple tables in SQL allows for comprehensive data retrieval by combining related information from different sources. Using inner joins, you can link multiple tables based on common columns and apply filters to get specific results. This guide provides examples of how to perform multi-table joins in various SQL databases, including filtering and using aliases for better readability.
+
+These examples demonstrate how to effectively perform multi-table joins across various SQL databases. If you have more specific queries or need further examples, feel free to ask! ✔️
