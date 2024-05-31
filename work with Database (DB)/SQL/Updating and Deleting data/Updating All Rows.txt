@@ -1,8 +1,169 @@
 \\ work with database(DB) — SQL — Updating and deleting data — Updating All Rows
 
 
-UPDATE newCustomer
-SET last_update = NULL
+Updating all rows in a table in SQL is performed using the `UPDATE` statement without a `WHERE` clause. This operation modifies every row in the table, setting each specified column to the new value provided. Below are examples of how to update all rows in a table across various SQL databases, including MySQL, PostgreSQL, SQLite, Microsoft SQL Server, and Oracle.
 
-If the WHERE clause is not specified, the query updates all rows in the table.
-Some DBMSs allow database administrators to impose restrictions that prevent the execution of UPDATE without a WHERE clause.
+### Example Table
+
+Assume we have the following table named `Employees`:
+
+```sql
+CREATE TABLE Employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100),
+    dept_id INT,
+    salary INT
+);
+
+INSERT INTO Employees (emp_id, emp_name, dept_id, salary) VALUES
+(1, 'Alice', 1, 50000),
+(2, 'Bob', 2, 60000),
+(3, 'Charlie', 1, 55000),
+(4, 'David', 3, 45000),
+(5, 'Eva', 2, 70000);
+```
+
+### Updating All Rows
+
+#### MySQL
+
+In MySQL, you use the `UPDATE` statement without a `WHERE` clause to update all rows.
+
+#### Example: Increase All Salaries by 10%
+
+```sql
+-- Increase all salaries by 10% in the Employees table
+UPDATE Employees
+SET salary = salary * 1.10;
+```
+
+#### PostgreSQL
+
+In PostgreSQL, you use the `UPDATE` statement without a `WHERE` clause to update all rows.
+
+#### Example: Set All Employees to Department 1
+
+```sql
+-- Set all employees to department 1 in the Employees table
+UPDATE Employees
+SET dept_id = 1;
+```
+
+#### SQLite
+
+In SQLite, you use the `UPDATE` statement without a `WHERE` clause to update all rows.
+
+#### Example: Change All Employee Names to Uppercase
+
+```sql
+-- Change all employee names to uppercase in the Employees table
+UPDATE Employees
+SET emp_name = UPPER(emp_name);
+```
+
+#### Microsoft SQL Server (MS SQL)
+
+In MS SQL Server, you use the `UPDATE` statement without a `WHERE` clause to update all rows.
+
+#### Example: Increase All Salaries by 5%
+
+```sql
+-- Increase all salaries by 5% in the Employees table
+UPDATE Employees
+SET salary = salary * 1.05;
+```
+
+#### Oracle
+
+In Oracle, you use the `UPDATE` statement without a `WHERE` clause to update all rows.
+
+#### Example: Set All Department IDs to 2
+
+```sql
+-- Set all department IDs to 2 in the Employees table
+UPDATE Employees
+SET dept_id = 2;
+```
+
+### Practical Examples: Updating All Rows
+
+Here are practical examples of updating all rows in the `Employees` table across various SQL databases.
+
+#### MySQL Example
+
+**Increase All Salaries by 10%**:
+
+```sql
+-- Increase all salaries by 10% in the Employees table in MySQL
+UPDATE Employees
+SET salary = salary * 1.10;
+```
+
+#### PostgreSQL Example
+
+**Set All Employees to Department 1**:
+
+```sql
+-- Set all employees to department 1 in the Employees table in PostgreSQL
+UPDATE Employees
+SET dept_id = 1;
+```
+
+#### SQLite Example
+
+**Change All Employee Names to Uppercase**:
+
+```sql
+-- Change all employee names to uppercase in the Employees table in SQLite
+UPDATE Employees
+SET emp_name = UPPER(emp_name);
+```
+
+#### MS SQL Server Example
+
+**Increase All Salaries by 5%**:
+
+```sql
+-- Increase all salaries by 5% in the Employees table in MS SQL Server
+UPDATE Employees
+SET salary = salary * 1.05;
+```
+
+#### Oracle Example
+
+**Set All Department IDs to 2**:
+
+```sql
+-- Set all department IDs to 2 in the Employees table in Oracle
+UPDATE Employees
+SET dept_id = 2;
+```
+
+### Considerations
+
+1. **No WHERE Clause**: When updating all rows, ensure that the `WHERE` clause is omitted. Including a `WHERE` clause would limit the rows affected by the update.
+2. **Permissions**: Ensure you have the necessary permissions to update data in the table.
+3. **Transactions**: For databases that support transactions, consider wrapping the `UPDATE` statement in a transaction to ensure you can roll back the operation if necessary.
+4. **Backup**: Always ensure you have a backup of your data before performing large-scale updates, as these operations are irreversible without a backup.
+
+#### Example with Transaction (MS SQL Server)
+
+```sql
+BEGIN TRANSACTION;
+
+-- Increase all salaries by 5% in the Employees table
+UPDATE Employees
+SET salary = salary * 1.05;
+
+-- Rollback the transaction if needed
+-- ROLLBACK TRANSACTION;
+
+-- Commit the transaction
+COMMIT TRANSACTION;
+```
+
+### Summary
+
+Updating all rows in a table involves using the `UPDATE` statement without a `WHERE` clause. The provided examples demonstrate how to update all rows effectively in MySQL, PostgreSQL, SQLite, MS SQL Server, and Oracle.
+
+If you have more specific queries or need further examples, feel free to ask! ✔️
