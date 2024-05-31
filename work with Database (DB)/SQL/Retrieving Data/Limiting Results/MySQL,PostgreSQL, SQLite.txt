@@ -1,19 +1,219 @@
 \\ work with database(DB) — SQL — Retrieving Data — Limiting Results — MySQL,PostgreSQL, SQLite
 
 
-/* first five rows */
-SELECT Name
-FROM country
-LIMIT 5
+In MySQL, PostgreSQL, and SQLite, you can limit the number of rows returned by a query using the `LIMIT` clause. Additionally, PostgreSQL and MySQL also support the `OFFSET` clause for pagination. Here’s how you can retrieve and limit results in these databases.
 
-/* from the 6th to the 10th rows */
-SELECT Name
-FROM country
-LIMIT 5, 5
+### MySQL
 
-Name
-Andorra
-Netherlands Antilles
-United Arab Emirates
-Argentina
-Armenia
+#### Using the `LIMIT` Clause
+
+The `LIMIT` clause restricts the number of rows returned.
+
+##### Basic Syntax
+
+```sql
+SELECT column1, column2, ...
+FROM table_name
+LIMIT n;
+```
+
+##### Practical Examples
+
+**Retrieve the First 3 Employees**
+
+```sql
+-- Retrieve the first 3 employees
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+LIMIT 3;
+```
+
+**Retrieve Employees with the Highest Salaries (Top N)**
+
+```sql
+-- Retrieve the top 3 highest paid employees
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY salary DESC
+LIMIT 3;
+```
+
+#### Using the `LIMIT` Clause with `OFFSET` for Pagination
+
+The `LIMIT` and `OFFSET` clauses are useful for implementing pagination.
+
+##### Basic Syntax
+
+```sql
+SELECT column1, column2, ...
+FROM table_name
+LIMIT n OFFSET m;
+```
+
+##### Practical Examples
+
+**Retrieve Employees Ordered by Salary, with Pagination**
+
+```sql
+-- Retrieve the second page of 3 employees, ordered by salary
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY salary DESC
+LIMIT 3 OFFSET 3;
+```
+
+### PostgreSQL
+
+#### Using the `LIMIT` Clause
+
+The `LIMIT` clause restricts the number of rows returned.
+
+##### Basic Syntax
+
+```sql
+SELECT column1, column2, ...
+FROM table_name
+LIMIT n;
+```
+
+##### Practical Examples
+
+**Retrieve the First 3 Employees**
+
+```sql
+-- Retrieve the first 3 employees
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+LIMIT 3;
+```
+
+**Retrieve Employees with the Highest Salaries (Top N)**
+
+```sql
+-- Retrieve the top 3 highest paid employees
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY salary DESC
+LIMIT 3;
+```
+
+#### Using the `LIMIT` Clause with `OFFSET` for Pagination
+
+The `LIMIT` and `OFFSET` clauses are useful for implementing pagination.
+
+##### Basic Syntax
+
+```sql
+SELECT column1, column2, ...
+FROM table_name
+LIMIT n OFFSET m;
+```
+
+##### Practical Examples
+
+**Retrieve Employees Ordered by Salary, with Pagination**
+
+```sql
+-- Retrieve the second page of 3 employees, ordered by salary
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY salary DESC
+LIMIT 3 OFFSET 3;
+```
+
+### SQLite
+
+#### Using the `LIMIT` Clause
+
+The `LIMIT` clause restricts the number of rows returned.
+
+##### Basic Syntax
+
+```sql
+SELECT column1, column2, ...
+FROM table_name
+LIMIT n;
+```
+
+##### Practical Examples
+
+**Retrieve the First 3 Employees**
+
+```sql
+-- Retrieve the first 3 employees
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+LIMIT 3;
+```
+
+**Retrieve Employees with the Highest Salaries (Top N)**
+
+```sql
+-- Retrieve the top 3 highest paid employees
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY salary DESC
+LIMIT 3;
+```
+
+#### Using the `LIMIT` Clause with `OFFSET` for Pagination
+
+The `LIMIT` and `OFFSET` clauses are useful for implementing pagination.
+
+##### Basic Syntax
+
+```sql
+SELECT column1, column2, ...
+FROM table_name
+LIMIT n OFFSET m;
+```
+
+##### Practical Examples
+
+**Retrieve Employees Ordered by Salary, with Pagination**
+
+```sql
+-- Retrieve the second page of 3 employees, ordered by salary
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY salary DESC
+LIMIT 3 OFFSET 3;
+```
+
+### Practical Scenario: Retrieving Top N Employees
+
+#### MySQL Example
+
+```sql
+-- Retrieve the top 3 highest paid employees using LIMIT in MySQL
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY salary DESC
+LIMIT 3;
+```
+
+#### PostgreSQL Example
+
+```sql
+-- Retrieve the top 3 highest paid employees using LIMIT in PostgreSQL
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY salary DESC
+LIMIT 3;
+```
+
+#### SQLite Example
+
+```sql
+-- Retrieve the top 3 highest paid employees using LIMIT in SQLite
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees
+ORDER BY salary DESC
+LIMIT 3;
+```
+
+### Summary
+
+In MySQL, PostgreSQL, and SQLite, you can limit the number of rows returned by a query using the `LIMIT` clause. For pagination, you can combine the `LIMIT` clause with the `OFFSET` clause. These examples demonstrate how to retrieve a limited number of rows from a table in these databases.
+
+If you have more specific queries or need further examples, feel free to ask! ✔️
