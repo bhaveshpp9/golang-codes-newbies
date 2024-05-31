@@ -1,1 +1,194 @@
 \\ work with database(DB) — SQL — Updating Tables — Deleting foreign key — Ms SQL Server, Oracle, Access, PostgreSQL
+
+
+Updating tables to delete a foreign key constraint in SQL involves different syntax and steps depending on the SQL database system. Here’s how you can delete a foreign key constraint in Microsoft SQL Server (MS SQL), Oracle, Microsoft Access, and PostgreSQL.
+
+### Microsoft SQL Server (MS SQL)
+
+To delete a foreign key in MS SQL Server, you need to use the `ALTER TABLE` statement combined with the `DROP CONSTRAINT` clause.
+
+#### Syntax
+
+```sql
+ALTER TABLE table_name
+DROP CONSTRAINT foreign_key_name;
+```
+
+#### Example
+
+Assume we have the following tables:
+
+```sql
+CREATE TABLE Departments (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(100)
+);
+
+CREATE TABLE Employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100),
+    dept_id INT,
+    CONSTRAINT fk_dept FOREIGN KEY (dept_id) REFERENCES Departments(dept_id)
+);
+```
+
+To delete the foreign key constraint `fk_dept`:
+
+```sql
+ALTER TABLE Employees
+DROP CONSTRAINT fk_dept;
+```
+
+### Oracle
+
+In Oracle, you also use the `ALTER TABLE` statement with the `DROP CONSTRAINT` clause to delete a foreign key.
+
+#### Syntax
+
+```sql
+ALTER TABLE table_name
+DROP CONSTRAINT foreign_key_name;
+```
+
+#### Example
+
+Assume we have the following tables:
+
+```sql
+CREATE TABLE Departments (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(100)
+);
+
+CREATE TABLE Employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100),
+    dept_id INT,
+    CONSTRAINT fk_dept FOREIGN KEY (dept_id) REFERENCES Departments(dept_id)
+);
+```
+
+To delete the foreign key constraint `fk_dept`:
+
+```sql
+ALTER TABLE Employees
+DROP CONSTRAINT fk_dept;
+```
+
+### Microsoft Access
+
+In Microsoft Access, you need to use the `ALTER TABLE` statement with the `DROP CONSTRAINT` clause. However, the syntax can slightly differ if you are working within the Access GUI or using SQL in an Access query.
+
+#### Syntax
+
+```sql
+ALTER TABLE table_name
+DROP CONSTRAINT foreign_key_name;
+```
+
+#### Example
+
+Assume we have the following tables:
+
+```sql
+CREATE TABLE Departments (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(100)
+);
+
+CREATE TABLE Employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100),
+    dept_id INT,
+    CONSTRAINT fk_dept FOREIGN KEY (dept_id) REFERENCES Departments(dept_id)
+);
+```
+
+To delete the foreign key constraint `fk_dept`:
+
+```sql
+ALTER TABLE Employees
+DROP CONSTRAINT fk_dept;
+```
+
+### PostgreSQL
+
+In PostgreSQL, you use the `ALTER TABLE` statement combined with the `DROP CONSTRAINT` clause to remove a foreign key constraint.
+
+#### Syntax
+
+```sql
+ALTER TABLE table_name
+DROP CONSTRAINT foreign_key_name;
+```
+
+#### Example
+
+Assume we have the following tables:
+
+```sql
+CREATE TABLE Departments (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(100)
+);
+
+CREATE TABLE Employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100),
+    dept_id INT,
+    CONSTRAINT fk_dept FOREIGN KEY (dept_id) REFERENCES Departments(dept_id)
+);
+```
+
+To delete the foreign key constraint `fk_dept`:
+
+```sql
+ALTER TABLE Employees
+DROP CONSTRAINT fk_dept;
+```
+
+### Practical Example: Deleting a Foreign Key Constraint
+
+Assume we have the following setup for all databases:
+
+#### Table Definitions
+
+```sql
+CREATE TABLE Departments (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(100)
+);
+
+CREATE TABLE Employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100),
+    dept_id INT,
+    CONSTRAINT fk_dept FOREIGN KEY (dept_id) REFERENCES Departments(dept_id)
+);
+```
+
+#### Deleting the Foreign Key Constraint
+
+```sql
+-- MS SQL
+ALTER TABLE Employees
+DROP CONSTRAINT fk_dept;
+
+-- Oracle
+ALTER TABLE Employees
+DROP CONSTRAINT fk_dept;
+
+-- Access
+ALTER TABLE Employees
+DROP CONSTRAINT fk_dept;
+
+-- PostgreSQL
+ALTER TABLE Employees
+DROP CONSTRAINT fk_dept;
+```
+
+### Summary
+
+Deleting a foreign key constraint in SQL involves using the `ALTER TABLE` statement combined with the `DROP CONSTRAINT` clause. The syntax is quite similar across different SQL databases, including MS SQL Server, Oracle, Microsoft Access, and PostgreSQL. The provided examples demonstrate how to delete a foreign key constraint effectively.
+
+If you have more specific queries or need further examples, feel free to ask! ✔️
