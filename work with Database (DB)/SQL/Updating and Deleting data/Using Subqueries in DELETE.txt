@@ -1,1 +1,176 @@
 \\ work with database(DB) — SQL — Updating and deleting data — Using Subqueries in DELETE
+
+
+Using subqueries in a `DELETE` statement allows you to delete rows from a table based on conditions specified in another query. Subqueries can help make complex deletions more manageable by leveraging the results of other queries to define which rows should be deleted. Below are examples of how to use subqueries in a `DELETE` statement across various SQL databases, including MySQL, PostgreSQL, SQLite, Microsoft SQL Server, and Oracle.
+
+### Example Tables
+
+Assume we have the following tables:
+
+#### Employees Table
+
+```sql
+CREATE TABLE Employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100),
+    dept_id INT,
+    salary INT
+);
+
+INSERT INTO Employees (emp_id, emp_name, dept_id, salary) VALUES
+(1, 'Alice', 1, 50000),
+(2, 'Bob', 2, 60000),
+(3, 'Charlie', 1, 55000),
+(4, 'David', 3, 45000),
+(5, 'Eva', 2, 70000);
+```
+
+#### Departments Table
+
+```sql
+CREATE TABLE Departments (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(100)
+);
+
+INSERT INTO Departments (dept_id, dept_name) VALUES
+(1, 'HR'),
+(2, 'Finance'),
+(3, 'IT');
+```
+
+### Scenario: Delete Employees in Departments that No Longer Exist
+
+Suppose we want to delete all employees whose departments have been removed from the `Departments` table.
+
+### MySQL
+
+In MySQL, you can use a subquery in the `DELETE` statement to specify which rows to delete based on conditions from another table.
+
+#### Example
+
+```sql
+-- Delete employees whose departments no longer exist
+DELETE FROM Employees
+WHERE dept_id NOT IN (SELECT dept_id FROM Departments);
+```
+
+### PostgreSQL
+
+In PostgreSQL, you can use a subquery in the `DELETE` statement to specify which rows to delete based on conditions from another table.
+
+#### Example
+
+```sql
+-- Delete employees whose departments no longer exist
+DELETE FROM Employees
+WHERE dept_id NOT IN (SELECT dept_id FROM Departments);
+```
+
+### SQLite
+
+In SQLite, you can use a subquery in the `DELETE` statement to specify which rows to delete based on conditions from another table.
+
+#### Example
+
+```sql
+-- Delete employees whose departments no longer exist
+DELETE FROM Employees
+WHERE dept_id NOT IN (SELECT dept_id FROM Departments);
+```
+
+### Microsoft SQL Server (MS SQL)
+
+In MS SQL Server, you can use a subquery in the `DELETE` statement to specify which rows to delete based on conditions from another table.
+
+#### Example
+
+```sql
+-- Delete employees whose departments no longer exist
+DELETE FROM Employees
+WHERE dept_id NOT IN (SELECT dept_id FROM Departments);
+```
+
+### Oracle
+
+In Oracle, you can use a subquery in the `DELETE` statement to specify which rows to delete based on conditions from another table.
+
+#### Example
+
+```sql
+-- Delete employees whose departments no longer exist
+DELETE FROM Employees
+WHERE dept_id NOT IN (SELECT dept_id FROM Departments);
+```
+
+### Practical Examples: Using Subqueries in DELETE
+
+Here are practical examples of using subqueries in a `DELETE` statement to delete employees whose departments no longer exist in the `Departments` table across various SQL databases.
+
+#### MySQL Example
+
+```sql
+-- Delete employees whose departments no longer exist in MySQL
+DELETE FROM Employees
+WHERE dept_id NOT IN (SELECT dept_id FROM Departments);
+```
+
+#### PostgreSQL Example
+
+```sql
+-- Delete employees whose departments no longer exist in PostgreSQL
+DELETE FROM Employees
+WHERE dept_id NOT IN (SELECT dept_id FROM Departments);
+```
+
+#### SQLite Example
+
+```sql
+-- Delete employees whose departments no longer exist in SQLite
+DELETE FROM Employees
+WHERE dept_id NOT IN (SELECT dept_id FROM Departments);
+```
+
+#### MS SQL Server Example
+
+```sql
+-- Delete employees whose departments no longer exist in MS SQL Server
+DELETE FROM Employees
+WHERE dept_id NOT IN (SELECT dept_id FROM Departments);
+```
+
+#### Oracle Example
+
+```sql
+-- Delete employees whose departments no longer exist in Oracle
+DELETE FROM Employees
+WHERE dept_id NOT IN (SELECT dept_id FROM Departments);
+```
+
+### Considerations
+
+1. **Subquery Performance**: Depending on the size of your tables and the complexity of your subqueries, performance may vary. Indexes on the columns involved in the subqueries can help improve performance.
+2. **Data Integrity**: Ensure that the subquery correctly identifies the rows that need to be deleted to avoid accidental data loss.
+3. **Transactions**: For databases that support transactions, consider wrapping the `DELETE` statement in a transaction to ensure you can roll back the operation if necessary.
+
+#### Example with Transaction (MS SQL Server)
+
+```sql
+BEGIN TRANSACTION;
+
+-- Delete employees whose departments no longer exist
+DELETE FROM Employees
+WHERE dept_id NOT IN (SELECT dept_id FROM Departments);
+
+-- Rollback the transaction if needed
+-- ROLLBACK TRANSACTION;
+
+-- Commit the transaction
+COMMIT TRANSACTION;
+```
+
+### Summary
+
+Using subqueries in a `DELETE` statement allows you to delete rows based on conditions specified in another query. This approach is supported across various SQL databases, including MySQL, PostgreSQL, SQLite, MS SQL Server, and Oracle. The provided examples demonstrate how to use subqueries in a `DELETE` statement effectively.
+
+If you have more specific queries or need further examples, feel free to ask! ✔️
