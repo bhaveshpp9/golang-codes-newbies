@@ -1,1 +1,101 @@
 \\ work with database(DB) — SQL — Updating Tables — renaming tables — PostgreSQL
+
+
+Renaming tables in PostgreSQL is straightforward using the `ALTER TABLE` statement with the `RENAME TO` clause. This allows you to change the name of an existing table easily.
+
+### Syntax
+
+```sql
+ALTER TABLE old_table_name RENAME TO new_table_name;
+```
+
+### Example
+
+Assume you have a table named `Employees` that you want to rename to `Staff`.
+
+```sql
+-- Rename the Employees table to Staff
+ALTER TABLE Employees RENAME TO Staff;
+```
+
+### Practical Example: Renaming a Table
+
+Here is a practical example of renaming a table from `Employees` to `Staff` in PostgreSQL.
+
+#### Step-by-Step Example
+
+1. **Create the `Employees` Table** (if it doesn't already exist):
+
+```sql
+CREATE TABLE Employees (
+    emp_id SERIAL PRIMARY KEY,
+    emp_name VARCHAR(100),
+    dept_id INT,
+    salary INT
+);
+
+INSERT INTO Employees (emp_name, dept_id, salary) VALUES
+('Alice', 1, 50000),
+('Bob', 2, 60000),
+('Charlie', 1, 55000),
+('David', 3, 45000),
+('Eva', 2, 70000);
+```
+
+2. **Rename the `Employees` Table to `Staff`**:
+
+```sql
+-- Rename the Employees table to Staff
+ALTER TABLE Employees RENAME TO Staff;
+```
+
+### Considerations
+
+1. **Permissions**: Ensure you have the necessary permissions to rename tables.
+2. **Dependencies**: Be aware of any dependencies such as foreign keys, views, or stored procedures that reference the old table name. These dependencies need to be updated to reflect the new table name.
+
+### Handling Dependencies
+
+If your table has dependencies like foreign keys or views, you need to update them accordingly. PostgreSQL does not automatically update the names in dependent objects.
+
+#### Example: Updating a View
+
+Assume you have a view that references the `Employees` table:
+
+```sql
+CREATE VIEW EmpView AS
+SELECT emp_id, emp_name, salary
+FROM Employees;
+```
+
+After renaming the table to `Staff`, you need to recreate the view:
+
+```sql
+-- Drop the old view
+DROP VIEW EmpView;
+
+-- Create the view again with the new table name
+CREATE VIEW EmpView AS
+SELECT emp_id, emp_name, salary
+FROM Staff;
+```
+
+### Renaming Multiple Tables
+
+You can rename multiple tables in a series of `ALTER TABLE` statements.
+
+#### Example
+
+Assume you have two tables, `Employees` and `Departments`, that you want to rename to `Staff` and `Divisions`, respectively.
+
+```sql
+-- Rename multiple tables
+ALTER TABLE Employees RENAME TO Staff;
+ALTER TABLE Departments RENAME TO Divisions;
+```
+
+### Summary
+
+Renaming tables in PostgreSQL is done using the `ALTER TABLE` statement with the `RENAME TO` clause. This approach is straightforward and requires updating any dependencies manually. The provided examples demonstrate how to rename a table effectively in PostgreSQL.
+
+If you have more specific queries or need further examples, feel free to ask! ✔️
