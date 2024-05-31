@@ -1,10 +1,207 @@
 \\ work with database(DB) — SQL — Updating Tables — Adding Primary Key
 
 
-ALTER TABLE Documents
-ADD PRIMARY KEY (doc_id);
+Adding a primary key to an existing table in SQL involves altering the table to include the primary key constraint. Below are examples of how to add a primary key constraint in various SQL databases, including MySQL, PostgreSQL, SQLite, Microsoft SQL Server, and Oracle.
 
---or
+### Example Table
 
-ALTER TABLE Documents
-ADD CONSTRAINT PK_Documents PRIMARY KEY (doc_id);
+Assume we have the following table without a primary key:
+
+```sql
+CREATE TABLE Employees (
+    emp_id INT,
+    emp_name VARCHAR(100),
+    dept_id INT,
+    salary INT
+);
+```
+
+We want to add a primary key to the `emp_id` column of the `Employees` table.
+
+### MySQL
+
+In MySQL, you use the `ALTER TABLE` statement with the `ADD PRIMARY KEY` clause to add a primary key.
+
+#### Syntax
+
+```sql
+ALTER TABLE table_name
+ADD PRIMARY KEY (column_name);
+```
+
+#### Example
+
+```sql
+-- Add a primary key to the Employees table
+ALTER TABLE Employees
+ADD PRIMARY KEY (emp_id);
+```
+
+### PostgreSQL
+
+In PostgreSQL, you use the `ALTER TABLE` statement with the `ADD CONSTRAINT` clause to add a primary key.
+
+#### Syntax
+
+```sql
+ALTER TABLE table_name
+ADD CONSTRAINT constraint_name PRIMARY KEY (column_name);
+```
+
+#### Example
+
+```sql
+-- Add a primary key to the Employees table
+ALTER TABLE Employees
+ADD CONSTRAINT pk_emp PRIMARY KEY (emp_id);
+```
+
+### SQLite
+
+In SQLite, adding a primary key to an existing table requires recreating the table, as SQLite does not support directly adding a primary key to an existing table using the `ALTER TABLE` statement.
+
+#### Example
+
+1. **Create a new table with the primary key**:
+
+```sql
+CREATE TABLE Employees_new (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name TEXT,
+    dept_id INTEGER,
+    salary INTEGER
+);
+```
+
+2. **Copy data from the old table to the new table**:
+
+```sql
+INSERT INTO Employees_new (emp_id, emp_name, dept_id, salary)
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees;
+```
+
+3. **Drop the old table**:
+
+```sql
+DROP TABLE Employees;
+```
+
+4. **Rename the new table to the old table's name**:
+
+```sql
+ALTER TABLE Employees_new RENAME TO Employees;
+```
+
+### Microsoft SQL Server (MS SQL)
+
+In MS SQL Server, you use the `ALTER TABLE` statement with the `ADD CONSTRAINT` clause to add a primary key.
+
+#### Syntax
+
+```sql
+ALTER TABLE table_name
+ADD CONSTRAINT constraint_name PRIMARY KEY (column_name);
+```
+
+#### Example
+
+```sql
+-- Add a primary key to the Employees table
+ALTER TABLE Employees
+ADD CONSTRAINT pk_emp PRIMARY KEY (emp_id);
+```
+
+### Oracle
+
+In Oracle, you use the `ALTER TABLE` statement with the `ADD CONSTRAINT` clause to add a primary key.
+
+#### Syntax
+
+```sql
+ALTER TABLE table_name
+ADD CONSTRAINT constraint_name PRIMARY KEY (column_name);
+```
+
+#### Example
+
+```sql
+-- Add a primary key to the Employees table
+ALTER TABLE Employees
+ADD CONSTRAINT pk_emp PRIMARY KEY (emp_id);
+```
+
+### Practical Example: Adding a Primary Key
+
+Here is a practical example of adding a primary key to the `emp_id` column of the `Employees` table across various SQL databases.
+
+#### MySQL Example
+
+```sql
+-- Add a primary key to the Employees table in MySQL
+ALTER TABLE Employees
+ADD PRIMARY KEY (emp_id);
+```
+
+#### PostgreSQL Example
+
+```sql
+-- Add a primary key to the Employees table in PostgreSQL
+ALTER TABLE Employees
+ADD CONSTRAINT pk_emp PRIMARY KEY (emp_id);
+```
+
+#### SQLite Example
+
+1. **Create a new table with the primary key**:
+
+```sql
+CREATE TABLE Employees_new (
+    emp_id INTEGER PRIMARY KEY,
+    emp_name TEXT,
+    dept_id INTEGER,
+    salary INTEGER
+);
+```
+
+2. **Copy data from the old table to the new table**:
+
+```sql
+INSERT INTO Employees_new (emp_id, emp_name, dept_id, salary)
+SELECT emp_id, emp_name, dept_id, salary
+FROM Employees;
+```
+
+3. **Drop the old table**:
+
+```sql
+DROP TABLE Employees;
+```
+
+4. **Rename the new table to the old table's name**:
+
+```sql
+ALTER TABLE Employees_new RENAME TO Employees;
+```
+
+#### MS SQL Server Example
+
+```sql
+-- Add a primary key to the Employees table in MS SQL Server
+ALTER TABLE Employees
+ADD CONSTRAINT pk_emp PRIMARY KEY (emp_id);
+```
+
+#### Oracle Example
+
+```sql
+-- Add a primary key to the Employees table in Oracle
+ALTER TABLE Employees
+ADD CONSTRAINT pk_emp PRIMARY KEY (emp_id);
+```
+
+### Summary
+
+Adding a primary key to an existing table involves using the `ALTER TABLE` statement with the `ADD PRIMARY KEY` or `ADD CONSTRAINT` clause in most SQL databases. SQLite, however, requires recreating the table with the primary key constraint due to its limitations on altering existing tables. The provided examples demonstrate how to add a primary key constraint effectively in MySQL, PostgreSQL, SQLite, MS SQL Server, and Oracle.
+
+If you have more specific queries or need further examples, feel free to ask! ✔️
