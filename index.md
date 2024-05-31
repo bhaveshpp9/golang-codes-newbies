@@ -1,4 +1,4 @@
-Algorithms
+```Algorithms
   Search
     Binary Search
     Fast Linear Search
@@ -562,7 +562,7 @@ work with files
     Reading XML file
     Writing XML file
 
-
+```
 
 
 
