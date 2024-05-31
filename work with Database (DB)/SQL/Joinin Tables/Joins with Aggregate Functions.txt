@@ -1,25 +1,212 @@
 \\ work with database(DB) — SQL — Joining Table — Joins with Aggregate Functions
 
 
-SELECT
-    c.Name,
-    COUNT(ct.Name) AS CityCount
-FROM country AS c
-INNER JOIN city AS ct ON
-    ct.CountryCode = c.Code
-GROUP BY c.Name
-ORDER BY 2 DESC
+Joining tables and using aggregate functions in SQL allows you to perform calculations on grouped data while combining rows from multiple tables. This is particularly useful for generating summary reports and detailed insights from your data. Here's a detailed guide on how to use joins with aggregate functions across different SQL databases with practical examples.
 
-Name	CityCount
-China	363
-India	341
-United States	274
-Brazil	250
-Japan	248
-Russian Federation	189
-Mexico	173
-Philippines	136
-Germany	93
-...
+### Example Tables
 
-This query combines the country and city tables. Then count the number of cities in each country.
+Assume we have three tables, `Employees`, `Departments`, and `Salaries`, with the following structure and data:
+
+```sql
+CREATE TABLE Employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100),
+    dept_id INT
+);
+
+CREATE TABLE Departments (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(100)
+);
+
+CREATE TABLE Salaries (
+    emp_id INT,
+    salary INT,
+    FOREIGN KEY (emp_id) REFERENCES Employees(emp_id)
+);
+
+INSERT INTO Employees (emp_id, emp_name, dept_id) VALUES
+(1, 'Alice', 1),
+(2, 'Bob', 2),
+(3, 'Charlie', 1),
+(4, 'David', 3);
+
+INSERT INTO Departments (dept_id, dept_name) VALUES
+(1, 'HR'),
+(2, 'Engineering'),
+(3, 'Marketing');
+
+INSERT INTO Salaries (emp_id, salary) VALUES
+(1, 50000),
+(2, 60000),
+(3, 55000),
+(4, 45000);
+```
+
+### Performing Joins with Aggregate Functions
+
+The goal is to retrieve aggregated data such as total salaries, average salaries, and employee counts by department.
+
+#### MySQL
+
+```sql
+-- Calculate total salary, average salary, and employee count by department
+SELECT d.dept_name, 
+       SUM(s.salary) AS total_salary, 
+       AVG(s.salary) AS average_salary, 
+       COUNT(e.emp_id) AS employee_count
+FROM Employees e
+INNER JOIN Departments d ON e.dept_id = d.dept_id
+INNER JOIN Salaries s ON e.emp_id = s.emp_id
+GROUP BY d.dept_name;
+```
+
+#### PostgreSQL
+
+```sql
+-- Calculate total salary, average salary, and employee count by department
+SELECT d.dept_name, 
+       SUM(s.salary) AS total_salary, 
+       AVG(s.salary) AS average_salary, 
+       COUNT(e.emp_id) AS employee_count
+FROM Employees e
+INNER JOIN Departments d ON e.dept_id = d.dept_id
+INNER JOIN Salaries s ON e.emp_id = s.emp_id
+GROUP BY d.dept_name;
+```
+
+#### Oracle
+
+```sql
+-- Calculate total salary, average salary, and employee count by department
+SELECT d.dept_name, 
+       SUM(s.salary) AS total_salary, 
+       AVG(s.salary) AS average_salary, 
+       COUNT(e.emp_id) AS employee_count
+FROM Employees e
+INNER JOIN Departments d ON e.dept_id = d.dept_id
+INNER JOIN Salaries s ON e.emp_id = s.emp_id
+GROUP BY d.dept_name;
+```
+
+#### SQLite
+
+```sql
+-- Calculate total salary, average salary, and employee count by department
+SELECT d.dept_name, 
+       SUM(s.salary) AS total_salary, 
+       AVG(s.salary) AS average_salary, 
+       COUNT(e.emp_id) AS employee_count
+FROM Employees e
+INNER JOIN Departments d ON e.dept_id = d.dept_id
+INNER JOIN Salaries s ON e.emp_id = s.emp_id
+GROUP BY d.dept_name;
+```
+
+#### SQL Server
+
+```sql
+-- Calculate total salary, average salary, and employee count by department
+SELECT d.dept_name, 
+       SUM(s.salary) AS total_salary, 
+       AVG(s.salary) AS average_salary, 
+       COUNT(e.emp_id) AS employee_count
+FROM Employees e
+INNER JOIN Departments d ON e.dept_id = d.dept_id
+INNER JOIN Salaries s ON e.emp_id = s.emp_id
+GROUP BY d.dept_name;
+```
+
+### Practical Examples
+
+#### Aggregating with Filters
+
+You can apply `WHERE` clauses to filter the joined data before aggregation.
+
+```sql
+-- Calculate total salary, average salary, and employee count by department for departments with 'Engineering'
+SELECT d.dept_name, 
+       SUM(s.salary) AS total_salary, 
+       AVG(s.salary) AS average_salary, 
+       COUNT(e.emp_id) AS employee_count
+FROM Employees e
+INNER JOIN Departments d ON e.dept_id = d.dept_id
+INNER JOIN Salaries s ON e.emp_id = s.emp_id
+WHERE d.dept_name = 'Engineering'
+GROUP BY d.dept_name;
+```
+
+#### Aggregating Multiple Metrics
+
+You can calculate multiple metrics in a single query.
+
+```sql
+-- Calculate total salary, average salary, maximum salary, and employee count by department
+SELECT d.dept_name, 
+       SUM(s.salary) AS total_salary, 
+       AVG(s.salary) AS average_salary, 
+       MAX(s.salary) AS maximum_salary, 
+       COUNT(e.emp_id) AS employee_count
+FROM Employees e
+INNER JOIN Departments d ON e.dept_id = d.dept_id
+INNER JOIN Salaries s ON e.emp_id = s.emp_id
+GROUP BY d.dept_name;
+```
+
+### Practical Scenario: Department Salary Analysis
+
+Retrieve aggregated salary data by department, including total salary, average salary, maximum salary, and the number of employees.
+
+#### Data
+
+`Employees`:
+| emp_id | emp_name | dept_id |
+|--------|----------|---------|
+| 1      | Alice    | 1       |
+| 2      | Bob      | 2       |
+| 3      | Charlie  | 1       |
+| 4      | David    | 3       |
+
+`Departments`:
+| dept_id | dept_name  |
+|---------|------------|
+| 1       | HR         |
+| 2       | Engineering|
+| 3       | Marketing  |
+
+`Salaries`:
+| emp_id | salary |
+|--------|--------|
+| 1      | 50000  |
+| 2      | 60000  |
+| 3      | 55000  |
+| 4      | 45000  |
+
+#### Inner Join with Aggregates Result
+
+| dept_name  | total_salary | average_salary | maximum_salary | employee_count |
+|------------|--------------|----------------|----------------|----------------|
+| HR         | 105000       | 52500          | 55000          | 2              |
+| Engineering| 60000        | 60000          | 60000          | 1              |
+| Marketing  | 45000        | 45000          | 45000          | 1              |
+
+### Performing the Join with Aggregates
+
+```sql
+-- Calculate total salary, average salary, maximum salary, and employee count by department
+SELECT d.dept_name, 
+       SUM(s.salary) AS total_salary, 
+       AVG(s.salary) AS average_salary, 
+       MAX(s.salary) AS maximum_salary, 
+       COUNT(e.emp_id) AS employee_count
+FROM Employees e
+INNER JOIN Departments d ON e.dept_id = d.dept_id
+INNER JOIN Salaries s ON e.emp_id = s.emp_id
+GROUP BY d.dept_name;
+```
+
+### Summary
+
+Joining tables and using aggregate functions in SQL allows you to perform complex calculations and retrieve summarized data from multiple tables. This guide provides examples of how to combine joins and aggregate functions to get detailed insights across various SQL databases. You can apply filters, calculate multiple metrics, and use aliases to make your queries more readable.
+
+These examples demonstrate how to effectively perform joins with aggregate functions across various SQL databases. If you have more specific queries or need further examples, feel free to ask! ✔️
