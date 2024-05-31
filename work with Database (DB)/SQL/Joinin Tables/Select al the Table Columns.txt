@@ -1,23 +1,174 @@
 \\ work with database(DB) — SQL — Joining Table — Select al the Table Columns
 
 
-SELECT
-    c.Name,
-    cl.*
-FROM country AS c, countrylanguage AS cl
-WHERE
-    c.Code = cl.CountryCode
+When joining tables in SQL and you want to select all columns from the involved tables, you can use the `*` wildcard or specify each table's columns explicitly. Using `*` will include all columns from both tables in the result set, which can be useful for exploratory purposes but may sometimes lead to ambiguity if there are columns with the same name in different tables. 
 
-Name	CountryCode	Language	IsOfficial	Percentage
-Aruba	ABW	Dutch	T	5.3
-Aruba	ABW	English	F	9.5
-Aruba	ABW	Papiamento	F	76.7
-Aruba	ABW	Spanish	F	7.4
-Afghanistan	AFG	Balochi	F	0.9
-Afghanistan	AFG	Dari	T	32.1
-Afghanistan	AFG	Pashto	T	52.4
-Afghanistan	AFG	Turkmenian	F	1.9
-Afghanistan	AFG	Uzbek	F	8.8
-...
+Here’s how to perform joins and select all columns from the involved tables.
 
-To select all columns of the table, use the syntax: tableName. *
+### Example Tables
+
+Assume we have two tables, `Employees` and `Departments`, with the following data:
+
+```sql
+CREATE TABLE Employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100),
+    dept_id INT
+);
+
+CREATE TABLE Departments (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(100),
+    location VARCHAR(100)
+);
+
+INSERT INTO Employees (emp_id, emp_name, dept_id) VALUES
+(1, 'Alice', 1),
+(2, 'Bob', 2),
+(3, 'Charlie', NULL),
+(4, 'David', 4);
+
+INSERT INTO Departments (dept_id, dept_name, location) VALUES
+(1, 'HR', 'New York'),
+(2, 'Engineering', 'San Francisco'),
+(3, 'Marketing', 'Los Angeles');
+```
+
+### Performing a Join and Selecting All Columns
+
+#### Using the `*` Wildcard
+
+This will include all columns from both tables in the result set.
+
+#### Inner Join Example
+
+```sql
+-- Inner join Employees and Departments, selecting all columns
+SELECT *
+FROM Employees e
+INNER JOIN Departments d ON e.dept_id = d.dept_id;
+```
+
+#### Left Outer Join Example
+
+```sql
+-- Left outer join Employees and Departments, selecting all columns
+SELECT *
+FROM Employees e
+LEFT JOIN Departments d ON e.dept_id = d.dept_id;
+```
+
+#### Right Outer Join Example
+
+```sql
+-- Right outer join Employees and Departments, selecting all columns
+SELECT *
+FROM Employees e
+RIGHT JOIN Departments d ON e.dept_id = d.dept_id;
+```
+
+### Handling Ambiguity with Explicit Column Names
+
+To avoid ambiguity, especially if both tables have columns with the same name, it is better to specify the columns explicitly and use table aliases.
+
+#### Inner Join with Explicit Columns
+
+```sql
+-- Inner join Employees and Departments, selecting all columns explicitly
+SELECT e.emp_id, e.emp_name, e.dept_id, d.dept_id, d.dept_name, d.location
+FROM Employees e
+INNER JOIN Departments d ON e.dept_id = d.dept_id;
+```
+
+#### Left Outer Join with Explicit Columns
+
+```sql
+-- Left outer join Employees and Departments, selecting all columns explicitly
+SELECT e.emp_id, e.emp_name, e.dept_id, d.dept_id, d.dept_name, d.location
+FROM Employees e
+LEFT JOIN Departments d ON e.dept_id = d.dept_id;
+```
+
+#### Right Outer Join with Explicit Columns
+
+```sql
+-- Right outer join Employees and Departments, selecting all columns explicitly
+SELECT e.emp_id, e.emp_name, e.dept_id, d.dept_id, d.dept_name, d.location
+FROM Employees e
+RIGHT JOIN Departments d ON e.dept_id = d.dept_id;
+```
+
+### Practical Scenario: Joining Tables and Selecting All Columns
+
+Retrieve a list of employees along with all their details and their corresponding department details.
+
+#### Data
+
+`Employees`:
+| emp_id | emp_name | dept_id |
+|--------|----------|---------|
+| 1      | Alice    | 1       |
+| 2      | Bob      | 2       |
+| 3      | Charlie  | NULL    |
+| 4      | David    | 4       |
+
+`Departments`:
+| dept_id | dept_name  | location      |
+|---------|------------|---------------|
+| 1       | HR         | New York      |
+| 2       | Engineering| San Francisco |
+| 3       | Marketing  | Los Angeles   |
+
+#### Inner Join Result
+
+Using an inner join, you would only get the employees that have a matching department.
+
+```sql
+SELECT *
+FROM Employees e
+INNER JOIN Departments d ON e.dept_id = d.dept_id;
+```
+
+| emp_id | emp_name | dept_id | dept_id | dept_name  | location      |
+|--------|----------|---------|---------|------------|---------------|
+| 1      | Alice    | 1       | 1       | HR         | New York      |
+| 2      | Bob      | 2       | 2       | Engineering| San Francisco |
+
+#### Left Outer Join Result
+
+Using a left outer join, you would get all employees, including those without a department.
+
+```sql
+SELECT *
+FROM Employees e
+LEFT JOIN Departments d ON e.dept_id = d.dept_id;
+```
+
+| emp_id | emp_name | dept_id | dept_id | dept_name  | location      |
+|--------|----------|---------|---------|------------|---------------|
+| 1      | Alice    | 1       | 1       | HR         | New York      |
+| 2      | Bob      | 2       | 2       | Engineering| San Francisco |
+| 3      | Charlie  | NULL    | NULL    | NULL       | NULL          |
+| 4      | David    | 4       | NULL    | NULL       | NULL          |
+
+#### Right Outer Join Result
+
+Using a right outer join, you would get all departments, including those without employees.
+
+```sql
+SELECT *
+FROM Employees e
+RIGHT JOIN Departments d ON e.dept_id = d.dept_id;
+```
+
+| emp_id | emp_name | dept_id | dept_id | dept_name  | location      |
+|--------|----------|---------|---------|------------|---------------|
+| 1      | Alice    | 1       | 1       | HR         | New York      |
+| 2      | Bob      | 2       | 2       | Engineering| San Francisco |
+| NULL   | NULL     | NULL    | 3       | Marketing  | Los Angeles   |
+
+### Summary
+
+Using joins and selecting all columns from the involved tables is a common requirement in SQL. You can use the `*` wildcard to select all columns, but for clarity and to avoid ambiguity, it is often better to specify columns explicitly, especially when dealing with tables that might have overlapping column names. The provided examples demonstrate how to perform inner, left outer, and right outer joins while selecting all columns across various SQL databases.
+
+If you have more specific queries or need further examples, feel free to ask! ✔️
