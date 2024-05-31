@@ -1,23 +1,168 @@
 \\ work with database(DB) — SQL — Inserting data — Inserting Retrieved Data 1
 
 
-INSERT INTO customer (
-    customer_id,
-    store_id,
-    first_name,
-    last_name,
-    email,
-    address_id,
-    active) 
-SELECT
-    customer_id,
-    store_id,
-    first_name,
-    last_name,
-    email,
-    address_id,
-    active
-FROM newCustomer
+Inserting retrieved data into a SQL table involves using the `INSERT INTO` statement combined with a `SELECT` statement. This approach allows you to copy data from one table to another, or even within the same table, based on specific criteria. Below is a detailed guide on how to insert retrieved data into a table across different SQL databases.
 
-All rows from the newCustomer table will be added to the customer table.
-There is no requirement that the column names match. In fact, the DBMS does not even pay attention to the column names returned by the SELECT. Rather, the column position is used, so the first column in the SELECT (regardless of its name) will be used to populate the first specified table column, and so on.
+### Basic Syntax
+
+```sql
+INSERT INTO target_table (column1, column2, column3, ...)
+SELECT column1, column2, column3, ...
+FROM source_table
+WHERE condition;
+```
+
+### Example Table Structure
+
+Assume we have two tables, `Table1` and `Table2`, with the following structure:
+
+```sql
+CREATE TABLE Table1 (
+    id INT PRIMARY KEY,
+    name VARCHAR(100),
+    age INT,
+    city VARCHAR(100)
+);
+
+CREATE TABLE Table2 (
+    id INT PRIMARY KEY,
+    name VARCHAR(100),
+    age INT,
+    city VARCHAR(100)
+);
+```
+
+### Inserting Retrieved Data
+
+To insert data retrieved from `Table1` into `Table2`, you can use a `SELECT` statement to specify the data to be copied.
+
+### Examples in Different Databases
+
+#### MySQL
+
+```sql
+-- Insert data from Table1 into Table2
+INSERT INTO Table2 (id, name, age, city)
+SELECT id, name, age, city
+FROM Table1
+WHERE age > 25;
+```
+
+#### PostgreSQL
+
+```sql
+-- Insert data from Table1 into Table2
+INSERT INTO Table2 (id, name, age, city)
+SELECT id, name, age, city
+FROM Table1
+WHERE age > 25;
+```
+
+#### Oracle
+
+```sql
+-- Insert data from Table1 into Table2
+INSERT INTO Table2 (id, name, age, city)
+SELECT id, name, age, city
+FROM Table1
+WHERE age > 25;
+```
+
+#### SQLite
+
+```sql
+-- Insert data from Table1 into Table2
+INSERT INTO Table2 (id, name, age, city)
+SELECT id, name, age, city
+FROM Table1
+WHERE age > 25;
+```
+
+#### SQL Server
+
+```sql
+-- Insert data from Table1 into Table2
+INSERT INTO Table2 (id, name, age, city)
+SELECT id, name, age, city
+FROM Table1
+WHERE age > 25;
+```
+
+### Practical Examples
+
+#### Copying All Data from One Table to Another
+
+If you want to copy all data from `Table1` to `Table2`:
+
+```sql
+-- Insert all data from Table1 into Table2
+INSERT INTO Table2 (id, name, age, city)
+SELECT id, name, age, city
+FROM Table1;
+```
+
+#### Copying Data with Specific Criteria
+
+You can insert only the data that meets certain criteria:
+
+```sql
+-- Insert data from Table1 into Table2 where age is greater than 30
+INSERT INTO Table2 (id, name, age, city)
+SELECT id, name, age, city
+FROM Table1
+WHERE age > 30;
+```
+
+#### Copying Data with Column Transformation
+
+You can transform the data while copying, such as converting to uppercase, formatting dates, or performing calculations:
+
+```sql
+-- Insert data from Table1 into Table2 with the name in uppercase
+INSERT INTO Table2 (id, name, age, city)
+SELECT id, UPPER(name), age, city
+FROM Table1
+WHERE age > 25;
+```
+
+#### Copying Data Between Different Tables with Different Columns
+
+If `Table1` and `Table2` have different columns, you can specify only the matching columns:
+
+```sql
+-- Assume Table2 has an additional column 'country'
+CREATE TABLE Table2 (
+    id INT PRIMARY KEY,
+    name VARCHAR(100),
+    age INT,
+    city VARCHAR(100),
+    country VARCHAR(100)
+);
+
+-- Insert data from Table1 into Table2, excluding the 'country' column
+INSERT INTO Table2 (id, name, age, city)
+SELECT id, name, age, city
+FROM Table1
+WHERE age > 25;
+```
+
+#### Using Subqueries to Retrieve Data
+
+You can use subqueries to refine the data selection:
+
+```sql
+-- Insert data into Table2 for people living in cities where the average age is greater than 30
+INSERT INTO Table2 (id, name, age, city)
+SELECT id, name, age, city
+FROM Table1
+WHERE city IN (
+    SELECT city
+    FROM Table1
+    GROUP BY city
+    HAVING AVG(age) > 30
+);
+```
+
+### Summary
+
+Inserting retrieved data into a table in SQL involves using the `INSERT INTO` statement with a `SELECT` statement. This method allows you to copy data from one table to another based on specific criteria, transform the data during insertion, and handle tables with different structures. These examples demonstrate how to effectively insert retrieved data into a table across various SQL databases. If you have more specific queries or need further examples, feel free to ask! ✔️
