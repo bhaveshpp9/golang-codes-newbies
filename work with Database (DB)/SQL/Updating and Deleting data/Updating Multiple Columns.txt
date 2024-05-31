@@ -1,1 +1,181 @@
 \\ work with database(DB) — SQL — Updating and deleting data — Updating Multiple Columns
+
+
+Updating multiple columns in a table in SQL involves using the `UPDATE` statement along with the `SET` clause to specify the new values for each column. You can also use a `WHERE` clause to specify which rows should be updated. Below are examples of how to update multiple columns in various SQL databases, including MySQL, PostgreSQL, SQLite, Microsoft SQL Server, and Oracle.
+
+### Example Table
+
+Assume we have the following table named `Employees`:
+
+```sql
+CREATE TABLE Employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100),
+    dept_id INT,
+    salary INT,
+    hire_date DATE
+);
+
+INSERT INTO Employees (emp_id, emp_name, dept_id, salary, hire_date) VALUES
+(1, 'Alice', 1, 50000, '2020-01-15'),
+(2, 'Bob', 2, 60000, '2019-03-22'),
+(3, 'Charlie', 1, 55000, '2021-06-10'),
+(4, 'David', 3, 45000, '2018-11-05'),
+(5, 'Eva', 2, 70000, '2017-09-13');
+```
+
+### Updating Multiple Columns
+
+#### MySQL
+
+In MySQL, you use the `UPDATE` statement with the `SET` clause to update multiple columns.
+
+#### Example: Update Salary and Department ID for Employee with `emp_id` = 2
+
+```sql
+-- Update the salary and department ID of the employee with emp_id = 2
+UPDATE Employees
+SET salary = 65000, dept_id = 1
+WHERE emp_id = 2;
+```
+
+#### PostgreSQL
+
+In PostgreSQL, you use the `UPDATE` statement with the `SET` clause to update multiple columns.
+
+#### Example: Update Salary and Department ID for Employee with `emp_id` = 3
+
+```sql
+-- Update the salary and department ID of the employee with emp_id = 3
+UPDATE Employees
+SET salary = 58000, dept_id = 2
+WHERE emp_id = 3;
+```
+
+#### SQLite
+
+In SQLite, you use the `UPDATE` statement with the `SET` clause to update multiple columns.
+
+#### Example: Update Salary and Hire Date for Employee with `emp_id` = 4
+
+```sql
+-- Update the salary and hire date of the employee with emp_id = 4
+UPDATE Employees
+SET salary = 48000, hire_date = '2022-01-01'
+WHERE emp_id = 4;
+```
+
+#### Microsoft SQL Server (MS SQL)
+
+In MS SQL Server, you use the `UPDATE` statement with the `SET` clause to update multiple columns.
+
+#### Example: Update Salary and Department ID for Employee with `emp_id` = 5
+
+```sql
+-- Update the salary and department ID of the employee with emp_id = 5
+UPDATE Employees
+SET salary = 75000, dept_id = 1
+WHERE emp_id = 5;
+```
+
+#### Oracle
+
+In Oracle, you use the `UPDATE` statement with the `SET` clause to update multiple columns.
+
+#### Example: Update Salary and Hire Date for Employee with `emp_id` = 1
+
+```sql
+-- Update the salary and hire date of the employee with emp_id = 1
+UPDATE Employees
+SET salary = 52000, hire_date = '2022-05-01'
+WHERE emp_id = 1;
+```
+
+### Practical Examples: Updating Multiple Columns
+
+Here are practical examples of updating multiple columns in the `Employees` table across various SQL databases.
+
+#### MySQL Example
+
+**Update Salary and Department ID for Employee with `emp_id` = 2**:
+
+```sql
+-- Update the salary and department ID of the employee with emp_id = 2
+UPDATE Employees
+SET salary = 65000, dept_id = 1
+WHERE emp_id = 2;
+```
+
+#### PostgreSQL Example
+
+**Update Salary and Department ID for Employee with `emp_id` = 3**:
+
+```sql
+-- Update the salary and department ID of the employee with emp_id = 3
+UPDATE Employees
+SET salary = 58000, dept_id = 2
+WHERE emp_id = 3;
+```
+
+#### SQLite Example
+
+**Update Salary and Hire Date for Employee with `emp_id` = 4**:
+
+```sql
+-- Update the salary and hire date of the employee with emp_id = 4
+UPDATE Employees
+SET salary = 48000, hire_date = '2022-01-01'
+WHERE emp_id = 4;
+```
+
+#### MS SQL Server Example
+
+**Update Salary and Department ID for Employee with `emp_id` = 5**:
+
+```sql
+-- Update the salary and department ID of the employee with emp_id = 5
+UPDATE Employees
+SET salary = 75000, dept_id = 1
+WHERE emp_id = 5;
+```
+
+#### Oracle Example
+
+**Update Salary and Hire Date for Employee with `emp_id` = 1**:
+
+```sql
+-- Update the salary and hire date of the employee with emp_id = 1
+UPDATE Employees
+SET salary = 52000, hire_date = '2022-05-01'
+WHERE emp_id = 1;
+```
+
+### Considerations
+
+1. **WHERE Clause**: The `WHERE` clause is used to specify which rows should be updated. Omitting the `WHERE` clause will result in all rows being updated.
+2. **Permissions**: Ensure you have the necessary permissions to update data in the table.
+3. **Transactions**: For databases that support transactions, consider wrapping the `UPDATE` statement in a transaction to ensure you can roll back the operation if necessary.
+4. **Backup**: Always ensure you have a backup of your data before performing large-scale updates, as these operations are irreversible without a backup.
+
+#### Example with Transaction (MS SQL Server)
+
+```sql
+BEGIN TRANSACTION;
+
+-- Update the salary and department ID of the employee with emp_id = 5
+UPDATE Employees
+SET salary = 75000, dept_id = 1
+WHERE emp_id = 5;
+
+-- Rollback the transaction if needed
+-- ROLLBACK TRANSACTION;
+
+-- Commit the transaction
+COMMIT TRANSACTION;
+```
+
+### Summary
+
+Updating multiple columns in a table involves using the `UPDATE` statement with a `SET` clause to specify the new values for each column. The provided examples demonstrate how to update multiple columns effectively in MySQL, PostgreSQL, SQLite, MS SQL Server, and Oracle.
+
+If you have more specific queries or need further examples, feel free to ask! ✔️
