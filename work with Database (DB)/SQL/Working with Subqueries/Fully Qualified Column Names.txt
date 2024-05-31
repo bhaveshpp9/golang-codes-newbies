@@ -1,1 +1,174 @@
 \\ work with database(DB) — SQL — Working with Subqueries — Fully Qualified Column Names
+
+
+Using fully qualified column names in SQL involves specifying the table (or view) name along with the column name to avoid ambiguity, especially when dealing with subqueries or joins that involve multiple tables. Fully qualified column names follow the format `table_name.column_name`. This approach ensures clarity and precision in your queries.
+
+Below are examples of how to use fully qualified column names in subqueries across various SQL databases, including MySQL, PostgreSQL, SQLite, Microsoft SQL Server, and Oracle.
+
+### Example Tables
+
+Assume we have the following tables:
+
+#### Employees Table
+
+```sql
+CREATE TABLE Employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100),
+    dept_id INT,
+    salary INT,
+    hire_date DATE
+);
+
+INSERT INTO Employees (emp_id, emp_name, dept_id, salary, hire_date) VALUES
+(1, 'Alice', 1, 50000, '2020-01-15'),
+(2, 'Bob', 2, 60000, '2019-03-22'),
+(3, 'Charlie', 1, 55000, '2021-06-10'),
+(4, 'David', 3, 45000, '2018-11-05'),
+(5, 'Eva', 2, 70000, '2017-09-13');
+```
+
+#### Departments Table
+
+```sql
+CREATE TABLE Departments (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(100),
+    location VARCHAR(100)
+);
+
+INSERT INTO Departments (dept_id, dept_name, location) VALUES
+(1, 'HR', 'New York'),
+(2, 'Finance', 'Los Angeles'),
+(3, 'IT', 'Chicago');
+```
+
+### Scenario: Filter Employees by Department Location Using Fully Qualified Column Names
+
+Suppose we want to retrieve employees who work in departments located in 'New York'. We'll use fully qualified column names to avoid ambiguity and ensure clarity.
+
+### MySQL
+
+In MySQL, you can use fully qualified column names in the `WHERE` clause with subqueries.
+
+#### Example
+
+```sql
+-- Retrieve employees who work in departments located in 'New York'
+SELECT *
+FROM Employees e
+WHERE e.dept_id IN (SELECT d.dept_id FROM Departments d WHERE d.location = 'New York');
+```
+
+### PostgreSQL
+
+In PostgreSQL, you can use fully qualified column names in the `WHERE` clause with subqueries.
+
+#### Example
+
+```sql
+-- Retrieve employees who work in departments located in 'New York'
+SELECT *
+FROM Employees e
+WHERE e.dept_id IN (SELECT d.dept_id FROM Departments d WHERE d.location = 'New York');
+```
+
+### SQLite
+
+In SQLite, you can use fully qualified column names in the `WHERE` clause with subqueries.
+
+#### Example
+
+```sql
+-- Retrieve employees who work in departments located in 'New York'
+SELECT *
+FROM Employees e
+WHERE e.dept_id IN (SELECT d.dept_id FROM Departments d WHERE d.location = 'New York');
+```
+
+### Microsoft SQL Server (MS SQL)
+
+In MS SQL Server, you can use fully qualified column names in the `WHERE` clause with subqueries.
+
+#### Example
+
+```sql
+-- Retrieve employees who work in departments located in 'New York'
+SELECT *
+FROM Employees e
+WHERE e.dept_id IN (SELECT d.dept_id FROM Departments d WHERE d.location = 'New York');
+```
+
+### Oracle
+
+In Oracle, you can use fully qualified column names in the `WHERE` clause with subqueries.
+
+#### Example
+
+```sql
+-- Retrieve employees who work in departments located in 'New York'
+SELECT *
+FROM Employees e
+WHERE e.dept_id IN (SELECT d.dept_id FROM Departments d WHERE d.location = 'New York');
+```
+
+### Practical Examples: Using Fully Qualified Column Names in Subqueries
+
+Here are practical examples of using fully qualified column names in subqueries in the `Employees` table across various SQL databases.
+
+#### MySQL Example
+
+```sql
+-- Retrieve employees who work in departments located in 'New York' in MySQL
+SELECT *
+FROM Employees e
+WHERE e.dept_id IN (SELECT d.dept_id FROM Departments d WHERE d.location = 'New York');
+```
+
+#### PostgreSQL Example
+
+```sql
+-- Retrieve employees who work in departments located in 'New York' in PostgreSQL
+SELECT *
+FROM Employees e
+WHERE e.dept_id IN (SELECT d.dept_id FROM Departments d WHERE d.location = 'New York');
+```
+
+#### SQLite Example
+
+```sql
+-- Retrieve employees who work in departments located in 'New York' in SQLite
+SELECT *
+FROM Employees e
+WHERE e.dept_id IN (SELECT d.dept_id FROM Departments d WHERE d.location = 'New York');
+```
+
+#### MS SQL Server Example
+
+```sql
+-- Retrieve employees who work in departments located in 'New York' in MS SQL Server
+SELECT *
+FROM Employees e
+WHERE e.dept_id IN (SELECT d.dept_id FROM Departments d WHERE d.location = 'New York');
+```
+
+#### Oracle Example
+
+```sql
+-- Retrieve employees who work in departments located in 'New York' in Oracle
+SELECT *
+FROM Employees e
+WHERE e.dept_id IN (SELECT d.dept_id FROM Departments d WHERE d.location = 'New York');
+```
+
+### Considerations
+
+1. **Clarity**: Using fully qualified column names helps avoid ambiguity, especially when dealing with multiple tables that have columns with the same name.
+2. **Performance**: Ensure that the subqueries are optimized and that appropriate indexes are in place to improve performance.
+3. **Readability**: Fully qualified column names improve readability and maintainability of the query.
+
+### Summary
+
+Using fully qualified column names in SQL involves specifying the table name along with the column name to avoid ambiguity and ensure clarity. This approach is particularly useful when working with subqueries or joins involving multiple tables. The provided examples demonstrate how to use fully qualified column names in subqueries effectively in MySQL, PostgreSQL, SQLite, MS SQL Server, and Oracle.
+
+If you have more specific queries or need further examples, feel free to ask! ✔️
