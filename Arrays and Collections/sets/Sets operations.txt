@@ -1,11 +1,105 @@
 \\ Arrays and collections — Sets — Sets operations
 
+In Go, sets can be implemented using the `map` data structure since Go does not have a built-in set type. The key in the map represents the elements of the set, and the values are usually `struct{}` or `bool` to represent the presence of an element.
 
-In Go, since there's no built-in set type, sets are typically represented using maps with keys as the set elements and values of an empty struct to minimize memory usage. Basic set operations such as union, intersection, and difference can be implemented using these maps. Here, I'll demonstrate how to implement these basic set operations in Go.
+### Set Operations in Go
 
-### Example: Implementing Basic Set Operations
+Let's go through how to implement basic set operations such as union, intersection, difference, and symmetric difference using maps in Go.
 
-Let's define a Set type and provide methods for union, intersection, and difference operations:
+#### 1. **Creating a Set**
+
+You can create a set using a map with `struct{}` as the value type.
+
+```go
+type Set map[string]struct{}
+
+// Create a new set
+func NewSet(elements ...string) Set {
+    s := Set{}
+    for _, e := range elements {
+        s[e] = struct{}{}
+    }
+    return s
+}
+```
+
+#### 2. **Union**
+
+The union of two sets is a set containing all elements from both sets.
+
+```go
+// Union of two sets
+func (s Set) Union(other Set) Set {
+    result := NewSet()
+    for k := range s {
+        result[k] = struct{}{}
+    }
+    for k := range other {
+        result[k] = struct{}{}
+    }
+    return result
+}
+```
+
+#### 3. **Intersection**
+
+The intersection of two sets is a set containing only the elements that are in both sets.
+
+```go
+// Intersection of two sets
+func (s Set) Intersection(other Set) Set {
+    result := NewSet()
+    for k := range s {
+        if _, exists := other[k]; exists {
+            result[k] = struct{}{}
+        }
+    }
+    return result
+}
+```
+
+#### 4. **Difference**
+
+The difference between two sets is a set containing elements in the first set but not in the second set.
+
+```go
+// Difference of two sets
+func (s Set) Difference(other Set) Set {
+    result := NewSet()
+    for k := range s {
+        if _, exists := other[k]; !exists {
+            result[k] = struct{}{}
+        }
+    }
+    return result
+}
+```
+
+#### 5. **Symmetric Difference**
+
+The symmetric difference between two sets is a set containing elements that are in either of the sets but not in their intersection.
+
+```go
+// Symmetric Difference of two sets
+func (s Set) SymmetricDifference(other Set) Set {
+    result := NewSet()
+    for k := range s {
+        if _, exists := other[k]; !exists {
+            result[k] = struct{}{}
+        }
+    }
+    for k := range other {
+        if _, exists := s[k]; !exists {
+            result[k] = struct{}{}
+        }
+    }
+    return result
+}
+```
+
+### Full Example
+
+Below is a complete example demonstrating the creation of sets and performing set operations:
 
 ```go
 package main
@@ -14,48 +108,129 @@ import (
     "fmt"
 )
 
-// Set type defined using a map with empty struct values to minimize space usage
-type Set map[int]struct{}
+// Define the Set type
+type Set map[string]struct{}
 
-// NewSet initializes a new set with given elements
-func NewSet(elements ...int) Set {
+// Create a new set
+func NewSet(elements ...string) Set {
     s := Set{}
-    for _, element := range elements {
-        s.Add(element)
+    for _, e := range elements {
+        s[e] = struct{}{}
     }
     return s
 }
 
-// Add inserts an element to the set
-func (s Set) Add(element int) {
-    s[element] = struct{}{}
+// Union of two sets
+func (s Set) Union(other Set) Set {
+    result := NewSet()
+    for k := range s {
+        result[k] = struct{}{}
+    }
+    for k := range other {
+        result[k] = struct{}{}
+    }
+    return result
 }
 
-// Union returns a new set containing all items that are in either set
-func Union(a, b Set) Set {
-    unionSet := NewSet()
-    for element := range a {
-        unionSet.Add(element)
-    }
-    for element := range b {
-        unionSet.Add(element)
-    }
-    return unionSet
-}
-
-// Intersection returns a new set containing all items that are common to both sets
-func Intersection(a, b Set) Set {
-    intersectionSet := NewSet()
-    for element := range a {
-        if _, found := b[element]; found {
-            intersectionSet.Add(element)
+// Intersection of two sets
+func (s Set) Intersection(other Set) Set {
+    result := NewSet()
+    for k := range s {
+        if _, exists := other[k]; exists {
+            result[k] = struct{}{}
         }
     }
-    return intersectionSet
+    return result
 }
 
-// Difference returns a new set containing all items that are in a but not in b
-func Difference(a, b Set) Set {
-    differenceSet := NewSet()
-    for element := range a {
-        if _, found := b[element]; !found
+// Difference of two sets
+func (s Set) Difference(other Set) Set {
+    result := NewSet()
+    for k := range s {
+        if _, exists := other[k]; !exists {
+            result[k] = struct{}{}
+        }
+    }
+    return result
+}
+
+// Symmetric Difference of two sets
+func (s Set) SymmetricDifference(other Set) Set {
+    result := NewSet()
+    for k := range s {
+        if _, exists := other[k]; !exists {
+            result[k] = struct{}{}
+        }
+    }
+    for k := range other {
+        if _, exists := s[k]; !exists {
+            result[k] = struct{}{}
+        }
+    }
+    return result
+}
+
+// Print the set
+func (s Set) String() string {
+    result := "{"
+    first := true
+    for k := range s {
+        if !first {
+            result += ", "
+        }
+        result += k
+        first = false
+    }
+    result += "}"
+    return result
+}
+
+func main() {
+    setA := NewSet("apple", "banana", "cherry")
+    setB := NewSet("banana", "cherry", "date", "fig")
+
+    fmt.Println("Set A:", setA)
+    fmt.Println("Set B:", setB)
+
+    fmt.Println("Union:", setA.Union(setB))
+    fmt.Println("Intersection:", setA.Intersection(setB))
+    fmt.Println("Difference (A - B):", setA.Difference(setB))
+    fmt.Println("Symmetric Difference:", setA.SymmetricDifference(setB))
+}
+```
+
+### Explanation
+
+1. **Creating a Set**:
+   - Use the `NewSet` function to initialize a set from a list of elements.
+   - The `Set` type is defined as a `map[string]struct{}` to represent a set of strings.
+
+2. **Union**:
+   - Combines all unique elements from two sets.
+
+3. **Intersection**:
+   - Includes only elements that are present in both sets.
+
+4. **Difference**:
+   - Includes elements present in the first set but not in the second set.
+
+5. **Symmetric Difference**:
+   - Includes elements that are in either set but not in both.
+
+6. **String Representation**:
+   - The `String` method provides a human-readable representation of the set for printing.
+
+### Output
+
+The program will print the sets and the results of the set operations:
+
+```
+Set A: {apple, banana, cherry}
+Set B: {banana, cherry, date, fig}
+Union: {apple, banana, cherry, date, fig}
+Intersection: {banana, cherry}
+Difference (A - B): {apple}
+Symmetric Difference: {apple, date, fig}
+```
+
+This example demonstrates how to implement and use basic set operations in Go using maps. This approach is useful for tasks that require handling collections of unique items, such as membership testing, combining sets, and calculating differences.
